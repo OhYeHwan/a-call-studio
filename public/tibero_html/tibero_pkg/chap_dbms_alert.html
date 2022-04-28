@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제3장 DBMS_ALERT</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_anydata.html" title="제2장 ANYDATA"/><link rel="next" href="chap_dbms_application_info.html" title="제4장 DBMS_APPLICATION_INFO"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제3장 DBMS_ALERT</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_anydata.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_application_info.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_alert"/>제3장 DBMS_ALERT</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_alert.html#d5e939">3.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_alert.html#d5e964">3.2. 프러시저</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_alert.html#DBMS_ALERT_REISTER">3.2.1. REGISTER</a></span></dt><dt><span class="section"><a href="chap_dbms_alert.html#DBMS_ALERT_REMOVE">3.2.2. REMOVE</a></span></dt><dt><span class="section"><a href="chap_dbms_alert.html#DBMS_ALERT_REMOVEALL">3.2.3. REMOVEALL</a></span></dt><dt><span class="section"><a href="chap_dbms_alert.html#DBMS_ALERT_SET_DEFAULTS">3.2.4. SET_DEFAULTS</a></span></dt><dt><span class="section"><a href="chap_dbms_alert.html#DBMS_ALERT_SIGNAL">3.2.5. SIGNAL</a></span></dt><dt><span class="section"><a href="chap_dbms_alert.html#DBMS_ALERT_WAITANY">3.2.6. WAITANY</a></span></dt><dt><span class="section"><a href="chap_dbms_alert.html#DBMS_ALERT_WAITONE">3.2.7. WAITONE</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_ALERT 패키지의 기본 개념과 패키지 내의 프러시저와 함수를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e939"/>3.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_ALERT</strong></span><a id="d5e943" class="indexterm"/> 패키지는 <span>Tibero</span>의 ALERT 기능과 관련한 프러시저와 함수를 제공한다. <span>Tibero</span>의 ALERT은 <span>Tibero</span> 데이터베이스와 통합되어 있는 알림/기다림 기능을 하는 패키지이다. 이는
+    영속적이지 않으며 서버가 재가동되면 모든 알림/기다림 정보는 사라진다.</p>
+
+    <p>ALERT기능은 보통 다음과 같이 사용한다.</p>
+
+    <div class="orderedlist"><ol type="1" compact="compact"><li>
+        <p>기다릴 alert을 등록한다. (register)</p>
+      </li><li>
+        <p>기다린다. (waitone, waitany)</p>
+      </li><li>
+        <p>필요한 이벤트가 발생하면 다른 세션에서 alert을 발생시킨다. (signal)</p>
+      </li></ol></div>
+
+    <p>1번에서 등록한 alert이나 3번에서 발생시킨 alert signal은 서버를 재가동할 때 사라진다.</p>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 DBMS_ALERT 패키지 내에 정의된 상수<a id="d5e961" class="indexterm"/>이다.</p>
+
+    <pre class="programlisting">MAXWAIT CONSTANT INTEGER := 86400000</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e964"/>3.2. 프러시저</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_ALERT 패키지에서 제공하는 프러시저를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_ALERT_REISTER"/>3.2.1. REGISTER<a id="d5e969" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기다릴 ALERT을 등록하는 프러시저이다. 등록된 ALERT은 REGISTER 프러시저를 수행한 세션에서만 유효하다.
+      중복해서 등록할 필요는 없다(무시됨). 다른 세션에서 ALERT을 기다리려면 새로 등록해야 한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REGISTER 프러시저<a id="d5e975" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_ALERT.REGISTER
+(
+    name         IN   VARCHAR2
+); </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>등록/기다릴 ALERT의 이름이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+	DBMS_ALERT.REGISTER('ABC');		  
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_ALERT_REMOVE"/>3.2.2. REMOVE<a id="d5e1001" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>등록된 ALERT을 제거하는 프러시저이다. 이 프러시저는 프러시저를 수행하는 세션에만 영향을 준다. 즉, 다른 세션에서
+      등록한 동일 이름에 대해서는 영향을 주지 않는다. 등록되지 않은 ALERT을 REMOVE하려고 하면 에러가 발생한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REMOVE 프러시저<a id="d5e1007" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_ALERT.REMOVE 
+(
+    name         IN   VARCHAR2
+); </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>제거할 ALERT의 이름이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+	DBMS_ALERT.REMOVE('ABC');
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_ALERT_REMOVEALL"/>3.2.3. REMOVEALL<a id="d5e1033" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>등록된 모든 ALERT을 제거하는 프러시저이다. 이 프러시저는 프러시저를 수행하는 세션에만 영향을 준다. 즉, 다른
+      세션에서 등록한 동일 이름에 대해서는 영향을 주지 않는다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REMOVEALL 프러시저<a id="d5e1039" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_ALERT.REMOVEALL
+(
+); </pre>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+  DBMS_ALERT.REMOVEALL();
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_ALERT_SET_DEFAULTS"/>3.2.4. SET_DEFAULTS<a id="d5e1052" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>사용하지 않는 프러시저이다.</p>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_ALERT_SIGNAL"/>3.2.5. SIGNAL<a id="d5e1058" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>ALERT을 발생시켜 이를 기다리고 있는 세션들을 깨워주는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SIGNAL 프러시저<a id="d5e1064" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_ALERT.SIGNAL
+(
+    name         IN   VARCHAR2,
+    message      IN   VARCHAR2
+); </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>발생시킬 ALERT의 이름이다.</td></tr><tr><td align="left">message</td><td>함께 전달할 메시지이다. 최대 128bytes까지 전송된다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+  DBMS_ALERT.SIGNAL('ABC', 'DEF');
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_ALERT_WAITANY"/>3.2.6. WAITANY<a id="d5e1093" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>어떠한 종류든 내가 등록한 ALERT을 기다리는 프러시저이다. 세션에서 이전에 등록했던 ALERT이 발생한 경우
+      깨어난다. 또한 타임아웃이 지나면 깨어날 수 있다. 특정 ALERT을 받아서 깨어나도 해당 ALERT이 자동으로 REMOVE되지
+      않는다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>WAITANY 프러시저<a id="d5e1099" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_ALERT.WAITANY
+(
+    name         OUT   VARCHAR2,
+    message      OUT   VARCHAR2,
+    status       OUT   VARCHAR2,
+    timeout      IN   VARCHAR2
+); </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>WAITANY 프러시저가 깨어나도록 한 ALERT의 이름이다. 타임아웃으로 깨어난 경우 값이
+                  없다.</td></tr><tr><td align="left">message</td><td>WAITANY 프러시저가 깨어나도록 한 ALERT과 함께 전달된 메시지이다. 타임아웃으로 깨어난
+                  경우 값이 없다.</td></tr><tr><td align="left">status</td><td><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>1 : 타임아웃으로 깨어난 경우</p>
+                      </li><li>
+                        <p>0 : ALERT이 발생해서 깨어난 경우</p>
+                      </li></ul></div></td></tr><tr><td align="left">tiemout</td><td>얼마나 기다릴지 설정하는 값이다. (단위: seconds)</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">set serveroutput on
+declare
+    name   varchar(1000);
+    msg    varchar(1000);
+    status integer;
+begin
+    dbms_alert.register('ABC');
+    dbms_alert.waitany(name, msg, status, 100000);
+    dbms_output.put_line(name);
+    dbms_output.put_line(msg);
+    dbms_output.put_line(status);
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_ALERT_WAITONE"/>3.2.7. WAITONE<a id="d5e1139" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 ALERT을 기다리는 프러시저이다. 이전에 등록했던 ALERT만 기다릴 수 있으며, 등록하지 않은 ALERT을
+      지정하는 경우 에러가 발생한다. 또한 timeout이 지나면 깨어날 수 있다. 특정 ALERT을 받아서 깨어나도 해당 ALERT이
+      자동으로 REMOVE되지 않는다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>WAITANY 프러시저<a id="d5e1145" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_ALERT.WAITONE
+(
+    name         IN   VARCHAR2,
+    message      OUT   VARCHAR2,
+    status       OUT   VARCHAR2,
+    timeout      IN   VARCHAR2
+); </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>기다릴 ALERT의 이름이다.</td></tr><tr><td align="left">message</td><td>WAITANY 프러시저가 깨어나도록 한 ALERT과 함께 전달된 메시지이다. 타임아웃으로 깨어난
+                  경우 값이 없다.</td></tr><tr><td align="left">status</td><td><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>1 : 타임아웃으로 깨어난 경우</p>
+                      </li><li>
+                        <p>0 : ALERT이 발생해서 깨어난 경우</p>
+                      </li></ul></div></td></tr><tr><td align="left">tiemout</td><td>얼마나 기다릴지 설정하는 값이다. (단위: seconds)</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">set serveroutput on
+declare
+    name   varchar(1000);
+    msg    varchar(1000);
+    status integer;
+begin
+    dbms_alert.register('ABC');
+    dbms_alert.waitone('ABC', msg, status, 100000);
+    dbms_output.put_line(msg);
+    dbms_output.put_line(status);
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_anydata.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_application_info.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제2장 ANYDATA </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제4장 DBMS_APPLICATION_INFO</td></tr></table></div><div xmlns="" align="center"/></body></html>

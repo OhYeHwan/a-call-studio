@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제9장 Failover와 Load balancing</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero JDBC 개발자 안내서"/><link rel="up" href="index.html" title="Tibero JDBC 개발자 안내서"/><link rel="prev" href="ch08.html" title="제8장 LOB 데이터 처리"/><link rel="next" href="ch10.html" title="제10장 SSL"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제9장 Failover와 Load balancing</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch10.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_failover"/>제9장 Failover와 Load balancing</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_failover.html#d5e3103">9.1. Failover</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_failover.html#d5e3111">9.1.1. Failover 기능 설정</a></span></dt><dt><span class="section"><a href="chapter_failover.html#d5e3164">9.1.2. Failover 동작과 관련된 연결 속성</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_failover.html#d5e3193">9.2. 로드 밸런싱</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 <span>tbJDBC</span>에서 제공하는 Failover 기능과 로드 밸런싱(Load balancing)
+  기능을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3103"/>9.1. Failover</h2></div></div></div>
+    
+
+    <p><span>tbJDBC</span>는 일반 애플리케이션 프로그램 환경이나 <span>TAC</span> 환경에서
+    최초 연결을 맺을 때 또는 임의의 작업을 수행하는 중에 연결이 끊어졌을 때, 일부 자원들을 자동으로 복원해주는 기능을 제공한다. 이를
+    <span><strong class="guibutton">Failover</strong></span>라고 한다.<a id="d5e3109" class="indexterm"/></p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3111"/>9.1.1. Failover 기능 설정</h3></div></div></div>
+      
+
+      <p>Failover 기능을 사용하려면 DriverManager.getConnection()의 URL을 description
+      형태로 작성하고 <span><strong class="guibutton">FAILOVER</strong></span>를 설정하여 사용한다.</p>
+
+      <p>FAILOVER 항목에 설정할 수 있는 값은 다음과 같다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">설정값</th><th>설명</th></tr></thead><tbody><tr><td align="left">NONE<a id="d5e3126" class="indexterm"/></td><td>Failover 기능을 비활성화한다. (기본값)</td></tr><tr><td align="left">SESSION<a id="d5e3132" class="indexterm"/></td><td>연결에 실패했을 때, 다음 노드로 재접속을 시도하여 연결을 복원한다.</td></tr><tr><td align="left">CURSOR<a id="d5e3138" class="indexterm"/></td><td><p>이 옵션은 SESSION 복원을 포함하며, 사용중이던 java.sql.ResultSet을
+              복원한다.</p><p>복원 가능한 경우는 다음과 같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>SELECT 문장을 직접 수행하는 경우</p>
+                  </li><li style="list-style-type: circle">
+                    <p>ResultSet 타입이 TYPE_FORWARD_ONLY,
+                    TYPE_SCROLL_INSENSITIVE인 경우</p>
+                  </li><li style="list-style-type: circle">
+                    <p>ResultSet concurrency 모드가 CONCUR_READ_ONLY인
+                    경우</p>
+                  </li><li style="list-style-type: circle">
+                    <p>재사용 가능한 파라미터만 사용한 경우(Reader, Stream 등의 휘발성 데이터나 또는
+                    varchar 타입 최대 크기를 초과하는 String 데이터가 존재하면 복구 불가)</p>
+                  </li></ul></div></td></tr></tbody></table>
+      </div>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p>이전 버전에서 지원하던 Failover 옵션 OFF는 NONE으로 ON은 SESSION으로 동작한다.</p>
+      </div>
+
+      <p/>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 Failover 기능을 활성화하는 예이다. svr1로 연결이 실패하면 자동으로 svr2로 연결을 시도한다. 단,
+      모든 서버에 대한 연결 시도가 실패할 때는 에러가 발생한다.</p>
+
+      <pre class="programlisting">Connection conn = 
+    DriverManager.getConnection("jdbc:<span>tibero</span>:thin:@(description=(failover=session)" +
+                                "(address_list="+
+                                "(address=(host=svr1)(port=8629))"+
+                                "(address=(host=svr2)(port=7629))"+
+                                ")(DATABASE_NAME=TACUAC))", "<span>tibero</span>", "<span>tmax</span>");</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3164"/>9.1.2. Failover 동작과 관련된 연결 속성</h3></div></div></div>
+      
+
+      <p>Failover SESSION 이상의 모드인 경우 연결 복원 과정에서 재시도 횟수를 다음의 속성을 통해 지정할 수
+      있다.</p>
+
+      <div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+          <p>failover_retry_count<a id="d5e3170" class="indexterm"/></p>
+        </li></ul></div>
+
+      <p/>
+
+      <p>다음의 연결 속성을 이용하여 실제로 장애가 발생하였더라도 클라이언트에서 연결 종료를 감지하지 못해 무한정 대기하는
+      경우를 회피할 수 있다.</p>
+
+      <div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+          <p>login_timeout<a id="d5e3177" class="indexterm"/></p>
+        </li><li style="list-style-type: circle">
+          <p>read_timeout<a id="d5e3181" class="indexterm"/></p>
+        </li><li style="list-style-type: circle">
+          <p>self_keepalive<a id="d5e3185" class="indexterm"/></p>
+        </li></ul></div>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p>각 연결 속성별 설명 및 사용 방법은 <a href="chapter_usage.html" title="제3장 tbJDBC의 사용">“제3장 <span>tbJDBC</span>의 사용”</a>의 <a href="chapter_usage.html#sect_connection_properties" title="3.2. Connection Properties">“3.2. Connection Properties”</a>를 참고한다.</p>
+      </div>
+
+      <p/>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3193"/>9.2. 로드 밸런싱</h2></div></div></div>
+    
+
+    <p><span>tbJDBC</span>는 일반 애플리케이션 프로그램 환경이나 <span>TAC</span> 환경에서
+    여러 개의 노드로 사용자를 분산시켜 데이터베이스 서버의 효율성을 향상시키기 위한 기능을 제공한다. 이를 <span><strong class="guibutton">로드
+    밸런싱(Load balancing)</strong></span>이라고 한다.<a id="d5e3199" class="indexterm"/> 로드 밸런싱 기능을 사용하려면 DriverManager.getConnection()의 URL을
+    description 형태로 작성하고 <span><strong class="guibutton">(load_balance=on)</strong></span>만 추가하면
+    된다.</p>
+
+    <p>다음은 로드 밸런싱 기능을 활성화하는 예로 최초 연결을 맺을 때 내부 로직에 의해 svr1과 svr2 사용자로 분산시켜
+    연결을 맺는다.</p>
+
+    <pre class="programlisting">Connection conn = 
+    DriverManager.getConnection("jdbc:<span>tibero</span>:thin:@(description=<span><strong class="guibutton">(load_balance=on)</strong></span>" +
+                                "(address_list="+
+                                "(address=(host=svr1)(port=8629))"+
+                                "(address=(host=svr2)(port=7629))"+
+                                ")(DATABASE_NAME=TACUAC))", "<span>tibero</span>", "<span>tmax</span>");</pre>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>로드 밸런싱 기능은 Failover 기능과 혼용하여 설정할 수 있다.</p>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch10.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제8장 LOB 데이터 처리 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제10장 SSL</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Appendix F. Undo 테이블 스페이스 크기 산정</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 설치 안내서"/><link rel="up" href="index.html" title="Tibero 설치 안내서"/><link rel="prev" href="appendix_hugepage.html" title="Appendix E. HugePage 설정 방법"/><link rel="next" href="appendix_shardmemory_size.html" title="Appendix G. Shared Memory 크기 산정"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">Appendix F. Undo 테이블 스페이스 크기 산정</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="appendix_hugepage.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="appendix_shardmemory_size.html">다음</a></td></tr></table><hr/></div><div class="appendix" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="appendix_undotablespace_size"/>Appendix F. Undo 테이블 스페이스 크기 산정</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="appendix_undotablespace_size.html#d5e4506">F.1. 개요</a></span></dt><dt><span class="section"><a href="appendix_undotablespace_size.html#d5e4522">F.2. 고려사항</a></span></dt><dt><span class="section"><a href="appendix_undotablespace_size.html#d5e4539">F.3. 용량 산정</a></span></dt></dl></div>
+  
+
+  <p>본 부록에서는 Tibero의 Undo 테이블 스페이스 크기 산정방법에 대해 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4506"/>F.1. 개요</h2></div></div></div>
+    
+
+    <p>데이터이 갱신이 많은 시스템인 경우 Undo 테이블 스페이스의 I/O가 많이 발생하므로 Undo 테이블 스페이스를 여러
+    개의 데이터 파일로 작성하여 데이터 파일을 분산시킨다.</p>
+
+    <p/>
+
+    <p>자동 관리는 다음의 장점을 갖는다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>설계 및 관리 용이(rollback,segment)</p>
+      </li><li>
+        <p>UNDO Data의 overwrite 방지</p>
+      </li><li>
+        <p>영역확장 용이</p>
+      </li><li>
+        <p>플래시백 쿼리 이용가능</p>
+      </li></ul></div>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>Tibero는 수동 관리는 지원하지 않는다.</p>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4522"/>F.2. 고려사항</h2></div></div></div>
+    
+
+    <p>다음은 Undo 테이블 스페이스 크기를 산정할 때 고려할 사항이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>데이터 파일 용량, UNDO_RETENTION, Undo Segment를 고려한다.</p>
+      </li><li>
+        <p>자동 관리일 경우 Undo Segment의 개별 공간은 자동으로 관리되므로 전체 Undo Segment의 최소/최
+        대 개수와 데이터 파일 용량만 설정한다.</p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>최소 Undo Segment 개수(_USGMT_ONLINE_MIN)는 보통 10(default)으로
+            설정한다. 단, 동시 수행 트랜잭션 수가 많은 경우 부하 중에 추가 Undo Segment를 생성하는 오버헤드가 있을
+            수 있다. 이 경 우 예상되는 동시 수행 트랜잭션 수 만큼 최소 Undo Segment 개수를 설정해두면 Undo
+            Segment 추 가 생성 오버헤드를 줄일 수 있다.</p>
+
+            <p>최소 Undo Segment 설정 개수가 이미 만들어져 있는 Undo Segment 개수보다 많은 경우 부팅
+            과정에서 Undo Segment를 추가로 생성한다.</p>
+
+            <p>TAC의 경우 각 노드별로 적용한다. 예를 들어 NODE1은 _USGMT_ONLINE_MIN=30,
+            NODE2는 40 으로 설정하고 부팅하면 각각 30개와 40개의 Undo Segment가 생성되어 있는 것을 확인할 수
+            있다.</p>
+          </li><li>
+            <p>최대 Undo Segment 개수(_USGMT_ONLINE_MAX)는 최대로 생성할 수 있는 Undo
+            Segment 개수를 말한다.</p>
+
+            <p>Tibero는 동시 수행 트랜잭션이 많은 경우 가능한 하나의 Undo Segment를 여러 트랜잭션이 공유하
+            여 사용하지 않도록 자동적으로 Undo Segment를 추가 생성한다. 이런 경우 추가 생성하는 Undo
+            Segment의 최대 값을 설정하는 용도로 _USGMT_ONLINE_MAX를 설정하여 사용한다.</p>
+
+            <p>TAC의 경우 최대 Undo Segment 개수는 전체 노드에서 생성한 Undo Segment 개수의
+            합산값으로 적용한다. 예를 들어 NODE1에 Undo Segment가 100개, NODE2에 200개가 생성되어 있고,
+            _US GMT_ONLINE_MAX=300으로 설정되어있다면 양쪽 노드 모두 추가 Undo Segment를 생성할 수
+            없다. 따라서 전체 노드 합산 최대 동시 수행 트랜잭션 수를 _USGMT_ONLINE_MAX로 설정할 것을
+            권장한다.</p>
+          </li></ul></div>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4539"/>F.3. 용량 산정</h2></div></div></div>
+    
+
+    <p>Undo 테이블 스페이스를 생성하는데 필요한 최소 크기와 예상 동시 수행 트랜잭션수를 기준으로 한 예상 크기, 그리고
+    TPR 정보를 이용한 실제 사용 크기로 나누어 생각해 볼 수 있다.</p>
+
+    <p>최초로 DB를 설치하는 경우 최소 크기 및 예상 크기중 큰 값을 기준으로 Undo 테이블 스페이스 크기를 산정하고 이후
+    TPR에서 최대 부하가 들어올 때 초당 소모하는 UNDO block 수를 기준으로 실제 크기와 산정한 크기가 맞는지 검증할 수
+    있다.</p>
+
+    <p>다음은 Undo 테이블 스페이스의 산정방법이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>최소 크기</p>
+
+        <pre class="programlisting">(Undo 테이블 스페이스당 Undo Segment 최소 개수 * _USGMT_UNIFORM_EXTSIZE * 2
+* Block size(8KB)) + 여유값</pre>
+      </li><li>
+        <p>예상 크기</p><pre class="programlisting">(Undo 테이블 스페이스당 Undo Segment 최대 개수 * _USGMT_UNIFORM_EXTSIZE * 2
+* Block size(8KB)) + 여유값
+</pre>
+      </li><li>
+        <p>실제 크기</p>
+
+        <pre class="programlisting">(초당 UNDO Block 소모량 * UNDO retention * Block size(8KB)) + 여유값
+</pre>
+      </li></ul></div>
+
+    <p>다음은 산정 공식에 사용되는 항목에 대한 설명이다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">Undo 테이블 스페이스당 Undo Segment 최소 개수</td><td>Single/TAC 모두 경우 _USGMT_ONLINE_MIN 값이다.</td></tr><tr><td align="left">Undo 테이블 스페이스당 Undo Segment 최대 개수</td><td><p>예상되는 최대 동시 수행 트랜잭션 수이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>Single의 경우 : _USGMT_ONLINE_MAX 값</p>
+                </li><li style="list-style-type: circle">
+                  <p>TAC의 경우 : _USGMT_ONLINE_MAX / 노드수</p>
+                </li></ul></div><p/></td></tr><tr><td align="left">_USGMT_UNIFORM_EXTSIZE</td><td>Undo Segment는 최소 2개의 UNDO extent가 필요하고 UNDO extent 하나의 크기는
+            _USGMT_UNIFORM_EXTSIZE 이다.</td></tr><tr><td align="left">초당 UNDO block 소모량</td><td>운영 중 최대 부하 당시의 TPR 리포트에서 Undo Statistics의 Undo blocks 값을
+            TPR 구간(초)로 나눈 값이다.</td></tr><tr><td align="left">UNDO_RETENTION</td><td>TIP 설정 값이다. (기본값: 900초)</td></tr><tr><td align="left">여유값</td><td>Long 트랜잭션이 비정기적으로 들어올 경우(INDEX rebuild 등도 포함)를 대비하여 충분한 크기를
+            잡아 두는 것이 좋다. (단위: KB)</td></tr></tbody></table>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="appendix_hugepage.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="appendix_shardmemory_size.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">Appendix E. HugePage 설정 방법 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> Appendix G. Shared Memory 크기 산정</td></tr></table></div><div xmlns="" align="center"/></body></html>

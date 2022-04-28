@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제1장 소개</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero IMCS 안내서"/><link rel="up" href="index.html" title="Tibero IMCS 안내서"/><link rel="prev" href="about.html" title="안내서에 대하여"/><link rel="next" href="ch02.html" title="제2장 In-Memory Column Store 설정"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제1장 소개</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="about.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch02.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_imcs_overview"/>제1장 소개</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_imcs_overview.html#d5e366">1.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_imcs_overview.html#d5e393">1.2. In-Memory Column Store 저장 구조</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_imcs_overview.html#sect_imcu">1.2.1. In-Memory Compression Unit(IMCU)</a></span></dt><dt><span class="section"><a href="chapter_imcs_overview.html#d5e418">1.2.2. Snapshot Metadata Unit (SMU)</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_imcs_overview.html#d5e421">1.3. In-Memory Process 구조</a></span></dt><dt><span class="section"><a href="chapter_imcs_overview.html#d5e425">1.4. SIMD Vector Processing</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 <span>In-Memory Column Store</span>의 개념과 기능을 개략적으로
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e366"/>1.1. 개요</h2></div></div></div>
+    
+
+    <p><span>In-Memory Column Store </span>(IMCS)는 컬럼에 대한 스캔을 최적화하기 위한
+    메모리 저장구조로 데이터의 복제본을 컬럼 포맷으로 저장하여 관리한다.</p>
+
+    <p>기존의 로우 포맷 방식에 컬럼 포맷 방식을 추가로 지원함으로써 OLTP 및 OLAP 업무가 혼재된 환경에서 데이터베이스의
+    성능을 향상시킬 수 있는 기능이다.</p>
+
+    <div class="figure"><a id="fig_arch_proc"/><p class="title"><b>[그림 1.1] 로우 포맷 방식과 컬럼 포맷 방식</b></p><div class="figure-contents">
+        
+
+        <div xmlns="" class="mediaobject" align="left"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr><td align="left"><img src="resources/figure_imcs_intro1.png" align="top" width="350" alt="로우 포맷 방식과 컬럼 포맷 방식"/></td></tr></table></div>
+      </div></div><p><br class="figure-break"/></p>
+
+    <div class="itemizedlist"><p>In-Memory Column Store의 특징은 다음과 같다.</p><ul type="disc" compact="compact"><li>
+          <p>In-Memory Area</p>
+
+          <p>In-Memory Column Store는 공유 메모리의 In-Memory Area라는 곳에 존재한다.
+          In-Memory Area는 부팅 시점에 고정된 크기로 할당되며 한번 할당되면 DB 재기동 전까지 크기가 변경되지
+          않는다.</p>
+
+          <p>Cache Out이 발생하는 버퍼 캐시와는 달리 In-Memory Column Store에는 데이터가 한번
+          적재되면 유저가 따로 명령을 수행하지 않는 한 데이터가 In-Memory Area에 계속 존재한다. 이 때문에
+          In-Memory Column Store에 저장된 데이터를 읽을 때는 별도의 I/O 비용이 발생하지 않는다(단,
+          In-Memory 데이터가 유효하지 않아 버퍼 캐시를 읽어야하는 경우에는 In-Memory 스캔을 수행하더라도 I/O가
+          발생할 수 있다).</p>
+        </li><li>
+          <p>Columnar Format</p>
+
+          <p>In-Memory Column Store는 데이터의 복제본을 스캔에 최적화된 컬럼 포맷으로 변환하여 저장한다.
+          컬럼 포맷의 데이터는 내부적으로 고정된 사이즈로 저장되며 이를 통해 스캔 시 필터 연산(e.g. &lt;, &gt;,
+          =)을 효율적으로 처리할 수 있다.</p>
+        </li><li>
+          <p>Compression</p>
+
+          <p>In-Memory Column Store에서 각 컬럼 데이터는 중복 데이터를 제거하는 방법으로 데이터를 압축하여
+          저장한다. 이를 통해 메모리 효율을 높이고 스캔 시 조회하는 데이터 갯수를 줄임으로써 효율적인 스캔을
+          지원한다.</p>
+        </li><li>
+          <p>Data Pruning</p>
+
+          <p>In-Memory Column Store에서 각 컬럼 데이터는 In-Memory Compression Unit
+          (IMCU)라는 저장 유닛으로 관리되며 IMCU에는 각 컬럼 데이터의 최소 및 최대값 정보가 포함되어 있다. 스캔 시 각
+          IMCU에 포함되어 있는 데이터의 최소 및 최대값을 확인하여 필요한 IMCU만 조회함으로써 스캔 효율을 높일 수
+          있다.</p>
+        </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e393"/>1.2. In-Memory Column Store 저장 구조</h2></div></div></div>
+    
+
+    <p><span>In-Memory Area는 부팅 시점에 공유 메모리(Shared Memory) 내 고정 (Fixed)
+    영역에 할당된다. In-Memory Area의 크기는 초기화 파라미터 INMEMORY_SIZE로
+    설정해준다.</span></p>
+
+    <p><span>In-Memory Area는 컬럼 데이터를 저장하는 <span><strong class="guibutton">In-Memory
+    Compression Unit (IMCU)</strong></span>과 컬럼 데이터의 메타를 저장하는 <span><strong class="guibutton">Snapshot
+    Metadata Unit (SMU)</strong></span>로 구성되어 있다. </span></p><div class="figure"><a id="fig_arch_proc"/><p class="title"><b>[그림 1.2] In-Memory Column Store 구조</b></p><div class="figure-contents">
+        
+
+        <div xmlns="" class="mediaobject" align="left"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="700"><tr><td align="left"><img src="resources/figure_imcs_struct2.png" align="top" width="700" alt="In-Memory Column Store 구조"/></td></tr></table></div>
+      </div></div><p><br class="figure-break"/></p>
+
+    <p><span/></p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_imcu"/>1.2.1. In-Memory Compression Unit(IMCU)</h3></div></div></div>
+      
+
+      <p>IMCU (In-Memory Compression Unit)는 In-Memory Column Store (IMCS)의
+      저장 유닛으로 하나 이상의 컬럼의 데이터를 압축된 형태로 저장하고 있다. IMCU의 크기는 1 MB이며, IMCS는 하나의
+      오브젝트(테이블, 파티션, 서브파티션)의 데이터를 컬럼 형태로 변환하여 여러 개의 IMCU에 저장한다.</p>
+
+      <p>IMCU에는 오직 하나의 오브젝트의 컬럼 데이터만 저장된다. IMCU는 하나 이상의 <span><strong class="guibutton">Column
+      Compression Unit(CU)</strong></span>를 포함하고 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc"><li>
+          <p><span><strong class="guibutton">Column Compression Unit(CU)</strong></span></p>
+
+          <p>CU(Column Compression Unit)는 IMCU 내에서 하나의 컬럼 데이터를 저장하는 영역이다.
+          CU 내 저장되는 각 로우의 컬럼 값은 2 byte 값으로 인코딩되어 CU 내 저장된다. 인코딩된 값을 dictionary
+          code라고 하며, CU 안에는 각 dictionary code와 실제 컬럼 데이터 간의 매핑 테이블이
+          존재한다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e418"/>1.2.2. Snapshot Metadata Unit (SMU)</h3></div></div></div>
+      
+
+      <p>SMU (Snapshot Metadata Unit)은 IMCU에 대한 메타 데이터를 저장하는 영역이다.
+      In-Memory Column Store 공간에서는 각 IMCU 마다 하나의 SMU가 매핑되어있다. SMU에는 오브젝트 정보 및
+      IMCU에 적재된 블럭의 주소 정보가 들어있으며, 트랜잭션 저널 (transaction journal)이라는 DML이 발생한
+      로우들에 대한 정보가 기록되어 있다.</p>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e421"/>1.3. In-Memory Process 구조</h2></div></div></div>
+    
+
+    <p>In-Memory Column Store 공간에 데이터를 컬럼 포맷으로 적재하는 작업(populate)은 백그라운드
+    프로세스에서 수행한다. 에이전트 프로세스는 부팅 시점에 In-Memory priority가 지정된 오브젝트에 대해서 populate를
+    수행하며, priority가 지정되지 않은 오브젝트의 경우 쿼리를 통해 최초 접근 시 에이전트 프로세스에서 해당 오브젝트에 대한
+    populate 작업을 수행한다.</p>
+
+    <p>In-Memory Column Store 공간에 데이터가 적재된 오브젝트에 대해 쿼리를 수행하여 컬럼 포맷의 데이터를
+    읽거나 혹은 DML을 수행하여 SMU에 트랜잭션 저널을 기록하는 작업은 워커 프로세스에서 수행한다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e425"/>1.4. SIMD Vector Processing</h2></div></div></div>
+    
+
+    <p>SIMD(Single Instruction, Multiple Data) 벡터 연산을 통해서 WHERE 절의
+    expression 계산 성능을 향상시킨다. 예를 들어 CU를 구성하고 있는 2bytes의 고정된 byte의 데이터를 CPU에 8개씩
+    로드를 하고 한번의 비교 연산으로 8개의 결과를 출력한다.</p>
+
+    <p>SIMD를 수행하기 위한 조건은 In Memory Column과 바인드 파라미터 또는 상수 값의 비교 연산하는 경우 이다.
+    가능한 비교 연산자는 &gt;, &gt;=, =, &lt;, &lt;=, AND 이다.</p>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="about.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch02.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">안내서에 대하여 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제2장 In-Memory Column Store 설정</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제4장 데이터베이스 제거</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 설치 안내서"/><link rel="up" href="index.html" title="Tibero 설치 안내서"/><link rel="prev" href="chapter_database_install.html" title="제3장 데이터베이스 설치"/><link rel="next" href="ch05.html" title="제5장 클라이언트 설치와 제거"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제4장 데이터베이스 제거</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_database_install.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch05.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_database_remove"/>제4장 데이터베이스 제거</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_database_remove.html#d5e2861">4.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_database_remove.html#sect_uninstall_installer">4.2. 인스톨러를 이용한 제거</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_database_remove.html#d5e2882">4.2.1. GUI 모드(Windows)</a></span></dt><dt><span class="section"><a href="chapter_database_remove.html#d5e2935">4.2.2. 콘솔 모드(Linux)</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_database_remove.html#sect_uninstall_manual">4.3. 수동 제거</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_database_remove.html#sect_uninstall_manual_windows">4.3.1. Windows 환경</a></span></dt><dt><span class="section"><a href="chapter_database_remove.html#sect_uninstall_manual_unix">4.3.2. UNIX 환경</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 설치된 <span>Tibero</span>를 제거하는 방법에 대해서 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2861"/>4.1. 개요</h2></div></div></div>
+    
+
+    <p>설치된 <span>Tibero</span>를 제거하는 방법은 다음과 같다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p><a href="chapter_database_remove.html#sect_uninstall_installer" title="4.2. 인스톨러를 이용한 제거">인스톨러를 이용한
+        제거</a></p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>GUI 모드 제거(Windows)</p>
+          </li><li>
+            <p>콘솔 모드 제거(Linux)</p>
+          </li></ul></div>
+      </li><li>
+        <p><a href="chapter_database_remove.html#sect_uninstall_manual" title="4.3. 수동 제거">수동 제거</a></p>
+
+        <p>모든 플랫폼에서 $<span>TB_</span>HOME/.installation/Tibero_Uninstaller를
+        실행한다.</p>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_uninstall_installer"/>4.2. 인스톨러를 이용한 제거</h2></div></div></div>
+    
+
+    <p>본 절에는 인스톨러를 이용해서 GUI 모드(Windows)와 콘솔 모드(Linux)에서 제거하는 과정을
+    설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2882"/>4.2.1. GUI 모드(Windows)<a id="d5e2884" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Windows 계열에서 GUI 모드로 <span>Tibero</span>를 제거하는 순서는 다음과 같다.</p>
+
+      <div class="orderedlist"><ol type="1"><li>
+          <p><span><strong class="guibutton">[시작] &gt; [프로그램] &gt; [<span>Tibero</span>] &gt; [<span>Tibero</span> 7] &gt; [Uninstall <span>Tibero</span> 7]</strong></span> 메뉴를 실행하거나 다음 경로에
+          위치한 실행파일을 실행하여 언인스톨 GUI 화면을 실행한다.</p>
+
+          <pre class="programlisting">%<span>TB_</span>HOME%\.installation\Tibero Uninstaller.exe</pre>
+        </li><li>
+          <p>위의 명령어를 실행하면 설치 제거를 위한 안내 메시지 창이 출력된다. 제거를 진행하려면
+          <span><strong class="guibutton">[Uninstall]</strong></span> 버튼을 클릭하여 <span>Tibero</span>의 제거를 시작한다.</p>
+
+          <div class="figure"><a id="d5e2902"/><p class="title"><b>[그림 4.1] <span>Tibero</span> Uninstaller -
+            Introduction</b></p><div class="figure-contents">
+            
+
+            <div xmlns="" class="mediaobject" align="left"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="600"><tr><td align="left"><img src="resources/gui_uninstall_01.png" align="top" width="600" alt="Tibero Uninstaller - Introduction"/></td></tr></table></div>
+          </div></div><br class="figure-break"/>
+
+          <p/>
+        </li><li>
+          <p>다음은 <span>Tibero</span>의 제거가 진행되는 화면이다.</p>
+
+          <div class="figure"><a id="d5e2912"/><p class="title"><b>[그림 4.2] <span>Tibero</span> Uninstaller - Uninstall
+            Progress</b></p><div class="figure-contents">
+            
+
+            <div xmlns="" class="mediaobject" align="left"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="600"><tr><td align="left"><img src="resources/gui_uninstall_02.png" align="top" width="600" alt="Tibero Uninstaller - Uninstall Progress"/></td></tr></table></div>
+          </div></div><br class="figure-break"/>
+        </li><li>
+          <p>제거가 완료되면 다음과 같은 화면이 나타난다. <span><strong class="guibutton">[Done]</strong></span> 버튼을
+          클릭하여 제거 과정을 종료한다.</p>
+
+          <div class="figure"><a id="d5e2921"/><p class="title"><b>[그림 4.3] <span>Tibero</span> Uninstaller - Uninstallation
+            Complete</b></p><div class="figure-contents">
+            
+
+            <div xmlns="" class="mediaobject" align="left"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="600"><tr><td align="left"><img src="resources/gui_uninstall_03.png" align="top" width="600" alt="Tibero Uninstaller - Uninstallation Complete"/></td></tr></table></div>
+          </div></div><br class="figure-break"/>
+        </li><li>
+          <p><span>Tibero</span>를 제거하는 과정에서 데이터베이스 파일은 삭제되지만
+          물리적인 파일은 삭제되지 않는다. 따라서 물리적인 파일은 제거 과정이 모두 끝난 후 별도로 운영체제의 명령어를 이용하여
+          삭제해야 한다.</p>
+
+          <p>명령 프롬프트에서 다음의 명령어를 입력하여 %<span>TB_</span>HOME%에 해당하는 디렉터리를 포함하는 하위의 모든 디렉터리를
+          삭제한다.</p>
+
+          <pre class="programlisting">C:\&gt;del <span>Tibero</span>
+C:\<span>Tibero</span>\*, 계속하시겠습니까(Y/N)? y
+</pre>
+        </li></ol></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2935"/>4.2.2. 콘솔 모드(Linux)<a id="d5e2937" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Linux 계열에서 콘솔 모드로 <span>Tibero</span>를 제거하는 순서는 다음과 같다.</p>
+
+      <div class="orderedlist"><ol type="1" compact="compact"><li>
+          <p>$<span>TB_</span>HOME/uninstall에서 다음 명령어를 실행한다.</p>
+
+          <pre class="programlisting">$<span>TB_</span>HOME/.installation/Tibero_Uninstaller
+
+<em class="lineannotation"><span class="lineannotation">    ......중간 생략......</span></em>
+
+===============================================================================
+Introduction
+------------
+
+<span>Tibero</span>_Uninstaller will remove the features that were installed during product
+installation. 
+All data files in the <span>TB_</span>HOME directory will be deleted. 
+Files and folders created after the installation will not be removed.
+
+To continue, press the &lt;ENTER&gt;. To cancel Uninstallation, enter 'quit'.
+
+PRESS &lt;ENTER&gt; TO CONTINUE: </pre>
+        </li><li>
+          <p>제거가 완료되면 다음과 같은 메시지가 출력된다.</p>
+
+          <pre class="programlisting">===============================================================================
+Uninstallation Complete
+-----------------------
+All items of Tibero have been successfully uninstalled.
+
+===============================================================================
+PRESS &lt;ENTER&gt; TO CONTINUE: </pre>
+        </li><li>
+          <p><span>Tibero</span> 제거가 완료되면 콘솔 창으로 자동으로 빠져 나온다.
+          <span>Tibero</span>를 제거하는 과정에서 데이터베이스 파일은 삭제되지만
+          물리적인 파일은 삭제되지 않는다.</p>
+
+          <p>따라서 물리적인 파일은 제거 과정이 모두 끝난 후 다음과 같이 별도로 운영체제의 명령어를 이용하여
+          삭제한다.</p>
+
+          <pre class="programlisting">$ rm -rf <span>Tibero</span></pre>
+        </li></ol></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_uninstall_manual"/>4.3. 수동 제거<a id="d5e2963" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>본 절에서는 Windows 계열과 Linux 계열에서 수동 모드로 <span>Tibero</span>를 제거하는 순서를 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_uninstall_manual_windows"/>4.3.1. Windows 환경<a id="d5e2970" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>다음은 Windows 환경에서 수동으로 <span>Tibero</span>를 제거하는 과정에 대한 설명이다. Windows 환경에서의 제거 과정은 반드시 관리자 권한으로
+      진행되어야 한다.</p>
+
+      <div class="orderedlist"><ol type="1" compact="compact"><li>
+          <p><span>Tibero</span>를 종료한다.</p>
+
+          <pre class="programlisting"><span>tb</span>down</pre>
+        </li><li>
+          <p><span><strong class="guibutton">%<span>TB_</span>HOME%\bin</strong></span> 디렉터리에서 다음의 명령어를
+          입력한다.</p>
+
+          <pre class="programlisting"><span>tbuninstall</span> %<span>TB</span>_SID%</pre>
+
+          <p>이 명령이 실행되면 Windows 서비스에 등록된 <span>Tibero</span>가 제거된다.</p>
+
+          <pre class="programlisting">C:\<span>Tibero</span>\<span>tibero</span>7\bin&gt;<span>tbuninstall</span> %<span>TB</span>_SID%
+ Microsoft (R) Windows Script Host 버전 5.812
+ Copyright (C) Microsoft Corporation. All rights reserved.
+
+ <span>TB_</span>HOME = C:\<span>Tibero</span>\<span>tibero</span>7
+ <span>TB_</span>SID = <span>tibero</span>
+ service name = <span>Tibero_tibero</span>
+ <span>Tibero_tibero</span> uninstalled successfully.</pre>
+        </li><li>
+          <p><span>Tibero</span>가 설치된 디렉터리를 포함한 모든 하위 디렉터리를 해당
+          운영체제의 명령어로 삭제한다.</p>
+
+          <pre class="programlisting">rmdir %<span>TB_</span>HOME%</pre>
+        </li></ol></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_uninstall_manual_unix"/>4.3.2. UNIX 환경<a id="d5e3009" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>다음은 UNIX 환경에서 수동으로 <span>Tibero</span>를 제거하는 순서에 대한 설명이다.</p>
+
+      <div class="orderedlist"><ol type="1" compact="compact"><li>
+          <p><span>Tibero</span>를 종료한다.</p>
+
+          <pre class="programlisting"><span>tb</span>down</pre>
+        </li><li>
+          <p><span>Tibero</span>가 설치된 디렉터리를 포함한 모든 하위 디렉터리를 해당
+          운영체제의 명령어로 삭제한다.</p>
+
+          <pre class="programlisting">rm –rf $<span>TB_</span>HOME</pre>
+        </li></ol></div>
+
+      <p/>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_database_install.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch05.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제3장 데이터베이스 설치 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제5장 클라이언트 설치와 제거</td></tr></table></div><div xmlns="" align="center"/></body></html>

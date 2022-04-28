@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제2장 TAS 인스턴스 관리</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero Active Storage 관리자 안내서"/><link rel="up" href="index.html" title="Tibero Active Storage 관리자 안내서"/><link rel="prev" href="chapter_tas_overview.html" title="제1장 TAS 소개"/><link rel="next" href="chapter_admin_diskspace.html" title="제3장 TAS 디스크 스페이스 관리"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제2장 <span xmlns="http://www.w3.org/1999/xhtml">TAS</span> 인스턴스 관리</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_tas_overview.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_admin_diskspace.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_admin_instance"/>제2장 <span>TAS</span> 인스턴스 관리</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_admin_instance.html#d5e590">2.1. <span>TAS</span> 초기화 파라미터 설정</a></span></dt><dt><span class="section"><a href="chapter_admin_instance.html#d5e708">2.2. <span>TAS</span> 인스턴스 관리</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_admin_instance.html#d5e717">2.2.1. 기동 전 준비 사항</a></span></dt><dt><span class="section"><a href="chapter_admin_instance.html#d5e741">2.2.2. <span>TAS</span> 기동</a></span></dt><dt><span class="section"><a href="chapter_admin_instance.html#d5e893">2.2.3. <span>TAS</span> 종료</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_admin_instance.html#d5e913">2.3. <span>Tibero</span> 인스턴스 구성</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 <span>TAS</span>의 초기화 파라미터 설정과 <span>TAS</span> 인스턴스를
+  기동하는 방법을 설명한다. 그리고 <span>TAS</span>를 사용하는 <span>Tibero</span>의
+  초기화 파라미터 설정과 데이터베이스 생성 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e590"/>2.1. <span>TAS</span> 초기화 파라미터 설정<a id="d5e593" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>LISTENER_PORT, MAX_SESSION_COUNT, MEMORY_TARGET, TOTAL_SHM_SIZE를 시스템
+    구성에 맞게 설정한다.</p>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>기본 초기화 파라미터 설정은 "<span>Tibero</span> 참조 안내서"를 참고한다.</p>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <p>추가로 다음 초기화 파라미터들을 설정한다.</p>
+
+    <div class="informaltable">
+        <table border="1"><colgroup><col width="160" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">INSTANCE_TYPE<a id="d5e613" class="indexterm"/></td><td><p>문자열 타입의 값으로 다음 중에 설정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>타입 : 문자열</p>
+                  </li><li style="list-style-type: circle">
+                    <p>설정 가능한 값 : "TIBERO" | "AS" | "ACTIVE_STORAGE"</p>
+                  </li><li style="list-style-type: circle">
+                    <p>기본값 : "TIBERO"</p>
+                  </li></ul></div></td></tr><tr><td align="left">AS_DISKSTRING<a id="d5e628" class="indexterm"/></td><td><p><span>TAS</span> 디스크로 사용할 디스크 장치들의 경로를
+              설정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>타입 : 문자열</p>
+                  </li><li style="list-style-type: circle">
+                    <p>설정 가능한 값 : 디스크 장치 경로</p>
+                  </li><li style="list-style-type: circle">
+                    <p>기본값 : ""</p>
+                  </li></ul></div></td></tr></tbody></table>
+      </div>
+
+    <p/>
+
+    <p/>
+
+    <p>다음은 파라미터로 설정 가능한 형태에 대한 예제이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>디스크 한 개를 지정하는 경우</p>
+
+        <pre class="programlisting">"/devs/disk1"</pre>
+      </li><li>
+        <p>디스크 한 개 이상을 사용하는 경우(콤마로 구분)</p><pre class="programlisting">"/devs/disk1,/devs/disk2"</pre>
+      </li><li>
+        <p>디스크 한 개 이상을 패턴으로 지정하는 경우</p>
+
+        <pre class="programlisting">"/devs/disk*"</pre>
+      </li><li>
+        <p>경로 제일 앞에 '?' 문자를 사용하면, <span>TAS</span>의
+        홈 디렉터리로 치환한다.</p>
+
+        <pre class="programlisting">"?/devs/disk*"</pre>
+      </li></ul></div>
+
+    <p/>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음 초기화 파라미터들은 필요에 따라 설정한다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="160" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">AS_ALLOW_ONLY_RAW_DISKS<a id="d5e675" class="indexterm"/></td><td><p>'N'으로 설정할 경우 일반 파일 시스템에 있는 파일을 <span>TAS</span> 디스크로 사용할 디스크 장치로 인식하도록
+            한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>타입 : 참, 거짓 값</p>
+                </li><li style="list-style-type: circle">
+                  <p>설정 가능한 값 : Y | N</p>
+                </li><li style="list-style-type: circle">
+                  <p>기본값 : Y</p>
+                </li></ul></div></td></tr><tr><td align="left">AS_WTHR_CNT<a id="d5e691" class="indexterm"/></td><td><p><span>TAS</span> 인스턴스를 기동할 때 생성할 리밸런스 스레드 수를 설정한다.
+            리밸런스 작업 또는 리싱크로나이제이션 작업을 담당한다. </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>타입 : 정수</p>
+                </li><li style="list-style-type: circle">
+                  <p>설정 가능한 값 : 양수</p>
+                </li><li style="list-style-type: circle">
+                  <p>기본값 : 10</p>
+                </li></ul></div></td></tr></tbody></table>
+    </div>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e708"/>2.2. <span>TAS</span> 인스턴스 관리<a id="d5e711" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>본 절에서는 <span>TAS</span> 인스턴스를 관리하는 방법에 대해서 설명한다.</p>
+
+    <p/>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e717"/>2.2.1. 기동 전 준비 사항</h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p><span>TB</span>_SID, <span>TB</span>_HOME 환경변수를 설정한다.</p>
+        </li><li>
+          <p><span>tb</span>sql을 사용한 접속을 위해 $<span>TB</span>_HOME/client/config/<span>tb</span>dsn.<span>tb</span>r
+          파일에 <span>TAS</span> 접속 정보를 설정한다.</p>
+        </li><li>
+          <p><span>TAS</span> 인스턴스 설정을 위한 <span>tip</span>
+          파일을 작성한다.</p>
+        </li><li>
+          <p><span>TAS</span> 사용을 위해서 최소 한 개 이상의 디스크 장치가
+          필요하다.</p>
+        </li><li>
+          <p><span>TAS</span> 클러스터링 기능을 사용하려면 최소 한 개 이상의 공유 디스크가
+          필요하다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e741"/>2.2.2. <span>TAS</span> 기동<a id="d5e744" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>본 절에서는 <span>TAS</span> 인스턴스를 기동하는데 필요한 환경설정을 예제 파일로 설명한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>예제의 <span>tip</span> 파일을 사용하는 <span>TAS</span>
+      인스턴스는 "/devs/disk*"에 해당하는 모든 디스크 장치들을 <span>TAS</span>
+      디스크로 사용한다.</p>
+
+      <div class="example"><a id="ex_tip"/><p class="title"><b>[예 2.1] <span>TAS</span> 인스턴스 <span>tip</span>
+          파일 예제</b></p><div class="example-contents">
+          
+
+          
+
+          <pre class="programlisting">LISTENER_PORT=9620
+MAX_SESSION_COUNT=100
+
+MEMORY_TARGET=2G
+TOTAL_SHM_SIZE=1G
+
+INSTANCE_TYPE=AS
+AS_DISKSTRING=<span><strong class="guibutton">"/devs/disk*"</strong></span></pre>
+        </div></div><p><br class="example-break"/></p>
+
+      <p/>
+
+      <p><span>TAS</span> 인스턴스를 최초로 기동할 때
+      <span><strong class="guibutton">NOMOUNT</strong></span> 모드로 기동해야 한다. 이는 <span>TAS</span> 설치를
+      위하여 최초의 디스크 스페이스를 생성하기 위함이다.</p>
+
+      <pre class="programlisting">[<span>TB</span>_SID=as]$ <span>tb</span>boot <span><strong class="guibutton">nomount</strong></span></pre>
+
+      <p>NOMOUNT 모드로 기동한 <span>TAS</span> 인스턴스에 <span>tb</span>sql로
+      접속한 후 CREATE DISKSPACE SQL 문으로 기본 디스크 스페이스를 생성한다.</p>
+
+      <p>아래의 DDL 구문은 CREATE DISKSPACE 예제이다.</p>
+
+      <pre class="programlisting">$ <span><strong class="guibutton">CREATE DISKSPACE ds0 NORMAL REDUNDANCY</strong></span>
+FAILGROUP fg1 DISK
+'/devs/disk101' NAME disk101,
+'/devs/disk102' NAME disk102,
+'/devs/disk103' NAME disk103,
+'/devs/disk104' NAME disk104
+FAILGROUP fg2 DISK
+'/devs/disk201' NAME disk201,
+'/devs/disk202' NAME disk202,
+'/devs/disk203' NAME disk203,
+'/devs/disk204' NAME disk204
+ATTRIBUTE 'AU_SIZE'='4M'; </pre>
+
+      <p>기본 디스크 스페이스 생성을 완료하면 <span>TAS</span> 인스턴스가 자동으로 종료된다. 기본 디스크 스페이스가 있으면 <span>TAS</span>
+      인스턴스를 NORMAL 모드로 기동할 수 있으며, 이 상태에서 디스크 스페이스를 추가로 생성해도 인스턴스가 종료되지 않는다.
+      디스크 스페이스 생성에 대한 자세한 내용은 <a href="chapter_admin_diskspace.html#sect_create_diskspace" title="3.2. 디스크 스페이스 생성">“3.2. 디스크 스페이스 생성”</a>을
+      참고한다.</p>
+
+      <p/>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음 예제는 <span>TAS</span> 인스턴스 2개를 클러스터로 기동하는데 필요한 인스턴스별 <span>tip</span> 파일을
+      보여준다. 이 <span>tip</span> 파일을 사용하는 <span>TAS</span>
+      인스턴스들은 "/devs/disk*"에 해당하는 모든 공유 디스크 장치들을 <span>TAS</span>
+      디스크로 사용한다. CM_PORT에는 CM_<span>TIP</span> 파일의 CM_UI_PORT에 등록한 포트를 입력해야 한다.</p>
+
+      <p/>
+
+      <div class="example"><a id="ex_tip_cluster1"/><p class="title"><b>[예 2.2] <span>TAS</span> 인스턴스 클러스터링 <span>tip</span>
+        파일 예제 : &lt;&lt;as0.<span>tip</span>&gt;&gt;</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">LISTENER_PORT=9620
+MAX_SESSION_COUNT=100
+
+MEMORY_TARGET=2G
+TOTAL_SHM_SIZE=1G
+
+INSTANCE_TYPE=AS
+AS_DISKSTRING="/devs/disk*"
+
+CLUSTER_DATABASE=Y
+<span><strong class="guibutton">LOCAL_CLUSTER_ADDR=192.168.1.1</strong></span>
+LOCAL_CLUSTER_PORT=20000
+CM_CLUSTER_MODE=ACTIVE_SHARED
+CM_PORT=20005
+THREAD=0</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="example"><a id="ex_tip_cm1"/><p class="title"><b>[예 2.3] <span>TAS</span> 인스턴스 클러스터링 <span>tip</span>
+        파일 예제 : &lt;&lt;cm0.<span>tip</span>&gt;&gt;</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">CM_NAME=cm0
+CM_UI_PORT=20005
+CM_RESOUCE_FILE=/home/<span>tibero</span>/config/cm0_res.crf</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="example"><a id="ex_tip_cluster2"/><p class="title"><b>[예 2.4] <span>TAS</span> 인스턴스 클러스터링 <span>tip</span>
+        파일 예제 : &lt;&lt;as1.<span>tip</span>&gt;&gt;</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">LISTENER_PORT=9620
+MAX_SESSION_COUNT=100
+
+MEMORY_TARGET=2G
+TOTAL_SHM_SIZE=1G
+
+INSTANCE_TYPE=AS
+AS_DISKSTRING="/devs/disk*"
+
+CLUSTER_DATABASE=Y
+<span><strong class="guibutton">LOCAL_CLUSTER_ADDR=192.168.1.2</strong></span>
+LOCAL_CLUSTER_PORT=20000
+CM_CLUSTER_MODE=ACTIVE_SHARED
+CM_PORT=20005
+THREAD=1</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="example"><a id="ex_tip_cm2"/><p class="title"><b>[예 2.5] <span>TAS</span> 인스턴스 클러스터링 <span>tip</span>
+        파일 예제 : &lt;&lt;cm1.<span>tip</span>&gt;&gt;</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">CM_NAME=cm1
+CM_UI_PORT=20005
+CM_RESOUCE_FILE=/home/<span>tibero</span>/config/cm1_res.crf</pre>
+      </div></div><br class="example-break"/>
+
+      <p><span/></p><div class="literallayout"><p/></div>
+
+      <p><span>TAS</span> 인스턴스들을 클러스터로 기동하기 전에 먼저 하나의 <span>TAS</span>
+      인스턴스를 NOMOUNT 모드로 기동한 후 기본 디스크 스페이스를 생성해야 한다. 기본 디스크 스페이스를 생성한 후 <span>TAS</span>
+      인스턴스들의 클러스터링을 위한 <span>TB</span>CM을 기동하고 클러스터링을 위한 리소스를 아래 예제와 같이
+      추가한다.</p>
+
+      <p>클러스터 리소스를 추가할 때 cfile attribute의 경우 <span>tip</span> 파일
+      AS_DISKSTRING에 설정한 디스크 경로를 입력하되 앞에 '+'를 붙여주어야 <span>TAS</span>용
+      경로로 인식한다. as 리소스를 추가할 때에는 envfile attribute에 <a href="chapter_admin_instance.html#ex_envfile1" title="[예 2.6] as 리소스 envfile attribute 환경설정용 파일 예제 : &lt;&lt;as0.profile&gt;&gt;">[예 2.6]</a>과 같이 AS 바이너리를 실행하기 위해 필요한 환경설정용 파일을 미리 생성하고 이 파일의
+      경로를 입력해주어야 한다. name attribute는 가동할 인스턴스의 <span>TB</span>_SID와
+      같아야 한다. </p><pre class="programlisting">[CM_SID=cm0]$ <span>tb</span>cm -b # <span>TB</span>CM 기동
+[CM_SID=cm0]$ cmrctl add network --name net0 --ipaddr 192.168.1.1 --portno 20010
+[CM_SID=cm0]$ cmrctl add cluster --name cls0 --incnet net0 --cfile "+/devs/disk*"
+[CM_SID=cm0]$ cmrctl start cluster --name cls0
+[CM_SID=cm0]$ cmrctl add service --type as --name <span>tas</span> --cname cls0
+[CM_SID=cm0]$ cmrctl add as --name as0 --svcname <span>tas</span> --envfile
+"$<span>TB</span>_HOME/as0.profile" --dbhome "$<span>TB</span>_HOME"</pre>
+
+      <div class="example"><a id="ex_envfile1"/><p class="title"><b>[예 2.6] as 리소스 envfile attribute 환경설정용 파일 예제 :
+        &lt;&lt;as0.profile&gt;&gt;</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">[CM_SID=cm0]$ cat $<span>TB</span>_HOME/as0.profile
+export <span>TB</span>_SID=as0</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p>1. <span>TB</span>CM(<span>Tibero</span> Cluster Manager)에 대한 자세한 설명은
+        "<span>Tibero</span> 관리자 안내서"를 참고한다.</p>
+
+        <p>2. Cluster Manager가 필요한 이유는 가용성을 높이고 관리의 편의를 지원하기 위함이다. 이를 이용하면
+        여러 Active Storage 인스턴스 중 일부가 다운되더라도 지속적인 운영이 가능하다.</p>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>이제 <span>TB</span>_SID가 as0인 <span>TAS</span>
+      인스턴스를 기동할 수 있다. </p><pre class="programlisting">[CM_SID=cm0]$ cmrctl start as --name as0 # 또는 [<span>TB</span>_SID=as0]$ tbboot
+[CM_SID=cm0]$ cmrctl show # 리소스 정보 확인</pre>
+
+      <p><span>TB</span>_SID가 as1인 <span>TAS</span>
+      인스턴스를 기동하기 전에, 해당 인스턴스의 REDO 스레드를 추가해야 한다. </p><pre class="programlisting">$ <span>tb</span>sql sys/<span>tibero</span>@as0
+
+<span>tb</span>SQL 7
+
+<span>TmaxData</span> Corporation Copyright (c) 2008-. All rights reserved.
+
+Connected to <span>Tibero</span>.
+
+SQL&gt; <span><strong class="guibutton">ALTER DISKSPACE ds0 ADD THREAD 1;</strong></span>
+
+Diskspace altered.</pre><p> 여기서 ds0은 위에서 생성한 기본 디스크 스페이스의 이름이며, REDO
+      스레드 번호 1은 <span>TB</span>_SID가 as1인 <span>TAS</span>
+      인스턴스의 <span>tip</span> 파일 <a href="chapter_admin_instance.html#ex_tip_cluster2" title="[예 2.4] TAS 인스턴스 클러스터링 tip 파일 예제 : &lt;&lt;as1.tip&gt;&gt;">[예 2.4]</a>에 있는
+      THREAD 초기화 파라미터 값과 동일해야 한다.</p>
+
+      <p>또한 as0을 기동할 때와 동일한 방식으로 <span>TB</span>CM을
+      기동하고 클러스터링을 위한 리소스를 아래와 같이 추가해주어야 한다. cm0 설정 때 추가해 주었던 서비스 리소스는 추가할 필요가
+      없다. </p><pre class="programlisting">[CM_SID=cm1]$ <span>tb</span>cm -b # <span>TB</span>CM 기동
+[CM_SID=cm1]$ cmrctl add network --name net1 --ipaddr 192.168.1.2 --portno 20010
+[CM_SID=cm1]$ cmrctl add cluster --name cls0 --incnet net1 --cfile "+/devs/disk*"
+[CM_SID=cm1]$ cmrctl start cluster --name cls0
+[CM_SID=cm1]$ cmrctl add as --name as1 --svcname <span>tas</span> --envfile
+"$<span>TB</span>_HOME/as1.profile" --dbhome "$<span>TB</span>_HOME"</pre>
+
+      <div class="example"><a id="ex_envfile2"/><p class="title"><b>[예 2.7] as 리소스 envfile attribute 환경설정용 파일 예제 :
+        &lt;&lt;as1.profile&gt;&gt;</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">[CM_SID=cm1]$ cat $<span>TB</span>_HOME/as1.profile
+export <span>TB</span>_SID=as1</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="literallayout"><p/></div>
+
+      <p>이제 <span>TB</span>_SID가 as1인 <span>TAS</span>
+      인스턴스를 기동할 수 있다. </p><pre class="programlisting">[CM_SID=cm1]$ cmrctl start as --name as1 # 또는 [<span>TB</span>_SID=as1]$ tbboot
+[CM_SID=cm1]$ cmrctl show # 리소스 정보 확인</pre>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e893"/>2.2.3. <span>TAS</span> 종료<a id="d5e896" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>종료할 <span>TAS</span> 인스턴스에 대해 <span><strong class="guibutton"><span>tb</span>down</strong></span> 명령을 실행한다. 이때, 해당 <span>TAS</span>
+      인스턴스를 사용중인 모든 <span>Tibero</span> 인스턴스들이 같이 종료된다.</p>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p><span>Tibero</span> 인스턴스가 사용 중인 <span>TAS</span>
+        인스턴스를 먼저 강제종료할 경우 <span>Tibero</span> 인스턴스가 비정상 종료하므로 가급적 해당 <span>Tibero</span> 인스턴스를 먼저 종료한 후 <span>TAS</span>
+        인스턴스를 종료한다.</p>
+      </div>
+
+      <p/>
+
+      
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e913"/>2.3. <span>Tibero</span> 인스턴스 구성<a id="d5e916" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span>Tibero</span> 인스턴스가 <span>TAS</span>의 디스크
+    스페이스를 사용하려면 다음 초기화 파라미터를 <span>Tibero</span>의 <span>tip</span> 파일에
+    설정한다.</p>
+
+    <div class="informaltable">
+        <table border="1"><colgroup><col width="160" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left"><p>USE_ACTIVE_STORAGE</p><a id="d5e936" class="indexterm"/></td><td><p>Active Storage 파일 사용 여부를 결정한다. 'Y'로
+              설정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>타입 : 참, 거짓 값</p>
+                  </li><li style="list-style-type: circle">
+                    <p>설정 가능한 값 : Y | N</p>
+                  </li><li style="list-style-type: circle">
+                    <p>기본값 : N</p>
+                  </li></ul></div></td></tr><tr><td align="left">AS_ADDR<a id="d5e951" class="indexterm"/></td><td><p><span>Tibero</span> 인스턴스가 사용할 <span>TAS</span> 인스턴스의 IP 주소를
+              설정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>타입 : 문자열</p>
+                  </li><li style="list-style-type: circle">
+                    <p>설정 가능한 값 : IP 주소 문자열</p>
+                  </li><li style="list-style-type: circle">
+                    <p>기본값 : "127.0.0.1"</p>
+                  </li></ul></div></td></tr><tr><td align="left">AS_PORT<a id="d5e968" class="indexterm"/></td><td><p><span>Tibero</span> 인스턴스가 사용할 <span>TAS</span> 인스턴스의 'LISTENER_PORT' 값으로
+              설정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>타입 : 정수</p>
+                  </li><li style="list-style-type: circle">
+                    <p>설정 가능한 값 : 1024 ~ 65535</p>
+                  </li><li style="list-style-type: circle">
+                    <p>기본값 : 0</p>
+                  </li></ul></div></td></tr></tbody></table>
+      </div>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <p/>
+
+    <p>다음은 <span>TAS</span> 인스턴스를 사용하는 <span>Tibero</span> 인스턴스를 기동하는데 필요한 <span>tip</span> 파일을
+    보여준다. 이 <span>tip</span> 파일을 사용하는 <span>Tibero</span> 인스턴스는 디스크 스페이스 ds0에 컨트롤 파일을
+    저장한다.</p>
+
+    <div class="example"><a id="ex_tip_tibero"/><p class="title"><b>[예 2.8] <span>TAS</span> 인스턴스를 사용하는 <span>Tibero</span> 인스턴스 <span>tip</span> 파일
+      예제</b></p><div class="example-contents">
+      
+
+      
+
+      <pre class="programlisting">DB_NAME=<span>tibero</span>
+CONTROL_FILES="+DS0/c1.ctl"
+
+LISTENER_PORT=8629
+MAX_SESSION_COUNT=20
+
+TOTAL_SHM_SIZE=1G
+MEMORY_TARGET=2G
+
+<span><strong class="guibutton">USE_ACTIVE_STORAGE=Y
+AS_PORT=9620</strong></span></pre>
+    </div></div><br class="example-break"/>
+
+    <p>DB_CREATE_FILE_DEST 초기화 파라미터를 '+{<span class="emphasis"><em>디스크 스페이스
+    이름</em></span>}'으로 설정할 경우 LOG_ARCHIVE_DEST, PSM_SHLIB_DIR, JAVA_CLASS_PATH
+    초기화 파라미터들을 직접 설정하지 않으면 기본값이 DB_CREATE_FILE_DEST의 하위 디렉터리로 설정된다. 경로를 설정해 준
+    경우 파일들이 해당 디렉터리 아래에 생성된다. </p><pre class="programlisting">DB_CREATE_FILE_DEST="+DS0"
+LOG_ARCHIVE_DEST="/home/<span>tibero</span>/database/<span>tibero</span>/archive"
+PSM_SHLIB_DIR="/home/<span>tibero</span>/database/<span>tibero</span>/psm"
+JAVA_CLASS_PATH="/home/<span>tibero</span>/database/<span>tibero</span>/java"</pre>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <p/>
+
+    <p>다음 예제는 <span>TAS</span> 파일을 사용하는 <span>Tibero</span> 인스턴스의 데이터베이스 생성을 보여준다. 데이터베이스를 구성하는 파일들
+    중 디스크 스페이스 ds0에 저장할 파일들의 경로를 '+DS0/...' 형태로 지정한다.</p>
+
+    <div class="example"><a id="ex_create_database"/><p class="title"><b>[예 2.9] <span>TAS</span> 파일을 사용하는 <span>Tibero</span> 인스턴스의 CREATE DATABASE 예제</b></p><div class="example-contents">
+      
+
+      
+
+      <pre class="programlisting">CREATE DATABASE "<span>tibero</span>"
+    USER SYS IDENTIFIED BY <span>tibero</span>
+    MAXINSTANCES 8
+    MAXDATAFILES 100
+    CHARACTER SET MSWIN949
+    LOGFILE GROUP 1 '+DS0/log0001.log' SIZE 100M,
+            GROUP 2 '+DS0/log0002.log' SIZE 100M,
+            GROUP 3 '+DS0/log0003.log' SIZE 100M
+    MAXLOGGROUPS 255
+    MAXLOGMEMBERS 8
+    NOARCHIVELOG
+    DATAFILE '+DS0/system001.dtf' SIZE 100M
+            AUTOEXTEND ON NEXT 100M MAXSIZE UNLIMITED
+    SYSSUB DATAFILE '+DS0/syssub001.dtf' SIZE 100M
+            AUTOEXTEND ON NEXT 100M
+    DEFAULT TEMPORARY TABLESPACE tmp
+            TEMPFILE '+DS0/temp001.dtf' SIZE 100M
+            AUTOEXTEND ON NEXT 100M MAXSIZE UNLIMITED
+            EXTENT MANAGEMENT LOCAL AUTOALLOCATE
+    UNDO TABLESPACE undo00
+            DATAFILE '+DS0/undo001.dtf' SIZE 100M
+            AUTOEXTEND ON NEXT 100M
+            EXTENT MANAGEMENT LOCAL AUTOALLOCATE
+    DEFAULT TABLESPACE usr
+            DATAFILE '+DS0/usr001.dtf' SIZE 100M
+            AUTOEXTEND ON NEXT 100M MAXSIZE UNLIMITED
+            EXTENT MANAGEMENT LOCAL AUTOALLOCATE;</pre>
+    </div></div><br class="example-break"/>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p><span>Tibero</span> 인스턴스의 초기화 파라미터 설정은 "<span>Tibero</span> 참조 안내서", 데이터베이스 생성 구문은 <span>"Tibero</span> SQL 참조 안내서"를 참고한다.</p>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_tas_overview.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_admin_diskspace.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제1장 <span>TAS</span> 소개 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제3장 <span>TAS</span> 디스크 스페이스 관리</td></tr></table></div><div xmlns="" align="center"/></body></html>

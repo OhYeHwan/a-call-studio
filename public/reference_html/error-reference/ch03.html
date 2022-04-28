@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제3장 3000 ~ 3999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch02.html" title="제2장 2000 ~ 2999"/><link rel="next" href="ch04.html" title="제4장 4000 ~ 4999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제3장 3000 ~ 3999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch04.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e4329"/>제3장 3000 ~ 3999</h2></div></div></div>
+  
+
+  <h2><a id="d5e4331"/>3001: Out of memory (shared memory).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Insufficient shared memory remaining.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>To increase the shared memory space, specify a larger value for the TOTAL_SHM_SIZE parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4344"/>3002: Out of memory (unable to allocate %1$d bytes of shared pool memory).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Insufficient shared pool memory remaining.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>To increase the shared memory space, specify a larger value for the TOTAL_SHM_SIZE parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4357"/>3003: Out of memory (system memory).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The system memory is full.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the system memory space, or close other running programs.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4370"/>3004: Unable to open log file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot open the log file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the log file path and permissions.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4383"/>3005: Insufficient space in buffer.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Insufficient buffer space.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the size of the buffer.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4396"/>3006: Feature not yet implemented.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>This feature is not yet implemented.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check whether a feature which is not yet implemented was used.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4409"/>3007: Environment variable (database home and database sid) is not set.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An environment variable (database home and database sid) has not been defined.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Define the variable.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4422"/>3009: Unable to change log directory because the target directory is the same as the old destination.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The target directory is the same as the log directory currently being used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a directory that is different from the current log directory.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4435"/>3010: Unable to change log directory because of a failure in renaming log file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unable to rename the log file. Refer to the server error log for more detail.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Examine the log file permissions and check the server error log. For more information, contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4448"/>3011: Unable to change log directory because of a failure in generating new log file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The target directory has insufficient space.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Examine the target directory space and initial parameters such as LOG_TOTAL_SIZE_LIMIT. Ensure the directory has sufficient space by deleting or moving unnecessary files. For more information, contact the technical support team. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4461"/>3012: Unable to change log directory.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred while remapping a new log file. Check the error log at server.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Examine the error log in the server. For more information, contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4474"/>3013: Unable to change log directory because filenames conflict.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There is already a log file with identical name in the target directory.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the filename or remove the log file in the target directory.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4487"/>3014: Unable to create a directory for the new log file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unable to create a directory for the new log file due to invalid path or authority.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check whether a path and its authority of the new log file are valid. Also examine the error log of the server. For more information, contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4500"/>3015: Type of the JSON value is different from expected type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Type of the JSON value is different from expected type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Examine the error log in the server. For more information, contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4513"/>3016: Expected JSON key not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Expected JSON key not found.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the inventory of Horde.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4526"/>3017: Too many objects referred (%1$d).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Too many objects referred (%1$d).</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4539"/>3018: Out of memory (unable to allocate %1$d bytes of shared pool memory for %2$s).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Insufficient shared pool memory remaining.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>To increase the shared memory space, specify a larger value for the TOTAL_SHM_SIZE parameter.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch04.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제2장 2000 ~ 2999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제4장 4000 ~ 4999</td></tr></table></div><div xmlns="" align="center"/></body></html>
