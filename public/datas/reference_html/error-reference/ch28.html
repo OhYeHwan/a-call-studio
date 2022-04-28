@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제28장 30000 ~ 30999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch27.html" title="제27장 29000 ~ 29999"/><link rel="next" href="ch29.html" title="제29장 60000 ~ 60999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제28장 30000 ~ 30999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch27.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch29.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e33084"/>제28장 30000 ~ 30999</h2></div></div></div>
+  
+
+  <h2><a id="d5e33086"/>30001: The diskspace, \"%1$s\", does not exist or has not been mounted.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The diskspace does not exist, or has not been mounted to the current TAS instance.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check that the diskspace name is correct, the diskspace exists, and the diskspace has been mounted to the current TAS instance.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33099"/>30002: The TAS disk, \"%1$s\", does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TAS disk is not found.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the TAS disk name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33112"/>30003: The failure group, \"%1$s\", does not exist in the diskspace, \"%2$s\".</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The name does not match the failure group name of the disks in the diskspace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the failure group name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33125"/>30004: The TAS file, \'%1$s\', does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TAS file is not found.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the TAS file name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33138"/>30005: The disk path \'%1$s\' does not exist among the discovered disks.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The disk path does not exist among the disks discovered by the TAS instance.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a disk path discovered by using the TAS_DISKSTRING parameter, or check the TAS_DISKSTRING parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33151"/>30006: Cannot create the diskspace.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot create the given diskspace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>For more information, refer to the logs.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33164"/>30007: The maximum number of disks that can be used is %1$d.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The diskspace is already using the maximum number of disks.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Drop existing disk(s) from the diskspace or create a new diskspace.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33177"/>30008: Cannot open the disk, \'%1$s\'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot open the given disk.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>For more information, refer to the logs.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33190"/>30009: The disk, \'%1$s\', has already been mounted.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to add a disk, which is from another diskspace mounted on the current instance, to the diskspace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use another disk. Unless the diskspace of the disk is unmounted, the FORCE option has no effect.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33203"/>30010: The diskspace name, \"%1$s\", is already being used by another diskspace.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The name specified with CREATE DISKSPACE is already being used by another diskspace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Select another name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33216"/>30011: The size of the disk, \'%1$s\', is smaller than %2$d MB.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The disk size is too small to add the disk to the diskspace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if the system settings are correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33229"/>30012: Failed to remove the diskspace, \'%1$s\'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to remove the diskspace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>For more information, refer to the logs.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33242"/>30013: The diskspace has not been mounted.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>TAS was booted without creating a diskspace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>After booting TAS in nomount mode, create a diskspace and then reboot the TAS.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33255"/>30014: The path, \'%1$s\', is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The path prefix (+) or path delimiter (/) is not valid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the path character array.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33268"/>30015: The name, \'%1$s\', is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TAS disk path is too long.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a TAS disk path of 256 characters or less.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33281"/>30016: Failed to write the disk header.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to open the disk, perform disk I/O, or the magic value does not match.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>For more information, refer to the logs.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33294"/>30017: Failed to add the disk.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to add the disk.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the tracelog to fix the problem and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33307"/>30018: Failed to remove the disk.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to drop the disk.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the tracelog to fix the problem and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33320"/>30019: Failed to create the file, \'%1$s\'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to create the file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the tracelog to fix the problem and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33333"/>30020: Failed to delete the file, \'%1$s\'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to delete the file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the tracelog to fix the problem and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33346"/>30021: Failed to change the file size.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to change the file size.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the tracelog to fix the problem and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33359"/>30022: Failed to connect to the local port.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to connect to the IP address and port.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check that the specified port is not already occupied and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33372"/>30023: Unknown network I/O error (TAS).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unknown network error has occurred.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check that the network equipment is operating normally and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33385"/>30024: A general TAS error occurred.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A TAS internal error occurred.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33398"/>30025: The disk size entered, %1$u MB, is larger than the actual disk size of %2$u MB.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The disk size entered is larger than the actual disk size.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a valid size.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33411"/>30026: The disk name \'%1$s\' is already in use.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified name is already in use.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter another disk name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33424"/>30027: The disk path \'%1$s\' was entered multiple times.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified path was entered multiple times.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The disk path can only be entered once.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33437"/>30028: The file path \'%1$s\' does not exist on the disk space \'%2$s\'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The disk space specified in \'%1$s\' does not match that specified in the DDL statement.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Set a valid disk space.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33450"/>30029: The disk size is not entered.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The character device size must be entered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a valid size.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33463"/>30030: Cannot allocate space from an offline disk.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>One or more disks are offline.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove the offline disks or bring them online. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33476"/>30031: The entered user name \'%1$s\' does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Attempted to execute a command for a TAS user that does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use an existing TAS user name, or add a new TAS user.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33489"/>30032: The user name \'%1$s\' already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Attempted to use a name that is a duplicate of an existing TAS user.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Create a new unique TAS user name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33502"/>30033: The entered group name \'%1$s\' does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Attempted to execute a command for a TAS group that does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use an existing TAS group name, or add a new TAS group.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33515"/>30034: The group name \'%1$s\' already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Attempted to use a name that is a duplicate of an existing name.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Create a new unique TAS group name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e33528"/>30035: Specified diskspace \'%1$s\' is not the master diskspace.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to execute a command on a diskspace that is not the master diskspace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Execute the command on the master diskspace.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch27.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch29.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제27장 29000 ~ 29999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제29장 60000 ~ 60999</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제34장 DBMS_SCHEDULER</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_rowid.html" title="제33장 DBMS_ROWID"/><link rel="next" href="chap_dbms_session.html" title="제35장 DBMS_SESSION"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제34장 DBMS_SCHEDULER</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_rowid.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_session.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_scheduler"/>제34장 DBMS_SCHEDULER</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_scheduler.html#d5e12673">34.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#d5e12760">34.2. 프러시저</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_CREATE_CHAIN">34.2.1. CREATE_CHAIN</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_CREATE_JOB">34.2.2. CREATE_JOB</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_CREATE_PROGRAM">34.2.3. CREATE_PROGRAM</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_CREATE_PROGRAM">34.2.4. CREATE_SCHEDULE</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_DEFINE_CHAIN_RULE">34.2.5. DEFINE_CHAIN_RULE</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_DEFINE_CHAIN_STEP">34.2.6. DEFINE_CHAIN_STEP</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_DISABLE">34.2.7. DISABLE</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_DROP_CHAIN">34.2.8. DROP_CHAIN</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_DROP_CHAIN_RULE">34.2.9. DROP_CHAIN_RULE</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_DROP_CHAIN_STEP">34.2.10. DROP_CHAIN_STEP</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_DROP_JOB">34.2.11. DROP_JOB</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_DROP_PROGRAM">34.2.12. DROP_PROGRAM</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_DROP_PROGRAM">34.2.13. DROP_SCHEDULE</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_ENABLE">34.2.14. ENABLE</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_ENABLE">34.2.15. PURGE_LOG</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_RUN_JOB">34.2.16. RUN_JOB</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_SET_ATTRIBUTE">34.2.17. SET_ATTRIBUTE</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_SET_ATTRIBUTE">34.2.18. SET_ATTRIBUTE_NULL</a></span></dt><dt><span class="section"><a href="chap_dbms_scheduler.html#DBMS_SCHEDULER_STOP_JOB">34.2.19. STOP_JOB</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_SCHEDULER 패키지의 기본 개념과 패키지 내의 프러시저를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e12673"/>34.1. 개요</h2></div></div></div>
+    
+
+    <p><span>Tibero</span>에서는 주기적으로 DBMS_SCHEDULER에 의해서 데이터베이스에 추가된 JOB을 검사하여,
+    사용자가 설정한 시각이나 조건이 만족되면 해당하는 JOB을 실행한다.</p>
+
+    <p><span><strong class="guibutton">DBMS_SCHEDULER</strong></span><a id="d5e12679" class="indexterm"/>은 PSM에서 사용 가능한 문장을 JOB으로 등록하고, 이 JOB을 실행할 수 있는 연산을 제공하는
+    패키지이다. DBMS_SCHEDULER 패키지 내의 프러시저를 이용하여, JOB을 데이터베이스에 추가하고 바로 실행하거나 정해진
+    시각과 조건에 따라서 실행되도록 설정할 수 있다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 DBMS_SCHEDULER 패키지의 특징이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>DBMS_SCHEDULER 패키지의 사용할 때 DBA 권한은 필요하지 않으며, 추가된 JOB은 오직 JOB의
+        소유자만 실행하거나 변경할 수 있다.</p>
+      </li><li>
+        <p>JOB을 추가 또는 변경하는 경우 커밋을 실행하지 않아도 자동으로 커밋되며, JOB 내에서 실행한 작업도 자동으로
+        커밋된다.</p>
+      </li><li>
+        <p>다음의 뷰를 지원한다.</p>
+
+        <pre class="programlisting">[DBA | ALL | USER]_SCHEDULER_CHAINS
+[DBA | ALL | USER]_SCHEDULER_JOBS
+[DBA | ALL | USER]_SCHEDULER_JOB_LOG
+[DBA | ALL | USER]_SCHEDULER_JOB_RUN_DETAILS
+[DBA | ALL | USER]_SCHEDULER_PROGRAMS              
+[DBA | ALL | USER]_SCHEDULER_RULES
+[DBA | ALL | USER]_SCHEDULER_RULE_CTX
+[DBA | ALL | USER]_SCHEDULER_RUNNING_JOBS
+[DBA | ALL | USER]_SCHEDULER_SCHEDULES
+[DBA | ALL | USER]_SCHEDULER_STEPS
+[DBA | ALL | USER]_SCHEDULER_STEP_CTX</pre>
+      </li><li>
+        <p>등록된 JOB은 내부적으로 DBMS_JOB 패키지를 통해서 수행된다.</p>
+      </li><li>
+        <p>실행 중인 JOB을 정지할 수 있는 기능은 제공하지 않는다.</p>
+      </li></ul></div>
+
+    <p/>
+
+    <p>시간 기반으로 스케줄링을 설정할 때 아래 두 가지 중 하나의 방법으로 설정할 수 있다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">Calendaring Syntax</td><td><p>Calendaring Syntax의 문법은 다음과
+            같다.</p><pre class="programlisting">repeat_interval = FREQ=?
+  [; INTERVAL=?] [; BYSECOND=?] [; BYMINUTE=?] [; BYHOUR=?]
+  [; BYMONTHDAY=?] [; BYDAY=?] [;BYMONTH=?]</pre><p>FREQ는 반복 유형을
+            지정하며, 반드시 하나의 단위를 지정해야 한다.</p><p>다음은 FREQ에서 지원하는 반복 단위이다.
+            </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>SECONDLY</p>
+                </li><li style="list-style-type: circle">
+                  <p>MINUTELY</p>
+                </li><li style="list-style-type: circle">
+                  <p>HOURLY</p>
+                </li><li style="list-style-type: circle">
+                  <p>DAILY</p>
+                </li><li style="list-style-type: circle">
+                  <p>WEEKLY</p>
+                </li><li style="list-style-type: circle">
+                  <p>MONTHLY</p>
+                </li><li style="list-style-type: circle">
+                  <p>YEARLY</p>
+                </li></ul></div><p>INTERVAL은 FREQ로 지정한 단위를 얼마나 반복적으로 수행할 지
+            결정하는 파라미터이다. 예를 들어 'FREQ=HOURLY; INTERVAL=3'와 같이 지정할 경우 매 3시간마다
+            수행한다.</p><p>다음은 INTERVAL 외에 사용자 지정 반복
+            단위이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>BYSECOND</p>
+                </li><li style="list-style-type: circle">
+                  <p>BYMINUTE</p>
+                </li><li style="list-style-type: circle">
+                  <p>BYHOUR</p>
+                </li><li style="list-style-type: circle">
+                  <p>BYMONTHDAY</p>
+                </li><li style="list-style-type: circle">
+                  <p>BYDAY</p>
+                </li><li style="list-style-type: circle">
+                  <p>BYMONTH</p>
+                </li></ul></div></td></tr><tr><td align="left">CRON Expression</td><td><p>CRON expression은 앞에서부터 초(0-59), 분(0-59), 시간(0-23),
+            일(1-31), 월(1-12), 주(0-7) 순서로 작성한다.</p><p>다음은 지원하는 특수 문자에 대한
+            설명이다. </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>하이픈(-) : 범위를 지정한다. 예를 들어 '0-59'는 0과 59를 포함한 사이의 값을
+                  의미한다.</p>
+                </li><li style="list-style-type: circle">
+                  <p>애스터리스크(*) : 가능한 모든 값을 의미한다. 예를 들어 초 자리에 '*'를 사용한 경우
+                  '0-59'와 동일한 의미를 갖는다.</p>
+                </li><li style="list-style-type: circle">
+                  <p>콤마(,) : 여러 값을 리스트 형태로 작성할 때 사용한다. 예를 들어 1월, 4월, 7월,
+                  10월로 설정하려는 경우 '1, 4, 7, 10'로 작성한다.</p>
+                </li><li style="list-style-type: circle">
+                  <p>슬래시(/) : 지정한 리스트에서 건너뛸 크기를 지정한다. 예를 들어 '1-12/3'은 '1,
+                  4, 7, 10'과 동일한 의미를 갖는다. 하지만 '1/3'의 경우는 값의 범위가 '1' 하나 뿐이기 때문에
+                  '1'과 동일한 의미를 갖는 점에 유의한다. 또한 애스터리스크(*)와 슬래시(/)를 동시에 사용한 경우
+                  슬래시(/)는 무시된다.</p>
+                </li></ul></div></td></tr></tbody></table>
+    </div>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e12760"/>34.2. 프러시저</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_SCHEDULER 패키지에서 제공하는 프러시저를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_CREATE_CHAIN"/>34.2.1. CREATE_CHAIN<a id="d5e12765" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>새로운 JOB 체인을 생성하는 프러시저이다. 체인은 생성할 때 항상 disabled 상태이기 때문에 사용하기 전에
+      명시적으로 ENABLE 프러시저를 통해 enabled 상태로 변경해야 한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_CHAIN 프러시저<a id="d5e12771" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.CREATE_CHAIN
+(
+    chain_name          IN    VARCHAR2,
+    rule_set_name       IN    VARCHAR2 DEFAULT NULL,
+    evaluation_interval IN    INTERVAL DAY TO SECOND DEFAULT NULL,
+    comments            IN    VARCHAR2 DEFAULT NULL
+); </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">chain_name</td><td>생성할 체인의 이름이다. 이미 생성된 다른 오프젝트 이름과 겹치지 않아야 한다.</td></tr><tr><td align="left">rule_set_name</td><td>현재 사용하지 않는 파라미터이다.</td></tr><tr><td align="left">evaluation_interval</td><td>NULL 값인 경우, JOB이 시작하거나 STEP이 종료한 경우에만 룰에 대한 재평가를
+                  실시한다. 현재 NULL 값만 지원한다.</td></tr><tr><td align="left">comments</td><td>체인의 목적 등을 부가적으로 서술하기 위한 파라미터이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    /* chain_name이라는 이름을 가진 체인을 생성한다. */
+    DBMS_SCHEDULER.CREATE_CHAIN(chain_name          =&gt; 'chain_name',
+                                rule_set_name       =&gt; NULL,
+                                evaluation_interval =&gt; NULL,
+                                comments            =&gt; 'my first job chain');
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_CREATE_JOB"/>34.2.2. CREATE_JOB<a id="d5e12805" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>JOB을 생성하는 프러시저이다. enabled 파라미터를 TRUE로 설정하는 경우 설정한 스케줄에 따라 스케줄러에 의해
+      자동으로 실행된다. 하지만 disabled 상태인 경우 명시적으로 SET_ATTRIBUTE 프러시저를 통해 enabled 상태로
+      변경하기 전까지 실행되지 않는다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_JOB 프러시저<a id="d5e12811" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.CREATE_JOB
+(
+    job_name            IN VARCHAR2,
+    job_type            IN VARCHAR2,
+    job_action          IN VARCHAR2,
+    program_name        IN VARCHAR2 DEFAULT NULL,
+    schedule_name       IN VARCHAR2 DEFAULT NULL,
+    number_of_arguments IN BINARY_INTEGER DEFAULT 0,
+    start_date          IN TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+    repeat_interval     IN VARCHAR2 DEFAULT NULL,
+    event_condition     IN VARCHAR2 DEFAULT NULL,
+    queue_spec          IN VARCHAR2 DEFAULT NULL,
+    end_date            IN TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+    job_class           IN VARCHAR2 DEFAULT 'DEFAULT_JOB_CLASS',
+    enabled             IN BOOLEAN DEFAULT FALSE,
+    auto_drop           IN BOOLEAN DEFAULT TRUE,
+    comments            IN VARCHAR2 DEFAULT NULL,
+    credential_name     IN VARCHAR2 DEFAULT NULL,
+    destination_name    IN VARCHAR2 DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job_name</td><td><p>생성할 JOB의 이름을 지정한다. </p><p>다른 객체와 구분되는
+                  이름으로 지정해야 한다.</p></td></tr><tr><td align="left">job_type</td><td><p>생성할 JOB의 타입을 지정한다. </p><p>지원되는 타입은 아래와
+                  같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>PSM_BLOCK : PSM 코드를 생성하는 JOB이다. JOB에 인자를 전달하는
+                        기능은 지원하지 않으므로 number_of_arguments 파라미터는 0이 되어야
+                        한다.</p>
+                      </li><li>
+                        <p>CHAIN : JOB의 타입이 체인일 경우 지정한다. 체인에 인자를 전달하는 기능은
+                        지원하지 않으므로 number_of_arguments 파라미터는 0이 되어야 한다.</p>
+                      </li></ul></div></td></tr><tr><td align="left">job_action</td><td><p>JOB이 수행할 동작을 지정한다. </p><p>타입별로 아래와 같은 동작을
+                  지정할 수 있다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>PSM_BLOCK : PSM 코드를 지정한다. 반드시 세미콜론으로 끝나야
+                        한다.</p>
+
+                        <p>예를 들어 다음과 같이 설정한다.</p>
+
+                        <pre class="programlisting">BEGIN my_proc(); 
+END; </pre>
+
+                        <p>또는</p>
+
+                        <pre class="programlisting">DECLARE arg pls_integer:= 10; 
+BEGIN my_proc2(arg); 
+END;</pre>
+                      </li><li>
+                        <p>CHAIN : JOB 타입이 체인일 경우 수행할 체인 이름을 지정한다.</p>
+                      </li></ul></div></td></tr><tr><td align="left">program_name</td><td>JOB과 관련된 프로그램 이름을 지정한다. 현재는 타입이 체인인 경우에만
+                  program_name을 사용한다.</td></tr><tr><td align="left">schedule_name</td><td>JOB과 관련된 SCHEDULE의 이름을 지정한다.</td></tr><tr><td align="left">number_of_arguments</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr><tr><td align="left">start_date</td><td><p>스케줄러에 의해서 JOB을 시작할 시간을 지정한다. </p><p>NULL인
+                  경우 현재 시간으로 설정된다. 시스템의 상태에 따라서 시작 시간은 오차가 발생할 수 있다.
+                  repeat_interval에 지정된 식은 이 값을 참조하여 다음 수행 스케줄을
+                  결정한다.</p></td></tr><tr><td align="left">repeat_interval</td><td><p>JOB 수행 주기를 지정한다. NULL 값으로 지정한 경우 한 번만 수행된다. 주기는
+                  Calendaring Syntax 혹은 CRON expression를 이용하여 지정할 수
+                  있다.</p></td></tr><tr><td align="left">event_condition</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr><tr><td align="left">queue_spec</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr><tr><td align="left">end_date</td><td>스케줄러에 의해서 JOB이 마지막으로 수행될 시간을 지정한다.</td></tr><tr><td align="left">job_class</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr><tr><td align="left">enabled</td><td><p>JOB을 생성할 때 enabled 상태를 지정한다.
+                  </p><p>ENABLE, DISABLE 프러시저를 통해 값을 변경할 수 있다.
+                  </p><p>(TRUE/FALSE, 기본값: FALSE)</p></td></tr><tr><td align="left">auto_drop</td><td>수행이 완료된 JOB을 자동으로 삭제할 지 여부를 지정한다.</td></tr><tr><td align="left">comments</td><td>JOB에 대한 주석을 지정한다.</td></tr><tr><td align="left">credential_name</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr><tr><td align="left">destination_name</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+DBMS_SCHEDULER.CREATE_JOB (
+      job_name        =&gt; 'job_name',
+      job_type        =&gt; 'PSM_BLOCK',
+      job_action      =&gt; 'begin my_proc; end;',
+      start_date      =&gt; SYSTIMESTAMP,
+      repeat_interval =&gt; 'FREQ=HOURLY; BYHOUR=1,2,3; BYMINUTE=0; BYSECOND=30',
+      enabled         =&gt; TRUE,
+      comments        =&gt; 'Job defined entirely by the CREATE JOB procedure.');
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_CREATE_PROGRAM"/>34.2.3. CREATE_PROGRAM<a id="d5e12910" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>프로그램을 생성하는 프러시저이다. 현재는 JOB 체인을 생성할 때만 사용된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_PROGRAM 프러시저<a id="d5e12916" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.CREATE_PROGRAM
+(
+    program_name             IN VARCHAR2,
+    program_type             IN VARCHAR2,
+    program_action           IN VARCHAR2,
+    number_of_arguments      IN PLS_INTEGER DEFAULT 0,
+    enabled                  IN BOOLEAN DEFAULT FALSE,
+    comments                 IN VARCHAR2 DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">program_name</td><td>생성할 프로그램의 이름을 지정한다.</td></tr><tr><td align="left">program_type</td><td>생성할 프로그램의 타입을 지정한다. 현재는 'PSM_BLOCK' 타입만 지원한다.</td></tr><tr><td align="left">program_action</td><td><p>프로그램이 수행할 동작을 지정한다. </p><p>타입별로 아래와 같은
+                  동작을 지정할 수 있다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>PSM_BLOCK : PSM 코드를 지정한다. 반드시 세미콜론으로 끝나야
+                        한다.</p>
+
+                        <p>예)</p>
+
+                        <pre class="programlisting">BEGIN my_proc(); 
+END;  </pre><pre class="programlisting">DECLARE arg pls_integer:= 10; 
+BEGIN my_proc2(arg); 
+END; </pre>
+                      </li></ul></div></td></tr><tr><td align="left">number_of_arguments</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr><tr><td align="left">enabled</td><td><p>프로그램을 생성할 때 enabled 상태를 지정한다.
+                  </p><p>ENABLE, DISABLE 프러시저를 통해 값을 변경할 수 있다.
+                  </p><p>(TRUE/FALSE, 기본값: FALSE)</p></td></tr><tr><td align="left">comments</td><td>프로그램에 대한 주석을 지정한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.CREATE_PROGRAM(program_name   =&gt; 'program_name',
+                                  program_type   =&gt; 'PSM_BLOCK',
+                                  program_action =&gt; 'my_job;');
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_CREATE_PROGRAM"/>34.2.4. CREATE_SCHEDULE<a id="d5e12968" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>프로그램을 생성하는 프러시저이다. 현재는 JOB 체인을 생성할 때만 사용된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_SCHEDULE 프러시저<a id="d5e12974" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.CREATE_SCHEDULE
+(
+    schedule_name            IN VARCHAR2,
+    start_date               IN TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+    repeat_interval          IN VARCHAR2,
+    end_date                 IN TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+    comments                 IN VARCHAR2 DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">schedule_name</td><td>생성할 SCHEDULE의 이름을 지정한다.</td></tr><tr><td align="left">start_date</td><td><p>스케줄러에 의해서 SCHEDULE을 시작할 시간을 지정한다.
+                  </p><p>NULL인 경우 현재 시간으로 설정된다. 시스템의 상태에 따라서 시작 시간은 오차가
+                  발생할 수 있다. repeat_interval에 지정된 식은 이 값을 참조하여 다음 수행 스케줄을
+                  결정한다.</p></td></tr><tr><td align="left">repeat_interval</td><td><p>SCHEDULE의 수행 주기를 지정한다. NULL 값으로 지정한 경우 한 번만
+                  수행된다. </p><p>주기는 Calendaring Syntax 혹은 CRON
+                  expression를 이용하여 지정할 수 있다.</p></td></tr><tr><td align="left">end_date</td><td>스케줄러에 의해서 마지막으로 SCHEDULE이 수행될 시간을 지정한다.</td></tr><tr><td align="left">comments</td><td>프로그램에 대한 주석을 지정한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.CREATE_SCHEDULE(
+        schedule_name   =&gt; 'schedule_name',
+        repeat_interval =&gt; 'FREQ=HOURLY; BYHOUR=1,2,3; BYMINUTE=0; BYSECOND=30' 
+    );
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_DEFINE_CHAIN_RULE"/>34.2.5. DEFINE_CHAIN_RULE<a id="d5e13015" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존에 생성된 체인에서 사용할 룰을 지정할 때 사용하는 프러시저이다. condition과 action의 짝으로
+      이루어지며, condition은 SQL 구문의 WHERE 절에 해당하는 문법을 사용하며, action은 START, END 명령과
+      수행할 스텝을 콤마(,)로 구분하여 리스트로 지정한다. JOB 체인 수행 중 condition이 만족되면 해당 action이
+      수행된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DEFINE_CHAIN_RULE 프러시저<a id="d5e13021" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.DEFINE_CHAIN_RULE
+(
+    chain_name              IN VARCHAR2,
+    condition               IN VARCHAR2,
+    action                  IN VARCHAR2,
+    rule_name               IN VARCHAR2 DEFAULT NULL,
+    comments                IN VARCHAR2 DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">chain_name</td><td>룰을 적용할 체인 이름을 지정한다.</td></tr><tr><td align="left">condition</td><td><p>스텝 속성을 조건문 형식으로 지정하여 JOB 체인을 구성하기 위해 사용한다.
+                  </p><p>Boolean expression으로 TRUE로 평가되는 식일 때만 action이
+                  수행된다. 모든 체인은 체인의 시작을 위해서 반드시 TRUE 평가되는 룰을 가져야 한다. 예를 들어
+                  condition은 SQL WHERE clause syntax를 지원하므로 '1=1' 형태의 식을
+                  지정한다.</p><p>condition을 SQL의 형태로 사용할려면 select
+                  statement와 where 절이 와야하는데, 이 경우 chain step attribute(체인 스텝
+                  속성)를 bind variable로 사용할 수 있는데, 사용법은 step_name.attribute와 같다.
+                  </p><p>attribute의 종류에는 completed와 state가
+                  있다.</p><p>state attribute는 'STARTED', 'RUNNING',
+                  'SUCCEEDED', 'FAILED' 값을 가질 수 있다. state attribute가 이 값 중 하나의
+                  값을 갖는다면, completed attribute는 'TRUE'이고, 그렇지 않으면 completed 값은
+                  'FALSE'이다.</p></td></tr><tr><td align="left">action</td><td><p>RULE이 TRUE일 때 수행할 동작을 지정한다. </p><p>다음의
+                  문법을 지원한다. </p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <pre class="programlisting"> START step_1[, step_2 ..] </pre>
+
+                        <p>START step_1[, step_2 ..]는 조건이 참일 때 리스트 형태로 지정된
+                        스텝을 수행한다.</p>
+                      </li><li>
+                        <pre class="programlisting"> END </pre>
+
+                        <p>END는 조건이 참일 때 체인을 종료한다.</p>
+                      </li></ul></div></td></tr><tr><td align="left">rule_name</td><td>생성될 룰의 이름이다.</td></tr><tr><td align="left">comments</td><td>룰에 대한 comment이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p/>
+
+          <pre class="programlisting">BEGIN
+    /* 체인을 시작하기 위한 RULE을 생성한다. */
+    DBMS_SCHEDULER.DEFINE_CHAIN_RULE('chain_name',
+                                     '1=1',
+                                     'start step1',
+                                     'rule1');
+
+    /* step3이 종료되면, 체인을 종료한다. */
+    DBMS_SCHEDULER.DEFINE_CHAIN_RULE('chain_name',
+                                     'step3.completed =''TRUE''',
+                                     'end',
+                                     'rule2');
+
+    /* step1이 성공하면 step3을 수행한다. */ 
+    DBMS_SCHEDULER.DEFINE_CHAIN_RULE('chain_name',
+                                     'step1.state=''SUCCEEDED''',
+                                     'start step3',
+                                     'rule3');
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_DEFINE_CHAIN_STEP"/>34.2.6. DEFINE_CHAIN_STEP<a id="d5e13076" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존의 생성된 체인에 스텝을 지정할 때 사용하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DEFINE_CHAIN_STEP 프러시저<a id="d5e13082" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.DEFINE_CHAIN_STEP
+(
+    chain_name              IN VARCHAR2,
+    step_name               IN VARCHAR2,
+    program_name            IN VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">chain_name</td><td>스텝을 정의할 체인 이름을 지정한다.</td></tr><tr><td align="left">step_name</td><td>스텝 이름을 지정한다.</td></tr><tr><td align="left">program_name</td><td>스텝에서 수행할 프로그램을 지정한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.DEFINE_CHAIN_STEP('chain_name', 'step1', 'program_name');
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_DISABLE"/>34.2.7. DISABLE<a id="d5e13113" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>이 프러시저는 program, job, chain을 disable하기 위해 사용한다. 각 객체의 enabled
+      attribute를 'FALSE'로 설정한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DISABLE 프러시저<a id="d5e13119" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <p/>
+
+          <pre class="programlisting">DBMS_SCHEDULER.DISABLE
+(
+    name              IN VARCHAR2,
+    force             IN BOOLEAN DEFAULT FALSE,
+    commit_semantics  IN VARCHAR2 DEFAULT 'STOP_ON_FIRST_ERROR'
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>속성을 변경할 객체의 이름을 지정한다. 현재 JOB만 지원한다.</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr><tr><td align="left">commit_semantics</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.DISABLE('my_job'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_DROP_CHAIN"/>34.2.8. DROP_CHAIN<a id="d5e13150" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에서 기존 체인을 삭제하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DROP_CHAIN 프러시저<a id="d5e13156" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.DROP_CHAIN 
+(
+    chain_name              IN VARCHAR2,
+    force                   IN BOOLEAN DEFAULT FALSE
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">chain_name</td><td>삭제할 체인의 이름을 지정한다.</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.DROP_CHAIN('my_chain'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_DROP_CHAIN_RULE"/>34.2.9. DROP_CHAIN_RULE<a id="d5e13184" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에서 기존 체인에서 룰을 삭제하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DROP_CHAIN_RULE 프러시저<a id="d5e13190" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.DROP_CHAIN_RULE 
+(
+    chain_name              IN VARCHAR2,
+    rule_name               IN VARCHAR2,
+    force                   IN BOOLEAN DEFAULT FALSE
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">chain_name</td><td>적용할 체인의 이름을 지정한다.</td></tr><tr><td align="left">rule_name</td><td>삭제할 룰의 이름을 지정한다.</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.DROP_CHAIN_RULE('my_chain', 'my_rule1'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_DROP_CHAIN_STEP"/>34.2.10. DROP_CHAIN_STEP<a id="d5e13221" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에서 기존 체인 스텝을 삭제하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DROP_CHAIN_STEP 프러시저<a id="d5e13227" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.DROP_CHAIN_STEP 
+(
+    chain_name              IN VARCHAR2,
+    step_name               IN VARCHAR2,
+    force                   IN BOOLEAN DEFAULT FALSE
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">chain_name</td><td>적용할 체인의 이름을 지정한다.</td></tr><tr><td align="left">step_name</td><td>삭제할 스텝의 이름을 지정한다.</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.DROP_CHAIN_STEP('my_chain', 'my_step1'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_DROP_JOB"/>34.2.11. DROP_JOB<a id="d5e13258" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에서 기존 JOB을 삭제하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DROP_JOB 프러시저<a id="d5e13264" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.DROP_JOB 
+(
+    job_name                IN VARCHAR2,
+    force                   IN BOOLEAN DEFAULT FALSE,
+    defer                   IN BOOLEAN DEFAULT FALSE,
+    commit_semantics        IN VARCHAR2 DEFAULT 'STOP_ON_FIRST_ERROR'
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job_name</td><td>삭제할 JOB의 이름을 지정한다.</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr><tr><td align="left">defer</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr><tr><td align="left">commit_semantics</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.DROP_JOB('my_job'); 
+END; 
+/</pre>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_DROP_PROGRAM"/>34.2.12. DROP_PROGRAM<a id="d5e13300" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에서 기존 프로그램을 삭제하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DROP_PROGRAM 프러시저<a id="d5e13306" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.DROP_PROGRAM 
+(
+    program_name            IN VARCHAR2,
+    force                   IN BOOLEAN DEFAULT FALSE
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">program_name</td><td>삭제할 프로그램 이름을 지정한다.</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.DROP_PROGRAM('my_program'); 
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_DROP_PROGRAM"/>34.2.13. DROP_SCHEDULE<a id="d5e13334" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에서 기존 SCHEDULE을 삭제하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DROP_SCHEDULE 프러시저<a id="d5e13340" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.DROP_SCHEDULE
+(
+    schedule_name           IN VARCHAR2,
+    force                   IN BOOLEAN DEFAULT FALSE
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">schedule_name</td><td>삭제할 SCHEDULE의 이름을 지정한다.</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.DROP_SCHEDULE('my_schedule'); 
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_ENABLE"/>34.2.14. ENABLE<a id="d5e13368" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>이 프러시저는 program, job, chain을 enable하기 위해 사용한다. 각 객체의 enabled
+      attribute를 'TRUE'로 설정한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>ENABLE 프러시저<a id="d5e13374" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <p/>
+
+          <pre class="programlisting">DBMS_SCHEDULER.ENABLE
+(
+    name              IN VARCHAR2,
+    commit_semantics  IN VARCHAR2 DEFAULT 'STOP_ON_FIRST_ERROR'
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>속성을 변경할 객체의 이름을 지정한다. 현재 JOB만 지원한다.</td></tr><tr><td align="left">commit_semantics</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.ENABLE('my_job'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_ENABLE"/>34.2.15. PURGE_LOG<a id="d5e13402" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>이 프러시저는 기록된 log를 지워준다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>PURGE_LOG 프러시저<a id="d5e13408" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <p/>
+
+          <pre class="programlisting">DBMS_SCHEDULER.PURGE_LOG
+(
+    log_history       IN PLS_INTEGER DEFAULT 0,
+    which_log         IN VARCHAR2 DEFAULT 'JOB_LOG',
+    job_name          IN VARCHAR2 DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">log_history</td><td>log의 내용 중 해당 설정값 이상의 내용들을 삭제한다.</td></tr><tr><td align="left">which_log</td><td>log를 삭제할 객체의 타입을 지정한다. 현재는 'JOB_LOG'만 지원한다.</td></tr><tr><td align="left">job_name</td><td>log를 삭제할 객체의 이름을 지정한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.PURGE_LOG(); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_RUN_JOB"/>34.2.16. RUN_JOB<a id="d5e13439" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>일반적으로 JOB이 enabled 상태이면 스케줄러에 의해서 자동으로 수행되지만, 이와는 별개로 수동으로 JOB을
+      수행하기 위한 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>RUN_JOB 프러시저<a id="d5e13445" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <p/>
+
+          <pre class="programlisting">DBMS_SCHEDULER.RUN_JOB
+(
+    name                    IN VARCHAR2,
+    use_current_session     IN BOOLEAN DEFAULT TRUE
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>수행할 JOB 이름을 지정한다.</td></tr><tr><td align="left">use_current_session</td><td>지원되지 않는 기능이므로 값을 무시한다. 항상 현재 세션으로 수행된다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.RUN_JOB('my_job'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_SET_ATTRIBUTE"/>34.2.17. SET_ATTRIBUTE<a id="d5e13473" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>job, program, chain 객체의 속성을 변경하기 위한 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SET_ATTRIBUTE 프러시저<a id="d5e13479" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.SET_ATTRIBUTE
+(
+    name           IN VARCHAR2,
+    attribute      IN VARCHAR2,
+    value          IN {BINARY_INTEGER|BOOLEAN|VARCHAR2}
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>attribute를 변경할 객체의 이름을 지정한다.</td></tr><tr><td align="left">attribute</td><td><p>변경할 attribute를 지정한다. </p><p>다음의
+                  attribute들은 BINARY_INTEGER 속성 변경을 지원한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>instance_id(instance_id 값은 JOB을 수행할 TAC 노드 인스턴스를
+                        지정하며, 0인 경우 any_instance에 해당한다.)</p>
+                      </li><li>
+                        <p>job_priority</p>
+                      </li><li>
+                        <p>max_runs</p>
+                      </li><li>
+                        <p>max_failures</p>
+                      </li><li>
+                        <p>logging_level</p>
+                      </li><li>
+                        <p>schedule_limit</p>
+                      </li></ul></div><p>다음의 attribute들은 BOOLEAN 속성 변경을
+                  지원한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>auto_drop</p>
+                      </li><li>
+                        <p>restartable</p>
+                      </li></ul></div><p>다음의 attribute들은 VARCHAR2 속성 변경을
+                  지원한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>job_action</p>
+                      </li><li>
+                        <p>repeat_interval</p>
+                      </li><li>
+                        <p>program_action</p>
+                      </li><li>
+                        <p>auto_drop ('TRUE'와 'FALSE'만 지원)</p>
+                      </li><li>
+                        <p>restartable ('TRUE'와 'FALSE'만 지원)</p>
+                      </li></ul></div></td></tr><tr><td align="left">value</td><td>변경할 값을 지정한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    /* JOB을 수행할 TAC node instance_id를 0으로(any instance) 설정한다. */
+    DBMS_SCHEDULER.SET_ATTRIBUTE('my_job', 'INSTANCE_ID', 0); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_SET_ATTRIBUTE"/>34.2.18. SET_ATTRIBUTE_NULL<a id="d5e13543" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>job, program, chain 객체의 속성을 NULL로 변경하기 위한 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SET_ATTRIBUTE_NULL 프러시저<a id="d5e13549" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.SET_ATTRIBUTE_NULL
+(
+    name           IN VARCHAR2,
+    attribute      IN VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>attribute를 변경할 객체의 이름을 지정한다.</td></tr><tr><td align="left">attribute</td><td><p>변경할 attribute를 지정한다. </p><p>다음의
+                  attribute를 지원한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>max_failures</p>
+                      </li><li>
+                        <p>max_runs</p>
+                      </li><li>
+                        <p>schedule_limit</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    /* MAX_FAILURES를 NULL로 변경한다. */
+    DBMS_SCHEDULER.SET_ATTRIBUTE_NULL('my_job', 'MAX_FAILURES'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SCHEDULER_STOP_JOB"/>34.2.19. STOP_JOB<a id="d5e13586" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에서 현재 실행 중인 JOB을 중지하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>STOP_JOB 프러시저<a id="d5e13592" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SCHEDULER.STOP_JOB 
+(
+    job_name                IN VARCHAR2,
+    force                   IN BOOLEAN DEFAULT FALSE,
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job_name</td><td>중지할 JOB의 이름을 지정한다.</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_SCHEDULER.STOP_JOB('my_job');
+END; 
+/</pre>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_rowid.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_session.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제33장 DBMS_ROWID </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제35장 DBMS_SESSION</td></tr></table></div><div xmlns="" align="center"/></body></html>

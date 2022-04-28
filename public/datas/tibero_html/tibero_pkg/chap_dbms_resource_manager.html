@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제30장 DBMS_RESOURCE_MANAGER</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_repair.html" title="제29장 DBMS_REPAIR"/><link rel="next" href="chap_dbms_result_cache.html" title="제31장 DBMS_RESULT_CACHE"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제30장 DBMS_RESOURCE_MANAGER</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_repair.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_result_cache.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_resource_manager"/>제30장 DBMS_RESOURCE_MANAGER</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_resource_manager.html#d5e11311">30.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#d5e11350">30.2. 프러시저</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_CREATE_CONSUMER_GROUP">30.2.1. CREATE_CONSUMER_GROUP</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_CREATE_PLAN">30.2.2. CREATE_PLAN</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_CREATE_PLAN_DIRECTIVE">30.2.3. CREATE_PLAN_DIRECTIVE</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_CREATE_SIMPLE_PLAN">30.2.4. CREATE_SIMPLE_PLAN</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_DELETE_CONSUMER_GROUP">30.2.5. DELETE_CONSUMER_GROUP</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_DELETE_PLAN">30.2.6. DELETE_PLAN</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_DELETE_PLAN_DIRECTIVE">30.2.7. DELETE_PLAN_DIRECTIVE</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_SET_CONSUMER_GROUP_MAPPING">30.2.8. SET_CONSUMER_GROUP_MAPPING</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_SWITCH_PLAN">30.2.9. SWITCH_PLAN</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_UPDATE_CONSUMER_GROUP">30.2.10. UPDATE_CONSUMER_GROUP</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_UPDATE_PLAN">30.2.11. UPDATE_PLAN</a></span></dt><dt><span class="section"><a href="chap_dbms_resource_manager.html#DBMS_RESOURCE_MANAGER_UPDATE_PLAN_DIRECTIVE">30.2.12. UPDATE_PLAN_DIRECTIVE</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_RESOURCE_MANAGER 패키지의 기본 개념과 패키지 내의 프러시저를 사용하는 방법을
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e11311"/>30.1. 개요</h2></div></div></div>
+    
+
+    <p><span>Tibero</span>에서는 DBMS_RESOURCE_MANAGER를 이용해서 업무의 성격에 따라 그룹을 나누어 자원을
+    분배할 수 있다. 예를 들어 자원이 제한된 상황에서 OLTP 업무와 batch 업무를 동시에 진행하고 싶을 때, batch 업무에
+    쓰이는 자원을 OLTP 업무로 몰아주어서 OLTP 업무의 효율성을 높일 수 있다.</p>
+
+    <p><span><strong class="guibutton">DBMS_RESOURCE_MANAGER</strong></span><a id="d5e11317" class="indexterm"/>은 CPU 자원과 같이 업무를 수행하는 데에 필요한 자원을 업무 성격에 따라 원하는대로 효율적으로 재분배하는
+    기능을 제공하는 패키지이다. DBMS_RESOURCE_MANAGER 패키지 내의 프러시저를 이용하여, RESOURCE PLAN을
+    데이터베이스에 추가하고 자원 재분배 방식을 원하는대로 설정해서 적용할 수 있다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 DBMS_RESOURCE_MANAGER 패키지의 특징이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>USE_RESOURCE_MANAGER 파라미터가 Y로 설정되어 있어야 패키지가 제대로 동작한다.</p>
+      </li><li>
+        <p>DBMS_SCHEDULER 패키지의 사용할 때 DBA 권한이 필요하며, 추가된 RSRC PLAN은 오직 PLAN의
+        소유자만 실행하거나 변경할 수 있다.</p>
+      </li><li>
+        <p>자원 재분배 방식을 결정하는 CONSUMER GROUP, CONSUMER GROUP MAPPING, RSRC
+        PLAN DIRECTIVE를 추가할 수 있다.</p>
+      </li><li>
+        <p>현재 데이터베이스에 추가된 RSRC PLAN, CONSUMER GROUP, RSRC PLAN DIRECTIVE 등의
+        정보는 다음 뷰를 통해 확인이 가능하다.</p>
+      </li><li>
+        <p>RSRC PLAN 변경 히스토리가 PLAN 이름 및 TIME 정보와 함께 기록되어 AUDIT 뷰를 통해 확인이
+        가능하다.</p>
+
+        <pre class="programlisting">DBA_RSRC_PLANS
+DBA_RSRC_CONSUMER_GROUPS
+DBA_RSRC_PLAN_DIRECTIVES
+DBA_RSRC_AUDIT
+</pre>
+      </li><li>
+        <p>적용되어 있는 ACTIVE PLAN 관련 RSRC PLAN, CONSUMER GROUP, SESSION 등의 정보는
+        다음 뷰를 통해 확인이 가능하다.</p>
+
+        <pre class="programlisting">V$SESSION
+V$RSRC_PLAN
+V$RSRC_CONSUMER_GROUPS
+V$RSRC_SESSION_INFO
+</pre>
+      </li><li>
+        <p>여러 개의 RSRC PLAN, CONSUMER GROUP, RSRC PLAN DIRECTIVE를 추가할 수 있으며
+        그 중 하나의 PLAN을 적용할 수 있다.</p>
+      </li><li>
+        <p>아무런 RSRC PLAN이 적용되지 않았을 때는 하나의 DEFAULT CONSUMER GROUP을 가진
+        DEFAULT RESOURCE PLAN이 적용되어 있다.</p>
+      </li><li>
+        <p>PLAN 적용 시 어떤 CONSUMER GROUP에도 속하지 않는 세션들은 전부 DEFAULT CONSUMER
+        GROUP에 속하게 된다.</p>
+      </li><li>
+        <p>DEFAULT CONSUMER GROUP의 최소 자원 보장을 위해 모든 CONSUMER GROUP에 할당된 CPU의
+        합이 100 미만이어야 한다.</p>
+      </li></ul></div>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e11350"/>30.2. 프러시저</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_RESOURCE_MANAGER 패키지에서 제공하는 프러시저를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_CREATE_CONSUMER_GROUP"/>30.2.1. CREATE_CONSUMER_GROUP<a id="d5e11355" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>새로운 CONSUMER GROUP을 생성하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_CONSUMER_GROUP 프러시저<a id="d5e11361" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.CREATE_CONSUMER_GROUP
+(
+    consumer_group      IN VARCHAR2,
+    category            IN VARCHAR2,
+    comments            IN VARCHAR2
+); </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">consumer_group</td><td>생성할 CONSUMER GROUP의 이름이다. 이미 생성된 다른 CONSUMER GROUP
+                  이름과 겹치지 않아야 한다.</td></tr><tr><td align="left">category</td><td>CONSUMER GROUP이 속하는 CATEGORY를 지정하기 위한 파라미터이다.</td></tr><tr><td align="left">comments</td><td>CONSUMER GROUP의 목적 등을 부가적으로 서술하기 위한 파라미터이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.CREATE_CONSUMER_GROUP(
+        consumer_group      =&gt; 'group s',
+        category            =&gt; 'default',
+        comments            =&gt; 'consumer group for sys users');
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_CREATE_PLAN"/>30.2.2. CREATE_PLAN<a id="d5e11392" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>새로운 RESOURCE PLAN을 생성하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_PLAN 프러시저<a id="d5e11398" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.CREATE_PLAN
+(
+    plan                IN VARCHAR2,
+    comments            IN VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">plan</td><td>생성할 RESOURCE PLAN의 이름이다. 이미 생성된 다른 PLAN 이름과 겹치지 않아야
+                  한다.</td></tr><tr><td align="left">comments</td><td>RESOURCE PLAN의 목적 등을 부가적으로 서술하기 위한 파라미터이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.CREATE_PLAN(
+        plan                =&gt; 'plan t',
+        comments            =&gt; 'resource plan for tibero');
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_CREATE_PLAN_DIRECTIVE"/>30.2.3. CREATE_PLAN_DIRECTIVE<a id="d5e11426" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>새로운 RESOURCE PLAN DIRECTIVE를 생성하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_PLAN_DIRECTIVE 프러시저<a id="d5e11432" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.CREATE_PLAN_DIRECTIVE
+(
+    plan                IN VARCHAR2,
+    group_or_subplan    IN VARCHAR2,
+    comments            IN VARCHAR2,
+    mgmt_p1             IN NUMBER DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">plan</td><td>PLAN DIRECTIVE가 적용되어야 하는 대상 RESOURCE PLAN의
+                  이름이다.</td></tr><tr><td align="left">group_or_subplan</td><td>PLAN DIRECTIVE가 적용되어야 하는 대상 CONSUMER GROUP 혹은
+                  SUBPLAN의 이름이다.</td></tr><tr><td align="left">comments</td><td>PLAN DIRECTIVE의 목적 등을 부가적으로 서술하기 위한 파라미터이다.</td></tr><tr><td align="left">mgmt_p1</td><td>PLAN DIRECTIVE에서 목표로 하는 CPU 자원의 사용률을 백분율로 나타낸
+                  값이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.CREATE_PLAN_DIRECTIVE(
+        plan                =&gt; 'plan t',
+        group_or_subplan    =&gt; 'group s',
+        comments            =&gt; 'plan directive for sys users',
+        mgmt_p1             =&gt; 60);
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_CREATE_SIMPLE_PLAN"/>30.2.4. CREATE_SIMPLE_PLAN<a id="d5e11466" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>8개 이하의 CONSUMER GROUP과 목표 CPU 사용량을 주어서 바로 간단한 RESOURCE PLAN을 생성하는
+      프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_SIMPLE_PLAN 프러시저<a id="d5e11472" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.CREATE_SIMPLE_PLAN
+(
+    simple_plan         IN VARCHAR2 DEFAULT NULL,
+    consumer_group1     IN VARCHAR DEFAULT NULL,
+    consumer_group2     IN VARCHAR DEFAULT NULL,
+    consumer_group3     IN VARCHAR DEFAULT NULL,
+    consumer_group4     IN VARCHAR DEFAULT NULL,
+    consumer_group5     IN VARCHAR DEFAULT NULL,
+    consumer_group6     IN VARCHAR DEFAULT NULL,
+    consumer_group7     IN VARCHAR DEFAULT NULL,
+    consumer_group8     IN VARCHAR DEFAULT NULL,
+    group1_percent      IN NUMBER DEFAULT NULL,
+    group2_percent      IN NUMBER DEFAULT NULL,
+    group3_percent      IN NUMBER DEFAULT NULL,
+    group4_percent      IN NUMBER DEFAULT NULL,
+    group5_percent      IN NUMBER DEFAULT NULL,
+    group6_percent      IN NUMBER DEFAULT NULL,
+    group7_percent      IN NUMBER DEFAULT NULL,
+    group8_percent      IN NUMBER DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">simple_plan</td><td>생성할 RESOURCE PLAN의 이름이다. 이미 생성된 다른 PLAN 이름과 겹치지 않아야
+                  한다.</td></tr><tr><td align="left">consumer_group1</td><td>생성할 1번째 CONSUMER GROUP의 이름이다. 이미 생성된 다른 CONSUMER
+                  GROUP 이름과 겹치지 않아야 한다.</td></tr><tr><td align="left">consumer_group2</td><td>생성할 2번째 CONSUMER GROUP의 이름이다. 이미 생성된 다른 CONSUMER
+                  GROUP 이름과 겹치지 않아야 한다.</td></tr><tr><td align="left">consumer_group3</td><td>생성할 3번째 CONSUMER GROUP의 이름이다. 이미 생성된 다른 CONSUMER
+                  GROUP 이름과 겹치지 않아야 한다.</td></tr><tr><td align="left">consumer_group4</td><td>생성할 4번째 CONSUMER GROUP의 이름이다. 이미 생성된 다른 CONSUMER
+                  GROUP 이름과 겹치지 않아야 한다.</td></tr><tr><td align="left">consumer_group5</td><td>생성할 5번째 CONSUMER GROUP의 이름이다. 이미 생성된 다른 CONSUMER
+                  GROUP 이름과 겹치지 않아야 한다.</td></tr><tr><td align="left">consumer_group6</td><td>생성할 6번째 CONSUMER GROUP의 이름이다. 이미 생성된 다른 CONSUMER
+                  GROUP 이름과 겹치지 않아야 한다.</td></tr><tr><td align="left">consumer_group7</td><td>생성할 7번째 CONSUMER GROUP의 이름이다. 이미 생성된 다른 CONSUMER
+                  GROUP 이름과 겹치지 않아야 한다.</td></tr><tr><td align="left">consumer_group8</td><td>생성할 8번째 CONSUMER GROUP의 이름이다. 이미 생성된 다른 CONSUMER
+                  GROUP 이름과 겹치지 않아야 한다.</td></tr><tr><td align="left">group1_percent</td><td>1번째 CONSUMER GROUP에게 지정할 목표 CPU 자원 사용량을 백분율로 나타낸
+                  값이다.</td></tr><tr><td align="left">group2_percent</td><td>2번째 CONSUMER GROUP에게 지정할 목표 CPU 자원 사용량을 백분율로 나타낸
+                  값이다.</td></tr><tr><td align="left">group3_percent</td><td>3번째 CONSUMER GROUP에게 지정할 목표 CPU 자원 사용량을 백분율로 나타낸
+                  값이다.</td></tr><tr><td align="left">group4_percent</td><td>4번째 CONSUMER GROUP에게 지정할 목표 CPU 자원 사용량을 백분율로 나타낸
+                  값이다.</td></tr><tr><td align="left">group5_percent</td><td>5번째 CONSUMER GROUP에게 지정할 목표 CPU 자원 사용량을 백분율로 나타낸
+                  값이다.</td></tr><tr><td align="left">group6_percent</td><td>6번째 CONSUMER GROUP에게 지정할 목표 CPU 자원 사용량을 백분율로 나타낸
+                  값이다.</td></tr><tr><td align="left">group7_percent</td><td>7번째 CONSUMER GROUP에게 지정할 목표 CPU 자원 사용량을 백분율로 나타낸
+                  값이다.</td></tr><tr><td align="left">group8_percent</td><td>8번째 CONSUMER GROUP에게 지정할 목표 CPU 자원 사용량을 백분율로 나타낸
+                  값이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p/>
+
+          <pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.CREATE_SIMPLE_PLAN(
+        simple_plan         =&gt; 'plan s',
+        consumer_group 1    =&gt; 'group 1',
+        consumer_group 2    =&gt; 'group 2',
+        consumer_group 3    =&gt; 'group 3',
+        consumer_group 4    =&gt; 'group 4',
+        consumer_group 5    =&gt; 'group 5',
+        consumer_group 6    =&gt; 'group 6',
+        consumer_group 7    =&gt; 'group 7',
+        consumer_group 8    =&gt; 'group 8',
+        group1_percent      =&gt; '20',
+        group1_percent      =&gt; '20',
+        group1_percent      =&gt; '10',
+        group1_percent      =&gt; '10',
+        group1_percent      =&gt; '10',
+        group1_percent      =&gt; '10',
+        group1_percent      =&gt; '10',
+        group1_percent      =&gt; '10');
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_DELETE_CONSUMER_GROUP"/>30.2.5. DELETE_CONSUMER_GROUP<a id="d5e11547" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존에 생성된 CONSUMER GROUP을 삭제할 때 사용하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DELETE_CONSUMER_GROUP 프러시저<a id="d5e11553" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.DELETE_CONSUMER_GROUP
+(
+    consumer_group      IN VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">consumer_group</td><td>삭제할 CONSUMER GROUP의 이름이다. 대상 CONSUMER GROUP이 존재해야
+                  한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.DELETE_CONSUMER_GROUP(
+        consumer_group    =&gt; 'group s');
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_DELETE_PLAN"/>30.2.6. DELETE_PLAN<a id="d5e11578" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존에 생성된 RESOURCE PLAN을 삭제할 때 사용하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DELETE_PLAN 프러시저<a id="d5e11584" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <p/>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.DELETE_PLAN
+(
+    plan                IN VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">plan</td><td>삭제할 RESOURCE PLAN의 이름이다. 대상 RESOURCE PLAN이 존재해야
+                  한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.DELETE_PLAN(
+        plan                =&gt; 'plan t'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_DELETE_PLAN_DIRECTIVE"/>30.2.7. DELETE_PLAN_DIRECTIVE<a id="d5e11609" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존에 생성된 PLAN DIRECTIVE를 삭제할 때 사용하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DELETE_PLAN_DIRECTIVE 프러시저<a id="d5e11615" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.DELETE_PLAN_DIRECTIVE
+(
+    plan                IN VARCHAR2,
+    group_or_subplan    IN VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">plan</td><td>삭제할 PLAN DIRECTIVE가 대상으로 하는 RESOURCE PLAN의
+                  이름이다.</td></tr><tr><td align="left">group_or_subplan</td><td>삭제할 PLAN DIRECTIVE가 대상으로 하는 CONSUMER GROUP 혹은
+                  SUBPLAN의 이름이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.DELETE_PLAN_DIRECTIVE(
+        plan                =&gt; 'plan t',
+        group_or_subplan    =&gt; 'group s'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_SET_CONSUMER_GROUP_MAPPING"/>30.2.8. SET_CONSUMER_GROUP_MAPPING<a id="d5e11643" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존에 생성된 CONSUMER GROUP에 세션을 지정하는 MAPPING RULE을 만들 때 사용하는
+      프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SET_CONSUMER_GROUP_MAPPING 프러시저<a id="d5e11649" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.SET_CONSUMER_GROUP_MAPPING
+(
+    attribute           IN VARCHAR2,
+    value               IN VARCHAR2,
+    consumer_group      IN VARCHAR2 DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">attribute</td><td>어떤 항목을 기준으로 세션을 CONSUMER GROUP으로 MAPPING 할 것인지를
+                  지정한다.</td></tr><tr><td align="left">value</td><td>어떤 값을 기준으로 세션을 CONSUMER GROUP으로 MAPPING 할 것인지를
+                  지정한다.</td></tr><tr><td align="left">consumer_group</td><td>생성할 MAPPING RULE이 대상으로 하는 CONSUMER_GROUP의
+                  이름이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>지원되는 attribute</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">attribute</th><th>설명</th></tr></thead><tbody><tr><td align="left">MODULE_NAME_ACTION</td><td>세션에 지정된 module name과 action 항목이 같은 session을 지정된
+                  CONSUMER GROUP으로 매핑한다.</td></tr><tr><td align="left">MODULE_NAME</td><td>세션에 지정된 module name 항목이 같은 session을 지정된 CONSUMER
+                  GROUP으로 매핑한다.</td></tr><tr><td align="left">DATABASE_USER</td><td>세션에 지정된 database user 항목이 같은 session을 지정된 CONSUMER
+                  GROUP으로 매핑한다.</td></tr><tr><td align="left">CLIENT_PROGRAM</td><td>세션에 지정된 program 항목이 같은 session을 지정된 CONSUMER GROUP으로
+                  매핑한다.</td></tr><tr><td align="left">CLIENT_OS_USER</td><td>세션에 지정된 os user 항목이 같은 session을 지정된 CONSUMER GROUP으로
+                  매핑한다.</td></tr><tr><td align="left">CLIENT_MACHINE</td><td>세션에 지정된 machine 항목이 같은 session을 지정된 CONSUMER GROUP으로
+                  매핑한다.</td></tr><tr><td align="left">CLIENT_ID</td><td>세션에 지정된 client identifier 항목이 같은 session을 지정된
+                  CONSUMER GROUP으로 매핑한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.SET_CONSUMER_GROUP_MAPPING(
+        attribute           =&gt; 'database_user',
+        value               =&gt; 'sys',
+        consumer_group      =&gt; 'group s'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_SWITCH_PLAN"/>30.2.9. SWITCH_PLAN<a id="d5e11711" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존에 생성된 RESOURCE PLAN을 데이터베이스에 적용할 때 사용하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SWITCH_PLAN 프러시저<a id="d5e11717" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.SWITCH_PLAN
+(
+    switch_plan         IN VARCAHR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">switch_plan</td><td>적용할 RESOURCE PLAN의 이름이다. 대상 RESOURCE PLAN이 존재해야
+                  한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.SWITCH_PLAN(
+        switch_plan         =&gt; 'plan t'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_UPDATE_CONSUMER_GROUP"/>30.2.10. UPDATE_CONSUMER_GROUP<a id="d5e11742" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존에 생성된 CONSUMER GROUP의 정보를 변경할 때 사용하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>UPDATE_CONSUMER_GROUP 프러시저<a id="d5e11748" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.UPDATE_CONSUMER_GROUP
+(
+    consumer_group      IN VARCHAR2,
+    new_category        IN VARCHAR2 DEFAULT NULL,
+    new_comments        IN VARCHAR2 DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">consumer_group</td><td>변경할 CONSUMER GROUP의 이름이다. 대상 CONSUMER GROUP이 존재해야
+                  한다.</td></tr><tr><td align="left">new_category</td><td>CONSUMER GROUP이 속하는 CATEGORY를 지정하기 위한 파라미터이다.</td></tr><tr><td align="left">new_comments</td><td>CONSUMER GROUP의 목적 등을 부가적으로 서술하기 위한 파라미터이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.UPDATE_CONSUMER_GROUP(
+        consumer_group      =&gt; 'group s',
+        new_cateogry        =&gt; 'default',
+        new_comments        =&gt; 'consumer group for sys users'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_UPDATE_PLAN"/>30.2.11. UPDATE_PLAN<a id="d5e11779" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존에 생성된 RESOURCE _PLAN의 정보를 변경할 때 사용하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>UPDATE_PLAN 프러시저<a id="d5e11785" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.UPDATE_PLAN
+(
+    plan                IN VARCHAR2,
+    new_comments        IN VARCHAR2 DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">plan</td><td>변경할 RESOURCE PLAN의 이름이다. 대상 RESOURCE PLAN이 존재해야
+                  한다.</td></tr><tr><td align="left">new_comments</td><td>RESOURCE PLAN의 목적 등을 부가적으로 서술하기 위한 파라미터이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.UPDATE_PLAN(
+        plan                =&gt; 'plan t',
+        new_comments        =&gt; 'resource plan for tibero'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_RESOURCE_MANAGER_UPDATE_PLAN_DIRECTIVE"/>30.2.12. UPDATE_PLAN_DIRECTIVE<a id="d5e11813" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존에 생성된 PLAN_DIRECTIVE의 정보를 변경할 때 사용하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>UPDATE_PLAN_DIRECTIVE 프러시저<a id="d5e11819" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_RESOURCE_MANAGER.UPDATE_PLAN_DIRECTIVE
+(
+    plan                IN VARCHAR2,
+    group_or_subplan    IN VARCHAR2,
+    new_comments        IN VARCHAR2 DEFAULT NULL,
+    mgmt_p1             IN NUMBER DEFAULT NULL
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">plan</td><td>변경할 PLAN DIRECTIVE가 대상으로 하는 RESOURCE PLAN의
+                  이름이다.</td></tr><tr><td align="left">group_or_subplan</td><td>변경할 PLAN DIRECTIVE가 대상으로 하는 CONSUMER_GROUP 또는
+                  SUBPLAN의 이름이다.</td></tr><tr><td align="left">new_comments</td><td>PLAN DIRECTIVE의 목적 등을 부가적으로 서술하기 위한 파라미터이다.</td></tr><tr><td align="left">mgmt_p1</td><td>PLAN DIRECTIVE에서 목표로 하는 CPU 자원의 사용률을 백분율로 나타낸
+                  값이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+    DBMS_RESOURCE_MANAGER.UPDATE_PLAN_DIRECTIVE(
+        plan                =&gt; 'plan t',
+        group_or_subplan    =&gt; 'group s',
+        new_comments        =&gt; 'plan directive for sys users',
+        mgmt_p1             =&gt; 60); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_repair.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_result_cache.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제29장 DBMS_REPAIR </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제31장 DBMS_RESULT_CACHE</td></tr></table></div><div xmlns="" align="center"/></body></html>

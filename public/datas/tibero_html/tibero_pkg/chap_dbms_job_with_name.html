@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제17장 DBMS_JOB_WITH_NAME</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_job.html" title="제16장 DBMS_JOB"/><link rel="next" href="chap_dbms_lob.html" title="제18장 DBMS_LOB"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제17장 DBMS_JOB_WITH_NAME</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_job.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_lob.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_job_with_name"/>제17장 DBMS_JOB_WITH_NAME</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_job_with_name.html#d5e4687">17.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_job_with_name.html#d5e4709">17.2. 프러시저</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_BROKEN">17.2.1. BROKEN</a></span></dt><dt><span class="section"><a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_CHANGE">17.2.2. CHANGE</a></span></dt><dt><span class="section"><a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_INTERVAL">17.2.3. INTERVAL</a></span></dt><dt><span class="section"><a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_NAME">17.2.4. NAME</a></span></dt><dt><span class="section"><a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_NEXT_DATE">17.2.5. NEXT_DATE</a></span></dt><dt><span class="section"><a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_REMOVE">17.2.6. REMOVE</a></span></dt><dt><span class="section"><a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_RUN">17.2.7. RUN</a></span></dt><dt><span class="section"><a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_SUBMIT">17.2.8. SUBMIT</a></span></dt><dt><span class="section"><a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_WHAT">17.2.9. WHAT</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_JOB_WITH_NAME 패키지의 기본 개념과 패키지 내의 프러시저를 사용하는 방법을
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4687"/>17.1. 개요</h2></div></div></div>
+    
+
+    <p><span>Tibero</span>에서는 주기적으로 데이터베이스에 추가된 JOB을 검사하여, 사용자가 설정한 시각이 되면 해당하는
+    JOB을 실행한다.</p>
+
+    <p><span><strong class="guibutton">DBMS_JOB_WITH_NAME</strong></span><a id="d5e4693" class="indexterm"/>은 PSM에서 사용 가능한 문장을 JOB으로 등록하고, 이 JOB을 실행할 수 있는 연산을 제공하는
+    패키지이다. DBMS_JOB_WITH_NAME 패키지 내의 프러시저를 이용하여, JOB을 데이터베이스에 추가하고 바로 실행하거나
+    정해진 시각에 실행되도록 설정할 수 있다. 기본적으로 DBMS_JOB 패키지와 동일한 기능을 제공하며, JOB ID 대신 name을
+    통한 관리를 지원한다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 DBMS_JOB_WITH_NAME 패키지의 특징이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>DBMS_JOB_WITH_NAME 패키지의 사용할 때 DBA 권한은 필요하지 않으며, 추가된 JOB은 오직 JOB의
+        소유자만 실행하거나 변경할 수 있다.</p>
+      </li><li>
+        <p>JOB을 추가 또는 변경하는 경우 커밋을 실행하지 않아도 자동으로 커밋되며, JOB 내에서 실행한 작업도 자동으로
+        커밋된다.</p>
+      </li><li>
+        <p>현재 데이터베이스에 추가된 JOB은 DBA_JOBS_WITH_NAME, ALL_JOBS_WITH_NAME,
+        USER_JOBS_WITH_NAME 뷰를 통해 확인할 수 있다.</p>
+      </li><li>
+        <p>JOB 실행이 실패한 경우에는 재실행되며, 16번 실패하게 되면 해당 JOB은 broken 상태가
+        된다.</p>
+      </li><li>
+        <p>실행 중인 JOB을 정지할 수 있는 기능은 제공하지 않는다.</p>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4709"/>17.2. 프러시저</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_JOB_WITH_NAME 패키지에서 제공하는 프러시저를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_JOB_WITH_NAME_BROKEN"/>17.2.1. BROKEN<a id="d5e4714" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>저장된 JOB의 상태를 정상 또는 broken 상태로 설정하는 프러시저이다. broken되어 있던 JOB을 정상 상태로
+      만들 경우 JOB의 다음 실행 시각을 설정할 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>BROKEN 프러시저<a id="d5e4720" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_JOB_WITH_NAME.BROKEN
+(
+    job         IN   VARCHAR2,
+    broken      IN   BOOLEAN,
+    next_date   IN   DATE DEFAULT SYSDATE
+); </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job</td><td>실행할 JOB의 이름이다.</td></tr><tr><td align="left">broken</td><td><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>TRUE : JOB이 broken된 경우</p>
+                      </li><li>
+                        <p>FALSE : 정상 상태인 경우</p>
+                      </li></ul></div></td></tr><tr><td align="left">next_date</td><td><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>broken이 TRUE인 경우 무시한다.</p>
+                      </li><li>
+                        <p>broken이 FALSE인 경우 다음 실행 시각을 설정한다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    <em class="lineannotation"><span class="lineannotation">/* broken된 JOB을 정상 상태로 변경하고, 한 시간 뒤 실행하도록 수정한다. */</span></em>
+    DBMS_JOB_WITH_NAME.BROKEN('job_name_here', false, sysdate + 1/24); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_JOB_WITH_NAME_CHANGE"/>17.2.2. CHANGE<a id="d5e4763" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>저장된 JOB의 필드를 변경하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CHANGE 프러시저<a id="d5e4769" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_JOB_WITH_NAME.CHANGE
+(
+    job           IN   VARCHAR2,
+    what          IN   VARCHAR2,
+    next_date     IN   DATE,
+    interval      IN   VARCHAR2,
+    instance      IN   BINARY_INTEGER DEFAULT 0,
+    force         IN   BOOLEAN DEFAULT FALSE
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job</td><td>실행할 JOB의 이름이다.</td></tr><tr><td align="left">what</td><td>실행할 PL/SQL 프러시저 또는 PSM 문장의 시퀀스이다.</td></tr><tr><td align="left">next_date</td><td>JOB을 실행할 다음 시각이다.</td></tr><tr><td align="left">interval</td><td>다음 JOB이 실행될 시각을 계산하기 위한 연산식이다. 자세한 내용은 <a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_INTERVAL" title="17.2.3. INTERVAL">“17.2.3. INTERVAL”</a>을 참고한다.</td></tr><tr><td align="left">instance</td><td>JOB을 수행할 INSTANCE이다. (기본값: 0, ANY_INSTANCE의
+                  의미이다.)</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    DBMS_JOB_WITH_NAME.CHANGE('job_name_here', null, null, 'sysdate + 1'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_JOB_WITH_NAME_INTERVAL"/>17.2.3. INTERVAL<a id="d5e4811" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>JOB을 얼마나 자주 실행할지 정하는 파라미터를 변경하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>INTERVAL 프러시저<a id="d5e4817" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_JOB_WITH_NAME.INTERVAL
+(
+    job         IN   VARCHAR2,
+    interval    IN   VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job</td><td>실행할 JOB의 이름이다.</td></tr><tr><td align="left">interval</td><td><p>다음에 JOB을 실행할 시각인 next_date를 업데이트하기 위한 연산식이다.
+                  </p><p>NULL 또는 날짜형으로 evaluate될 수 있는 연산식의 문자열이어야 한다(최소
+                  초 단위까지 가능). 문자열 입력 시 반드시 작은따옴표(' ')로 감싸야 한다. JOB을 실행하기 전에
+                  evaluate된다. JOB이 성공적으로 실행되고, interval의 계산 값이 NULL이면 해당 JOB은
+                  삭제된다.</p><div class="literallayout"><p/></div><p>다음은
+                  interval 파라미터의 사용 예이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>예1)</p>
+
+                        <pre class="programlisting">'sysdate + 1'</pre><p>하루에
+                        한 번씩 실행한다.</p>
+                      </li><li>
+                        <p>예2)</p>
+
+                        <pre class="programlisting">'next_day(sysdate,''MONDAY'')'</pre><p>매주
+                        월요일에 실행한다.</p>
+                      </li><li>
+                        <p>예3)</p>
+
+                        <pre class="programlisting">'null'</pre><p>한
+                        번만 실행한다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    <em class="lineannotation"><span class="lineannotation">/* 하루에 한 번씩 실행한다. */</span></em>
+    DBMS_JOB_WITH_NAME.INTERVAL('job_name_here', 'sysdate + 1'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_JOB_WITH_NAME_NAME"/>17.2.4. NAME<a id="d5e4864" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>JOB의 이름을 변경하는 프러시저이다. 실행된 후에는 new_name 값에 의해 업데이트된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>NAME 프러시저의 세부 내용은 다음과 같다.<a id="d5e4870" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_JOB_WITH_NAME.NAME
+(
+    job         IN   VARCHAR2,
+    new_name    IN   VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job</td><td>실행할 JOB의 이름이다.</td></tr><tr><td align="left">new_name</td><td>실행할 JOB의 새로운 이름이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    DBMS_JOB_WITH_NAME.NAME('job_name_here','new_name_here'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_JOB_WITH_NAME_NEXT_DATE"/>17.2.5. NEXT_DATE<a id="d5e4899" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>JOB이 스케줄되어 자동으로 실행될 시각을 변경하는 프러시저이다. 실행된 후에는 interval 값에 의해
+      업데이트된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>NEXT_DATE 프러시저<a id="d5e4905" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_JOB_WITH_NAME.NEXT_DATE
+(
+    job         IN   VARCHAR2,
+    next_date   IN   DATE
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job</td><td>실행할 JOB의 이름이다.</td></tr><tr><td align="left">next_date</td><td>JOB이 스케줄되어 실행될 시각이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    <em class="lineannotation"><span class="lineannotation">/* 10분 후에 실행하도록 변경한다. */</span></em>
+    DBMS_JOB_WITH_NAME.NEXT_DATE('job_name_here', sysdate + 10/24/60); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_JOB_WITH_NAME_REMOVE"/>17.2.6. REMOVE<a id="d5e4935" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에 추가된 JOB을 삭제하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REMOVE 프러시저<a id="d5e4941" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_JOB_WITH_NAME.REMOVE
+(
+    job         IN   VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job</td><td>삭제할 JOB의 이름이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    DBMS_JOB_WITH_NAME.REMOVE('job_name_here');
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_JOB_WITH_NAME_RUN"/>17.2.7. RUN<a id="d5e4967" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>JOB을 현재 세션에서 즉시 실행하는 프러시저이다. JOB이 broken되어 있어도 실행하고, 실행에 성공한 경우
+      JOB을 정상 상태로 변경한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>RUN 프러시저<a id="d5e4973" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_JOB_WITH_NAME.RUN
+(
+    job      IN   VARCHAR2,
+    force    IN   BOOLEAN DEFAULT FALSE
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job</td><td>실행할 JOB의 이름이다.</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    DBMS_JOB_WITH_NAME.RUN('job_name_here'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_JOB_WITH_NAME_SUBMIT"/>17.2.8. SUBMIT<a id="d5e5001" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에 새로운 JOB을 추가하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SUBMIT 프러시저<a id="d5e5007" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_JOB_WITH_NAME.SUBMIT 
+(
+    job          OUT  BINARY_INTEGER,
+    name         IN   VARCHAR2,
+    what         IN   VARCHAR2,
+    next_date    IN   DATE DEFAULT sysdate,
+    interval     IN   VARCHAR2 DEFAULT 'null',
+    no_parse     IN   BOOLEAN DEFAULT FALSE,
+    instance     IN   BINARY_INTEGER DEFAULT 0,
+    force        IN   BOOLEAN DEFAULT FALSE
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job</td><td>실행할 JOB의 번호이다.</td></tr><tr><td align="left">name</td><td>실행할 JOB의 이름이다.</td></tr><tr><td align="left">what</td><td>실행할 PL/SQL 프러시저 또는 PSM 문장의 시퀀스이다.</td></tr><tr><td align="left">next_date</td><td>JOB을 다음에 실행할 시각이다.</td></tr><tr><td align="left">interval</td><td>다음 JOB이 실행될 시각을 계산하기 위한 연산식이다. 자세한 내용은 <a href="chap_dbms_job_with_name.html#DBMS_JOB_WITH_NAME_INTERVAL" title="17.2.3. INTERVAL">“17.2.3. INTERVAL”</a>을 참고한다.</td></tr><tr><td align="left">no_parse</td><td><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>TRUE : submit을 할 때 JOB을 파싱하지 않고, JOB이 실행될 때 파싱을
+                        하게 된다. 따라서 파싱의 실패 여부가 최초 실행 시점에 보고된다.</p>
+                      </li><li>
+                        <p>FALSE : JOB에 관련된 프러시저를 미리 파싱한다.</p>
+                      </li></ul></div></td></tr><tr><td align="left">instance</td><td>JOB을 수행할 INSTANCE이다. (기본값: 0, ANY_INSTANCE의
+                  의미이다.)</td></tr><tr><td align="left">force</td><td>지원되지 않는 기능이므로 값을 무시한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    job_no number;
+BEGIN
+    DBMS_JOB_WITH_NAME.SUBMIT(job_no,'dbms_output.put_line(''ok'');', SYSDATE, 
+                    'SYSDATE + 1');
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_JOB_WITH_NAME_WHAT"/>17.2.9. WHAT<a id="d5e5060" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>JOB이 실행하는 작업을 변경하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>WHAT 프러시저<a id="d5e5066" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_JOB_WITH_NAME.WHAT
+(
+    job      IN   VARCHAR2,
+    WHAT     IN   VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">job</td><td>실행할 JOB의 이름이다.</td></tr><tr><td align="left">what</td><td><p>실행할 PL/SQL 프러시저 또는 PSM 문장의 시퀀스이다. 항상 세미콜론(;)으로
+                  끝나는 문자열이 와야 한다. </p><p>예를 들어 다음과 같은 문자열이 올 수
+                  있다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>예1)</p>
+
+                        <pre class="programlisting">psm_proc(''abc'', 10);</pre>
+                      </li><li>
+                        <p>예2)</p>
+
+                        <pre class="programlisting">dbms_output.put_line(''ok'');</pre>
+                      </li><li>
+                        <p>예3)</p>
+
+                        <pre class="programlisting">declare x number; 
+begin 
+   x := x + 1;
+   dbms_outout.put_line(x); 
+end;</pre>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    <em class="lineannotation"><span class="lineannotation">/* job이름이 'job_name_here'인 job을 psm_proc 프러시저 호출로 대체한다. */</span></em>
+    DBMS_JOB_WITH_NAME.WHAT('job_name_here', 'psm_proc(''abc'', 10);'); 
+END; 
+/</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_job.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_lob.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제16장 DBMS_JOB </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제18장 DBMS_LOB</td></tr></table></div><div xmlns="" align="center"/></body></html>

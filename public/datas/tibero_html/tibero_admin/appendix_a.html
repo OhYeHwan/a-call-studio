@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Appendix A. tbdsn.tbr</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 관리자 안내서"/><link rel="up" href="index.html" title="Tibero 관리자 안내서"/><link rel="prev" href="chapter_recovery_catalog.html" title="제18장 Tibero Recovery Catalog"/><link rel="next" href="appendix_b.html" title="Appendix B. V$SYSSTAT"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">Appendix A. <span xmlns="http://www.w3.org/1999/xhtml">tbdsn</span>.tbr</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_recovery_catalog.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="appendix_b.html">다음</a></td></tr></table><hr/></div><div class="appendix" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="appendix_a"/>Appendix A. <span>tbdsn</span>.tbr</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="appendix_a.html#d5e14101">A.1. <span>tbdsn</span>.tbr 구조</a></span></dt><dt><span class="section"><a href="appendix_a.html#sect_replication">A.2. 이중화 서버 설정</a></span></dt><dt><span class="section"><a href="appendix_a.html#sect_loadbalancing">A.3. 로드 밸런싱 설정</a></span></dt><dt><span class="section"><a href="appendix_a.html#sect_failover">A.4. Failover 설정</a></span></dt></dl></div>
+  
+
+  <p><span>tbdsn</span>.tbr <a id="d5e14092" class="indexterm"/>파일은 클라이언트가 <span>Tibero</span>의 데이터베이스에 접속하기 위해 필요한 정보를 가지고 있는 환경설정
+  파일이다. 기본적으로 <span>tbdsn</span>.tbr 파일에는 SID, 호스트, 포트 번호 등의 정보가 포함되어
+  있다.</p>
+
+  <p>예를 들면 다음과 같다.</p>
+
+  <pre class="programlisting"><span>tb</span>=(
+    (INSTANCE=(HOST=168.1.1.33)
+              (PORT=8629)
+              (DB_NAME=<span>tibero</span>)
+    )
+)</pre>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e14101"/>A.1. <span>tbdsn</span>.tbr 구조</h2></div></div></div>
+    
+
+    <p><span>tbdsn</span>.tbr 파일은 다음과 같은 구조로 이루어져 있다.</p>
+
+    <pre class="programlisting">SID_1=(
+       (INSTANCE=(항목1=값1)
+                 (항목2=값2)
+        ...
+       )
+)
+
+SID_2=(
+       (INSTANCE=(항목1=값1)
+                 (항목2=값2)
+        ...
+      )
+)
+
+<span>TB_</span>NLS_LANG=EUCKR
+
+<span>TBCLI_LOG_LVL</span>=TRACE
+
+<span>TBCLI_LOG_DIR</span>=/home/test/log
+
+...</pre>
+
+    <p>SID<a id="d5e14111" class="indexterm"/>는 클라이언트에서 해당 서버를 식별하기 위한 고유한 이름으로 위 구조와 같이 세부 항목이 포함되어 있으며
+    병렬 구조의 형태를 띤다.</p>
+
+    <p><span>tbdsn</span>.tbr에서 SID로 사용할 수 있는 표준문자는 문자(A ~ Z, a ~
+    z), 숫자(0 ~ 9) 및 언더라인(_)이며, 대소문자를 구별한다.</p>
+
+    <p>SID의 세부 항목은 다음과 같다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">HOST</td><td>서버의 IP 주소이다. (예: HOST=168.1.1.33)</td></tr><tr><td align="left">PORT</td><td>서버의 포트 번호이다. (예: PORT=8629)</td></tr><tr><td align="left">DB_NAME</td><td>데이터베이스의 이름이다. (예: DB_NAME=<span>tibero</span>)</td></tr></tbody></table>
+    </div>
+
+    <p>SID 외에 클라이언트 환경설정도 할 수 있다. 이 설정들은 환경변수로도 지정 가능하며 양쪽 다 설정되어 있을 경우
+    <span>tbdsn</span>.tbr 파일 설정을 우선적으로 따른다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left"><span>TB_</span>NLS_LANG</td><td><p>클라이언트에서 사용하는 캐릭터 셋을 지정할 수 있다.</p><p>(예: <span>TB_</span>NLS_LANG=EUCKR)</p></td></tr><tr><td align="left"><span>TBCLI_LOG_LVL</span></td><td><p>CLI의 로그 레벨을 지정할 수 있다.</p><p>(예: <span>TBCLI_LOG_LVL</span>=TRACE)</p></td></tr><tr><td align="left"><span>TBCLI_LOG_DIR</span></td><td><p>CLI의 로그를 저장할 디렉터리를 지정할 수 있다.</p><p>디폴트 디렉터리는
+            Windows 계열이 c:\ 이고, UNIX 계열은 /tmp이다.</p><p>(예: <span>TBCLI_LOG_DIR</span>=/home/test/log)</p></td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_replication"/>A.2. 이중화 서버 설정<a id="d5e14168" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">이중화 서버</strong></span>(Replication server)는 물리적으로 독립된 여러 개의
+    서버를 동일하게 복제한 것을 의미한다. 동일하게 복제된 서버를 임의로 접속할 수 있고, 하나의 서버가 정지했을 때에도 다른 서버 대신
+    접속하여 같은 작업을 수행할 수 있다.</p>
+
+    <p><span>tbdsn</span>.tbr 파일에서 이중화 서버를 구성하려면 다음과 같이 하나의 SID로
+    이중화 서버를 INSTANCE 항목으로 설정하면 된다. 이중화 서버로 설정된 SID에 대해서는 항상 CTF(Connection
+    Time Failover)를 지원한다.</p>
+
+    <pre class="programlisting"><span><strong class="guibutton"><span>tb</span></strong></span>=(
+    (INSTANCE=(HOST=168.1.1.33)
+              (PORT=8629)
+              (DB_NAME=<span>tibero</span>)
+    )
+    (INSTANCE=(HOST=192.168.1.25)
+              (PORT=8629)
+              (DB_NAME=<span>tibero</span>2)
+    )
+    (INSTANCE=(HOST=localhost)
+              (PORT=8629)
+              (DB_NAME=<span>tibero</span>)
+    )
+)        </pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_loadbalancing"/>A.3. 로드 밸런싱 설정</h2></div></div></div>
+    
+
+    <p><span>Tibero</span>에서는 이중화 서버 중에서 특정 서버의 집중적인 접속을 막으려고
+    로드 밸런싱(Load balancing) 기능을 지원한다. 즉, 특정 서버의 집중적인 접속을 분산시킴으로써 시스템의 과부하를 막고 더
+    나은 접속 환경을 제공한다.</p>
+
+    <p><span>tbdsn</span>.tbr 파일에서 로드 밸런싱 기능을 설정하는 방법은 다음과
+    같다.</p>
+
+    <pre class="programlisting"><span><strong class="guibutton"><span>tb</span></strong></span>=(
+    (INSTANCE=(HOST=168.1.1.33)
+              (PORT=8629)
+              (DB_NAME=<span>tibero</span>)
+    )
+    (INSTANCE=(HOST=192.168.1.25)
+              (PORT=8629)
+              (DB_NAME=<span>tibero</span>2)
+    )
+    (INSTANCE=(HOST=localhost)
+              (PORT=8629)
+              (DB_NAME=<span>tibero</span>)
+    )
+    <span><strong class="guibutton">(LOAD_BALANCE=Y)</strong></span>
+)        </pre>
+
+    <p>위 예제에서 보듯이 SID 내의 LOAD_BALANCE 값을 'Y'로 설정하면 로드 밸런싱 기능을 사용할 수 있다. 반면에
+    LOAD_BALANCE 값이 없거나 'Y' 외의 다른 값을 입력하면 로드 밸런싱 기능은 동작하지 않는다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_failover"/>A.4. Failover 설정</h2></div></div></div>
+    
+
+    <p><span>Tibero</span>가 <span>TAC</span> 또는
+    이중화된 서버로 설정된 상태에서 장애로 인해 중단되면 CLI 모듈은 다른 인스턴스 또는 이중화된 서버로 접속하여 해당 세션을 자동으로
+    복구한다.</p>
+
+    <p><span>tbdsn</span>.tbr 파일에서 Failover 기능을 설정하는 방법은 다음과
+    같다.</p>
+
+    <pre class="programlisting"><span><strong class="guibutton"><span>tb</span></strong></span>=(
+    (INSTANCE=(HOST=168.1.1.33)
+              (PORT=8629)
+              (DB_NAME=<span>tibero</span>)
+    )
+    (INSTANCE=(HOST=192.168.1.25)
+              (PORT=8629)
+              (DB_NAME=<span>tibero</span>2)
+    )
+    (INSTANCE=(HOST=localhost)
+              (PORT=8629)
+              (DB_NAME=<span>tibero</span>)
+    )
+    <span><strong class="guibutton">(USE_FAILOVER=Y)</strong></span>
+    <span><strong class="guibutton">(FORCE_FAILOVER_DELAY=10)</strong></span>
+)        </pre>
+
+    <p>위 예제에서 보듯이 SID 내의 USE_FAILOVER 값을 'Y'로 설정하면 Failover 기능을 사용할 수 있다.
+    단, 문장(Statement) 레벨까지의 복구는 지원하지 않는다.</p>
+
+    <p>그리고 FORCE_FAILOVER_DELAY는 Failover 기능의 선택적인 옵션으로 다른 인스턴스 또는 이중화된 서버로
+    접속하기 전에 일정 지연시간(단위 초) 뒤 접속을 시도하는 기능이다. 위의 예제에서는 10초 후에 다른 인스턴스로 Failover가
+    시도된다.</p>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>1. CTF(Connection Time Failover)는 USE_FAILOVER 설정과는 관련이 없으며 이중화
+      서버로 구성한 SID에 대해서는 항상 지원한다.</p>
+
+      <p>2. USE_FAILOVER 설정으로 서버에 접속하려고 할 때 서버가 normal 모드로 기동한 상태가 아니라면
+      오류(ERROR_CLIMSG_REDIRECT)가 발생한다. 서버가 normal 모드로 기동한 상태가 아니라면 명확하게 접속하려고
+      하는 서버를 명시해야 한다.</p>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_recovery_catalog.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="appendix_b.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제18장 <span>Tibero</span> Recovery Catalog </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> Appendix B. V$SYSSTAT</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -1,14 +1,8 @@
-import {
-  observable,
-  makeObservable,
-  action,
-  runInAction,
-  computed,
-  toJS,
-} from "mobx";
-import projectRepository from "src/repository/ProjectRepository";
-import contentRepository from "src/repository/ContentRepository";
+import { observable, makeObservable, computed, toJS } from "mobx";
+
 import { uuidv4 } from "src/utils/uuid";
+
+import { referenceData } from "src/data";
 
 class ProjectStore {
   constructor() {
@@ -38,6 +32,10 @@ class ProjectStore {
     pageGroups: null,
     histories: null,
   };
+
+  loadContent() {
+    this.target = referenceData;
+  }
 
   @computed
   get saveState() {
@@ -73,96 +71,6 @@ class ProjectStore {
 
   set target(value) {
     this._target = value;
-  }
-
-  @action
-  async getProjectList() {
-    try {
-      const response = await projectRepository.findAll();
-      const data = response.data;
-      runInAction(() => {
-        this.projectList = this.changeFormat(data);
-      });
-    } catch (e) {
-      runInAction(() => {
-        console.log(e);
-      });
-    }
-  }
-
-  @action
-  async loadProject(id) {
-    try {
-      const response = await projectRepository.findOne(id);
-      const data = response.data;
-      runInAction(() => {
-        this.target = data;
-      });
-    } catch (e) {
-      runInAction(() => {
-        console.log(e);
-      });
-    }
-  }
-
-  @action
-  async loadContent(id) {
-    try {
-      const response = await contentRepository.findOne(id, this.target);
-      runInAction(() => {
-        this.target = response.data;
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  @action
-  async saveProject(data) {
-    this.saveState = true;
-    try {
-      const response = await projectRepository.save(data);
-      this.saveState = false;
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  @action
-  async exportProject(data) {
-    this.exportState = true;
-
-    try {
-      const response = await projectRepository.export(data);
-      this.exportState = false;
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  changeFormat(data) {
-    const projectList = {
-      ABOOK: [],
-      MyApp: [],
-      Pay: [],
-    };
-    data.forEach((item) => {
-      const projectInfo = {
-        id: item.projectId,
-        title: `${item.superAppName}_${item.projectName}`,
-        fileSize: item.size,
-        type: item.superAppName,
-      };
-
-      if (Object.keys(projectList).includes(item.superAppName)) {
-        projectList[item.superAppName].push(projectInfo);
-      } else {
-        projectList[item.superAppName] = [projectInfo];
-      }
-    });
-    return projectList;
   }
 }
 

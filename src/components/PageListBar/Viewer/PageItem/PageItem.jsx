@@ -31,7 +31,6 @@ const PageItem = ({
       pageGroupName: groupName,
       pageId: id,
       pageName: pageName,
-      html: html,
     };
 
     handleClickPageItem(id);

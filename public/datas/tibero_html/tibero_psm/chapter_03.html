@@ -1,0 +1,1386 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제2장 tbPSM 문법</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 안내서"/><link rel="prev" href="ch01.html" title="제1장 tbPSM 소개"/><link rel="next" href="chapter_control.html" title="제3장 제어 구조"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제2장 <span xmlns="http://www.w3.org/1999/xhtml">tbPSM</span> 문법</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_control.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_03"/>제2장 <span>tbPSM</span> 문법</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_03.html#d5e705">2.1. <span>tbPSM</span> 문장 구성요소</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_03.html#d5e732">2.1.1. 식별자</a></span></dt><dt><span class="section"><a href="chapter_03.html#d5e802">2.1.2. 분리자</a></span></dt><dt><span class="section"><a href="chapter_03.html#d5e916">2.1.3. 상수</a></span></dt><dt><span class="section"><a href="chapter_03.html#d5e921">2.1.4. 주석</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_03.html#d5e947">2.2. <span>tbPSM</span> 데이터 타입</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_03.html#d5e1075">2.2.1. 스칼라 타입</a></span></dt><dt><span class="section"><a href="chapter_03.html#d5e1660">2.2.2. 복합 타입</a></span></dt><dt><span class="section"><a href="chapter_03.html#d5e1671">2.2.3. 참조 타입</a></span></dt><dt><span class="section"><a href="chapter_03.html#d5e1685">2.2.4. 대용량 객체형 타입</a></span></dt><dt><span class="section"><a href="chapter_03.html#sect_etctype">2.2.5. 기타 타입</a></span></dt><dt><span class="section"><a href="chapter_03.html#sect_user_def_subtype">2.2.6. 사용자 정의 서브 타입</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_03.html#d5e1795">2.3. 데이터 타입 변환</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_03.html#d5e1810">2.3.1. 명시적 변환</a></span></dt><dt><span class="section"><a href="chapter_03.html#d5e1978">2.3.2. 묵시적 변환</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_03.html#d5e2167">2.4. 데이터 변수의 선언과 참조 영역</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_03.html#d5e2170">2.4.1. 변수 선언</a></span></dt><dt><span class="section"><a href="chapter_03.html#d5e2191">2.4.2. 변수 참조 영역</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_03.html#d5e2223">2.5. 연산식</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_03.html#d5e2289">2.5.1. 연산자</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>tbPSM</span> 프로그램을 작성하기 위해 필요한 <span>tbPSM</span> 문장의 기본적인 문법을 설명한다. 이러한 문법은 다른 프로그래밍 언어에서도
+  공통적으로 정의하고 있는 내용이다. 따라서 이 내용만으로도 충분히 간단한 프로그램을 작성할 수 있다.</p>
+
+  <p>우선 먼저 식별자(identifier), 분리자(delimiter), 상수(literal) 등과 같은 <span>tbPSM</span> 문장을 작성하는 데 필요한 기본적인 구성요소를 설명하고, 이를 기초로 변수
+  선언 및 할당 그리고 연산자와 연산식 등을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e705"/>2.1. <span>tbPSM</span> 문장 구성요소<a id="d5e708" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span>tbPSM</span> 프로그램은 <span>tbPSM</span> 문장과 SQL 문장으로 구성된다. 본 절에서는 <span>tbPSM</span> 문장을 기준으로 설명한다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p><span>tbPSM</span> 프로그램에서 사용할 수 있는 문자는 다음과 같다.<a id="d5e718" class="indexterm"/></p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>알파벳 문자 : a~z, A~Z</p>
+      </li><li>
+        <p>한글 및 기타 유니코드</p>
+      </li><li>
+        <p>숫자 : 0~9</p>
+      </li><li>
+        <p>기타 문자 : ( ) [ ] { } + - * / &lt; &gt; = ~ ! @ # $ % ^ &amp; ; :
+        . ’ , ” _ | ? tab space 개행문자</p>
+      </li></ul></div>
+
+    <p>하나의 문자 또는 둘 이상이 결합된 문자들이 기호(symbol)를 구성한다. <span>tbPSM</span>은 이러한 기호를 연산자나 분리자 등으로 사용하기도 한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e732"/>2.1.1. 식별자<a id="d5e734" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>프로그램의 변수, 상수, 레이블, 커서, 함수, 패키지 등과 같은 <span>tbPSM</span> 프로그램의 구성요소는 각각의 이름을 갖고 있다. 이러한 이름을
+      <span><strong class="guibutton">식별자</strong></span>(Identifier)라고 한다. 식별자는 변수, 커서, 서브 프로그램과 같은
+      <span>tbPSM</span> 객체의 명명을 위해 사용한다.</p>
+
+      <p/>
+
+      <p><span>tbPSM</span>의 식별자는 다음과 같은 특징이 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>알파벳 문자(대문자와 소문자), 한글, 숫자, $, _, #를 사용하여 만든다.</p>
+        </li><li>
+          <p>알파벳 문자 또는 한글로 시작해야 한다.</p>
+        </li><li>
+          <p>대문자와 소문자를 구분하지 않는다.</p>
+        </li><li>
+          <p>최대 길이는 255bytes이다.</p>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      
+
+      <p>다음은 <span><strong class="guibutton">유효한 식별자의 예</strong></span>이다.</p>
+
+      <pre class="programlisting">x
+employee_#
+room_num__Local</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>반면에 다음은 <span><strong class="guibutton">유효하지 않은 식별자의 예</strong></span>이다.</p>
+
+      <pre class="programlisting">abc=xyz             -- 허가되지 않은 기호(예: =)를 포함한 경우
+_under_departs      -- 알파벳 문자로 시작하지 않은 경우
+Date Year           -- 허가되지 않은 기호(예: 공백 문자)를 포함한 경우
+000_name            -- 알파벳 문자로 시작하지 않은 경우</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>또한 <span>tbPSM</span>은 <span><strong class="guibutton">대문자와 소문자를 구별하지 않으므로 다음의
+      식별자는 모두 같은 의미</strong></span>를 갖는다.</p>
+
+      <pre class="programlisting">Employee_id
+Employee_ID
+employee_id
+employee_ID</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e766"/>식별자 사용 예제</h4>
+
+      <p><span>tbPSM</span>의 예약어는 SQL 표준에서 정의하고 있는 예약어보다 더 많다.
+      <span>tbPSM</span>의 전체 예약어는 <a href="appendix_reserved_words.html" title="Appendix A. 예약어">“Appendix A. 예약어”</a>를 참고한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>식별자에 이러한 <span>tbPSM</span>의 <span><strong class="guibutton">예약어</strong></span>를 지정하여 사용하는
+      경우는 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+            <p>예약어를 식별자로 지정한 경우</p>
+
+            <p>특별한 의미를 갖는 일부 식별자는 예약어로 지정되어 있다. <span>tbPSM</span>은 예약어를 특별한 의미로 사용한다. 따라서 예약어를 변수와
+            같이 일반적인 식별자로 지정하면 안 된다.<a id="d5e781" class="indexterm"/></p>
+
+            <pre class="programlisting">DECLARE
+    begin PLS_INTEGER;</pre>
+
+            <p>BEGIN 예약어를 식별자로 지정하면 컴파일 에러가 발생한다.</p>
+          </li><li>
+            <p>예약어를 식별자의 일부로 지정한 경우</p>
+
+            <pre class="programlisting">DECLARE
+    original_begin PLS_INTEGER;</pre>
+
+            <p>BEGIN 예약어를 식별자 이름의 일부로 지정하는 경우라면 사용할 수 있다.</p>
+          </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 식별자에 <span><strong class="guibutton">큰따옴표(" ")</strong></span>를 지정하여 사용하는 예이다.</p>
+
+      <p>식별자는 일반적으로 공백 문자나 탭 등의 문자를 포함할 수 없으며 대소문자 구분을 하지 않는다. 그러나 특별히 이런
+      특징에 예외가 되는 식별자를 사용해야 하는 경우에는 큰따옴표로 식별자를 묶어 사용할 수 있다.</p>
+
+      <pre class="programlisting">"abc=def"
+"_under_departs"
+"Date Year"
+"000_name"</pre>
+
+      <p>큰따옴표로 감싼 식별자의 최대 길이는 일반적인 식별자의 길이와 같은 255bytes이며, 감싼 부분에는 <span>tbPSM</span>의 문자를 모두 사용할 수 있다. 이러한 예는 <span>tbPSM</span>의 예약어를 식별자로 지정하여 사용할 때에도 매우 유용하다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 큰따옴표를 사용하여 <span><strong class="guibutton">RECORD</strong></span> 예약어를 식별자로 사용하는
+      예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    tmp_record PLS_INTEGER;
+
+BEGIN
+    SELECT "RECORD" INTO tmp_record FROM record_table;
+    -- RECORD는 예약어이다.
+END;</pre>
+
+      <p>위의 예에서 보듯이 테이블의 컬럼 이름은 데이터베이스에 저장될 때 대문자로 저장된다. 따라서 큰따옴표로 감싼 식별자를
+      SQL 질의에서 사용할 때에는 반드시 대문자를 사용해야 한다.</p>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e802"/>2.1.2. 분리자<a id="d5e804" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>분리자는 식별자를 구분하기 위해 사용한다. 일부 분리자는 연산자의 역할도 수행한다.</p>
+
+      <p/>
+
+      <p>다음은 <span>tbPSM</span>의 분리자를 요약한 목록이다.<a id="d5e810" class="indexterm"/></p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">기호</th><th>의미</th></tr></thead><tbody><tr><td align="left">+</td><td>덧셈</td></tr><tr><td align="left">-</td><td>뺄셈</td></tr><tr><td align="left">*</td><td>곱셈</td></tr><tr><td align="left">/</td><td>나눗셈</td></tr><tr><td align="left">=</td><td>등호</td></tr><tr><td align="left">&lt;</td><td>부등호(보다 작다)</td></tr><tr><td align="left">&gt;</td><td>부등호(보다 크다)</td></tr><tr><td align="left">(</td><td>괄호(왼쪽)</td></tr><tr><td align="left">)</td><td>괄호(오른쪽)</td></tr><tr><td align="left">;</td><td>문장의 끝 표시</td></tr><tr><td align="left">%</td><td>속성 표시</td></tr><tr><td align="left">,</td><td>항목 구분</td></tr><tr><td align="left">.</td><td>컴포넌트 구분</td></tr><tr><td align="left">@</td><td>데이터베이스 링크 표시</td></tr><tr><td align="left">‘</td><td>문자열 분리자</td></tr><tr><td align="left">“</td><td>인용된 문자열 분리자</td></tr><tr><td align="left">:</td><td>바인드 변수 표시</td></tr><tr><td align="left">**</td><td>지수</td></tr><tr><td align="left">&lt;&gt;</td><td>같지 않다.</td></tr><tr><td align="left">!=</td><td>같지 않다.</td></tr><tr><td align="left">~=</td><td>같지 않다.</td></tr><tr><td align="left">^=</td><td>같지 않다.</td></tr><tr><td align="left">&lt;=</td><td>크지 않다(보다 작거나 같다).</td></tr><tr><td align="left">&gt;=</td><td>작지 않다(보다 크거나 같다).</td></tr><tr><td align="left">:=</td><td>대입</td></tr><tr><td align="left">..</td><td>범위</td></tr><tr><td align="left">||</td><td>문자열 결합</td></tr><tr><td align="left">&lt;&lt;</td><td>레이블(왼쪽)</td></tr><tr><td align="left">&gt;&gt;</td><td>레이블(오른쪽)</td></tr><tr><td align="left">--</td><td>단일 라인 주석</td></tr><tr><td align="left">/*</td><td>다중 라인(왼쪽)</td></tr><tr><td align="left">*/</td><td>다중 라인(오른쪽)</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e916"/>2.1.3. 상수<a id="d5e918" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>하나 또는 그 이상의 문자를 사용하여 어떤 값 자체를 표현하는 경우를 상수(literal)라 한다. 상수는 한 번
+      표시되면 변하지 않는다는 특성이 있다. 상수는 숫자 상수, 문자 상수, 문자열 상수, 날짜 상수, 진리(boolean) 상수
+      등으로 분류된다.</p>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e921"/>2.1.4. 주석<a id="d5e923" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>주석(comment)은 <span>tbPSM</span>이 인식하지 않는 문자열로, 단일 라인 주석과 다중 라인 주석으로 설정이
+      가능하다. 단일 라인과 다중 라인의 주석은 한 프로그램에서 함께 사용할 수 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>단일 라인 주석<a id="d5e930" class="indexterm"/></p>
+
+          <p>기본적인 <span>tbPSM</span>의 주석은 <span><strong class="guibutton">'--'</strong></span>로
+          시작하고, 최초로 만나는 개행문자로 끝난다.</p>
+
+          <p>다음은 단일 라인으로 설정한 주석의 예이다.</p>
+
+          <pre class="programlisting">DECLARE
+    guest_ID         BINARY_INTEGER;    -- 고객을 식별하기 위한 ID
+    guest_name       VARCHAR2(100);     -- 고객의 이름, 길이는 VARCHAR2 타입의 100자리
+
+BEGIN
+    INSERT INTO add_books (ID, NAME) VALUES (guest_ID, guest_name);
+    -- guest_ID와 guest_name으로 입력된 정보를
+    -- "add_books" 테이블에 삽입한다.
+END;</pre>
+        </li><li>
+          <p>다중 라인 주석<a id="d5e939" class="indexterm"/></p>
+
+          <p>C 프로그래밍 언어에서 사용하는 주석도 사용할 수 있다. 이 주석은 여러 줄에 걸쳐 사용할 수 있으며,
+          <span><strong class="guibutton">/*...*/</strong></span>의 형식으로 사용한다. 단, 중첩하여 사용할 수 없다.</p>
+
+          <p>다음은 다중 라인으로 설정한 주석의 예이다.</p>
+
+          <pre class="programlisting">DECLARE
+    guest_ID         BINARY_INTEGER;   -- 고객을 식별하기 위한 ID
+    guest_name       VARCHAR2(100);    -- 고객의 이름, 길이는 VARCHAR2 타입의 100자리
+BEGIN
+    INSERT INTO add_books (ID, NAME) VALUES (guest_ID, guest_name);
+    /* guest_ID와 guest_name으로 입력된 정보를
+       add_books 테이블에 삽입한다. */
+END;</pre>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e947"/>2.2. <span>tbPSM</span> 데이터 타입</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton"><span>tbPSM</span>의 데이터 타입</strong></span>은 스칼라(scalar),
+    복합(composite), 참조(reference), 대용량 객체형(LOB) 등의 타입으로 분류할 수 있다.<a id="d5e953" class="indexterm"/></p>
+
+    <p>복합 타입은 몇 개의 필드로 이루어지며, 각 필드는 스칼라 타입에 속하는 데이터이다. 참조 타입은 다른 타입에 대한
+    포인터이며, 대용량 객체형은 대용량 객체(Large object)를 지원하기 위한 타입이다.</p>
+
+    <p><span>tbPSM</span>의 데이터 타입 중에는 특정 데이터 타입을 기반으로 정의되는 타입이 있다.
+    이를 <span><strong class="guibutton">서브 타입</strong></span>(subtype)이라 한다. 서브 타입은 기반이 되는 데이터 타입에 대한
+    연산(operation)은 변경하지 않으며, 다만 기반이 되는 데이터 타입의 값에 제약을 부여하여 생성한다.<a id="d5e959" class="indexterm"/></p>
+
+    <p>또한 사용자는 필요에 따라 기존의 데이터 타입에 기반하여 새로운 서브 타입을 정의할 수 있다. 이를 칭할 때 사용자 정의
+    서브 타입<a id="d5e962" class="indexterm"/>이라 한다. 자세한 내용은 <a href="chapter_03.html#sect_user_def_subtype" title="2.2.6. 사용자 정의 서브 타입">“2.2.6. 사용자 정의 서브 타입”</a>을
+    참고한다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 타입 별 <span>tbPSM</span>의 데이터 타입이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>스칼라 타입<a id="d5e972" class="indexterm"/><a id="d5e976" class="indexterm"/></p>
+
+          <div class="informaltable">
+              <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">그룹</th><th>서브 타입</th></tr></thead><tbody><tr><td align="left">NUMERIC</td><td>NUMBER, DEC, DECIMAL, DOUBLE PRECISION, FLOAT,
+                    INTEGER, INT, NATURAL, NATURALN, NUMERIC, REAL, POSITIVE,
+                    POSITIVEN, SMALLINT, SIGNTYPE, PLS_INTEGER,
+                    BINARY_INTEGER, BINARY_FLOAT, BINARY_DOUBLE</td></tr><tr><td align="left">CHARACTER / STRING</td><td>VARCHAR2, VARCHAR, CHAR, CHARACTER, LONG, STRING,
+                    RAW, ROWID, LONG RAW, NCHAR, NVARCHAR</td></tr><tr><td align="left">DATETIME / INTERVAL</td><td>DATE, TIMESTAMP, TIMESTAMP WITH TIME ZONE,
+                    TIMESTAMP WITH LOCAL TIME ZONE, INTERVAL YEAR TO MONTH,
+                    INTERVAL DAY TO SECOND</td></tr><tr><td align="left">BOOLEAN</td><td>BOOLEAN</td></tr></tbody></table>
+            </div>
+        </li><li>
+          <p>복합 타입<a id="d5e1001" class="indexterm"/><a id="d5e1005" class="indexterm"/></p><div class="informaltable">
+              <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">그룹</th><th>서브 타입</th></tr></thead><tbody><tr><td align="left">-</td><td>RECORD, VARRAY, TABLE</td></tr></tbody></table>
+            </div>
+        </li><li>
+          <p>참조 타입<a id="d5e1020" class="indexterm"/><a id="d5e1024" class="indexterm"/></p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">그룹</th><th>서브 타입</th></tr></thead><tbody><tr><td align="left">-</td><td>REF CURSOR</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>대용량 객체형 타입<a id="d5e1039" class="indexterm"/><a id="d5e1043" class="indexterm"/></p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">그룹</th><th>서브 타입</th></tr></thead><tbody><tr><td align="left">-</td><td>CLOB, BLOB, XMLTYPE, GEOMERTY, BFILE</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>기타 타입<a id="d5e1058" class="indexterm"/><a id="d5e1062" class="indexterm"/></p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">그룹</th><th>서브 타입</th></tr></thead><tbody><tr><td align="left">-</td><td>%TYPE, %ROWTYPE</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1075"/>2.2.1. 스칼라 타입<a id="d5e1077" class="indexterm"/><a id="d5e1079" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>스칼라 타입은 데이터 그대로 사용하거나 또는 간단한 타입의 변화를 통해 데이터베이스 테이블의 컬럼에 저장할 수 있는
+      데이터 타입을 말한다. 스칼라 타입은 데이터의 종류에 따라 NUMERIC, CHARACTER, DATETIME, BOOLEAN
+      그룹으로 나뉜다.</p>
+
+      <h4><a id="d5e1084"/>NUMERIC 그룹<a id="d5e1085" class="indexterm"/><a id="d5e1087" class="indexterm"/></h4>
+
+      <p>NUMERIC 그룹의 데이터 타입은 정수나 실수 값을 표현한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>NUMBER<a id="d5e1094" class="indexterm"/></p>
+
+          <p>이 타입은 부동소수점 숫자를 표현하며, 데이터베이스에서 사용하는 NUMBER 타입과 동일하다.</p>
+
+          <p>선언하는 문법은 다음과 같다.</p>
+
+          <pre class="programlisting">NUMBER[(P, S)];</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">P</td><td><p>정밀도를 의미한다.</p><p>다음은 정밀도의
+                  특징이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>값의 자릿수이다.</p>
+                      </li><li>
+                        <p>단독으로 사용할 수 있다.</p>
+                      </li><li>
+                        <p>최대 자릿수는 38이다.</p>
+                      </li></ul></div></td></tr><tr><td align="left">S</td><td><p>스케일을 의미한다.</p><p>다음은 스케일의
+                  특징이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>소수점 오른쪽 자릿수이다.</p>
+                      </li><li>
+                        <p>단독으로 사용할 수 없다.</p>
+                      </li><li>
+                        <p>최대 자릿수는 127이다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>NUMBER의 서브 타입은 다음과 같다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">서브 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">DEC</td><td>NUMBER 타입과 동일하다.</td></tr><tr><td align="left">DECIMAL</td><td>NUMBER 타입과 동일하다.</td></tr><tr><td align="left">DOUBLE PRECISION</td><td>NUMBER 타입과 동일하다.</td></tr><tr><td align="left">FLOAT</td><td>NUMBER 타입과 동일하다.</td></tr><tr><td align="left">INTEGER</td><td>최대 38자리의 정수만 허용한다.</td></tr><tr><td align="left">INT</td><td>최대 38자리의 정수만 허용한다.</td></tr><tr><td align="left">NUMERIC</td><td>NUMBER 타입과 동일하다.</td></tr><tr><td align="left">REAL</td><td>NUMBER 타입과 동일하다.</td></tr><tr><td align="left">SMALLINT</td><td>최대 38자리의 정수만 허용한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>BINARY_INTEGER<a id="d5e1169" class="indexterm"/></p>
+
+          <p>정수만을 표현하기 위해 지원되는 데이터 타입이다. BINARY_INTEGER는 -2^31 ~ 2^31 -
+          1사이의 값을 갖는 부호를 포함하는 정수 값을 표현하기 위해 사용된다. BINARY_INTEGER는 바이너리 형식으로
+          저장된다.</p>
+
+          <p>BINARY_INTEGER의 서브 타입은 다음과 같다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">서브 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">NATURAL</td><td>N &gt;= 0인 정수만 허용한다.</td></tr><tr><td align="left">NATURALN</td><td>NULL을 대입할 수 없다.</td></tr><tr><td align="left">POSITIVE</td><td>POSITIVE는 N &gt; 0인 정수만 허용한다.</td></tr><tr><td align="left">POSITIVEN</td><td>NULL을 대입할 수 없다.</td></tr><tr><td align="left">SIGNTYPE</td><td>-1, 0, 1의 값만 허용한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>BINARY_FLOAT / BINARY_DOUBLE<a id="d5e1198" class="indexterm"/><a id="d5e1200" class="indexterm"/></p>
+
+          <p>부동소수점 실수를 표현하고, 빠른 계산을 위해 사용된다.</p>
+
+          <p>선언하는 문법은 다음과 같다.</p>
+
+          <pre class="programlisting">x BINARY_FLOAT := 1.5[f|F];
+
+y BINARY_DOUBLE := 1.5[d|D];            </pre>
+        </li><li>
+          <p>PLS_INTEGER<a id="d5e1207" class="indexterm"/></p>
+
+          <p>BINARY_INTEGER 타입과 동일한 범위(-2^31 ~ 2^31 - 1)를 가진다.</p>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e1211"/>CHARACTER / STRING 그룹<a id="d5e1212" class="indexterm"/><a id="d5e1214" class="indexterm"/><a id="d5e1217" class="indexterm"/><a id="d5e1219" class="indexterm"/></h4>
+
+      <p>CHARACTER 그룹의 데이터 타입은 문자나 문자열 값을 표현한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>VARCHAR2<a id="d5e1226" class="indexterm"/></p>
+
+          <p>데이터베이스에서 사용하는 VARCHAR2 타입과 유사하다.</p>
+
+          <p>선언하는 문법은 다음과 같다.</p>
+
+          <pre class="programlisting">VARCHAR2(L)</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">L</td><td><p>변수의 최대 길이이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>가변 길이 문자열을 저장한다.</p>
+                      </li><li>
+                        <p>항상 표시되어야 한다.</p>
+                      </li><li>
+                        <p>길이는 문자가 아니라 Byte로 지정된다.</p>
+                      </li><li>
+                        <p>최대 길이는 32767bytes이다.</p>
+                      </li><li>
+                        <p>실제 데이터는 ASCII나 EUR-KR, UTF-8 등 데이터베이스의 문자 집합으로
+                        변경되어 저장된다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>데이터베이스에서 사용하는 VARCHAR2 타입의 컬럼은 4000bytes만을 저장할 수 있다. 따라서
+          4000bytes 이상인 <span>tbPSM</span> 변수를 VARCHAR2 타입의 데이터베이스 컬럼에 저장할 경우
+          에러가 발생한다.</p>
+
+          <p>VARCHAR2의 서브 타입은 다음과 같다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">서브 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">STRING</td><td>VARCHAR2와 같은 크기의 값을 표현할 수 있으며, 타입의 호환을 위해 사용하는 서브
+                  타입이다.</td></tr><tr><td align="left">VARCHAR</td><td>VARCHAR2와 같은 크기의 값을 표현할 수 있으며, 타입의 호환을 위해 사용하는 서브
+                  타입이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>CHAR<a id="d5e1273" class="indexterm"/></p>
+
+          <p>고정 길이 문자열로 문자 데이터를 저장하고 남는 공간을 빈 칸(blank)으로 채운다. 빈 칸(blank)으로
+          채워지기 때문에 같은 문자열이 저장된 변수라도 서로 길이가 다르다면, 이 두 변수를 비교할 때 서로 일치하지 않는다는 점에
+          주의해야 한다.</p>
+
+          <p>선언하는 문법은 다음과 같다.</p>
+
+          <pre class="programlisting">CHAR[(L)]</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">L</td><td><p>변수의 최대 길이이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>고정 길이 문자열을 저장한다.</p>
+                      </li><li>
+                        <p>VARCHAR2와는 달리 길이를 지정하는 것은 옵션이다. (기본값: 1)</p>
+                      </li><li>
+                        <p>길이는 문자가 아니라 Byte로 지정된다.</p>
+                      </li><li>
+                        <p>최대 길이는 32767bytes이다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>데이터베이스에서 사용하는 CHAR 타입의 컬럼은 2000bytes만을 저장할 수 있다.</p>
+
+          <p>CHAR의 서브 타입은 다음과 같다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">서브 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">CHARACTER</td><td>CHAR과 같은 크기의 값을 표현할 수 있으며, 타입의 호환을 위해 사용하는 서브
+                  타입이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>NVARCHAR2<a id="d5e1314" class="indexterm"/></p>
+
+          <p>데이터베이스에서 사용하는 NVARCHAR2 타입과 유사하다.</p>
+
+          <p>선언하는 문법은 다음과 같다.</p>
+
+          <pre class="programlisting">NVARCHAR2(L)</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">L</td><td><p>변수의 최대 길이이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>가변 길이 문자열을 저장한다.</p>
+                      </li><li>
+                        <p>항상 표시되어야 한다.</p>
+                      </li><li>
+                        <p>길이는 항상 문자 단위로 지정된다.</p>
+                      </li><li>
+                        <p>최대 길이는 32767bytes이다.</p>
+                      </li><li>
+                        <p>실제 데이터는 UTF8이나 UTF16 등 데이터베이스의 다국어 문자 집합으로 변경되어
+                        저장된다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>데이터베이스에서 사용하는 NVARCHAR2 타입의 컬럼은 4000bytes만을 저장할 수 있다. 따라서
+          4000bytes 이상인 <span>tbPSM</span> 변수를 NVARCHAR2 타입의 데이터베이스 컬럼에 저장할 경우
+          에러가 발생한다.</p>
+
+          <p>NVARCHAR2의 서브 타입은 다음과 같다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">서브 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">NVARCHAR</td><td>NVARCHAR2와 같은 크기의 값을 표현할 수 있으며, 타입의 호환을 위해 사용하는 서브
+                  타입이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>NCHAR<a id="d5e1358" class="indexterm"/></p>
+
+          <p>고정 길이 문자열로 문자 데이터를 저장하고 남는 공간을 빈 칸(blank)으로 채운다. 빈 칸(blank)으로
+          채워지기 때문에 같은 문자열이 저장된 변수라도 서로 길이가 다르다면, 이 두 변수를 비교할 때 서로 일치하지 않는다는 점에
+          주의해야 한다.</p>
+
+          <p>선언하는 문법은 다음과 같다.</p>
+
+          <pre class="programlisting">NCHAR[(L)]</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">L</td><td><p>변수의 최대 길이이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>고정 길이 문자열을 저장한다.</p>
+                      </li><li>
+                        <p>NVARCHAR2와는 달리 길이를 지정하는 것은 옵션이다. (기본값: 1)</p>
+                      </li><li>
+                        <p>길이는 항상 문자 단위로 지정된다.</p>
+                      </li><li>
+                        <p>최대 길이는 32767bytes이다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>데이터베이스에서 사용하는 NCHAR 타입의 컬럼은 2000bytes만을 저장할 수 있다.</p>
+        </li><li>
+          <p>LONG<a id="d5e1387" class="indexterm"/></p>
+
+          <p>2GB(2^31)까지의 데이터를 저장할 수 있는 데이터베이스의 LONG 타입과는 달리 32760bytes의 최대
+          길이를 갖는 가변 길이 문자열이다.</p>
+
+          <p>LONG 타입은 VARCHAR2 타입과 매우 유사하다. LONG 타입의 데이터베이스의 컬럼은 32760bytes
+          이상의 데이터를 저장할 수 있기 때문에 <span>tbPSM</span>의 LONG 타입으로는 LONG 타입의 데이터베이스 컬럼 값을
+          저장하는데 제약이 따른다. 하지만 <span>tbPSM</span>의 LONG 타입의 최대 길이는 데이터베이스에서 사용하는 LONG
+          타입보다 작으므로 제한 없이 데이터베이스 컬럼에 삽입할 수 있다.</p>
+        </li><li>
+          <p>RAW<a id="d5e1395" class="indexterm"/></p>
+
+          <p>이 타입은 바이너리 데이터를 저장하기 위한 고정길이 문자열이다.</p>
+
+          <p>선언하는 문법은 다음과 같다.</p>
+
+          <pre class="programlisting">RAW(L)</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">L</td><td><p>변수의 최대 길이이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>고정 길이 문자열을 저장한다.</p>
+                      </li><li>
+                        <p>항상 표시되어야 한다.</p>
+                      </li><li>
+                        <p>길이는 문자가 아니라 Byte로 지정된다.</p>
+                      </li><li>
+                        <p>최대 길이는 32767bytes이다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>데이터베이스에서 사용하는 RAW 타입의 컬럼은 2000bytes만을 저장할 수 있다. 따라서 만일 데이터의
+          길이가 2000bytes 이상이면 RAW 타입의 데이터베이스 컬럼에 저장될 수 없다. 그러나 최대 길이가
+          2GB(2^31)인 LONG RAW 타입의 데이터베이스 컬럼에는 삽입될 수 있다.</p>
+
+          <p>LONG RAW 타입의 데이터베이스 컬럼에 저장된 데이터의 길이가 32767bytes 이상이라면 <span>tbPSM</span>의 RAW 타입의 변수에 저장될 수 없다.</p>
+        </li><li>
+          <p>LONG RAW<a id="d5e1426" class="indexterm"/></p>
+
+          <p>이 타입은 바이너리 데이터 또는 Byte로 된 문자열을 저장하기 위해 사용하는 자료 구조이다.</p>
+
+          <p>선언하는 문법은 다음과 같다.</p>
+
+          <pre class="programlisting">LONG RAW(L)</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">L</td><td><p>변수의 최대 길이이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>항상 표시되어야 한다.</p>
+                      </li><li>
+                        <p>길이는 문자가 아니라 Byte로 지정된다.</p>
+                      </li><li>
+                        <p>최대 길이는 32760bytes이다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>데이터베이스에서 사용하는 LONG RAW 타입의 컬럼은 최대 길이가 2GB이기 때문에 컬럼 데이터의 실제 길이가
+          32760bytes 이상이라면 <span>tbPSM</span>의 LONG RAW 타입의 변수에 저장될 수 없다. 반면에
+          <span>tbPSM</span>의 LONG RAW 타입의 컬럼의 최대 길이보다 작으므로 저장에
+          제한이 없다.</p>
+        </li><li>
+          <p>ROWID<a id="d5e1455" class="indexterm"/></p>
+
+          <p>이 타입은 기본적으로 데이터베이스의 ROWID 타입과 같다. ROWID는 내부적으로 운영체제에 따라 길이가 다른
+          고정 길이 2진수로 저장된다. 일반적으로 ROWID는 <span>tbPSM</span> 프로그램에 의해 구성되지 않는다.</p>
+
+          <p>ROWID는 ROWIDTOCHAR<a id="d5e1460" class="indexterm"/> 내장 함수를 통해 문자열로 변환할 수 있다. 이 함수를 통해 출력된 결과 값은 총 18자리
+          문자열로 나타난다.</p>
+
+          <pre class="programlisting">SSSSSS.FFF.BBBBBB.RRR</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">SSSSSS</td><td>데이터베이스의 세그먼트이다.</td></tr><tr><td align="left">FFF</td><td>데이터 파일의 번호이다.</td></tr><tr><td align="left">BBBBBB</td><td>데이터베이스의 블록이다.</td></tr><tr><td align="left">RRR</td><td>블록 내의 로우이다.</td></tr></tbody></table>
+          </div>
+
+          <p>ROWID의 각 구성요소는 16진수로 표현될 수 있다.</p>
+
+          <p>다음은 파일 1의 1번 세그먼트의 첫 번째 블록의 첫 번째 열을 의미하는 ROWID의 예이다.</p>
+
+          <pre class="programlisting">000001.001.00001.001</pre>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e1487"/>DATETIME / INTERVAL 그룹<a id="d5e1488" class="indexterm"/><a id="d5e1490" class="indexterm"/><a id="d5e1492" class="indexterm"/><a id="d5e1495" class="indexterm"/></h4>
+
+      <p>년, 월, 일, 시, 분, 초를 포함하는 날짜 및 시간 정보를 저장하기 위해 사용한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>DATE<a id="d5e1502" class="indexterm"/></p>
+
+          <p>변수는 고정 길이의 날짜 정보를 저장한다. DATE 타입의 포맷은 초기화 파라미터인
+          <code class="filename">NLS_DATE_FORMAT</code>에 의해 결정된다. (기본값:
+          'YYYY/MM/DD')</p>
+
+          <p>다음은 DATE 타입을 사용한 예이다.</p>
+
+          <pre class="programlisting">DECLARE
+    today DATE := '2009/04/30';</pre>
+
+          <p><span>Tibero</span>에서 제공하는
+          <span><strong class="guibutton">SYSDATE</strong></span> 함수는 현재 날짜를 반환한다.</p>
+        </li><li>
+          <p>TIMESTAMP<a id="d5e1513" class="indexterm"/></p>
+
+          <p>변수는 DATE 타입을 확장하여 시간 정보까지 저장한다.</p>
+
+          <p>선언하는 방법은 다음과 같다.</p>
+
+          <pre class="programlisting">TIMESTAMP[(P)]</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">P</td><td><p>소수점 초 단위의 정밀도이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>0 ~ 9사이의 값을 사용할 수 있다. (기본값: 6)</p>
+                      </li><li>
+                        <p>TIMESTAMP 타입의 포맷인 초기화 파라미터
+                        <code class="filename">NLS_TIMESTAMP_FORMAT</code>에 의해
+                        결정된다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>다음은 TIMESTAMP 타입을 사용한 예이다.</p>
+
+          <pre class="programlisting">DECLARE
+    today TIMESTAMP := '2009/04/30 15:38:53.000';</pre>
+        </li><li>
+          <p>TIMESTAMP WITH TIME ZONE<a id="d5e1540" class="indexterm"/></p>
+
+          <p>TIMESTAMP 타입을 확장하여 시간대 정보까지 저장한다.</p>
+
+          <p>선언하는 방법은 다음과 같다.</p>
+
+          <pre class="programlisting">TIMESTAMP[(P)] WITH TIME ZONE</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">P</td><td><p>소수점 초 단위의 정밀도이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>0 ~ 9사이의 값을 사용할 수 있다. (기본값: 6)</p>
+                      </li><li>
+                        <p>TIMESTAMP WITH TIME ZONE 타입의 포맷인 초기화 파라미터
+                        <code class="filename">NLS_TIMESTAMP_TZ_FORMAT</code>에 의해
+                        결정된다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>다음은 TIMESTAMP WITH TIME ZONE 타입을 사용한 예이다.</p>
+
+          <pre class="programlisting">DECLARE
+    today TIMESTAMP WITH TIME ZONE := '2009/04/30 15:38:53.000 Asia/Seoul';</pre>
+        </li><li>
+          <p>TIMESTAMP WITH LOCAL TIME ZONE<a id="d5e1567" class="indexterm"/></p>
+
+          <p>TIMESTAMP 타입을 UTC(Coordinated Universal Time)으로 정규화해서
+          저장한다.</p>
+
+          <p>선언하는 방법은 다음과 같다.</p>
+
+          <pre class="programlisting">TIMESTAMP[(P)] WITH LOCAL TIME ZONE</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">P</td><td><p>소수점 초 단위의 정밀도이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>0 ~ 9사이의 값을 사용할 수 있다. (기본값: 6)</p>
+                      </li><li>
+                        <p>TIMESTAMP 타입의 포맷인 초기화 파라미터
+                        <code class="filename">NLS_TIMESTAMP_FORMAT</code>에 의해
+                        결정된다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>다음은 TIMESTAMP WITH LOCAL TIME ZONE 타입을 사용한 예이다.</p>
+
+          <pre class="programlisting">DECLARE
+    today TIMESTAMP WITH LOCAL TIME ZONE := '2009/04/30 15:38:53.000';</pre>
+        </li><li>
+          <p>INTERVAL YEAR TO MONTH<a id="d5e1594" class="indexterm"/></p>
+
+          <p>연도와 월의 차이를 저장한다.</p>
+
+          <p>선언하는 방법은 다음과 같다.</p>
+
+          <pre class="programlisting">INTERVAL YEAR[(P)] TO MONTH</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">P</td><td><p>연도의 자릿수를 결정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>0 ~ 4 사이의 값을 사용할 수 있다. (기본값: 2)</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>다음은 INTERVAL YEAR TO MONTH 타입을 사용한 예이다.</p>
+
+          <pre class="programlisting">DECLARE
+    remained_months INTERVAL YEAR(3) TO MONTH;
+BEGIN
+    remained_months := INTERVAL '3-6' YEAR TO MONTH;
+    remained_months := '3-6';
+    remained_months := INTERVAL '3' YEAR;
+    remained_months := INTERVAL '6' MONTH;
+END;</pre>
+        </li><li>
+          <p>INTERVAL DAY TO SECOND<a id="d5e1618" class="indexterm"/></p>
+
+          <p>날짜와 초의 차이를 저장한다.</p>
+
+          <p>선언하는 방법은 다음과 같다.</p>
+
+          <pre class="programlisting">INTERVAL DAY[(P)] TO SECOND[(F)]</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">P</td><td><p>날짜의 자릿수를 결정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>0 ~ 9 사이의 값을 사용할 수 있다. (기본값: 2)</p>
+                      </li></ul></div></td></tr><tr><td align="left">F</td><td><p>초의 자릿수를 결정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>0 ~ 9 사이의 값을 사용할 수 있다. (기본값: 6)</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>다음은 INTERVAL DAY TO SECOND 타입을 사용한 예이다.</p>
+
+          <pre class="programlisting">DECLARE
+    remained_days INTERVAL DAY(3) TO SECOND(3);
+BEGIN
+    remained_days := INTERVAL '3 6:02:05.9' DAY TO SECOND;
+    remained_days := '3 6:02:05.9';
+    remained_days := INTERVAL '3' DAY;
+    remained_days := INTERVAL '12.902' SECOND;
+END;</pre>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e1648"/>BOOLEAN 그룹<a id="d5e1649" class="indexterm"/><a id="d5e1651" class="indexterm"/><a id="d5e1654" class="indexterm"/></h4>
+
+      <p>TRUE, FALSE, NULL 만을 저장할 수 있다.</p>
+
+      <p>다음은 유효하지 않은 BOOLEAN를 사용한 예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    flag BOOLEAN := 0;</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1660"/>2.2.2. 복합 타입<a id="d5e1662" class="indexterm"/><a id="d5e1664" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span>tbPSM</span>에서 사용할 수 있는 복합 타입(composite type)은 컬렉션
+      타입(테이블, 배열)과 레코드가 있다. 복합 타입은 내부에 하나 이상의 스칼라 타입을 포함해야 한다. 자세한 내용은 <a href="chapter_composite.html" title="제4장 복합 타입">“제4장 복합 타입”</a>을 참고한다.</p>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1671"/>2.2.3. 참조 타입<a id="d5e1673" class="indexterm"/><a id="d5e1675" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>프로그램에서 변수가 일단 스칼라나 복합 타입으로 선언되면 참조 타입의 변수에 메모리 저장소가 할당된다. 변수에 할당된
+      메모리 저장소는 나중에 프로그램에서 참조를 위해 사용된다. 그러나, 일단 변수에 메모리 저장소가 할당이 되면 해제할 방법은
+      없으며, 계속 그 변수를 사용할 수 밖에 없다. 즉, 메모리 저장소는 변수가 소멸되기 전까지는 해제되지 않는다.</p>
+
+      <p>그러나 참조 타입은 이러한 제한이 없다. <span>tbPSM</span>에서 참조 타입은 C 언어의 포인터와 같다. 참조 타입으로 선언된 변수는
+      다른 저장소의 위치를 가리킨다. 현재 <span>tbPSM</span>에서 사용할 수 있는 참조 타입은 REF CURSOR이다. 자세한 내용은
+      <a href="chapter_sql_execution.html#sect_cursor_var" title="7.3.3. 커서 변수">“7.3.3. 커서 변수”</a>를 참고한다.</p>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1685"/>2.2.4. 대용량 객체형 타입<a id="d5e1687" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>대용량 객체형 타입은 CLOB, BLOB, XMLTYPE, GEOMETRY이 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>CLOB<a id="d5e1695" class="indexterm"/></p>
+
+          <p>대용량의 문자열 데이터를 저장한다. CLOB 타입으로 문자열이 저장될 때는 항상 고정길이의 문자 집합으로
+          변환된다. 최댓값은 4GB(2^64bytes)까지 가능하며, DBMS_LOB 패키지를 이용하여 조작할 수
+          있다.<a id="d5e1698" class="indexterm"/></p>
+        </li><li>
+          <p>BLOB<a id="d5e1702" class="indexterm"/></p>
+
+          <p>대용량의 바이너리 데이터를 저장한다. 최댓값은 4GB(2^64bytes)까지 가능하며, DBMS_LOB 패키지를
+          이용하여 조작할 수 있다.</p>
+        </li><li>
+          <p>XMLTYPE<a id="d5e1707" class="indexterm"/></p>
+
+          <p>XML형태의 데이터를 저장한다. 물리적으로 CLOB 타입과 동일하다.</p>
+        </li><li>
+          <p>GEOMERY<a id="d5e1712" class="indexterm"/></p>
+
+          <p>GEOMERY 형태의 데이터를 저장한다. 물리적으로 BLOB 타입과 동일히다.</p>
+        </li><li>
+          <p>BFILE<a id="d5e1717" class="indexterm"/></p>
+
+          <p>File Locator로써, 파일 접근을 위한 파일 경로와 파일이름을 저장하고 있는 타입니다. 데이터베이스
+          외부의 파일을 접근하기 위함이며, 최대 4GB 크기의 파일을 접근 가능하다.</p>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_etctype"/>2.2.5. 기타 타입<a id="d5e1723" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스 테이블에 저장된 데이터를 조작하기 위해 사용하는 <span>tbPSM</span> 변수는 테이블 컬럼과 같은 타입을 가지고 있어야 하며, 해당 컬럼의
+      타입이 변경되더라도 프로그램에 영향을 미치지 않아야 한다.</p>
+
+      <p>다음과 같은 기타 타입의 변수가 사용된다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>%TYPE<a id="d5e1733" class="indexterm"/></p>
+
+          <p>어떤 테이블 컬럼 하나와 동일한 타입을 갖는다. 예를 들어 students 테이블의 first_name 컬럼은
+          VARCHAR2(20) 타입을 가지고 있다고 가정하면 다음과 같이 변수를 선언할 수 있다.</p>
+
+          <pre class="programlisting">DECLARE
+    v_first_name VARCHAR2(20);</pre>
+
+          <p>만약 first_name 컬럼의 정의가 VARCHAR2(25) 타입으로 변경되면 이 컬럼을 사용하는 모든 코드는
+          변경되어야 한다. 이때 %TYPE을 사용할 수 있다. 테이블 컬럼과 연동되어 해당 타입을 반환한다.</p>
+
+          <p>예를 들면 다음과 같다.</p>
+
+          <pre class="programlisting">DECLARE
+    v_fisrt_name students.first_name%TYPE;</pre>
+
+          <p>%TYPE를 사용하면 v_first_name 변수는 students 테이블의 first_name 컬럼의 타입과는
+          관계 없이 항상 동일하게 동작한다. 만일 %TYPE이 NOT NULL로 제한된 변수나 컬럼에 적용되는 경우 반환되는 타입은
+          이러한 제한을 갖지 않는다.</p>
+        </li><li>
+          <p>%ROWTYPE<a id="d5e1743" class="indexterm"/></p>
+
+          <p>테이블의 컬럼 전체와 같은 타입을 갖는 레코드 변수처럼 동작한다. 기본 속성은 %TYPE과
+          동일하다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_user_def_subtype"/>2.2.6. 사용자 정의 서브 타입<a id="d5e1748" class="indexterm"/><a id="d5e1750" class="indexterm"/><a id="d5e1752" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>사용자는 필요에 따라 기존의 데이터 타입에 기반하여 새로운 서브 타입을 정의할 수 있다. 이를 칭할 때 사용자 정의
+      서브 타입이라고 한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>선언하는 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">SUBTYPE new_type IS orig_type;</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">new_type</td><td>새롭게 선언할 서브 타입의 이름이다.</td></tr><tr><td align="left">orig_type</td><td><p>미리 정의된 타입이거나 서브 타입 또는 %TYPE일 수 있다.</p><p>새롭게
+              선언된 서브 타입(new_type)은 orig_type에 따라 해당 그룹에 속하게 된다.</p></td></tr></tbody></table>
+      </div>
+
+      <p>예를 들면 orig_type를 %TYPE으로 선언하는 경우 <span>tbPSM</span> 블록의 선언부에 정의될 수 없다. 하지만 다음과 같이 더미(dummy)
+      변수를 선언한 후 이 변수를 이용하여 서브 타입을 선언할 수 있다.</p>
+
+      <pre class="programlisting">DECLARE
+    dummy NUMBER(4);
+    SUBTYPE counter IS dummy%TYPE;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p/>
+
+      <p/>
+
+      <p>다음은 사용자 정의 서브 타입의 예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    SUBTYPE Single IS NUMBER(1, 0);
+    count Single;</pre>
+
+      <p>위 예에서는 NUMBER 타입에 기반한 새로운 서브 타입 즉 <span><strong class="guibutton">Single</strong></span>이
+      선언되었다.</p>
+
+      <p>서브 타입의 선언은 항상 <span>tbPSM</span> 블록의 선언부에 포함되어야 하며, 서브 타입을 사용하기 전에 선언되어야
+      한다. 만약 서브 타입의 변수가 갖지 못하는 값을 할당하면 예외 상황이 발생한다.</p>
+
+      <p>서브 타입은 이미 존재하는 데이터 타입에 기초한 <span>tbPSM</span>의 타입이므로 애플리케이션 프로그램 개발자의 편의나 프로그램의 이해를
+      높이기 위한 별칭(Alias)으로도 사용할 수 있다. 또한 미리 정의된 서브 타입 외에 새로운 서브 타입을 정의할 수
+      있다.</p>
+
+      <p>예를 들면 다음과 같다.</p>
+
+      <pre class="programlisting">DECLARE
+    SUBTYPE T_Numeric is NUMBER;
+    SUBTYPE V_Counter is T_Numeric(5);</pre>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1795"/>2.3. 데이터 타입 변환</h2></div></div></div>
+    
+
+    <p><span>tbPSM</span>은 스칼라 타입 중에서 다른 그룹 사이의 변환을 처리할 수 있다. 그룹
+    내에서의 변수의 제한을 제외하면 제한 없이 데이터 타입을 변경할 수 있다.<a id="d5e1799" class="indexterm"/></p>
+
+    <p>예를 들면 CAHR(10) 데이터 타입은 충분한 공간이 없기 때문에 VARCHAR(1)로 변환할 수 없다. 마찬가지로
+    정밀도와 스케일의 제약은 NUMBER(3)를 NUMBER(3,2)로 변환을 방해한다. 이렇게 변수에 제약이 있으면 컴파일러는 에러를
+    발생시키지 않는다. 그 대신 런타임 에러가 발생한다.</p>
+
+    <p>일반적으로 혼합된 데이터 타입은 변환 자체가 금지된다. 그러나 변환이 필요하면 변환 함수를 작성하여 프로그램에서 사용할 수
+    있다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>데이터 타입을 변환하는 방법에는 다음과 같이 두 가지가 있다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>명시적(explicit) 변환</p>
+      </li><li>
+        <p>묵시적(implicit) 변환</p>
+      </li></ul></div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1810"/>2.3.1. 명시적 변환</h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">명시적 변환</strong></span><a id="d5e1814" class="indexterm"/>은 시스템 변환 함수와 CAST 구문을 사용하여 변환하는 것을 말한다.</p>
+
+      <p>다음은 시스템에서 제공하는 변환 함수이다.<a id="d5e1817" class="indexterm"/></p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">구분</th><th>설명</th></tr></thead><tbody><tr><td align="left"><p>TO_CHAR<a id="d5e1830" class="indexterm"/><a id="d5e1832" class="indexterm"/></p></td><td><p>입력 데이터를 VARCHAR2 타입으로 변환한다.</p><p>변환이 가능한 타입은
+              다음과 같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>NUMERIC 그룹</p>
+                  </li><li style="list-style-type: circle">
+                    <p>RAW, LONG RAW를 제외한 CHARACTER / STRING 그룹</p>
+                  </li><li style="list-style-type: circle">
+                    <p>DATETIME / INTERVAL 그룹</p>
+                  </li><li style="list-style-type: circle">
+                    <p>ROWID</p>
+                  </li><li style="list-style-type: circle">
+                    <p>CLOB</p>
+                  </li></ul></div></td></tr><tr><td align="left"><p>TO_DATE<a id="d5e1852" class="indexterm"/><a id="d5e1854" class="indexterm"/></p></td><td><p>입력 데이터를 DATE 타입으로 변환한다. 단, 입력 데이터가 DATE 형식으로 되어 있지
+              않은 경우에는 예외 상황이 발생한다.</p><p>변환이 가능한 타입은 다음과
+              같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>RAW, LONG RAW를 제외한 CHARACTER / STRING 그룹</p>
+                  </li><li style="list-style-type: circle">
+                    <p>CLOB</p>
+                  </li></ul></div></td></tr><tr><td align="left"><p>TO_CLOB<a id="d5e1868" class="indexterm"/><a id="d5e1870" class="indexterm"/></p></td><td><p>입력 데이터를 CLOB 타입으로 변환한다.</p><p>변환이 가능한 타입은 다음과
+              같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>NUMERIC 그룹</p>
+                  </li><li style="list-style-type: circle">
+                    <p>RAW, LONG RAW를 제외한 CHARACTER / STRING 그룹</p>
+                  </li><li style="list-style-type: circle">
+                    <p>DATETIME / INTERVAL 그룹</p>
+                  </li><li style="list-style-type: circle">
+                    <p>ROWID</p>
+                  </li></ul></div></td></tr><tr><td align="left"><p>TO_TIMESTAMP<a id="d5e1888" class="indexterm"/><a id="d5e1890" class="indexterm"/></p></td><td><p>입력 데이터를 TIMESTAMP 타입으로 변환한다. 단, 입력 데이터가 TIMESTAMP
+              형식으로 되어 있지 않은 경우에는 예외 상황이 발생한다.</p><p>변환이 가능한 타입은 다음과
+              같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>RAW, LONG RAW를 제외한 CHARACTER / STRING 그룹</p>
+                  </li><li style="list-style-type: circle">
+                    <p>CLOB</p>
+                  </li></ul></div></td></tr><tr><td align="left"><p>TO_NUMBER<a id="d5e1904" class="indexterm"/><a id="d5e1906" class="indexterm"/></p></td><td><p>입력 데이터를 NUMBER 타입으로 변환한다. 단, 입력 데이터가 NUMBER 형식으로 되어
+              있지 않은 경우에는 예외 상황이 발생한다.</p><p>변환이 가능한 타입은 다음과
+              같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>RAW, LONG RAW를 제외한 CHARACTER / STRING 그룹</p>
+                  </li><li style="list-style-type: circle">
+                    <p>CLOB</p>
+                  </li></ul></div></td></tr><tr><td align="left"><p>RAWTOHEX<a id="d5e1920" class="indexterm"/><a id="d5e1922" class="indexterm"/></p></td><td><p>바이너리 데이터를 16진수 표현으로 변환한다.</p><p>변환이 가능한 타입은
+              다음과 같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>RAW, LONG RAW</p>
+                  </li></ul></div></td></tr><tr><td align="left"><p>HEXTORAW<a id="d5e1934" class="indexterm"/><a id="d5e1936" class="indexterm"/></p></td><td><p>16진수 표현을 동일한 바이너리 데이터로 변환한다.</p><p>변환이 가능한
+              타입은 다음과 같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>16진수 표현으로 되어 있으며 VARCHAR2로 변환될 수 있는 타입</p>
+                  </li></ul></div></td></tr><tr><td align="left"><p>CHARTOROWID<a id="d5e1948" class="indexterm"/><a id="d5e1950" class="indexterm"/></p></td><td><p>ROWID 형식으로 된 문자열 변수를 ROWID 타입으로
+              변환한다.</p><p>변환이 가능한 타입은 다음과 같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>ROWID 형식으로 되어 있으며, VARCHAR2로 변환될 수 있는 타입</p>
+                  </li></ul></div></td></tr><tr><td align="left"><p>ROWIDTOCHAR<a id="d5e1962" class="indexterm"/><a id="d5e1964" class="indexterm"/></p></td><td><p>ROWID 타입의 변수를 문자열로 변환한다.</p><p>변환이 가능한 타입은
+              다음과 같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>ROWID</p>
+                  </li></ul></div></td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p>CAST 구문의 사용법은 다음과 같다.<a id="d5e1975" class="indexterm"/></p>
+
+      <pre class="programlisting"> CAST (expression AS type) </pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1978"/>2.3.2. 묵시적 변환<a id="d5e1980" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">묵시적 변환</strong></span>은 변수 사이의 대입 등에서 필요하다고 판단될 경우 자동으로
+      일어나는 변환을 말한다.</p>
+
+      <p>예를 들면 다음과 같다.</p>
+
+      <pre class="programlisting">SQL&gt; CREATE TABLE emp (id NUMBER, <span><strong class="guibutton">current_credits NUMBER(3)</strong></span>);
+SQL&gt; INSERT INTO emp VALUES (1004, 2);
+...
+
+SQL&gt; DECLARE
+    <span><strong class="guibutton">cur_cred VARCHAR2(5);</strong></span>
+BEGIN
+    <span><strong class="guibutton">SELECT current_credits INTO cur_cred
+    FROM emp WHERE id = 1004;</strong></span>
+END;</pre>
+
+      <p>위의 예는 emp 테이블에서 ID가 1004번인 직원의 현재 신용 번호를 조회하는 SELECT 문이다. 그러나 컬럼인
+      current_credits의 데이터 타입은 NUMBER(3)인 반면에 cur_cred는 VARCHAR2(5)이다. 이러한 경우
+      <span>tbPSM</span>은 NUMBER 타입의 데이터를 자동으로 VARCHAR2 타입으로
+      변환하여 INTO 절에 할당된 cur_cred에 저장한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 묵시적 변환이 허용되는 타입이다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup><thead><tr><th> </th><th>BIN_INT</th><th>PLS_INT</th><th>NUMBER</th><th>CHAR</th><th>VARCHAR2</th><th>LONG</th><th>DATE</th><th>RAW</th><th>CLOB</th><th>BLOB</th><th>ROWID</th></tr></thead><tbody><tr><td>BIN_INT</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>PLS_INT</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>NUMBER</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td><span><strong class="guibutton">O</strong></span></td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>CHAR</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td> </td><td>O</td></tr><tr><td>VARCHAR2</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td> </td><td>O</td></tr><tr><td>LONG</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td> </td><td>O</td></tr><tr><td>DATE</td><td> </td><td> </td><td> </td><td>O</td><td><span><strong class="guibutton">O</strong></span></td><td>O</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>RAW</td><td> </td><td> </td><td> </td><td>O</td><td>O</td><td>O</td><td> </td><td> </td><td> </td><td>O</td><td> </td></tr><tr><td>CLOB</td><td> </td><td> </td><td> </td><td>O</td><td>O</td><td>O</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>BLOB</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>O</td><td> </td><td> </td><td> </td></tr><tr><td>ROWID</td><td> </td><td> </td><td> </td><td>O</td><td>O</td><td>O</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr></tbody></table>
+      </div>
+
+      <p>위 표에서 세로로 표현된 열은 원본 타입이고, 가로로 표현된 행은 대상 타입이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>묵시적 변환에서 주의할 점은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>VARCHAR2 타입이 DATE 타입으로 변환되는 경우 위 표에서는 변환이 가능한 것으로 되어 있지만, 실제로는
+          VARCHAR2 타입의 변수가 DATE 형식으로 되어 있지 않으면 예외 상황이 발생한다.</p>
+        </li><li>
+          <p>LONG 타입의 변수가 NUMBER 타입으로 변환되는 경우 위 표에서는 변환이 가능한 것으로 되어 있지만,
+          실제로는 LONG 타입의 변수가 NUMBER 형식으로 되어 있지 않으면 예외 상황이 발생한다.</p>
+        </li></ul></div>
+
+      <p>특정한 형식을 갖고 있는 타입으로 변환하기 위해서는 원본 변수 역시 같은 형식을 가져야 한다.</p>
+
+      <p>예를 들면 다음과 같다.</p>
+
+      <pre class="programlisting">DECLARE
+    a VARCHAR2(20) := '2009/04/30';
+    b VARCHAR2(20) := '<span>Tibero</span>';
+    c VARCHAR2(20) := '1';
+    d NUMBER;
+    e DATE;
+BEGIN
+    d := b;     -- 예외 상황이 발생한다.
+    d := c;     -- 변환에 성공한다.
+
+    e := a;     -- 변환에 성공한다.
+    e := b;     -- 예외 상황이 발생한다.
+END;</pre>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2167"/>2.4. 데이터 변수의 선언과 참조 영역</h2></div></div></div>
+    
+
+    <p>본 절에서는 데이터 변수의 선언과 참조 영역에 대해서 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2170"/>2.4.1. 변수 선언<a id="d5e2172" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터 변수를 선언하려면 먼저 변수 이름을 입력하고 그 다음 변수의 데이터 타입을 정의한다. 이때
+      <span><strong class="guibutton">변수에 초기 값을 할당할 수 있으며, 상수로 초기 값을 선언</strong></span>할 수도 있다.</p>
+
+      <p>예를 들면 다음과 같다.</p>
+
+      <pre class="programlisting">radius REAL := 1.0;
+
+pi CONSTANT REAL := 3.141592654;</pre>
+
+      <p>위의 예에서 변수 radius는 초기 값으로 1.0을 할당하였으며, 변수 pi는 항상 3.141592654 값을 갖도록
+      초기 값을 상수로 선언하였다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>데이터 변수에 <span><strong class="guibutton">NOT NULL</strong></span><a id="d5e2182" class="indexterm"/> 제약조건을 설정할 수도 있다. NOT NULL 제약조건을 설정하면 변수 값이 NULL이 되어서는 안
+      된다.</p>
+
+      <pre class="programlisting">area REAL NOT NULL := 0.0;</pre>
+
+      <p>만약 NULL이 변수 값으로 할당되면 예외 상황이 발생한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>사용자가 필요에 의해 정의한 서브 타입에 대해서도 <span><strong class="guibutton">NOT NULL</strong></span> 제약조건을
+      설정할 수 있다. 이러한 서브 타입의 변수에 NULL를 할당하면 예외 상황이 발생한다.</p>
+
+      <pre class="programlisting">SUBTYPE Single IS NUMBER(1, 0) NOT NULL;</pre>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2191"/>2.4.2. 변수 참조 영역<a id="d5e2193" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">변수 참조 영역</strong></span>(scope)은 프로그램의 일부로서, 한 프로그램 내에서 해당
+      변수에 접근할 수 있는 영역을 의미한다.</p>
+
+      <p><span>tbPSM</span> 변수의 참조 영역은 변수가 선언된 블록이다. 즉, 변수의 선언에서
+      시작되고 변수가 선언된 블록이 끝날 때 참조 영역도 끝난다. 변수가 참조 영역을 벗어나면 해당 변수를 저장하기 위해 할당된
+      메모리는 시스템에 반환된다. 따라서 프로그램이 종료되지 않았어도 참조 영역을 벗어난 변수라면 접근할 수 없다.</p>
+
+      <p>예를 들면 다음과 같다.</p>
+
+      <p>&lt;employee_num 변수의 참조 영역&gt;</p>
+
+      <pre class="programlisting"><span><strong class="guibutton">DECLARE
+  employee_num   NUMBER;
+BEGIN</strong></span>
+  DECLARE
+     employee_name  VARCHAR2(100);
+  BEGIN
+     employee_num  := '100';
+     employee_name := 'Peter';
+     ...
+  END;<span><strong class="guibutton">
+END;</strong></span></pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>각 변수의 참조 영역 내에서는 해당 변수와 동일한 이름을 사용할 수 없다. 그러나 참조 영역의 내부에 서브 블록이
+      사용되는 경우는 다르다.</p>
+
+      <p>아래 예와 같이 서브 블록 안에서는 외부 블록에서처럼 동일한 이름의 변수를 선언하고 사용할 수 있다.</p>
+
+      <pre class="programlisting">DECLARE
+  employee   PLS_INTEGER;
+BEGIN                             <em class="lineannotation"><span class="lineannotation">... ⓐ ...</span></em>
+  employee := 100;
+  DECLARE
+      employee  VARCHAR2(255);    <em class="lineannotation"><span class="lineannotation">... ⓑ ...</span></em>
+
+      BEGIN                       <em class="lineannotation"><span class="lineannotation">... ⓒ ...</span></em>
+          employee := 'John';    
+      END;                        <em class="lineannotation"><span class="lineannotation">... ⓓ ...</span></em>
+
+  employee := employee + 10;      <em class="lineannotation"><span class="lineannotation">... ⓔ ...</span></em>
+END;                              <em class="lineannotation"><span class="lineannotation">... ⓕ ...</span></em></pre>
+
+      <p>위 예를 기준으로 employee 변수의 참조 영역을 설명하면 다음과 같다.</p>
+
+      <p>ⓐ ~ ⓑ 외부 블록에서 선언된 employee가 사용되는 영역이다.</p>
+
+      <p>ⓒ ~ ⓓ 서브 블록에서 선언된 employee가 사용되는 영역이다.</p>
+
+      <p>ⓔ ~ ⓕ 외부 블록에서 선언된 employee가 사용되는 영역이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>서브 블록 내에서는 외부 블록에서 선언된 employee 변수를 사용할 수 없다. 사용하고 싶다면 다음 예에서처럼 외부
+      블록에 레이블을 붙여서 사용해야 한다.</p>
+
+      <pre class="programlisting"><span><strong class="guibutton">&lt;&lt;first_block&gt;&gt;</strong></span>
+DECLARE
+    employee PLS_INTEGER;
+BEGIN
+    employee := 100;
+
+    DECLARE
+        employee VARCHAR2(255);
+    BEGIN
+        employee := 'Susan';
+        first_block.employee := 200;
+    END;
+
+    employee := employee + 10;
+END;</pre>
+
+      <p>서브 프로그램의 내부에서 선언된 변수의 경우에도 위와 같은 방법으로 접근한다.</p>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2223"/>2.5. 연산식<a id="d5e2225" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span>tbPSM</span> 프로그램에서는 기본적으로 제공되는 <span>Tibero</span>의 연산식을 그대로
+    사용한다. 단, <span>Tibero</span>의 기본 연산식에 포함되지 않는 <span><strong class="guibutton">CASE 연산자</strong></span>가
+    존재한다.<a id="d5e2232" class="indexterm"/></p>
+
+    <p/>
+
+    <h3><a id="d5e2235"/>CASE 연산자</h3>
+
+    <p>CASE 연산자는 여러 조건 중에서 만족되는 조건에 연관된 값을 반환하는 연산자이다.</p>
+
+    <p>다음은 CASE 연산자를 사용한 예이다.</p>
+
+    <pre class="programlisting"><span><strong class="guibutton">name := CASE order</strong></span>
+WHEN 1 THEN 'Mercury'
+WHEN 2 THEN 'Venus'
+WHEN 3 THEN 'Earth'
+...
+ELSE 'No Such Planet'
+END;</pre>
+
+    <p>위 예에서 데이터 변수 order에 할당된 값에 따라 변수 name의 값은 달라진다. 여기에서 변수 order를
+    <span><strong class="guibutton">선택자</strong></span>(selector)라고 한다.<a id="d5e2242" class="indexterm"/></p>
+
+    <p>변수 order의 값이 WHEN 문 뒤의 값과 일치하면 THEN 뒤의 값을 CASE 연산자가 반환한다. 이와는 반대로 변수
+    order의 값이 WHEN 뒤의 값 중에 어떤 것과도 일치하지 않으면 ELSE 뒤의 값을 반환한다.</p>
+
+    <p>위의 예를 기준으로 설명하면, order의 값이 1이라면 CASE 연산자는 Mercury를 반환하고, 따라서 name에는
+    Mercury가 저장된다. 이와 마찬가지로 order의 값이 2라면 name에는 Venus가 저장될 것이다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>또는 선택자 없이 CASE 연산자를 사용할 수도 있다. 선택자가 있을 때는 선택자와 WHEN 다음의 값을 비교할 때 동등
+    연산자(=)로 비교한다. 하지만 선택자가 없는 경우에는 WHEN 다음에 임의의 논리 연산식이 올 수 있다. 예를 들면 다음과
+    같다.</p>
+
+    <pre class="programlisting">name := CASE
+WHEN 1 &lt;= order and order &lt;= 2 THEN 'Inner Planet'
+WHEN order = 3 THEN 'Earth'
+WHEN 4 &lt;= order and order &lt;= 9 THEN 'Outer Planet'
+ELSE 'No Such Planet'
+END;</pre>
+
+    <p>이처럼 선택자가 없으면 변수 order에 좀 더 복잡한 논리 조건을 사용할 수 있다.</p>
+
+    <p/>
+
+    <p/>
+
+    <h3><a id="d5e2252"/>NULL을 포함하는 연산식의 계산<a id="d5e2253" class="indexterm"/></h3>
+
+    <p>논리 또는 산술 연산식의 피연산자로 NULL 값이 포함되어 있을 때에는 일반적인 경우와 다르게 연산식을 계산할 수
+    있다.</p>
+
+    <p>다음은 <span><strong class="guibutton">논리 연산자의 피연산자가 NULL 값인 경우</strong></span>에 대한 결과이다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>X</th><th>Y</th><th>X and Y</th><th>X or Y</th><th>not X</th></tr></thead><tbody><tr><td>NULL</td><td>TRUE</td><td>NULL</td><td>TRUE</td><td>NULL</td></tr><tr><td>NULL</td><td>FALSE</td><td>FALSE</td><td>NULL</td><td>NULL</td></tr><tr><td>NULL</td><td>NULL</td><td>NULL</td><td>NULL</td><td>NULL</td></tr></tbody></table>
+    </div>
+
+    <p/>
+
+    <p><span><strong class="guibutton">비교 연산자의 피연산자가 NULL 값인 경우에는</strong></span> 항상 NULL를 반환한다. IF
+    문과 같은 제어 구조에서는 논리 연산식이 NULL을 반환하면 FALSE가 반환된 것처럼 처리된다. 만약 특정 변수의 값이
+    NULL인지를 확인하려면 IS NULL 연산자를 사용한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2289"/>2.5.1. 연산자<a id="d5e2291" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>가장 기본적인 연산자는 대입(assignment) 연산자이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e2295"/>대입 연산자<a id="d5e2296" class="indexterm"/></h4>
+
+      <p>대입 연산자의 문법은 다음과 같다.</p>
+
+      <pre class="programlisting">variable := expression;</pre>
+
+      <p>variable은 <span>tbPSM</span>의 변수이고 expression은 <span>tbPSM</span>의 표현식이다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">variable</td><td><p><span>tbPSM</span>의 변수이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>대입 연산자의 왼쪽에는 lvalue가 위치한다.</p>
+                  </li></ul></div></td></tr><tr><td align="left">expression</td><td><p><span>tbPSM</span>의 표현식이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>대입 연산자의 오른쪽에는 rvalue가 위치한다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>rvalue는 실제 저장될 값이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>변수나 상수가 올 수 있다.</p>
+                  </li></ul></div></td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 대입 연산자의 예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    local_01 VARCHAR2(100);
+    local_02 VARCHAR2(100);
+    employee_num NUMBER;
+BEGIN<span><strong class="guibutton">
+   local_01 := 'Seoul';
+   local_02 := local_01;</strong></span>
+   employee_num := '1024';
+END;</pre>
+
+      <p>위의 예에서는 문자 상수인 ‘Seoul’과 숫자 상수인 ‘1024’가 각각 해당 변수에 대입된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e2337"/>연산자의 우선 순위<a id="d5e2338" class="indexterm"/></h4>
+
+      <p><span>tbPSM</span>의 표현식은 rvalue이다. 표현식은 본질적으로 SQL 문장의 하위
+      구조이기 때문에 문장의 일부분으로 표현되어야 한다. 예를 들어 표현식은 대입 연산자의 오른쪽 또는 SQL 문장의 일부분으로 표현될
+      수 있다. 이때 피연산자의 타입과 함께 표현식을 구성하는 연산자는 타입을 결정한다.</p>
+
+      <p><span><strong class="guibutton">피 연산자</strong></span>는 연산자에 대한 인수이다. <span>tbPSM</span>의 연산자는 하나의 인수(unary)나 두 개의 인수(binary) 또는
+      그 이상의 인수를 가질 수 있다. 예를 들어 덧셈 연산자(+)는 단항 피연산자를 갖고, 곱셈 연산자(*)는 이항 피연산자를
+      갖는다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 연산자의 우선 순위에 따라 <span>tbPSM</span>의 연산자를 분류한 것이다. 아래 표에서는 가장 높은 우선 순위를 가진
+      연산자가 먼저 기술된다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="300" align="left"/><col width="70" align="left"/><col/></colgroup><thead><tr><th align="left">연산자</th><th align="left">타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">**</td><td align="left">이항</td><td>지수(exponentiation)</td></tr><tr><td align="left">+, -</td><td align="left">단항</td><td>부호</td></tr><tr><td align="left">*, /</td><td align="left">이항</td><td>곱셈, 나눗셈</td></tr><tr><td align="left">+, -, ||</td><td align="left">이항</td><td>덧셈, 뺄셈, 연결(concatenation)</td></tr><tr><td align="left">=, !=, &lt;, &gt;, &lt;=, &gt;=, IS NULL, LIKE, BETWEEN,
+              IN</td><td align="left">이항</td><td>논리 비교</td></tr><tr><td align="left">NOT</td><td align="left">단항</td><td>논리 부정</td></tr><tr><td align="left">AND</td><td align="left">이항</td><td>논리 결합</td></tr><tr><td align="left">OR</td><td align="left">이항</td><td>논리 포함</td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p><span>tbPSM</span>의 표현식에서 연산자의 우선 순위는 계산의 순서를 결정한다.</p>
+
+      <pre class="programlisting">3 + 5 * 7</pre>
+
+      <p>예를 들어 위 예와 같이 곱셈이 덧셈보다 더 높은 우선 순위를 가지므로 이 식의 계산 결과는 56( = 8 * 7 )이
+      아니라 38( = 3 + 35 )이 된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>기본적으로 부여되는 연산자의 우선 순위를 무시하기 위해서는 표현식에 <span><strong class="guibutton">괄호</strong></span>를
+      사용하면 된다. 예를 들어 다음 식은 56( = 8 * 7 )으로 계산된다.</p>
+
+      <pre class="programlisting">(3 + 5) * 7</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>유일한 문자 연산자는 <span><strong class="guibutton">문자열 결합</strong></span>을 할 수 있는 접합
+      연산자(||)<a id="d5e2402" class="indexterm"/>이다. 이 연산자는 두 개의 문자열을 하나의 문자열로 연결한다. 예를 들어 다음 식은
+      'SeoulKoreaAsia'로 계산된다.<a id="d5e2404" class="indexterm"/></p>
+
+      <pre class="programlisting">'Seoul' || 'Korea' || 'Asia'</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>문자열 결합을 하는 표현식에서 모든 피연산자가 VARCHAR2 타입이라면 해당 결과 식은 VARCHAR2 타입이 된다.
+      예를 들면 다음과 같다. 문자열 상수는 CHAR 타입으로 간주되지만, 결과 식은 VARCHAR2 타입이 된다.</p>
+
+      <pre class="programlisting">DECLARE
+    Local  VARCHAR2(100) := 'Seoul';
+    Result VARCHAR2(255);
+BEGIN
+    Result := local || 'Korea';
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e2411"/>진리식<a id="d5e2412" class="indexterm"/></h4>
+
+      <p>진리식은 진리 값(TRUE, FALSE, NULL)으로 계산되는 식이다.</p>
+
+      <p>예를 들어 다음은 진리식이다.</p>
+
+      <pre class="programlisting">X &gt; Y
+NULL
+(23 &gt; 17 ) AND (2873 &lt;= X)  </pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>진리 상수나 진리 변수를 피연산자로 갖고, 진리 값을 결과로 반환하는 연산자는 AND, OR, NOT이 있다. 각
+      연산자의 결과 값은 다음과 같은 진리표를 따른다.<a id="d5e2419" class="indexterm"/></p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>X</th><th>Y</th><th>X and Y</th><th>X or Y</th><th>not X</th></tr></thead><tbody><tr><td>NULL</td><td>TRUE</td><td>NULL</td><td>TRUE</td><td>NULL</td></tr><tr><td>NULL</td><td>FALSE</td><td>FALSE</td><td>NULL</td><td>NULL</td></tr><tr><td>NULL</td><td>NULL</td><td>NULL</td><td>NULL</td><td>NULL</td></tr></tbody></table>
+      </div>
+
+      <p>위 표에서 NULL은 소실된 값이거나 알지 못하는 값을 의미한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음 식은 두 번째 피연산자가 알지 못하는 값이므로 결과 값은 NULL을 반환한다.</p>
+
+      <pre class="programlisting">TRUE AND NULL</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e2454"/>비교 및 관계 연산자</h4>
+
+      <p>비교나 관계 연산자는 숫자, 문자, 데이터 피연산자를 가질 수 있으며, 진리 값을 반환한다.</p>
+
+      <p>연산자는 다음과 같이 정의된다.<a id="d5e2457" class="indexterm"/></p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="120" align="left"/><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">연산자</th><th align="left">문법</th><th>정의</th></tr></thead><tbody><tr><td align="left">=</td><td align="left">A = B</td><td>A와 B가 같다</td></tr><tr><td align="left">!=</td><td align="left">A != B</td><td>A와 B가 같지 않다</td></tr><tr><td align="left">&lt;</td><td align="left">A &lt; B</td><td>A가 B보다 작다</td></tr><tr><td align="left">&gt;</td><td align="left">A &gt; B</td><td>A가 B보다 크다</td></tr><tr><td align="left">&lt;=</td><td align="left">A &lt;= B</td><td>A가 B보다 작거나 A와 B가 같다</td></tr><tr><td align="left">&gt;=</td><td align="left">A &gt;= B</td><td>A가 B보다 크거나 A와 B가 같다</td></tr></tbody></table>
+      </div>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p><span><strong class="guibutton">IS NULL 연산자<a id="d5e2497" class="indexterm"/></strong></span></p>
+
+          <p>IS NULL 연산자는 피연산자가 NULL일 때만 TRUE를 반환한다. IS NULL 이외의 연산자로는
+          NULL을 판단할 수 없다.</p>
+        </li><li>
+          <p><span><strong class="guibutton">LIKE 연산자<a id="d5e2503" class="indexterm"/></strong></span></p>
+
+          <p>LIKE 연산자는 문자열의 패턴을 매칭하는데 사용된다. 언더바(_)는 한 문자에 대응되고, 퍼센트(%)는 0개
+          이상의 문자에 대응한다.</p>
+
+          <p>예를 들어 다음 식은 모두 TRUE를 반환한다.</p>
+
+          <pre class="programlisting">'Peter' LIKE 'Pet_r'
+'Peter' LIKE 'P%r'
+'Peter' LIKE '%'</pre>
+        </li><li>
+          <p><span><strong class="guibutton">BETWEEN 연산자<a id="d5e2511" class="indexterm"/></strong></span></p>
+
+          <p>BETWEEN 연산자는 3개의 피연산자를 갖는 연산자로서 어떤 값이 주어진 두 값 사이에 존재하는지를 판단한다.
+          A BETWEEN B AND C와 같이 사용되며, 이는 A가 [B, C] 사이의 값인지 아닌지를 확인한다.</p>
+
+          <p>예를 들어 다음 식은 FALSE를 반환한다.</p>
+
+          <pre class="programlisting">10 BETWEEN 100 AND 200</pre>
+        </li><li>
+          <p><span><strong class="guibutton">IN 연산자<a id="d5e2519" class="indexterm"/></strong></span></p>
+
+          <p>IN 연산자는 주어진 값이 해당 집합에 포함하는지 여부를 판단한다.</p>
+
+          <p>예를 들어 다음 식은 FALSE를 반환한다.</p>
+
+          <pre class="programlisting">'Seoul' IN ('NewYork', 'Tokyo', 'Beijing')</pre>
+
+          <p>해당 집합이 NULL을 포함하는 경우 비교는 항상 NULL을 반환하므로 연산은 무시된다.</p>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_control.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제1장 <span>tbPSM</span> 소개 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제3장 제어 구조</td></tr></table></div><div xmlns="" align="center"/></body></html>

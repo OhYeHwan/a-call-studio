@@ -7,6 +7,7 @@ import {
   computed,
 } from "mobx";
 import contentRepository from "src/repository/ContentRepository";
+import { contentListData } from "src/data";
 
 class ContentStore {
   constructor() {
@@ -14,11 +15,7 @@ class ContentStore {
   }
 
   @observable
-  _contentList = {
-    Abook: [],
-    MyApp: [],
-    Pay: [],
-  };
+  _contentList = this.changeFormat(contentListData);
 
   @observable
   _target = {

@@ -4,11 +4,11 @@ import GlobalStyles from "./styles/GlobalStyle";
 
 import useStore from "./stores/useStore";
 
-import Header from "./components/Header";
-import MenuBar from "./components/MenuBar";
-import PageListBar from "./components/PageListBar";
-import ContentViewer from "./components/ContentViewer";
-import Drawer from "./components/Drawer";
+import Header from "./components/Header/Header";
+import MenuBar from "./components/MenuBar/MenuBar";
+import PageListBar from "./components/PageListBar/PageListBar";
+import ContentViewer from "./components/ContentViewer/ContentViewer";
+import Drawer from "./components/Drawer/Drawer";
 
 const App = observer(() => {
   const { messageDialogStore } = useStore();

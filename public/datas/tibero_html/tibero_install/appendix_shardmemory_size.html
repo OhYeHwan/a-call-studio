@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Appendix G. Shared Memory 크기 산정</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 설치 안내서"/><link rel="up" href="index.html" title="Tibero 설치 안내서"/><link rel="prev" href="appendix_undotablespace_size.html" title="Appendix F. Undo 테이블 스페이스 크기 산정"/><link rel="next" href="idx.html" title="색인"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">Appendix G. Shared Memory 크기 산정</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="appendix_undotablespace_size.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="idx.html">다음</a></td></tr></table><hr/></div><div class="appendix" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="appendix_shardmemory_size"/>Appendix G. Shared Memory 크기 산정</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="appendix_shardmemory_size.html#d5e4593">G.1. 개요</a></span></dt><dt><span class="section"><a href="appendix_shardmemory_size.html#d5e4619">G.2. 고려사항</a></span></dt><dt><span class="section"><a href="appendix_shardmemory_size.html#d5e4647">G.3. 용량 산정</a></span></dt></dl></div>
+  
+
+  <p>본 부록에서는 Tibero의 SQL Execution Work Area 크기 산정방법에 대해 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4593"/>G.1. 개요<a id="d5e4595" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>Tibero Shared Memory는 부팅할 때 고정된 용도로 사용되는 Fixed 영역과 운영 중에 자동으로 할당되어
+    사용되는 Shard Pool 영역으로 나뉜다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>Fixed Memory</p>
+
+        <p>DB가 부팅할 때 파라미터 값을 바탕으로 크기가 고정되는 영역이다.</p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>Buffer Cache(Database Buffer)</p>
+          </li><li>
+            <p>Log Buffer</p>
+          </li><li>
+            <p>그 외 항목 : 전역 변수를 위한 공간, 워킹 스레드 정보와 세션 정보를 관리하는 영역</p>
+          </li></ul></div>
+      </li><li>
+        <p>Shared Pool Memory</p>
+
+        <p>운영 중에 동적으로 할당되어 사용되는 영역이다.</p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>DD Cache</p>
+          </li><li>
+            <p>PP Cache(Library Cache)</p>
+          </li><li>
+            <p>그 외 항목</p>
+          </li></ul></div>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4619"/>G.2. 고려사항</h2></div></div></div>
+    
+
+    <p>다음은 Shared Memory 크기를 산정할 때 고려해야 할 사항이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>Shared Memory 크기를 운영 중에 동적으로 늘릴 수 없다.</p>
+      </li><li>
+        <p>Buffer Cache와 Shared Pool 사용 패턴을 분석하여 전체 Shared Memory 크기를 알맞게
+        정해야 한다.</p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>Buffer Cache</p>
+
+            <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                <p>주요 Workload를 돌려본 후 APM 리포트의 Buffer Cache Hit율을 보고
+                판단한다.</p>
+              </li><li>
+                <p>Hit율이 90 % 이하 : Buffer Cache 크기 늘려야 한다.</p>
+              </li></ul></div>
+          </li><li>
+            <p>Shared Pool Memory</p>
+
+            <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                <p>Workload를 돌려본 후 v$sga의 ‘SHARED POOL MEMORY’ 항목의 사용률 보고
+                판단한다.</p>
+              </li><li>
+                <p>Shared Pool 사용률이 너무 높으면(Free 영역이 적은 경우) Shared Pool 크기를
+                늘려야 한다.</p>
+              </li><li>
+                <p>세션당 최소 1M 이상의 Shared Pool 영역 확보가 필요하다.</p>
+              </li></ul></div>
+          </li></ul></div>
+      </li></ul></div>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4647"/>G.3. 용량 산정</h2></div></div></div>
+    
+
+    <p>Shared Memory 각 영역의 크기는 v$sga에서 확인할 수 있다.</p>
+
+    <pre class="programlisting">SQL&gt; select * from v$sga;
+NAME TOTAL USED
+---------------------------------------- ---------- ----------
+SHARED MEMORY 536870912 536870912
+FIXED MEMORY 430875880 430875880
+SHARED POOL MEMORY 105992872 40974968
+SHARED POOL ALOCATORS 1 1
+Database Buffers 357892096 357892096
+Redo Buffers 10485760 10485760
+</pre>
+
+    <p>Shared Memory의 크기는 초기화 파라미터로 설정해서 조회할 수 있다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>Shared Memory</p>
+
+        <p>다음은 TOTAL_SHM_SIZE 파라미터를 설정해서 조회하는 예이다.</p>
+
+        <pre class="programlisting">SQL&gt; show param total_shm_size
+NAME TYPE VALUE
+---------------------------- -------- ------------------------
+TOTAL_SHM_SIZE INT64 536870912
+</pre>
+      </li><li>
+        <p>Buffer Cache</p>
+
+        <p>다음은 DB_CACHE_SIZE 파라미터를 설정해서 조회하는 예이다.</p>
+
+        <pre class="programlisting">SQL&gt; show param db_cache_size
+NAME TYPE VALUE
+---------------------------- -------- -------------------------
+DB_CACHE_SIZE UINT64 357892096
+</pre>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>싱글 모드 : TOTAL_SHM_SIZE의 2/3</p>
+          </li><li>
+            <p>TAC 모드 : TOTAL_SHM_SIZE의 1/2</p>
+          </li></ul></div>
+      </li><li>
+        <p>Log Buffer</p>
+
+        <p>다음은 LOG_BUFFER 파라미터를 설정해서 조회하는 예이다. (LOG_BUFFER 파라미터의 기본값 :
+        10MB)</p>
+
+        <pre class="programlisting">SQL&gt; show param log_buffer
+NAME TYPE VALUE
+---------------------------- -------- --------------------------
+LOG_BUFFER UINT32 10485760
+</pre>
+      </li><li>
+        <p>Shared Pool Memory</p>
+
+        <p>전체 Shared Memory 크기에서 Fixed 영역을 뺀 나머지 영역이다.</p>
+
+        <pre class="programlisting">TOTAL_SHM_SIZE - [Fixed Memory]
+</pre>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>싱글 모드</p>
+
+            <p>전체 Shared Pool 크기가 _MIN_SHARED_POOL_SIZE보다 커야 한다.</p>
+
+            <pre class="programlisting">_MIN_SHARED_POOL_SIZE 기본값: 1M * MAX_SESSION_COUNT </pre>
+          </li><li>
+            <p>TAC 모드</p>
+
+            <p>TAC를 위한 CCC와 CWS 공간이 충분히 확보되어야 한다. CCC와 CWS를 위해 전체 Buffer
+            Cache 크기의 25% 가량을 Shared Pool에서 사용한다.</p>
+
+            <p>CCC와 CWS를 위한 공간을 제외한 Shared Pool 영역이 _MIN_SHARED_POOL_SIZE보다
+            커야 한다.</p>
+
+            <pre class="programlisting">[전체 Shared Pool 크기] = _MIN_SHARED_POOL_SIZE + [CCC 공간] + [CWS 공간]
++ [Free Shared Pool 크기]
+</pre><p>PP Cache와 DD Cache 등을 위한 Free Shared Pool 크기는 CCC와 CWS 공간보다
+            커야 한다.</p>
+
+            <pre class="programlisting">[Free Shared Pool 크기] &gt; ([전체 Shared Pool 크기] - _MIN_SHARED_POOL_SIZE) / 2</pre>
+          </li></ul></div>
+      </li></ul></div>
+
+    <p/>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="appendix_undotablespace_size.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="idx.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">Appendix F. Undo 테이블 스페이스 크기 산정 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 색인</td></tr></table></div><div xmlns="" align="center"/></body></html>

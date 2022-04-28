@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제1장 설치 소개</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 설치 안내서"/><link rel="up" href="index.html" title="Tibero 설치 안내서"/><link rel="prev" href="about.html" title="안내서에 대하여"/><link rel="next" href="chapter_preinstall.html" title="제2장 설치 전 준비사항"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제1장 설치 소개</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="about.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_preinstall.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_intro_requirement"/>제1장 설치 소개</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_intro_requirement.html#d5e364">1.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_intro_requirement.html#d5e382">1.2. 설치 구성 요소</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_intro_requirement.html#d5e384">1.2.1. 패키지 구성</a></span></dt><dt><span class="section"><a href="chapter_intro_requirement.html#sect_software_release">1.2.2. 소프트웨어 배포</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_intro_requirement.html#sect_system_requirements">1.3. 시스템 요구 사항</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_intro_requirement.html#d5e490">1.3.1. 지원 플랫폼 및 운영체제</a></span></dt><dt><span class="section"><a href="chapter_intro_requirement.html#sect_hardware_requirements">1.3.2. 하드웨어 요구사항</a></span></dt><dt><span class="section"><a href="chapter_intro_requirement.html#d5e634">1.3.3. 소프트웨어 요구사항</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>Tibero</span>를
+  간략히 소개하고 설치에 필요한 시스템 요구사항을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e364"/>1.1. 개요</h2></div></div></div>
+    
+
+    <p>현재 기업의 비즈니스는 폭발적인 데이터의 증가와 다양한 환경 및 플랫폼의 등장으로 빠르게 확장되고 있다. 새로운 비즈니스
+    환경이 도래함에 따라 보다 더 효율적이고 유연한 데이터 서비스와 정보의 처리, 데이터 관리 기능이 필요하게 되었다.</p>
+
+    <p><span><strong class="guibutton"><span>Tibero</span></strong></span>는 이러한 변화에 맞춰 기업 비즈니스 구현의
+    기반이 되는 데이터베이스 인프라 구성을 지원하며 고성능, 고가용성 및 확장성의 문제를 해결하는 엔터프라이즈 데이터베이스 관리
+    시스템이다.</p>
+
+    <p>기존 DB의 단점을 보완하기 위해 <span>Tibero</span> 는 독자적인 <span>Tibero</span>  Thread Architecture를 채택, 구현하였다. 한정된 서버
+    프로세스의 CPU 및 메모리 등의 시스템 리소스를 효율적으로 사용하면서 뛰어난 성능과 안정성 및 확장성을 보장하고 편리한 개발 환경과
+    관리 기능을 제공한다.</p>
+
+    <p><span>Tibero</span>는 초기 설계부터 대규모 사용자, 대용량 데이터, 강화된 안정성,
+    향상된 호환성 측면 등에서 타 DBMS와 차별화를 고려하여 개발되었다.</p>
+
+    <p><span>Tibero</span>는 대용량의 데이터를 관리하고 안정적으로 비즈니스의 연속성을
+    보장하는 데이터 관리 솔루션이다. <span>Tibero</span>는 이를 위해 RDBMS 환경에서 요구되는 주요 기능 즉 분산
+    데이터베이스 링크(Distributed Database Link), 데이터 이중화(Data Replication), 데이터베이스
+    클러스터(Data Cluster), 병렬 질의 처리(Parallel Query Processing) 등의 기능을 갖추고 있다.
+    <span>Tibero</span>는 이처럼 기업이 원하는 최적의 데이터베이스 환경을 제공하는 대표적인 DB이다.</p>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e382"/>1.2. 설치 구성 요소</h2></div></div></div>
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e384"/>1.2.1. 패키지 구성</h3></div></div></div>
+      
+
+      <p><span>Tibero</span>의 패키지 구성은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p><span>Tibero</span> 제품 CD 1매</p>
+        </li><li>
+          <p><span>Tibero</span> 제품 라이선스 및 보증</p>
+        </li><li>
+          <p><span>Tibero</span> 안내서</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p><span>Tibero</span> 릴리즈 노트</p>
+            </li><li>
+              <p><span>Tibero</span> 소개</p>
+            </li><li>
+              <p><span>Tibero</span> 설치 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> 관리자 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> 애플리케이션 개발자 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> External Procedure
+              안내서</p>
+            </li><li>
+              <p><span>Tibero</span> Hadoop Connector
+              안내서</p>
+            </li><li>
+              <p><span>Tibero</span> JDBC 개발자 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> <span>tbCLI</span> 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> <span>tbESQL</span>/C 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> <span>tbESQL</span>/COBOL 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> <span>tbPSM </span> 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> <span>tbPSM</span> 참조 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> TEXT 참조 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> Spatial 참조 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> Active Storage 관리자
+              안내서</p>
+            </li><li>
+              <p><span>Tibero</span> TDP.NET 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> IMCS 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> 유틸리티 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> 에러 참조 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> 참조 안내서</p>
+            </li><li>
+              <p><span>Tibero</span> SQL 참조 안내서</p>
+            </li></ul></div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_software_release"/>1.2.2. 소프트웨어 배포</h3></div></div></div>
+      
+
+      <p><span>Tibero</span>의 소프트웨어 배포 방식은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>정식 버전</p>
+
+          <p>CPU 개수와 기능별 라이선스이다.</p>
+        </li><li>
+          <p>평가판 버전</p>
+
+          <p>날짜와 사용자의 수를 제한하는 방식의 라이선스이다.</p>
+        </li></ul></div>
+
+      <p/>
+
+      <p>데모 라이선스 파일은 테크넷을 통하여 발급받을 수 있다.</p>
+
+      <pre class="programlisting"><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://technet.tmaxsoft.com/ko/front/main/main.do" target="_top">http://technet.tmaxsoft.com/ko/front/main/main.do</a></pre>
+
+      <p/>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_system_requirements"/>1.3. 시스템 요구 사항</h2></div></div></div>
+    
+
+    <p>본 절에서는 지원 플랫폼과 운영체제와 하드웨어, 소프트웨어 요구사항에 대해서 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e490"/>1.3.1. 지원 플랫폼 및 운영체제</h3></div></div></div>
+      
+
+      <p><span>Tibero</span>의 지원 플랫폼 및 운영체제는 다음과 같다.<a id="d5e494" class="indexterm"/></p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="120" align="left"/><col width="130" align="left"/><col width="250" align="left"/><col/></colgroup><thead><tr><th align="left">H/W, S/W</th><th align="left">CPU</th><th align="left">OS</th><th>Binary Bits</th></tr></thead><tbody><tr><td align="left">HP</td><td align="left">Itanium</td><td align="left"><p>HP-UX 11i v3(11.31)</p></td><td>64bits</td></tr><tr><td align="left">SUN</td><td align="left">SPARC</td><td align="left">Solaris 11</td><td>64bits</td></tr><tr><td align="left">IBM</td><td align="left">PPC</td><td align="left"><p>AIX 7.1</p><p>AIX 7.2</p></td><td>64bits</td></tr><tr><td rowspan="3" align="left">GNU</td><td align="left">X86(Pentium4 이상)</td><td align="left"><p>Red Hat Enterprise Linux 7</p><p>Red Hat
+              Enterprise Linux 8.1</p><p>Red Hat Enterprise Linux
+              8.2</p><p>ProLinux 7.5</p><p>CentOS 7</p></td><td>64bits</td></tr><tr><td align="left">Itanium</td><td align="left"><p>Red Hat Enterprise Linux 7</p><p>Red Hat
+              Enterprise Linux 8.1</p><p>Red Hat Enterprise Linux
+              8.2</p></td><td>64bits</td></tr><tr><td align="left">Power8(Big / Little)</td><td align="left"><p>Red Hat Enterprise Linux 7</p><p>Red Hat
+              Enterprise Linux 8.1</p><p>Red Hat Enterprise Linux
+              8.2</p></td><td>64bits</td></tr><tr><td align="left">Microsoft</td><td align="left">Intel(x86), AMD64</td><td align="left"><p>Windows Server 2016</p><p>Windows Server
+              2019</p></td><td>64bits</td></tr></tbody></table>
+      </div>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p>현재 Windows 플랫폼의 경우 <span>TAC</span>를 지원하지 않는다.</p>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_hardware_requirements"/>1.3.2. 하드웨어 요구사항</h3></div></div></div>
+      
+
+      <p><span>Tibero</span>를 설치하기 위해 필요한 하드웨어 요구사항은 다음과 같다.
+      <a id="d5e564" class="indexterm"/></p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="170" align="left"/><col width="100" align="left"/><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">Platform</th><th align="left">RAM</th><th align="left">Swap Space</th><th align="left">/tmp Directory Space</th><th><p>HDD Space</p><p>(Full / Client
+              Only)</p></th></tr></thead><tbody><tr><td align="left">LINUX/x86</td><td align="left">1GB</td><td align="left">2GB</td><td align="left">500MB</td><td>2.5GB / 400MB</td></tr><tr><td align="left">LINUX/Itanium</td><td align="left">1GB</td><td align="left">2GB</td><td align="left">500MB</td><td>2.5GB / 400MB</td></tr><tr><td align="left">LINUX/Power8(Big / Little)</td><td align="left">1GB</td><td align="left">2GB</td><td align="left">500MB</td><td>2.5GB / 400MB</td></tr><tr><td align="left">HP-UX/Itanium</td><td align="left">1GB</td><td align="left">2GB</td><td align="left">500MB</td><td>3GB / 400MB</td></tr><tr><td align="left">Solaris</td><td align="left">1GB</td><td align="left">2GB</td><td align="left">500MB</td><td>2.5GB / 400MB</td></tr><tr><td align="left">AIX</td><td align="left">1GB</td><td align="left">2GB</td><td align="left">500MB</td><td>2.5GB / 400MB</td></tr><tr><td align="left">Windows</td><td align="left">1GB</td><td align="left">-</td><td align="left">-</td><td>2GB / 400MB</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p>Solaris 플랫폼의 경우 Swap Space를 설정하는 경우 아래 사항을 참고한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>권장 설정 : 물리 메모리의 두 배</p>
+        </li><li>
+          <p>사용자 설정</p>
+
+          <pre class="programlisting">(백그라운드 프로세스 개수 + 워커 프로세스 개수) * 프로세스 당 Swap 사용량(300MB)</pre>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e634"/>1.3.3. 소프트웨어 요구사항</h3></div></div></div>
+      
+
+      <p><span>Tibero</span>를 설치하기 위해 필요한 소프트웨어 요구사항은 다음과
+      같다.<a id="d5e638" class="indexterm"/></p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="170" align="left"/><col width="150" align="left"/><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">Platform</th><th align="left">OS</th><th align="left">Compiler</th><th>JDK Version</th></tr></thead><tbody><tr><td align="left">LINUX/x86</td><td align="left">Red Hat Enterprise Linux 7 kernel 3.10.0 이상</td><td align="left"><p>C99 지원 컴파일러, </p><p>gcc version 4.8.5
+              이상</p></td><td>JDK 1.5.17 이상</td></tr><tr><td align="left">LINUX/Itanium</td><td align="left">Red Hat Enterprise Linux 7 kernel 3.10.0 이상</td><td align="left"><p>C99 지원 컴파일러, </p><p>gcc version 4.8.5
+              이상</p></td><td>JDK 1.5.17 이상</td></tr><tr><td align="left">LINUX/Power8(Big / Little)</td><td align="left">Red Hat Enterprise Linux 7 kernel 3.10.0 이상</td><td align="left"><p>C99 지원 컴파일러, </p><p>gcc version 4.8.5
+              이상</p></td><td>JDK 1.7.0 이상</td></tr><tr><td align="left">HP-UX/itanium</td><td align="left">HP-UX 11i v2(11.31) with BUNDLE11i(== HP-UX 11i
+              v2(B.11.23), September 2004) 64Bit 커널</td><td align="left"><p>C99 지원 컴파일러, </p><p>HP aC++/ANSI C B3910B
+              A.06.02</p></td><td>JDK 1.5 for HP-UX 이상</td></tr><tr><td align="left">Solaris</td><td align="left"><p>Solaris 11 64Bit 커널</p></td><td align="left"><p>C99 지원 컴파일러, </p><p>Sun C 5.8
+              2005/10/13</p></td><td>JDK 1.5.17 이상</td></tr><tr><td align="left">AIX</td><td align="left"><p>AIX 7.1 64Bit 커널</p><p>AIX 7.2 64Bit 커널
+              </p></td><td align="left"><p>C99 지원 컴파일러, </p><p>IBM XL C/C++ Enterprise
+              Edition V7.0</p></td><td>JDK 1.5.17 이상</td></tr><tr><td align="left">Windows</td><td align="left"><p>Windows Server 2016(64bit Only)</p><p>Windows
+              Server 2019(64bit Only)</p></td><td align="left">C99 지원 컴파일러</td><td>JDK 1.5.17 이상</td></tr></tbody></table>
+      </div>
+
+      <p>AIX 7.1에서 컴파일된 바이너리의 경우 AIX 7.1 Technology Level 4 이상의 사양에서 정상적으로
+      설치 및 운영이 가능하다.</p>
+
+      <pre class="programlisting">$ oslevel -r 
+
+7100-04</pre>
+
+      <p/>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p>Windows AMD64(x64)의 경우 <span><strong class="guibutton">Microsoft Visual C++ 2008
+        Redistributable Package(x64)</strong></span>나 <span><strong class="guibutton">Microsoft.NET
+        Framework 3.5 SP1</strong></span>이 미리 설치되어 있어야 정상적으로 설치 및 운영이 가능하다.</p>
+      </div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="about.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_preinstall.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">안내서에 대하여 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제2장 설치 전 준비사항</td></tr></table></div><div xmlns="" align="center"/></body></html>

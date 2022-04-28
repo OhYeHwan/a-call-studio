@@ -24,9 +24,8 @@ const Dialog = observer(({ type, list, close, handleLoadButtonClick }) => {
   }, [selectedItem]);
 
   const onClickLoadButton = () => {
-    handleLoadButtonClick(selectedItem.id).then(() => {
-      close();
-    });
+    handleLoadButtonClick();
+    close();
   };
 
   //프로젝트 불러오기 버튼 클릭시 이벤트

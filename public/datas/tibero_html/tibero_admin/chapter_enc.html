@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제6장 데이터 암호화</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 관리자 안내서"/><link rel="up" href="index.html" title="Tibero 관리자 안내서"/><link rel="prev" href="chapter_security.html" title="제5장 사용자 관리와 데이터베이스 보안"/><link rel="next" href="chapter_ssl.html" title="제7장 통신 암호화"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제6장 데이터 암호화</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_security.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_ssl.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_enc"/>제6장 데이터 암호화</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_enc.html#d5e6471">6.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_enc.html#sect_wallet_setting">6.2. 환경설정</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6574">6.3. 컬럼 암호화</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_enc.html#d5e6606">6.3.1. 암호화 컬럼을 갖는 테이블 생성</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6620">6.3.2. 테이블에 암호화 컬럼 추가</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6627">6.3.3. 일반 컬럼을 암호화 컬럼으로 변경</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6634">6.3.4. 암호화 컬럼을 일반 컬럼으로 변경</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6641">6.3.5. 모든 암호화 컬럼의 알고리즘 변경</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6648">6.3.6. 암호화 컬럼에 대한 인덱스</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_enc.html#d5e6659">6.4. 테이블 스페이스 암호화</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_enc.html#d5e6665">6.4.1. 암호화된 테이블 스페이스 생성</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6691">6.4.2. 암호화된 테이블 스페이스 변경</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6703">6.4.3. 암호화된 테이블 스페이스 사용</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6714">6.4.4. 암호화된 테이블 스페이스 정보 조회</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6747">6.4.5. 암호화된 테이블 스페이스의 암호화 컬럼에 대한 인덱스</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_enc.html#d5e6761">6.5. HSM 연동을 통한 키 분리</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_enc.html#d5e6774">6.5.1. 환경설정</a></span></dt><dt><span class="section"><a href="chapter_enc.html#d5e6836">6.5.2. 사용 방법</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>Tibero</span>에서 데이터 암호화(Data Encryption) 기능을 사용하고
+  관리하기 위한 방법을 설명한다.<a id="d5e6469" class="indexterm"/></p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e6471"/>6.1. 개요</h2></div></div></div>
+    
+
+    <p><span>Tibero</span>에서는 데이터 보안을 위해 <a href="chapter_security.html" title="제5장 사용자 관리와 데이터베이스 보안">“제5장 사용자 관리와 데이터베이스 보안”</a>에서 설명한 것처럼 사용자 계정 및 특권, 역할 기능을 제공하고 있다. 하지만
+    데이터베이스 내에서 데이터에 접근하는 경우가 아니라 운영체제에서 데이터 파일에 직접 접근하는 경우라면 위의 기능만으로는 데이터를
+    안전하게 보호할 수가 없다. 따라서 이러한 경우에도 데이터를 보호하기 위해서 <span>Tibero</span>는 데이터를 암호화하여 디스크에 저장하는 기능을 제공하고 있다.</p>
+
+    <p>DBA가 암호화할 데이터(테이블의 컬럼 또는 테이블 스페이스)를 지정하면 <span>Tibero</span>는 데이터를 저장할 때 내부적으로 암호화하여 저장하고 검색할 때 복호화해서 보여준다. 이때 사용자나 애플리케이션
+    프로그램은 데이터의 암호화 여부를 고려할 필요가 없다.</p>
+
+    
+
+    <p><span>Tibero</span>는 다음과 같은 암호화 알고리즘<a id="d5e6481" class="indexterm"/>을 제공한다.</p>
+
+    <div class="informaltable"><a id="table_eng_alg"/>
+      <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">키워드</th><th>설명</th></tr></thead><tbody><tr><td align="left">DES</td><td>DES 64 bits key</td></tr><tr><td align="left">3DES168</td><td>3 Key Triple DES 168 bits key</td></tr><tr><td align="left">AES128</td><td>AES 128 bits key</td></tr><tr><td align="left">AES192</td><td>AES 192 bits key</td></tr><tr><td align="left">AES256</td><td>AES 256 bits key</td></tr><tr><td align="left">SEED</td><td>SEED 128 bits key</td></tr><tr><td align="left">ARIA128</td><td>ARIA 128 bits key</td></tr><tr><td align="left">ARIA192</td><td>ARIA 192 bits key</td></tr><tr><td align="left">ARIA256</td><td>ARIA 256 bits key</td></tr><tr><td align="left">GOST</td><td>GOST 256 bits key</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_wallet_setting"/>6.2. 환경설정<a id="d5e6523" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>데이터 암호화 기능을 사용하기 위해서는 우선 먼저 보안 지갑을 생성해야 한다. 보안 지갑은 암호화에 사용할 마스터 키를
+    보관하고 있다. <span>Tibero</span>는 마스터 키를 이용하여 각 데이터를 암호화할 암호화 키를 생성하고
+    이 암호화 키를 이용하여 데이터를 암호화한다.</p>
+
+    <p>데이터 암호화를 사용하기 위해서는 다음의 절차를 수행해야 한다.</p>
+
+    <div class="orderedlist"><ol type="1" compact="compact"><li>
+        <p><span><strong class="guibutton">보안 지갑의 생성</strong></span></p>
+
+        <p>$<span>TB_</span>HOME/bin/<span>tbwallet</span>_gen 프로그램을 실행하고 보안 지갑의 파일 이름과 패스워드를
+        입력하여 보안 지갑을 생성한다.</p>
+
+        <div class="example"><a id="example_wallet_gen"/><p class="title"><b>[예 6.1] 보안 지갑의 생성</b></p><div class="example-contents">
+          
+
+          
+
+          <pre class="programlisting">$ <span>tbwallet</span>_gen
+
+[ <span>Tibero</span> Security Wallet Generator ]
+Enter wallet file name: <span><strong class="guibutton"><span>TBWALLET</span></strong></span>
+Enter wallet password: <span><strong class="guibutton"><span>tibero</span></strong></span>
+generate wallet success</pre>
+        </div></div><br class="example-break"/>
+      </li><li>
+        <p><span><strong class="guibutton">보안 지갑의 위치 설정</strong></span></p>
+
+        <p>$<span>TB_</span>SID.tip 파일에
+        <code class="filename">WALLET_FILE</code> 초기화 파라미터를 추가하여 보안 지갑의 위치를
+        설정한다.</p>
+
+        <div class="example"><a id="example_wallet_path"/><p class="title"><b>[예 6.2] 보안 지갑의 위치 설정 : &lt;&lt;$<span>TB_</span>SID.tip&gt;&gt;</b></p><div class="example-contents">
+          
+
+          
+
+          <pre class="programlisting"><span><strong class="guibutton">WALLET_FILE=/path/to/<span>TBWALLET</span></strong></span></pre>
+        </div></div><br class="example-break"/>
+      </li><li>
+        <p><span><strong class="guibutton">보안 지갑의 사용</strong></span></p>
+
+        <p>생성한 보안 지갑을 열고 데이터 암호화 기능을 사용하려면 DBA 권한을 가진 사용자가 다음의 명령을 수행해야 한다.
+        단, IDENTIFIED BY 절 뒤에 입력하는 패스워드는 보안 지갑을 생성할 때 입력했던 패스워드를 입력한다.</p>
+
+        <div class="example"><a id="example_wallet_open"/><p class="title"><b>[예 6.3] 보안 지갑 열기</b></p><div class="example-contents">
+          
+
+          
+
+          <pre class="programlisting">SQL&gt; <span><strong class="guibutton">ALTER SYSTEM SET ENCRYPTION WALLET OPEN IDENTIFIED BY '<span>tibero</span>';</strong></span>
+System altered.</pre>
+        </div></div><br class="example-break"/>
+
+        <p>데이터 암호화 기능을 사용하지 못하도록 보안 지갑을 닫으려면 이 역시 DBA 권한을 가진 사용자가 다음의 명령을
+        수행한다.</p>
+
+        <div class="example"><a id="example_wallet_close"/><p class="title"><b>[예 6.4] 보안 지갑 닫기</b></p><div class="example-contents">
+          
+
+          
+
+          <pre class="programlisting">SQL&gt; <span><strong class="guibutton">ALTER SYSTEM SET ENCRYPTION WALLET CLOSE;</strong></span>
+System altered.</pre>
+        </div></div><br class="example-break"/>
+
+        <div class="caution" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">주의</h3>
+          <p>보안 지갑은 데이터베이스 인스턴스를 종료하면 닫히므로 다시 기동할 때마다 보안 지갑을 열어야 한다. TAC에서
+          각 노드가 가지고 있는 보안 지갑은 반드시 동일해야 한다.</p>
+        </div>
+
+        <p/>
+      </li></ol></div>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e6574"/>6.3. 컬럼 암호화<a id="d5e6576" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>컬럼 암호화(Column Encryption)는 테이블의 특정 컬럼의 데이터를 암호화하여 저장하는 기능이다. 컬럼 암호화는
+    테이블을 생성 또는 변경하는 DDL 문장을 수행할 때 설정한다.</p>
+
+    <p>컬럼 암호화를 설정할 때는 암호화 알고리즘과 SALT 옵션을 사용할 것인지의 여부를 명시할 수 있다. 암호화 알고리즘은
+    <a href="chapter_enc.html#table_eng_alg"><span>Tibero</span>에서 지원하는 범위</a>에서만 설정할 수 있으며, 설정하지 않으면 AES192 알고리즘을 디폴트로
+    사용한다. 암호화된 컬럼은 한 테이블에 여러 개가 있을 수 있지만 한 테이블에는 하나의 암호화 알고리즘만 사용할 수
+    있다.</p>
+
+    <p>SALT 옵션은 같은 값의 데이터를 암호화할 때 항상 같은 암호로 암호화되지 않도록 하는 기능이다. 이 옵션을 사용할 경우
+    보안의 수준을 높일 수 있다. 하지만 SALT 옵션을 사용하여 암호화한 컬럼에는 인덱스를 생성할 수 없다. 컬럼 암호화를 설정할 때
+    이 옵션을 별도로 설정하지 않아도 디폴트는 SALT 옵션을 사용한다.</p>
+
+    <p>컬럼을 암호화하면 보안의 수준이 높아지는 장점이 있지만 SALT 옵션을 사용하지 않는 컬럼에 한해서만 인덱스를 생성할 수
+    있고, 인덱스 영역도 스캔할 수 없다는 단점이 있다. 또한 해당 컬럼에 DML 및 SELECT 명령을 실행하면 내부에서 암호화와
+    복호화를 수행하기 때문에 성능 저하가 발생한다.</p>
+
+    <p>암호화할 수 있는 컬럼의 데이터 타입은 다음과 같다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>CHAR</p>
+      </li><li>
+        <p>VARCHAR2</p>
+      </li><li>
+        <p>NUMBER</p>
+      </li><li>
+        <p>DATE</p>
+      </li><li>
+        <p>TIMESTAMP</p>
+      </li><li>
+        <p>INTERVAL DAY TO SECOND</p>
+      </li><li>
+        <p>INTERVAL YEAR TO MONTH</p>
+      </li><li>
+        <p>RAW</p>
+      </li><li>
+        <p>NCHAR</p>
+      </li><li>
+        <p>NVARCHAR2</p>
+      </li></ul></div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6606"/>6.3.1. 암호화 컬럼을 갖는 테이블 생성</h3></div></div></div>
+      
+
+      <p>CREATE TABLE 문에서 암호화할 컬럼을 정의할 때 ENCRYPT 절을 지정하여 테이블을 생성한다.</p>
+
+      <div class="example"><a id="example_enc_dflt_table_create"/><p class="title"><b>[예 6.5] 암호화 컬럼을 갖는 테이블 생성 - 디폴트 암호화 옵션(AES192 알고리즘, SALT)</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; CREATE TABLE customer (
+       cust_id       CHAR(4) CONSTRAINT cust_id_pk PRIMARY KEY NOT NULL,
+       cust_name     VARCHAR(20) NULL,
+       cust_type     VARCHAR(18) NULL,
+       cust_addr     VARCHAR(40) NULL,
+       <span><strong class="guibutton">cust_tel      VARCHAR(15) ENCRYPT NULL,</strong></span>
+       reg_date      DATE NULL
+);
+Table 'CUSTOMER' created.</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="literallayout"><p/></div>
+
+      <p>암호화 알고리즘은 USING 절을 사용하여 지정할 수 있으며 SALT 옵션의 사용 여부도 지정할 수 있다. 특히 암호화
+      알고리즘은 한 테이블에 하나만 지정할 수 있기 때문에 다른 컬럼에 또 다른 알고리즘을 지정하면 에러가 발생한다.</p>
+
+      <div class="example"><a id="example_enc_table_create"/><p class="title"><b>[예 6.6] 암호화 컬럼을 갖는 테이블 생성 - AES256 알고리즘, NO SALT 옵션 설정</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; CREATE TABLE customer (
+       cust_id       CHAR(4) CONSTRAINT cust_id_pk PRIMARY KEY NOT NULL,
+       cust_name     VARCHAR(20) NULL,
+       cust_type     VARCHAR(18) NULL,
+       <span><strong class="guibutton">cust_addr     VARCHAR(40) ENCRYPT USING 'AES256' NULL,</strong></span>
+       <span><strong class="guibutton">cust_tel      VARCHAR(15) ENCRYPT NO SALT NULL,</strong></span>
+       reg_date      DATE NULL
+);
+Table 'CUSTOMER' created.</pre>
+      </div></div><br class="example-break"/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6620"/>6.3.2. 테이블에 암호화 컬럼 추가</h3></div></div></div>
+      
+
+      <p>ALTER TABLE 문에서 컬럼을 추가할 때 ENCRYPT 절을 지정하면 암호화 컬럼이 된다. 기존 테이블에 이미
+      암호화 컬럼이 있으면 기존 컬럼과 동일한 암호화 알고리즘을 사용한다. 반면에 암호화 컬럼이 없으면 새로운 알고리즘을 지정할 수
+      있다. 또한 SALT 옵션의 사용 여부도 지정할 수 있다.</p>
+
+      <div class="example"><a id="example_enc_col_add"/><p class="title"><b>[예 6.7] 암호화 컬럼 추가</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; <span><strong class="guibutton">ALTER TABLE customer ADD (cust_password VARCHAR(12) ENCRYPT NO SALT);</strong></span>
+Table 'CUSTOMER' altered.</pre>
+      </div></div><br class="example-break"/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6627"/>6.3.3. 일반 컬럼을 암호화 컬럼으로 변경</h3></div></div></div>
+      
+
+      <p>ALTER TABLE 문에서 컬럼을 변경할 때 ENCRYPT 절을 지정하면 암호화 컬럼이 된다. 테이블에 암호화 컬럼을
+      추가할 경우와 마찬가지로 기존 테이블에 이미 암호화 컬럼이 있으면 기존 컬럼과 동일한 암호화 알고리즘을 사용한다. 반면에 암호화
+      컬럼이 없으면 새로운 알고리즘을 지정할 수 있다. 또한 SALT 옵션의 사용 여부도 지정할 수 있다.</p>
+
+      <div class="example"><a id="example_enc_col_modify"/><p class="title"><b>[예 6.8] 일반 컬럼을 암호화 컬럼으로 변경</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; <span><strong class="guibutton">ALTER TABLE customer MODIFY (reg_date ENCRYPT NO SALT);</strong></span>
+Table 'CUSTOMER' altered.</pre>
+      </div></div><br class="example-break"/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6634"/>6.3.4. 암호화 컬럼을 일반 컬럼으로 변경</h3></div></div></div>
+      
+
+      <p>ALTER TABLE 문에서 컬럼을 변경할 때 DECRYPT 절을 지정하면 일반 컬럼이 된다.</p>
+
+      <div class="example"><a id="example_enc_col_decrypt"/><p class="title"><b>[예 6.9] 암호화 컬럼을 일반 컬럼으로 변경</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; <span><strong class="guibutton">ALTER TABLE customer MODIFY (reg_date DECRYPT);</strong></span>
+Table 'CUSTOMER' altered.</pre>
+      </div></div><br class="example-break"/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6641"/>6.3.5. 모든 암호화 컬럼의 알고리즘 변경</h3></div></div></div>
+      
+
+      <p>ALTER TABLE 문에서 REKEY 명령을 지정하면 해당 테이블의 모든 암호화 컬럼의 암호화 알고리즘이
+      변경된다.</p>
+
+      <div class="example"><a id="example_enc_rekey"/><p class="title"><b>[예 6.10] 모든 암호화 컬럼의 암호화 알고리즘 변경</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; <span><strong class="guibutton">ALTER TABLE customer REKEY USING '3DES168';</strong></span>
+Table 'CUSTOMER' altered.</pre>
+      </div></div><br class="example-break"/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6648"/>6.3.6. 암호화 컬럼에 대한 인덱스</h3></div></div></div>
+      
+
+      <p>일반 인덱스처럼 생성이 가능하지만 다음과 같은 제약사항이 있다. SALT 옵션이 지정안된 암호화 컬럼에 대해서만
+      인덱스를 생성할 수 있고 해당 인덱스에 대해서는 EQUAL('=') 조건만 사용하여 INDEX RANGE SCAN이
+      가능하다.</p>
+
+      <div class="example"><a id="example_enc_index"/><p class="title"><b>[예 6.11] 암호화 컬럼에 대한 인덱스</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; CREATE TABLE customer (
+       cust_id       CHAR(4) CONSTRAINT cust_id_pk PRIMARY KEY NOT NULL,
+       cust_name     VARCHAR(20) NULL,
+       cust_type     VARCHAR(18) NULL,
+       <span><strong class="guibutton">cust_addr     VARCHAR(40) ENCRYPT USING 'AES256' NULL,</strong></span>
+       <span><strong class="guibutton">cust_tel      VARCHAR(15) ENCRYPT NO SALT NULL,</strong></span>
+       reg_date      DATE NULL
+);
+Table 'CUSTOMER' created.
+
+SQL&gt; CREATE INDEX XI_CUSTOMER ON CUSTOMER (CUST_ADDR);
+<span><strong class="guibutton">TBR-7288: Unable to encrypt index key column(s) with SALT.</strong></span>
+
+SQL&gt; CREATE INDEX XI_CUSTOMER ON CUSTOMER (CUST_TEL);
+Index 'XI_CUSTOMER' created.
+
+SQL&gt; SELECT COUNT (*) FROM CUSTOMER WHERE CUST_TEL = '010-2233-9999';
+Execution Plan
+--------------------------------------------------------------------------------
+   1  COLUMN PROJECTION (Cost:1, %%CPU:0, Rows:1)
+   2    SORT AGGR (Cost:1, %%CPU:0, Rows:1)
+<span><strong class="guibutton">   3      INDEX (RANGE SCAN): XI_CUSTOMER (Cost:1, %%CPU:0, Rows:1) </strong></span>
+
+SQL&gt; SELECT COUNT (*) FROM CUSTOMER WHERE CUST_TEL &lt;= '010-2233-XXXX';
+Execution Plan
+--------------------------------------------------------------------------------
+   1  COLUMN PROJECTION (Cost:1, %%CPU:0, Rows:1)
+   2    SORT AGGR (Cost:1, %%CPU:0, Rows:1)
+   3      FILTER (Cost:1, %%CPU:0, Rows:10)
+<span><strong class="guibutton">   4        INDEX (FULL): XI_CUSTOMER (Cost:1, %%CPU:0, Rows:100) </strong></span>
+</pre>
+      </div></div><br class="example-break"/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e6659"/>6.4. 테이블 스페이스 암호화<a id="d5e6661" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>테이블 스페이스 암호화(Tablespace Encryption)는 컬럼 암호화와 마찬가지로 데이터베이스의 데이터를 보호하는
+    또 다른 방법이다. 컬럼 암호화와 다른 점은 테이블 또는 테이블의 컬럼 단위가 아닌 테이블 스페이스 전체에 대해 암호화 여부와 암호화
+    알고리즘을 지정한다는 것이다.</p>
+
+    <p>테이블 스페이스 암호화와 복호화 과정은 디스크에서 읽기와 쓰기를 한 후에 바로 수행되며 데이터베이스 내부의 SQL 처리
+    또한 기존과 동일하게 진행된다. 이 과정 때문에 컬럼 암호화에 존재했던 제약 즉, 일부 타입의 컬럼에 대해서만 컬럼 암호화를 할 수
+    있다거나 인덱스 영역을 스캔할 수 없다는 문제는 없어진다. 반면에 테이블 스페이스의 모든 데이터 블록에 암호화와 복호화가 발생하기
+    때문에 테이블 스페이스의 크기가 크거나 수정과 접근이 잦을수록 성능 저하가 높아질 수 있다. 또한 컬럼 암호화처럼 데이터 암호화
+    여부를 바꿀 수 없다는 문제도 있으므로 보호할 데이터의 성격에 따라 적절한 방법을 선택해야 한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6665"/>6.4.1. 암호화된 테이블 스페이스 생성</h3></div></div></div>
+      
+
+      <p>테이블 스페이스를 생성하는 <span><strong class="guibutton">CREATE TABLESPACE 문</strong></span>에서 암호화
+      여부를 지정하는 ENCRYPT 절을 추가하면 그 테이블 스페이스는 암호화된 테이블 스페이스가 된다. 또한 USING를 사용하여
+      암호화 알고리즘도 지정할 수 있다. 여기서 암호화 알고리즘은 3DES168, AES128, AES192, AES256 중에서
+      하나만 지정할 수 있다. USING에서 '암호화 알고리즘'을 생략하면 AES128을 기본으로 사용한다.<a id="d5e6669" class="indexterm"/></p>
+
+      <div class="example"><a id="example_enc_ts_create"/><p class="title"><b>[예 6.12] 암호화된 테이블 스페이스 생성 - 3DES168 알고리즘 지정</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; CREATE TABLESPACE encrypted_space
+     DATAFILE '/usr/<span>tibero</span>/data/encrypted001.dtf' SIZE 50M
+     AUTOEXTEND ON NEXT 1M
+     EXTENT MANAGEMENT LOCAL UNIFORM SIZE 256K
+     <span><strong class="guibutton">ENCRYPTION USING '3DES168'</strong></span>
+     DEFAULT STORAGE (ENCRYPT);
+Tablespace 'ENCRYPTED_SPACE' created.</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="literallayout"><p/></div>
+
+      <p>암호화된 테이블 스페이스를 생성할 때에는 다음과 같은 사항을 주의한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>암호화 알고리즘 지정</p>
+
+          <p>테이블 스페이스 암호화에 사용할 수 있는 암호화 알고리즘의 종류가 컬럼 암호화에 비해 적다.</p>
+
+          <p>3DES168, AES128, AES192, AES256 이외의 암호화 알고리즘을 지정하게 되면 암호화된 테이블
+          스페이스는 생성할 수 없다.</p>
+        </li><li>
+          <p>보안 지갑 열기</p>
+
+          <p>암호화된 테이블 스페이스를 생성하기 전에 반드시 보안 지갑이 열려 있어야 한다. 보안 지갑이 열리지 않은
+          상태에서 CREATE TABLESPACE 문을 실행하게 되면 다음의 예처럼 에러가 발생하게 되고 테이블 스페이스와 데이터
+          파일이 생성되지 않게 된다. 따라서 이를 해결하기 위해서는 보안 지갑을 열고 다시 시도하면 된다.</p>
+
+          <div class="example"><a id="example_enc_ts_create_fail"/><p class="title"><b>[예 6.13] 암호화된 테이블 스페이스 - 생성 실패</b></p><div class="example-contents">
+            
+
+            
+
+            <pre class="programlisting">SQL&gt; CREATE TABLESPACE encrypted_space
+     DATAFILE '/usr/<span>tibero</span>/data/encrypted001.dtf' SIZE 50M
+     AUTOEXTEND ON NEXT 1M
+     EXTENT MANAGEMENT LOCAL UNIFORM SIZE 256K
+     ENCRYPTION USING '3DES168'
+     DEFAULT STORAGE (ENCRYPT);
+<span><strong class="guibutton">TBR-12073: wallet not opened.</strong></span></pre>
+          </div></div><br class="example-break"/>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6691"/>6.4.2. 암호화된 테이블 스페이스 변경</h3></div></div></div>
+      
+
+      <p>암호화된 테이블 스페이스의 저장 공간이 더 필요한 경우 <span><strong class="guibutton">ALTER TABLESPACE
+      문</strong></span>의 <span><strong class="guibutton">ADD DATAFILE 절</strong></span>을 이용하여 새로운 데이터 파일을
+      테이블 스페이스에 추가할 수 있다. 새로 추가된 데이터 파일은 처음 테이블 스페이스를 생성했을 때 지정한 암호화 여부와 암호화
+      알고리즘의 속성을 그대로 가지게 된다.<a id="d5e6696" class="indexterm"/></p>
+
+      <div class="example"><a id="example_enc_ts_add_file"/><p class="title"><b>[예 6.14] 암호화된 테이블 스페이스 - 데이터 파일 추가</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; ALTER TABLESPACE encrypted_space
+     ADD DATAFILE '/usr/<span>tibero</span>/data/encrypted002.dtf' SIZE 50M;
+Tablespace 'ENCRYPTED_SPACE' altered.</pre>
+      </div></div><br class="example-break"/>
+
+      <p>일반 테이블 스페이스를 암호화된 테이블 스페이스로 바꾸거나 암호화된 테이블 스페이스를 일반 테이블 스페이스로 바꾸는
+      것은 불가능하다. 또한 한 테이블 스페이스에 포함된 데이터 파일에 대해서도 암호화 여부와 암호와 알고리즘을 다르게 지정하는 것도
+      불가능하다. 따라서 테이블 스페이스를 생성할 때에는 이러한 사항을 고려하고 신중히 결정해야 한다. 이러한 사항에도 일반 테이블
+      스페이스를 암호화된 테이블 스페이스로 바꾸기 위해서는 새로 암호화된 테이블 스페이스를 만든 다음 일반 테이블 스페이스에 포함된
+      데이터를 모두 암호화된 테이블 스페이스로 옮겨야 한다.</p>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6703"/>6.4.3. 암호화된 테이블 스페이스 사용</h3></div></div></div>
+      
+
+      <p>테이블 또는 인덱스를 생성할 때 암호화된 테이블 스페이스를 지정하면 해당 세그먼트는 물리적으로 그 테이블 스페이스에
+      저장되고 데이터 블록을 읽고 쓰는 과정에서 자동으로 데이터 암호화와 복호화가 발생한다.</p>
+
+      <div class="example"><a id="example_table_create_at_enc_ts"/><p class="title"><b>[예 6.15] 암호화된 테이블 스페이스 - 테이블 생성</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; CREATE TABLE customer (
+       cust_id       CHAR(4) NOT NULL CONSTRAINT cust_id_pk PRIMARY KEY,
+       cust_name     VARCHAR(20) NULL,
+       cust_type     VARCHAR(18) NULL,
+       cust_addr     VARCHAR(40) NULL,
+       cust_tel      VARCHAR(15) NULL,
+       reg_date      DATE NULL
+     ) TABLESPACE secure_space;
+Table 'CUSTOMER' created.</pre>
+      </div></div><br class="example-break"/>
+
+      <p>암호화된 테이블 스페이스에 테이블을 생성하고 SQL 문장을 통해 데이터를 조회하고 갱신하는 과정 동안에는 보안 지갑은
+      항상 열려 있어야 한다. 보안 지갑이 열리지 않은 상태에서 암호화된 테이블 스페이스가 포함된 동작을 수행하게 되면 <a href="chapter_enc.html#example_enc_ts_create_fail" title="[예 6.13] 암호화된 테이블 스페이스 - 생성 실패">[예 6.13]</a>와 같은 에러가 발생한다.</p>
+
+      <p>테이블 스페이스 중에서 SYSTEM, UNDO, TEMP 테이블 스페이스는 암호화 여부를 지정할 수 없다. 즉, 모든
+      테이블 스페이스를 암호화할 수 있는 것은 아니다. 또한 Redo 로그 파일에 대해서도 암호화 여부를 지정할 수 없다. 하지만
+      암호화된 테이블 스페이스에 포함된 데이터를 수정하는 과정에서 생성된 Undo, Redo 로그는 자동으로 암호화되어 디스크에
+      저장되고 이 두 로그가 필요한 순간에는 자동으로 복호화되어 데이터베이스 내부적으로 사용된다.</p>
+
+      <p>그리고 정렬을 수행하는 과정에서 TEMP 테이블 스페이스에 임시로 저장되는 데이터가 암호화된 테이블 스페이스에 속한
+      것이라면 TEMP 영역도 자동으로 암호화하고 복호화된다. 따라서 데이터베이스의 다른 파일(Undo, Redo, TEMP 등)을
+      통해 암호화된 테이블 스페이스의 데이터가 일부라도 노출되지 않도록 보호할 수 있다.</p>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6714"/>6.4.4. 암호화된 테이블 스페이스 정보 조회</h3></div></div></div>
+      
+
+      <p><span>Tibero</span>에서는 암호화된 테이블 스페이스의 정보를 관리하기 위해 다음
+      표에 나열된 뷰를 제공하고 있다.<a id="d5e6718" class="indexterm"/></p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">뷰</th><th>설명</th></tr></thead><tbody><tr><td align="left">DBA_TABLESPACES<a id="d5e6730" class="indexterm"/><a id="d5e6732" class="indexterm"/></td><td>테이블 스페이스의 전체 정보를 조회하는 뷰이다. ENCRYPTED 컬럼을 통해 암호화 여부를 조회할 수
+              있다.</td></tr><tr><td align="left">V$ENCRYPTED_TABLESPACES<a id="d5e6738" class="indexterm"/><a id="d5e6740" class="indexterm"/></td><td>암호화된 테이블 스페이스의 정보만을 조회하는 뷰이다. 테이블 스페이스 ID와 암호화 알고리즘을 조회할
+              수 있다.</td></tr></tbody></table>
+      </div>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p>정적 뷰와 동적 뷰에 대한 자세한 내용은 "<span>Tibero</span> 참조 안내서"를 참고한다.</p>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6747"/>6.4.5. 암호화된 테이블 스페이스의 암호화 컬럼에 대한 인덱스</h3></div></div></div>
+      
+
+      <p>암호화된 테이블 스페이스를 이용한 암호화 컬럼에 대하여 일반 인덱스 생성은 NO_SALT 암호화 컬럼에만 가능하고 범위
+      조건에 대한 INDEX RANGE SCAN이 안되는 제약사항이 있다. 이런 제약사항이 없으면서 데이타 보안은 제공하기 위해
+      암호화된 테이블 스페이스를 이용한 암호화된 컬럼에 대한 인덱스를 제공한다.</p>
+
+      <div class="example"><a id="example_enc_tte_index"/><p class="title"><b>[예 6.16] 암호화된 테이블 스페이스를 이용한 암호화 컬럼에 대한 인덱스</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; CREATE TABLE customer (
+     cust_id       CHAR(4) CONSTRAINT cust_id_pk PRIMARY KEY NOT NULL,
+     cust_name     VARCHAR(20) NULL,
+     cust_type     VARCHAR(18) NULL,
+     <span><strong class="guibutton">cust_addr     VARCHAR(40) ENCRYPT USING 'AES256' NULL,</strong></span>
+     <span><strong class="guibutton">cust_tel      VARCHAR(15) ENCRYPT NO SALT NULL,</strong></span>
+     reg_date      DATE NULL
+     );
+     Table 'CUSTOMER' created.
+
+SQL&gt; CREATE TABLESPACE encrypted_space
+     DATAFILE '/usr/data/encrypted001.dtf' SIZE 50
+     EXTENT MANAGEMENT LOCAL UNIFORM SIZE 256K
+     <span><strong class="guibutton">ENCRYPTION USING '3DES168'</strong></span>
+     DEFAULT STORAGE (ENCRYPT);
+     Tablespace 'ENCRYPTED_SPACE' created.
+
+SQL&gt; CREATE INDEX XI_CUSTOMER_01 ON CUSTOMER (CUST_ADDR) <span><strong class="guibutton">ENABLE RANGE</strong></span>;
+     <span><strong class="guibutton">TBR-7002: Unsupported DDL</strong></span>
+
+SQL&gt; CREATE INDEX XI_CUSTOMER_01 ON CUSTOMER (CUST_ADDR) 
+     <span><strong class="guibutton">TABLESPACE ENCRYPTED_SPACE ENABLE RANGE;</strong></span>
+     Index 'XI_CUSTOMER_01' created.
+
+SQL&gt; CREATE INDEX XI_CUSTOMER_02 ON CUSTOMER (CUST_TEL) 
+     <span><strong class="guibutton">TABLESPACE ENCRYPTED_SPACE ENABLE RANGE</strong></span>;
+     Index 'XI_CUSTOMER' created.
+
+SQL&gt; SELECT COUNT (*) FROM CUSTOMER WHERE CUST_TEL &lt;= '010-2233-XXXX';
+     Execution Plan
+    --------------------------------------------------------------------------------
+     1  COLUMN PROJECTION (Cost:1, %%CPU:0, Rows:1)
+     2    SORT AGGR (Cost:1, %%CPU:0, Rows:1)
+  <span><strong class="guibutton">  3      INDEX (RANGE SCAN): XI_CUSTOMER_02 (Cost:1, %%CPU:0, Rows:1)</strong></span>      </pre>
+      </div></div><br class="example-break"/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e6761"/>6.5. HSM 연동을 통한 키 분리<a id="d5e6763" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>HSM(Hardware Security Module)은 데이터 암호화 및 복호화에 사용되는 키를 안전하게 저장/관리할 수
+    있도록 제작된 전용 하드웨어 장비이다. HSM 장비와의 연동을 통하여 <span>Tibero</span>에서 테이블 및 테이블 스페이스 암호화를 위해 사용되는 마스터키를 외부 장비로 분리할 수 있다. 해당 기능을 사용
+    시 데이터 암호화 키가 DB와는 독립적으로 보관되어 관리되기 때문에 더 높은 수준의 보안을 기대할 수 있다.</p>
+
+    <p>현재는 Linux와 AIX만 지원하며, HSM 장비 지원 목록은 다음과 같다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>D'Amo KMS (펜타시큐리티)</p>
+      </li><li>
+        <p>Vormetric Data Security Manager (탈레스)</p>
+      </li></ul></div>
+
+    <p/>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6774"/>6.5.1. 환경설정<a id="d5e6776" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터 암호화 기능을 사용하기 위해서는 우선 먼저 보안 지갑을 생성해야 한다. 보안 지갑의 생성 및 사용 방법에
+      대해서는 <a href="chapter_enc.html#sect_wallet_setting" title="6.2. 환경설정">“6.2. 환경설정”</a>에 서술되어 있다.</p>
+
+      <p>HSM 장비와의 연동을 위해서 필요한 설정은 다음과 같다.</p>
+
+      <div class="orderedlist"><ol type="1" compact="compact"><li>
+          <p><span><strong class="guibutton">라이브러리 세팅</strong></span></p>
+
+          <p>연동하고자 하는 HSM 장비에 따라서 필요한 라이브러리 파일이 다를 수 있다. 해당 파일들은 HSM 장비를
+          관리하는 각 업체를 통해서 제공받아야하며 제공 받은 파일을 $<span>TB_</span>HOME/lib에 배치하면 된다. 각각의 장비에 따라 필요한
+          라이브러리 파일은 다음과 같다.</p>
+
+          <div class="informaltable"><a id="table_hsm_lib"/>
+            <table border="1"><colgroup><col/><col/></colgroup><thead><tr><th>HSM 장비</th><th>라이브러리 파일명</th></tr></thead><tbody><tr><td>D'Amo KMS</td><td>libsgkms_crytoki.so</td></tr><tr><td>Vormetric Data Security Manager</td><td>libvorpkcs11.so</td></tr></tbody></table>
+          </div>
+
+          <div class="caution" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">주의</h3>
+              <p>현 문서는 HSM 장비를 이미 정상적으로 설치 및 구축해두었다는 가정 하에 서술 되어있다. 따라서 각
+              HSM 장비의 설치 및 라이브러리에 대한 추가적인 문의 사항이 있다면 이는 해당 HSM 장비의 담당 업체에 따로
+              문의하여야 한다.</p>
+            </div>
+        </li><li>
+          <p><span><strong class="guibutton">파라미터 설정</strong></span></p>
+
+          <p>$<span>TB_</span>SID.tip 파일에 HSM 연동 관련 초기화 파라미터들을 추가
+          작성하여 보안 지갑의 위치를 설정한다.</p>
+
+          <div class="informaltable"><a id="table_hsm_iparam"/>
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">초기화 파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">USE_HSM</td><td>HSM 장비 연동을 통한 키 분리 기능의 사용 여부를 결정한다.</td></tr><tr><td align="left">HSM_LIB_FILE</td><td>HSM 키 분리 기능을 사용하는 경우 사용하는 장비에 맞는 라이브러리 파일의 위치를 설정한다.
+                  해당 파라미터는 반드시 절대경로로 작성되어야 한다.</td></tr><tr><td align="left">HSM_NOT_USE_WRAPPING</td><td>HSM 키 분리 기능을 사용하는 경우 키를 wrapping할 것인지 여부를 결정한다.
+                  (Vormetric Data Security Manager 사용 시에만 작성)</td></tr></tbody></table>
+          </div>
+
+          <div class="example"><a id="example_hsm_iparam_kms"/><p class="title"><b>[예 6.17] D'Amo KMS 장비와 연동하는 경우: &lt;&lt;$<span>TB_</span>SID.tip&gt;&gt;</b></p><div class="example-contents">
+            
+
+            
+
+            <pre class="programlisting">WALLET_FILE=/path/to/<span>TBWALLET</span></pre>
+          </div></div><br class="example-break"/>
+
+          <div class="example"><a id="example_hsm_iparam_dms"/><p class="title"><b>[예 6.18] Vormetric Data Security Manager 장비와 연동하는 경우:
+            &lt;&lt;$<span>TB_</span>SID.tip&gt;&gt;</b></p><div class="example-contents">
+            
+
+            
+
+            <pre class="programlisting">WALLET_FILE=/path/to/<span>TBWALLET</span></pre>
+          </div></div><br class="example-break"/>
+        </li></ol></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6836"/>6.5.2. 사용 방법</h3></div></div></div>
+      
+
+      <p>HSM 장비를 통해 데이터 암호화 키를 분리한 뒤, 이를 이용한 데이터 암호화 기능을 활성화하고자 하면 DBA 권한을
+      가진 사용자가 다음의 명령을 수행해야 한다. 이 때, HSM 장비에 따라 IDENTIFIED 절 뒤에 입력하는 아이디와 USING
+      절 뒤에 입력하는 패스워드로 입력해야 하는 값이 다르기 때문에 이 점 유의해야한다. 각 장비에 따른 명령은 다음과
+      같다.</p>
+
+      <div class="example"><a id="example_hsm_open_vor"/><p class="title"><b>[예 6.19] Vormetric Data Security Manager를 이용한 키 분리 이후 데이터 암호화 기능
+        활성화</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; <span><strong class="guibutton">alter system set encryption wallet open identified by '[Vormetric_PIN값]' 
+migrate using '[WALLET password]';</strong></span>
+System altered.</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="example"><a id="example_hsm_open_kms"/><p class="title"><b>[예 6.20] D'Amo KMS를 이용한 키 분리 이후 데이터 암호화 기능 활성화</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; <span><strong class="guibutton">alter system set encryption wallet open identified by 'NULL' migrate using 
+'[WALLET password]';</strong></span>
+System altered.</pre>
+      </div></div><br class="example-break"/>
+
+      <p/>
+
+      <p>데이터 암호화 기능을 사용하지 못하도록 비활성화하려면, DBA 권한을 가진 사용자가 다음의 명령을 수행해야
+      한다.</p>
+
+      <div class="example"><a id="example_hsm_close"/><p class="title"><b>[예 6.21] HSM 키 분리 이후 데이터 암호화 기능 비활성화</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; <span><strong class="guibutton">ALTER SYSTEM SET ENCRYPTION WALLET CLOSE;</strong></span>
+System altered.</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="caution" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">주의</h3>
+        <p>보안 지갑과 마찬가지로 데이터베이스 인스턴스를 종료하면 데이터 암호화 기능이 비활성화되므로 다시 기동할 때마다
+        활성화 해줘야한다.</p>
+      </div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_security.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_ssl.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제5장 사용자 관리와 데이터베이스 보안 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제7장 통신 암호화</td></tr></table></div><div xmlns="" align="center"/></body></html>
