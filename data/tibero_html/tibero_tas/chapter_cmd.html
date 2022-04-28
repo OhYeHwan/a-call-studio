@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제6장 커맨드라인 툴</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero Active Storage 관리자 안내서"/><link rel="up" href="index.html" title="Tibero Active Storage 관리자 안내서"/><link rel="prev" href="chapter_backup.html" title="제5장 백업과 복구"/><link rel="next" href="appendix_tas_howto.html" title="Appendix A. 구성 예제"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제6장 커맨드라인 툴</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_backup.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="appendix_tas_howto.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_cmd"/>제6장 커맨드라인 툴</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_outline">6.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_exec">6.2. <span>TAS</span>CMD 실행</a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_command">6.3. <span>TAS</span>CMD 명령어 </a></span></dt><dd><dl><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_cd">6.3.1. cd</a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_du">6.3.2. du</a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_exit">6.3.3. exit</a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_help">6.3.4. help</a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_ls">6.3.5. ls</a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_lsds">6.3.6. lsds</a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_pwd">6.3.7. pwd</a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_rm">6.3.8. rm</a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_cp">6.3.9. cp, cpfromlocal, cptolocal </a></span></dt><dt><span class="section"><a href="chapter_cmd.html#sect_ascmd_mkdir">6.3.10. mkdir</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_cmd.html#d5e2288">6.4. <span>TAS</span>CMD 에러코드</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 커맨드라인 툴 <span>TAS</span>CMD<a id="d5e1817" class="indexterm"/>를 사용하여 디스크 스페이스에 저장된 파일을 조회하고 관리하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ascmd_outline"/>6.1. 개요</h2></div></div></div>
+    
+
+    <p><span>TAS</span>CMD는 사용자가 간단한 명령어를 통해서 디스크 스페이스의 정보를 조회하고
+    디스크 스페이스에 저장된 파일을 조회 및 관리할 수 있도록 해준다. 또한 로컬 디렉터리에 있는 파일을 디스크 스페이스에 저장하거나
+    디스크 스페이스에 있는 파일을 로컬 디렉터리에 저장할 수 있도록 해준다. 사용자가 명령어를 입력하면 <span>TAS</span>CMD는
+    <span>TAS</span> 인스턴스에 접속하여 필요한 정보 및 작업을 요청하게 된다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ascmd_exec"/>6.2. <span>TAS</span>CMD 실행</h2></div></div></div>
+    
+
+    <p><span>TAS</span>CMD를 실행할 때에 정보 및 작업을 요청할 <span>TAS</span> 인스턴스에
+    대한 접속 정보를 다음과 같이 인자로 주면 된다. </p><div class="example"><a id="ex_ascmd_exec"/><p class="title"><b>[예 6.1] <span>TAS</span>CMD 실행 인자</b></p><div class="example-contents">
+        
+
+        <pre class="programlisting"><span>tb</span>ascmd (-p) {port}
+<span>tb</span>ascmd (-p) {port} -c "{cmd}"
+
+$ <span>tb</span>ascmd 52000
+ASCMD 7
+
+TmaxData Corporation Copyright (c) 2008-. All rights reserved.
+
+ASCMD&gt;</pre>
+      </div></div><p><br class="example-break"/></p>
+
+    <p><span>TAS</span>CMD는 입력한 포트 번호로 로컬의 <span>TAS</span> 인스턴스에
+    접속하게 된다. 포트 정보는 필수적으로 입력해주어야 한다. 커맨드라인 툴을 실행하기 전에 접속할 <span>TAS</span> 인스턴스가
+    부팅되어 있어야 한다.</p>
+
+    <p>또한 하나의 명령어만 수행하고 <span>TAS</span>CMD를 종료하고자 할 경우 -c "{cmd}" 옵션을 추가하여 <span>TAS</span>CMD
+    실행과 동시에 명령어를 수행하고 즉시 종료할 수 있으며, 이 때 명령어는 큰따옴표(" ") 또는 작은따옴표(' ') 로 감싸서
+    입력해야 한다.</p>
+
+    <p/>
+
+    
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ascmd_command"/>6.3. <span>TAS</span>CMD 명령어 <a id="d5e1850" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span>TAS</span>CMD를 통해 사용할 수 있는 명령어는 다음과 같다.</p>
+
+    <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">명령어</th><th>설명</th></tr></thead><tbody><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_cd" title="6.3.1. cd">cd</a></td><td>현재 경로를 변경한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_du" title="6.3.2. du">du</a></td><td>현재 경로에 존재하는 파일들이 차지하는 디스크 공간의 크기를 보여주거나 디스크 스페이스들의 용량을
+              조회한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_exit" title="6.3.3. exit">exit</a></td><td><span>TAS</span>CMD를 종료한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_du" title="6.3.2. du">help</a></td><td>명령어들에 대한 도움말을 조회한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_ls" title="6.3.5. ls">ls</a></td><td>현재 경로에 있는 모든파일의 목록을 보여주거나 디스크 스페이스의 목록을 조회한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_lsds" title="6.3.6. lsds">lsds</a></td><td>디스크 스페이스들에 대한 정보를 조회한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_pwd" title="6.3.7. pwd">pwd</a></td><td>현재 경로를 조회한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_rm" title="6.3.8. rm">rm</a></td><td><span>TAS</span> 파일을 제거한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_cp" title="6.3.9. cp, cpfromlocal, cptolocal">cp</a></td><td><span>TAS</span> 파일을 복사하여 새로운 <span>TAS</span> 파일을 생성한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_cp" title="6.3.9. cp, cpfromlocal, cptolocal">cpfromlocal</a></td><td>로컬 경로의 파일을 복사하여 <span>TAS</span> 파일을 생성한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_cp" title="6.3.9. cp, cpfromlocal, cptolocal">cptolocal</a></td><td><span>TAS</span> 파일을 복사하여 로컬 파일을 생성한다.</td></tr><tr><td align="left"><a href="chapter_cmd.html#sect_ascmd_mkdir" title="6.3.10. mkdir">mkdir</a></td><td>디렉터리를 생성한다.</td></tr></tbody></table>
+      </div>
+
+    <p>명령어에 파일이름이나 경로를 인수로 입력하는 경우에 그 경로를 절대 경로나 상대 경로로 입력할 수 있다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>절대 경로<a id="d5e1922" class="indexterm"/></p>
+
+        <p>절대 경로는 경로명 전체를 의미하며 다음과 같이 '+'로 시작하고 디스크 스페이스 이름과 디스크 스페이스 내에서의
+        경로가 명시된다.</p>
+
+        <pre class="programlisting">current path = +DS0
+ASCMD&gt; cd +DS0/d1/sample
+current path = +DS0/d1/sample</pre>
+      </li><li>
+        <p>상대 경로<a id="d5e1928" class="indexterm"/></p>
+
+        <p>상대 경로는 입력할 전체 경로명 중에서 현재 경로로 지정되지 않은 나머지 경로를 의미하는 것으로 결과적으로 상대
+        경로는 다음과 같이 현재 경로와 조합되어 명령어를 실행하는 데에 사용된다.</p>
+
+        <pre class="programlisting">current path = +DS0
+ASCMD&gt; cd d1/sample
+current path = +DS0/d1/sample</pre>
+
+        <p>상대 경로를 사용하는 경우에 다음의 심볼을 사용할 수 있다.<a id="d5e1933" class="indexterm"/></p>
+
+        <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">심볼</th><th>설명</th></tr></thead><tbody><tr><td align="left">"."</td><td>현재 경로를 나타낸다.</td></tr><tr><td align="left">".."</td><td>상위 경로(경로명에서 마지막 '/' 또는 현재 경로가 디스크 스페이스라면 최상위 경로인
+                  '+')를 나타낸다.</td></tr></tbody></table>
+          </div>
+
+        <p>다음과 같이 "."과 ".."뒤에 추가 경로를 입력해줄 수 있다.</p>
+
+        <pre class="programlisting">current path = +DS0/d1
+ASCMD&gt; cd ./sample
+current path = +DS0/d1/sample
+ASCMD&gt; cd ../example
+current path = +DS0/d1/example</pre>
+      </li></ul></div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ascmd_cd"/>6.3.1. cd<a id="d5e1955" class="indexterm"/><a id="d5e1959" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>cd 명령어를 통해 현재 경로를 변경할 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명령어의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>사용법</p>
+
+          <pre class="programlisting">cd {<span class="emphasis"><em>path</em></span>}</pre>
+
+          <div class="informaltable">
+              <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">인자</th><th>설명</th></tr></thead><tbody><tr><td align="left">path</td><td>절대 경로 및 상대 경로로 입력될 수 있으며 존재하는 경로라면 입력한 경로로 현재 경로가
+                    변경된다.</td></tr></tbody></table>
+            </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ascmd_du"/>6.3.2. du<a id="d5e1985" class="indexterm"/><a id="d5e1989" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>du 명령어를 사용하여 지정한 경로에 존재하는 파일 또는 디렉터리가 차지하는 디스크 공간의 크기를 조회할 수 있다.
+      최상위 경로(+)에 대해 명령어를 실행하면 디스크 스페이스들의 용량과 남은 용량을 조회한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명령어의 세부 내용은 다음과 같다.</p>
+
+      <p/>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>사용법</p>
+
+          <pre class="programlisting">du [-a] [<span class="emphasis"><em>path</em></span>]</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">인자</th><th>설명</th></tr></thead><tbody><tr><td align="left">-a</td><td>-a 옵션을 사용하는 경우 지정한 경로 뿐만 아니라 하위 디렉터리의 모든 파일에 대해 크기를
+                  조회 한다.</td></tr><tr><td align="left">path</td><td>path는 필수적으로 입력될 필요는 없다. path를 입력하지 않는다면 현재 경로에 대해서
+                  명령어가 수행된다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>du 명령어는 해당 경로에 있는 파일들의 크기를 보여줄 뿐만 아니라 미러링된 파일들을 고려한 크기도
+          조회한다.</p>
+
+          <p>다음 예제에 나타나는 mirror used mb가 이와 같이 mirroring을 고려한 파일
+          크기이다.</p>
+
+          <pre class="programlisting">current path = +DS0/d0
+ASCMD&gt; du
+            File_name              Used_mb      Mirror used mb
+               f5.txt                   12                  24
+               f6.txt                    2                   4
+               f8.txt                    9                  18
+
+             Total mb                   23                  46</pre>
+
+          <pre class="programlisting">current path = +
+ASCMD&gt; du
+diskspace name                              Total_mb   Free_mb
+DS0                                             3069       286
+diskspace name                              Total_mb   Free_mb
+DS1                                             3069      2782
+diskspace name                              Total_mb   Free_mb
+DS2                                             3069      2720</pre>
+
+          <p/>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ascmd_exit"/>6.3.3. exit<a id="d5e2028" class="indexterm"/><a id="d5e2032" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>exit 명령어를 입력하면 프로그램이 종료된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명령어의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc"><li>
+          <p>사용법</p>
+
+          <pre class="programlisting">exit</pre>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ascmd_help"/>6.3.4. help<a id="d5e2045" class="indexterm"/><a id="d5e2049" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>help 명령어를 입력하면 사용할 수 있는 모든 명령어들에 대한 도움말이 출력된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명령어의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc"><li>
+          <p>사용법</p>
+
+          <pre class="programlisting">help</pre>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ascmd_ls"/>6.3.5. ls<a id="d5e2062" class="indexterm"/><a id="d5e2066" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>ls 명령어를 사용하여 지정한 경로의 파일들의 목록을 조회할 수 있다. 최상위 경로(+)에 대해 명령어를 실행하면
+      디스크 스페이스들의 목록을 조회한다.</p>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명령어의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>사용법</p>
+
+          <pre class="programlisting">ls [-a] [<span class="emphasis"><em>path</em></span>]</pre>
+
+          <p/>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">인자</th><th>설명</th></tr></thead><tbody><tr><td align="left">-a</td><td>-a 옵션을 사용하는 경우 지정한 경로 뿐만 아니라 하위 디렉터리의 모든 파일 목록을 조회
+                  한다.</td></tr><tr><td align="left">path</td><td>path를 입력하지 않는다면 현재 경로에 대해서 명령어가 수행된다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>다음은 ls 파일 목록 예제이다.</p>
+
+          <pre class="programlisting">current path = +DS0/d0
+ASCMD&gt; ls
+File_name
+f5.txt
+f6.txt
+f8.txt  </pre>
+
+          <p>다음은 ls 디스크 스페이스 목록 예제이다.</p>
+
+          <pre class="programlisting">current path = +
+ASCMD&gt; ls
+DS0
+DS1
+DS2     </pre>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ascmd_lsds"/>6.3.6. lsds<a id="d5e2106" class="indexterm"/><a id="d5e2110" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>디스크 스페이스들의 목록과 그 정보를 조회한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명령어의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+            <p>사용법</p>
+
+            <pre class="programlisting">lsds</pre>
+          </li><li>
+            <p>예제</p>
+
+            <p>다음 예제와 같이 디스크 스페이스들의 번호, 이름, 상태, 중복 레벨, 섹터 사이즈, 메타 블록 크기,
+            디스크 할당 단위의 크기, 총 용량, 여유 용량을 조회한다.</p>
+
+            <pre class="programlisting">ASCMD&gt; lsds
+===============================================================
+Diskspace no.  Diskspace name
+0              DS0
+Status         Redun_type
+MOUNT          NORMAL
+Sector_size    Meta_blksize   au_size
+512            8192           1048576
+Total_mb       Free_mb
+3069           286
+===============================================================
+Diskspace no.  Diskspace name
+1              DS1
+Status         Redun_type
+MOUNT          NORMAL
+Sector_size    Meta_blksize   au_size
+512            8192           1048576
+Total_mb       Free_mb
+3069           2782
+===============================================================
+...     </pre>
+          </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ascmd_pwd"/>6.3.7. pwd<a id="d5e2129" class="indexterm"/><a id="d5e2133" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>현재 경로를 조회한다.</p>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명령어의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>사용법</p>
+
+          <pre class="programlisting">pwd</pre>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">ASCMD&gt; pwd
+current path: +DS0/d0</pre>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ascmd_rm"/>6.3.8. rm<a id="d5e2153" class="indexterm"/><a id="d5e2157" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>rm 명령어를 사용하면 <span>TAS</span> 파일을 제거할 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명령어의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>사용법</p>
+
+          <pre class="programlisting">rm {<span class="emphasis"><em>files</em></span>}</pre>
+
+          <p/>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">인자</th><th>설명</th></tr></thead><tbody><tr><td align="left">files</td><td>files는 상대 경로 및 절대 경로로 지정할 수 있으며 여러 파일의 이름을 입력하면 여러
+                  파일을 동시에 제거할 수 있다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">current path = +DS0/d0
+ASCMD&gt; ls
+File_name
+f5.txt
+f6.txt
+f8.txt
+ASCMD&gt; rm f5.txt
+rm complete: +DS0/d0/f5.txt
+ASCMD&gt; ls
+File_name1
+f6.txt
+f8.txt  </pre>
+
+          <p>DB가 기동 중인 상황에서는 .arc 파일을 제외하고 에러가 발생한다.</p>
+
+          <pre class="programlisting">ASCMD&gt; rm c1.ctl
+ERROR: no such path '+DS0/c1.ctl'		
+ERROR: rm terminated with error: Invalid argument
+ASCMD&gt; rm test001.dtf
+ERROR: no such path '+DS0/test001.dtf'		
+ERROR: rm terminated with error: Invalid argument
+ASCMD&gt; rm +DS0/.passwd
+ERROR: no such path '+DS0/.passwd'		
+ERROR: rm terminated with error: Invalid argument
+ASCMD&gt; rm log-t0-r0-r1.arc
+rm complete: +DS0/archive/log-t0-r0-r1.arc</pre>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ascmd_cp"/>6.3.9. cp, cpfromlocal, cptolocal<a id="d5e2192" class="indexterm"/><a id="d5e2196" class="indexterm"/> <a id="d5e2200" class="indexterm"/><a id="d5e2204" class="indexterm"/><a id="d5e2206" class="indexterm"/><a id="d5e2208" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>cp 명령어를 사용하면 <span>TAS</span> 파일을 복사하여 새로운 <span>TAS</span> 파일을
+      생성할 수 있으며 cpfromlocal 명령어를 사용하면 로컬 파일을 복사하여 <span>TAS</span> 파일을
+      생성할 수 있다.</p>
+
+      <p>cptolocal 명령어를 사용하면 <span>TAS</span> 파일을 로컬 파일로 복사할 수 있다. 생성할 파일명이 이미 존재한다면
+      복사를 수행을 하지않고 오류 메시지를 출력한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명령어의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+            <p>사용법</p>
+
+            <pre class="programlisting">cp {<span class="emphasis"><em>infile</em></span>} {<span class="emphasis"><em>outfile</em></span>}
+cpfromlocal {<span class="emphasis"><em>infile</em></span>} {<span class="emphasis"><em>outfile</em></span>}
+cptolocal {<span class="emphasis"><em>infile</em></span>} {<span class="emphasis"><em>outfile</em></span>}</pre>
+
+            <p/>
+
+            <div class="informaltable">
+                <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">인자</th><th>설명</th></tr></thead><tbody><tr><td align="left">infile, outfile</td><td>infile과 outfile은 절대 경로와 상대 경로로 지정해 줄 수 있다.
+                      infile로 지정한 file을 복사하여 outfile을 생성한다. 또한 복사한 용량, 소요시간,
+                      속도를 출력한다.</td></tr></tbody></table>
+              </div>
+
+            <p/>
+          </li><li>
+            <p>예제</p>
+
+            <pre class="programlisting">current path = +DS0/d0
+ASCMD&gt; du
+File_name              Used_mb      Mirror used mb
+   f6.txt                    2                   4
+   f8.txt                    9                  18
+
+ Total mb                   11                  22
+ASCMD&gt; cp f6.txt f5.txt
+2097152 bytes (2.00 MB) copied, 0.079874 s, 26.255753 MB/s
+ASCMD&gt; du
+File_name              Used_mb      Mirror used mb
+   f5.txt                    2                   4
+   f6.txt                    2                   4
+   f8.txt                    9                  18
+
+ Total mb                   13                  26</pre>
+          </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ascmd_mkdir"/>6.3.10. mkdir<a id="d5e2252" class="indexterm"/><a id="d5e2256" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>mkdir 명령어를 이용하면 디렉터리를 생성할 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명령어의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+            <p>사용법</p>
+
+            <pre class="programlisting">mkdir {<span class="emphasis"><em>dirname</em></span>}</pre>
+
+            <p/>
+
+            <div class="informaltable">
+                <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">인자</th><th>설명</th></tr></thead><tbody><tr><td align="left">dirname</td><td>dirname에 해당하는 디렉터리를 생성한다.</td></tr></tbody></table>
+              </div>
+
+            <p/>
+          </li><li>
+            <p>예제</p>
+
+            <pre class="programlisting">current path = +DS0
+&lt;File_name&gt;
+c1.ctl
+log0001.log
+log0002.log
+log0003.log
+log0004.log
+log0005.log
+log0006.log
+ASCMD&gt; mkdir fd1
+ASCMD&gt; ls
+&lt;File_name&gt;
+c1.ctl
+log0001.log
+log0002.log
+log0003.log
+log0004.log
+log0005.log
+log0006.log
+fd1/</pre>
+          </li></ul></div>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2288"/>6.4. <span>TAS</span>CMD 에러코드</h2></div></div></div>
+    
+
+    <p>다음은 <span>TAS</span>CMD를 사용하는 도중에 발생할 수 있는 에러에 대한 원인과 해결 방법에 대한
+    설명이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p><span><strong class="guibutton">ERROR CODE -1: invalid tas port
+        number</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>포트 번호로 0이나 음수 또는 숫자가 아닌 문자열이 입력된 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>포트 번호를 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -2: more arguments
+        needed</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>tbascmd를 실행하는 경우 argument가 하나도 입력되지 않았을 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>포트 번호를 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -3: invalid
+        argument</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>tbascmd를 실행하는 경우 올바르지 않은 argument가 입력된 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>올바른 argument를 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -4: connection
+        failed</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>포트 번호를 통해 TAS 인스턴스와 연결하는데 실패했을 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>포트 번호 또는 TAS 인스턴스가 실행되어 있는지 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -5: invalid command "INPUT
+        CMD"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>유효하지 않은 ascmd 명령어가 입력된 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>유효한 ascmd 명령어를 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -6: length of command cannot exceed
+        "ASCMD_CMD_LEN_MAX"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>입력한 ascmd 명령어가 길이 제한을 초과한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>2048 글자 이하의 ascmd 명령어를 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -7: invalid option "INPUT OPTION" for
+        command "INPUT CMD"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>입력한 ascmd 명령어와 옵션이 서로 맞지 않은 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>ascmd 명령어와 옵션을 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -8: invalid option "INPUT
+        OPTION"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>ascmd에서 정의되어있지 않은 옵션을 사용한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>ascmd에 정의된 옵션을 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -9: blksize cannot exceed
+        "ASCMD_BLOCK_SIZE_MAX"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>cpfromlocal 명령어의 옵션으로 입력한 block size가 최대값을 초과한
+                  경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>32KB이하의 ASCMD_BLOCK_SIZE를 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -10: invalid file type "INPUT FILE TYPE"
+        valid types [data, redo, ctrl]</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>cpfromlocal 명령어의 옵션으로 지정한 파일 타입이 ascmd에 정의되어있는 타입에
+                  해당하지 않는 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>명령어의 옵션으로 지정한 파일 타입이 정의된 파일 타입인지 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -12: too many arguments for command "INPUT
+        CMD"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>ascmd 명령어의 argument가 요구사항보다 많이 입력된 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>해당 ascmd 명령어 사용법을 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -13: need more arguments for command
+        "INPUT CMD"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>ascmd 명령어의 argument가 요구사항보다 적게 입력된 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>해당 ascmd 명령어 사용법을 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -14: invalid argument "INPUT ARG" for
+        command "INPUT CMD"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>argument가 필요없는 명령어에 argument를 전달했을 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>해당 ascmd 명령어 사용법을 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -15: cannot parse NULL
+        path</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>파일 경로로 NULL값이 전달된 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>NULL이 아닌 파일 경로를 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -16: length of path must be less than
+        "ASCMD_PATH_LEN_MAX"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>파일 경로의 길이가 제한 길이를 초과한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>256 글자 이하의 파일 경로를 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -18: path "INPUT PATH" has invalid
+        form</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>파일 경로의 형식이 올바르지 않은 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>올바른 파일 경로 형식을 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -19: no such
+        path</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>입력한 파일 또는 경로가 존재하지 않는 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>존재하는 파일 경로를 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -20: length of diskspace name must be less
+        than "ASCMD_DS_NAME_LEN_MAX"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>디스크 스페이스의 이름이 제한 길이를 초과한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>48 글자 이하의 디스크 스페이스 이름을 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -22: no such diskspace "INPUT DS
+        NAME"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>경로에 포함된 디스크 스페이스를 찾지 못한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>해당 경로에 디스크 스페이스를 생성하거나, 디스크 스페이스가 존재하는 path를
+                  입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -23: no diskspace
+        found</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>디스크 스페이스가 하나도 존재하지 않는 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>디스크 스페이스를 생성한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -24: length of file name must be less than
+        "ASCMD_FILE_NAME_LEN_MAX"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>파일명이 제한 길이를 초과한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>48 글자 이하의 파일명을 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -25: invalid filename
+        ‘FILENAME’</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>파일명으로 올바르지 않은 문자열이 전달된 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>올바른 파일명을 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -26: file 'FILENAME' already
+        exists</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>cp 명령어을 수행하는 경우 대상 파일과 같은 이름의 파일이 이미 존재할
+                  경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>같은 이름의 파일이 이미 존재하므로, 다른 파일명을 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -27: length of directory path must be less
+        than "ASCMD_PATH_LEN_MAX"</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>입력한 경로의 길이가 제한 길이를 초과한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>255 글자 이하의 경로를 입력한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -29: cannot use directory with cp
+        command</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>cp 명령어를 수행할 때 두 파일명 중 하나 이상이 디렉터리 경로가 들어온
+                  경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>올바른 파일 경로나 파일명인지 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -30: cannot alloc
+        memory</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>파일 복사에 사용할 버퍼의 메모리 할당에 실패한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>기술지원을 통한 연구소 분석을 요청한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -31: asfd_pread
+        failed</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>cp 명령어 수행 중 파일 읽기에 실패한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>올바른 파일 경로나 파일명인지 확인하거나 경로와 파일명의 권한 설정을 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -32: asfd_pwrite
+        failed</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>cp 명령어 수행 중 파일 쓰기에 실패한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>올바른 파일 경로나 파일명인지 확인하거나 경로와 파일명의 권한 설정을 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -33: file resize
+        failed</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>TAS가 파일의 alignment를 맞추기 위한 resize 작업을 수행하다가 실패한
+                  경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>기술지원을 통한 연구소 분석을 요청한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -35: file name is not entered ascmd is not
+        allowed to remove diskspace</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>rm 명령어의 argument로 입력한 경로에 파일명 없이 디스크 스페이스만 주어진
+                  경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>올바른 파일명을 입력한다. 만약, 디스크 스페이스를 지우고 싶다면 tbsql에서 DROP
+                  DISKSPACE 구문을 사용한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -36: ascmd command should be given after
+        -c, --cmd option</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>ascmd -c, --cmd 옵션 뒤에 명령어를 입력하지 않았을 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>ascmd 명령어와 옵션을 확인한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -37: cannot open
+        file</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>TAS가 cp 명령어 수행 과정에서 파일을 여는데 실패한 경우이다. 원인이 다양하여 특정할 수
+                  없다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>기술지원을 통한 연구소 분석을 요청한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -38: tas failed to get ds
+        list</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>TAS가 디스크 스페이스의 목록을 읽어오다가 실패한 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>기술지원을 통한 연구소 분석 필요</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -39: tas failed to get file
+        info</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>TAS가 file size, redun number 등의 파일 정보를 얻어오는데 실패한
+                  경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>기술지원을 통한 연구소 분석을 요청한다.</td></tr></tbody></table>
+          </div>
+      </li><li>
+        <p><span><strong class="guibutton">ERROR CODE -40: valid input should be given to option
+        'OPTION'</strong></span></p><div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">원인</strong></span></td><td>cpfromlocal 명령어 뒤에 사용되는 -b, --blksize, -t, --type 등의
+                  옵션 뒤에 올바르지 않은 값이 입력된 경우이다.</td></tr><tr><td align="left"><span><strong class="guibutton">해결 방법</strong></span></td><td>cpfromlocal 명령어의 사용법을 확인한다.</td></tr></tbody></table>
+          </div>
+      </li></ul></div>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_backup.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="appendix_tas_howto.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제5장 백업과 복구 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> Appendix A. 구성 예제</td></tr></table></div><div xmlns="" align="center"/></body></html>

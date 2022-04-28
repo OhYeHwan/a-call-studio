@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제53장 DBMS_XPLAN</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_xmlsave.html" title="제52장 DBMS_XMLSAVE"/><link rel="next" href="chap_dbms_xslprocessor.html" title="제54장 DBMS_XSLPROCESSOR"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제53장 DBMS_XPLAN</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_xmlsave.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_xslprocessor.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_xplan"/>제53장 DBMS_XPLAN</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_xplan.html#d5e24005">53.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_xplan.html#d5e24013">53.2. 함수</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_xplan.html#DBMS_XPLAN_DISPLAY_CURSOR">53.2.1. DISPLAY_CURSOR</a></span></dt><dt><span class="section"><a href="chap_dbms_xplan.html#DBMS_XPLAN_DISPLAY_TPR">53.2.2. DISPLAY_TPR</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_XPLAN 패키지의 기본 개념과 패키지 내의 프러시저와 함수를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e24005"/>53.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_XPLAN</strong></span><a id="d5e24009" class="indexterm"/>은 플랜 정보와 플랜의 수행 정보들에 대해 사용자가 원하는 항목을 선택해서 다양한 포맷으로 출력할 수 있는
+    기능을 제공한다.</p>
+
+    <p>출력 방식은 pipelined function 기능을 이용하여 TABLE() 구문을 통해 쿼리의 결과로 해당 정보들을
+    출력한다. 또한 출력 정보는 V$SQL_PLAN, V$SQL_PLAN_STATISTICS 뷰를 통해서 구하기 때문에
+    GATHER_SQL_PLAN_STAT 파라미터가 켜져 있어야 수행 정보를 구할 수 있다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e24013"/>53.2. 함수</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_XPLAN 패키지에서 제공하는 프러시저와 함수를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XPLAN_DISPLAY_CURSOR"/>53.2.1. DISPLAY_CURSOR<a id="d5e24018" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Physical Plan Cache에 등록되어 있는 플랜에 대해 SQL_ID 값을 통해 조회하는 함수이다.
+      pipelined function이기 때문에 TABLE() 함수를 이용해서 사용한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DISPLAY_CURSOR 함수<a id="d5e24024" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_XPLAN.DISPLAY_CURSOR
+(
+    in_sql_id       VARCHAR2 default NULL,
+    in_child_no     NUMBER default NULL,
+    format          VARCHAR2 default 'BASIC LAST SQL'
+) 
+RETURN dbms_xplan_type_table pipelined;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">in_sql_id</td><td>조회하려는 플랜의 SQL_ID 값이다. 입력을 생략한 경우에는 해당 세션의 마지막 수행 쿼리의
+                  SQL_ID 값을 사용하게 된다.</td></tr><tr><td align="left">in_child_no</td><td>조회하려는 플랜의 CHILD_NUMBER 값이다. 이 값이 생략된 경우 입력된 SQL_ID 값과
+                  일치하는 모든 플랜을 조회한다. CHILD_NUMBER 값은 SQL_ID가 입력된 경우에만 지정될 수
+                  있다.</td></tr><tr><td align="left">format</td><td>출력하고자 하는 항목을 명시할 수 있다. 항목의 종류에는 개별 항목과 개별 항목 여러 개를
+                  설정하는 그룹 항목이 있다. 항목 이름 앞에 하이픈(-)를 붙이면 해당 항목을 제외할 수
+                  있다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>개별 출력 항목</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">CARDS</td><td>optimizer에서 예측한 해당 플랜 노드의 row 수이다.</td></tr><tr><td align="left">COST</td><td>optimizer에서 예측한 해당 플랜 노드의 cost이다.</td></tr><tr><td align="left">PARTITION</td><td>파티션 관련 정보이다.</td></tr><tr><td align="left">PARALLEL</td><td>parallel execution 관련 정보이다.</td></tr><tr><td align="left">PREDICATE</td><td>플랜 노드별 predicate 정보이다.</td></tr><tr><td align="left">REMOTE</td><td>플랜 노드별 데이터베이스 링크에 수행한 쿼리 내용이다.</td></tr><tr><td align="left">ROWS</td><td>해당 플랜 노드에서 실제 수행된 row 수이다.</td></tr><tr><td align="left">ELAPTIME</td><td>해당 플랜 노드에서 실제 수행된 시간이다.</td></tr><tr><td align="left">USEDMEM</td><td>해당 플랜 노드에서 실제 사용된 메모리 양이다.</td></tr><tr><td align="left">TEMPREAD</td><td>해당 플랜 노드에서 실제 사용된 temp read 횟수이다.</td></tr><tr><td align="left">TEMPWRITE</td><td>해당 플랜 노드에서 실제 사용된 temp write 횟수이다.</td></tr><tr><td align="left">BUFGETS</td><td>해당 플랜 노드에서 실제 요청한 buffer get 횟수이다.</td></tr><tr><td align="left">STARTS</td><td>해당 플랜 노드가 실제 재시작된 횟수이다.</td></tr><tr><td align="left">LAST</td><td>수행 정보 값을 마지막 수행 정보 값만 출력한다. 지정하지 않은 경우 수행 정보 값은 모든
+                  수행에 대한 누적 값을 보여준다.</td></tr><tr><td align="left">PRECISE</td><td>CARDS, ROWS에 대해 반올림 없이 실제 값을 보여준다.</td></tr><tr><td align="left">HEADER</td><td>플랜의 기본 정보(sql id, hash value, 총 수행 횟수, 총 패치 횟수, 플랜 수행
+                  시간)를 보여준다.</td></tr><tr><td align="left">SQL</td><td>플랜 생성에 사용된 쿼리문을 보여준다.</td></tr><tr><td align="left">READS</td><td>해당 플랜 노드에서 실제 수행된 디스크 I/O 횟수이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>그룹 출력 항목</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">IOSTATS</td><td><p>수행 정보 중 IO와 관련된 모든 항목을
+                  보여준다.</p><pre class="programlisting">TEMPREAD + TEMPWRITE + BUFGETS + READS</pre></td></tr><tr><td align="left">MEMSTATS</td><td><p>수행 정보 중 메모리와 관련된 모든 항목을
+                  보여준다.</p><pre class="programlisting">USEDMEM</pre></td></tr><tr><td align="left">ALLSTATS</td><td><p>수행 정보 중 IO, 메모리와 관련된 모든 항목을
+                  보여준다.</p><pre class="programlisting">IOSTATS + MEMSTATS</pre></td></tr><tr><td align="left">BASIC</td><td><p>출력 기본 포맷으로 optimizer에서 예측한 cardinality, cost와
+                  마지막 수행에 대한 노드별 수행 시간을 출력한다.</p><pre class="programlisting">CARDS + COST + PART + ELAPTIME + LAST</pre></td></tr><tr><td align="left">TYPICAL</td><td><p>BASIC 포맷에 추가로 마지막 수행에 대한 노드별 처리 row 수와
+                  predicate 정보, remote sql 정보를 출력한다.</p><pre class="programlisting">BASIC + PE + ROWS + STARTS + PRED + REMOTE + PRECISE</pre></td></tr><tr><td align="left">ALL</td><td><p>TYPICAL 포맷에 ALLSTATS 항목을
+                  보여준다.</p><pre class="programlisting">TYPICAL + ALLSTATS</pre></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>다음은 현재 세션에서 마지막으로 수행한 쿼리의 플랜 정보를 보는 예이다.</p>
+
+          <pre class="programlisting">SQL&gt; select * from table(dbms_xplan.display_cursor);</pre>
+
+          <p/>
+
+          <div class="literallayout"><p/></div>
+
+          <p>다음은 기본 포맷에서 파티션 정보를 제외하고 '9xg1f36cgn19q' SQL_ID의 플랜 정보를 보는
+          예이다.</p>
+
+          <pre class="programlisting">SQL&gt; set pagesize 0
+SQL&gt; set linesize 100
+SQL&gt; select * from table (
+   2 dbms_xplan.display_cursor('9xg1f36cgn19q', 53, 'BASIC LAST SQL -PARTITION'));
+SQL ID         : 9xg1f36cgn19q
+HASH VALUE     : 2566522166
+PLAN HASH VALUE: 3469845920
+EXECUTIONS     : 1
+FETCHES        : 43
+LOADED AT      : 2019/04/03 14:09:01
+TOT ELAPSED TIME: 00:00:00.5774 
+AVG ELAPSED TIME: 00:00:00.5774 
+SQL            : select p_name, p_mfgr, ps_supplycost, p_type,
+       min (ps_supplycost) over (partition by ps_partkey) min_supplycost,
+       p_comment, ps_comment
+from part, psup
+where p_partkey = ps_partkey
+
+ 
+----------------------------------------------------------------------------------
+| ID  | Operation                 | Name | Cost (%CPU)  | Cards    | Elaps. Time |
+----------------------------------------------------------------------------------
+|   1 | COLUMN PROJECTION         |      |  261   (8.81)|   95475  |00:00:00.0299|
+|   2 |  WINDOW (SIMPLE)          |      |  260   (8.46)|   95475  |00:00:00.0907|
+|   3 |   GROUP BY                |      |  244   (2.46)|   95475  |00:00:00.0063|
+|   4 |    ORDER BY (SORT)        |      |  242   (1.65)|   95475  |00:00:00.0824|
+|   5 |     HASH JOIN             |      |  240    (.83)|   95475  |00:00:00.0874|
+|   6 |      TABLE ACCESS (FULL)  | PSUP |  105      (0)|   87372  |00:00:00.0072|
+|   7 |      TABLE ACCESS (FULL)  | PART |  132      (0)|   89536  |00:00:00.0097|
+----------------------------------------------------------------------------------
+ 
+Note
+----------------------------------------------------------------------------------
+    6 - dynamic sampling used for this table (96 blocks)
+    7 - dynamic sampling used for this table (96 blocks)</pre>
+
+          <p/>
+
+          <div class="literallayout"><p/></div>
+
+          <p>다음은 마지막 수행 시간, 수행 결과 row, 요청 buffer gets 값을 보는 예이다.</p>
+
+          <pre class="programlisting">SQL&gt; select * from table (
+   2 dbms_xplan.display_cursor('9xg1f36cgn19q', 53, 'ROWS ELAPTIME +BUFGETS'));
+-------------------------------------------------------------------------------
+| ID  | Operation                 | Name | Rows     | Elaps. Time  | CR Gets  |
+-------------------------------------------------------------------------------
+|   1 | COLUMN PROJECTION         |      |   99999  |00:00:00.0299 |       0  |
+|   2 |  WINDOW (SIMPLE)          |      |   99999  |00:00:00.0907 |       0  |
+|   3 |   GROUP BY                |      |   99999  |00:00:00.0063 |       0  |
+|   4 |    ORDER BY (SORT)        |      |   99999  |00:00:00.0824 |       0  |
+|   5 |     HASH JOIN             |      |   99999  |00:00:00.0874 |       0  |
+|   6 |      TABLE ACCESS (FULL)  | PSUP |   99999  |00:00:00.0072 |     245  |
+|   7 |      TABLE ACCESS (FULL)  | PART |   99999  |00:00:00.0097 |     307  |
+-------------------------------------------------------------------------------
+ 
+Note
+-------------------------------------------------------------------------------
+    6 - dynamic sampling used for this table (96 blocks)
+    7 - dynamic sampling used for this table (96 blocks)</pre>
+
+          <p/>
+
+          <div class="literallayout"><p/></div>
+
+          <p>다음은 수행 중 메모리 사용량과 디스크 I/O 값을 보는 예이다.</p>
+
+          <pre class="programlisting">SQL&gt; select * from table (dbms_xplan.display_cursor(
+   2 '9xg1f36cgn19q', 53, 'ALLSTATS -TEMPREAD -TEMPWRITE'));
+---------------------------------------------------------------------------
+| ID  | Operation                 | Name | CR Gets  | Used Mem |  Reads   |
+---------------------------------------------------------------------------
+|   1 | COLUMN PROJECTION         |      |       0  |       0K |       0  |
+|   2 |  WINDOW (SIMPLE)          |      |       0  |     198K |       0  |
+|   3 |   GROUP BY                |      |       0  |       0K |       0  |
+|   4 |    ORDER BY (SORT)        |      |       0  |    7698K |       0  |
+|   5 |     HASH JOIN             |      |       0  |    5795K |       0  |
+|   6 |      TABLE ACCESS (FULL)  | PSUP |     245  |       0K |     244  |
+|   7 |      TABLE ACCESS (FULL)  | PART |     307  |       0K |     306  |
+---------------------------------------------------------------------------
+ 
+Note
+---------------------------------------------------------------------------
+    6 - dynamic sampling used for this table (96 blocks)
+    7 - dynamic sampling used for this table (96 blocks)</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XPLAN_DISPLAY_TPR"/>53.2.2. DISPLAY_TPR<a id="d5e24175" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>TPR에 등록되어 있는 플랜에 대해 SQL_HASH_VALUE 값을 통해 조회하는 함수이다. pipelined
+      function이기 때문에 TABLE() 함수를 이용해서 사용한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DISPLAY_TPR 함수<a id="d5e24181" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_XPLAN.DISPLAY_TPR
+(
+    sql_hash_value      NUMBER,
+    plan_hash_value     NUMBER default NULL,
+    instance#           NUMBER default NULL,
+    format              VARCHAR2 default 'TYPICAL'
+) 
+RETURN dbms_xplan_type_table pipelined;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">sql_hash_value</td><td>조회하려는 플랜의 SQL_HASH_VALUE 값이다.</td></tr><tr><td align="left">plan_hash_value</td><td>조회하려는 플랜의 PLAN_HASH_VALUE 값이다. 이 값이 생략된 경우 입력된
+                  SQL_HASH_VALUE 값과 일치하는 모든 플랜을 조회한다.</td></tr><tr><td align="left">instance#</td><td>조회하려는 플랜이 생성된 인스턴스 번호 이다. 이 값이 생략된 경우 V$DATABASE 에
+                  나타난 로컬 instance_id를 사용한다.</td></tr><tr><td align="left">format</td><td><p>아래 3가지 포맷을 지원한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>BASIC : OPERATION ID, NAME 만 표시하며 추가적으로 옵션 사용
+                        가능하다.</p>
+                      </li><li>
+                        <p>TYPICAL : OPERATION ID, NAME, CARDS, COST,
+                        BUFGETS, ROWS, ELAPTIME, PARTITION, PREDICATE을 표시한다.
+                        기본적으로 OPERATION ID, NAME, CARDS, COST를 출력하며 해당 내용이 있을
+                        경우 BUFGETS, ROWS, ELAPTIME, PARTITION, PREDICATE 정보를
+                        출력한다. (기본값)</p>
+                      </li><li>
+                        <p>ALL : TYPICAL, REMOTE을 표시한다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>개별 출력 항목</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">CARDS</td><td>optimizer에서 예측한 해당 플랜 노드의 row 수이다.</td></tr><tr><td align="left">COST</td><td>optimizer에서 예측한 해당 플랜 노드의 cost이다.</td></tr><tr><td align="left">BUFGETS</td><td>해당 플랜 노드에서 실제 요청한 buffer get 횟수이다.</td></tr><tr><td align="left">ROWS</td><td>해당 플랜 노드에서 실제 수행된 row 수이다.</td></tr><tr><td align="left">ELAPTIME</td><td>해당 플랜 노드에서 실제 수행된 시간이다.</td></tr><tr><td align="left">PARTITION</td><td>파티션 관련 정보이다.</td></tr><tr><td align="left">PREDICATE</td><td>플랜 노드별 predicate 정보이다.</td></tr><tr><td align="left">REMOTE</td><td>플랜 노드별 데이터베이스 링크에 수행한 쿼리 내용이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>다음은 기본 포맷에서 '12345678' SQL_HASH_VALUE의 플랜 정보를 보는 예이다.</p>
+
+          <pre class="programlisting">SQL&gt; set pagesize 300
+SQL&gt; set linesize 400
+SQL&gt; select * from table(dbms_xplan.display_tpr('12345678'));
+
+COLUMN_VALUE
+--------------------------------------------------------------------------------
+SQL ID          : cp2tt6ptgqws0
+PLAN HASH VALUE : 968455237
+SQL TEXT        : 
+select t1.a, t2.a from t1,t2 where t1.a = t2.a union select t2.a, t3.a from t2,t3 where t2.a=t3.a
+
+-----------------------------------------------------------------------------------------------------
+| ID  | Operation               | Name | Cards   | Cost   (%CPU)| CR Gets  | Rows    | Elaps. Time  |
+-----------------------------------------------------------------------------------------------------
+|   1 | UNION                   |      |    534K |  815   (4.66)|       0  |    300K |00:00:00.0000 |
+|   2 |  DISTINCT (SORT)        |      |    267K |  399   (2.76)|       0  |    300K |00:00:00.0002 |
+|   3 |   HASH JOIN             |      |    267K |  393   (1.27)|       0  |    300K |00:00:00.0002 |
+|   4 |    TABLE ACCESS (FULL)  | T1   |    248K |  194      (0)|     549  |    300K |00:00:00.0000 |
+|   5 |    TABLE ACCESS (FULL)  | T2   |    248K |  194      (0)|     549  |    300K |00:00:00.0000 |
+|   6 |  DISTINCT (SORT)        |      |    267K |  399   (2.76)|       0  |    300K |00:00:00.0002 |
+|   7 |   HASH JOIN             |      |    267K |  393   (1.27)|       0  |    300K |00:00:00.0002 |
+|   8 |    TABLE ACCESS (FULL)  | T2   |    248K |  194      (0)|     909  |    300K |00:00:00.0000 |
+|   9 |    TABLE ACCESS (FULL)  | T3   |    248K |  194      (0)|     549  |    300K |00:00:00.0000 |
+-----------------------------------------------------------------------------------------------------
+
+Predicate Information
+-----------------------------------------------------------------------------------------------------
+    3 - access: ("T1"."A" = "T2"."A") (0.000)
+    7 - access: ("T2"."A" = "T3"."A") (0.000)
+
+Note
+-----------------------------------------------------------------------------------------------------
+    4 - dynamic sampling used for this table (98 blocks)
+    5 - dynamic sampling used for this table (98 blocks)
+    9 - dynamic sampling used for this table (98 blocks)
+
+
+SQL ID          : cp2tt6ptgqws0
+PLAN HASH VALUE : 2624411436
+SQL TEXT        : 
+select t1.a, t2.a from t1,t2 where t1.a = t2.a union select t2.a, t3.a from t2,t3 where t2.a=t3.a
+
+-----------------------------------------------------------------------------------------------------
+| ID  | Operation               | Name | Cards   | Cost   (%CPU)| CR Gets  | Rows    | Elaps. Time  |
+-----------------------------------------------------------------------------------------------------
+|   1 | UNION                   |      |    534K |  815   (4.66)|          |         |              |
+|   2 |  DISTINCT (SORT)        |      |    267K |  399   (2.76)|          |         |              |
+|   3 |   HASH JOIN             |      |    267K |  393   (1.27)|          |         |              |
+|   4 |    TABLE ACCESS (FULL)  | T1   |    248K |  194      (0)|          |         |              |
+|   5 |    TABLE ACCESS (FULL)  | T2   |    248K |  194      (0)|          |         |              |
+|   6 |  DISTINCT (SORT)        |      |    267K |  399   (2.76)|          |         |              |
+|   7 |   HASH JOIN             |      |    267K |  393   (1.27)|          |         |              |
+|   8 |    TABLE ACCESS (FULL)  | T2   |    248K |  194      (0)|          |         |              |
+|   9 |    TABLE ACCESS (FULL)  | T3   |    248K |  194      (0)|          |         |              |
+-----------------------------------------------------------------------------------------------------
+
+Predicate Information
+-----------------------------------------------------------------------------------------------------
+    3 - access: ("T1"."A" = "T2"."A") (0.000)
+    7 - access: ("T2"."A" = "T3"."A") (0.000)
+
+Note
+-----------------------------------------------------------------------------------------------------
+    4 - dynamic sampling used for this table (98 blocks)
+    5 - dynamic sampling used for this table (98 blocks)
+    9 - dynamic sampling used for this table (98 blocks)
+</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_xmlsave.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_xslprocessor.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제52장 DBMS_XMLSAVE </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제54장 DBMS_XSLPROCESSOR</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제17장 18000 ~ 18999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch16.html" title="제16장 17000 ~ 17999"/><link rel="next" href="ch18.html" title="제18장 19000 ~ 19999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제17장 18000 ~ 18999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch16.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch18.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e29512"/>제17장 18000 ~ 18999</h2></div></div></div>
+  
+
+  <h2><a id="d5e29514"/>18001: System call error: %1$d (%2$s).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred in system call.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the system call arguments.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29527"/>18002: open('%2$s') failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The file does not exist or file open privileges are required.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify file and directory permissions.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29540"/>18003: write() failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to write to the file</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the disk is operating normally. If the disk is full, free up disk space.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29553"/>18004: write() failed -- disk full.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to write to the file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check that the disk is running normally. If the disk is full, free up disk space.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29566"/>18005: link('%2$s', '%3$s') failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to link the file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify file and directory permissions.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29579"/>18006: rename('%2$s', '%3$s') failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The file does not exist or file editing privileges are required.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify file and directory permissions.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29592"/>18007: mkdir('%2$s') failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to create the directory.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the permissions in the parent directory.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29605"/>18008: fork() failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to create a process.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase system resources, or check the OS settings.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29618"/>18009: exec*('%2$s') failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to convert the process.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase system resources, or check the OS settings.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29631"/>18010: waitpid(%2$d) failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The child process was terminated abnormally.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the execution environment.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29644"/>18011: system('%2$s') failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to execute internal commands.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase system resources, or check the OS settings.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29657"/>18012: %1$s(): child process exited with return code %2$d.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid execution result from child process.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the system administrator.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29670"/>18013: %1$s(): child process terminated abnormally with signal %2$d.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The child process terminated abnormally.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the execution environment.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29683"/>18014: %1$s(): child process stopped with signal %2$d.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The child process terminated abnormally.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the execution environment.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29696"/>18015: dlopen('%2$s') failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The shared library does not exist or access privileges are required.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the file and directory permissions, recreate the corresponding schema object, or execute ALTER RECOMPILE.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29709"/>18016: dlsym('%2$s') failed -- %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot read a symbol in the created shared library.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Recreate the corresponding schema object or execute ALTER RECOMPILE.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29722"/>18017: Unknown I/O error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An I/O error of unknown cause occurred.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29735"/>18018: write() failed -- file is too large.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to write to a file because the file is too big.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the disk is running normally. If the disk is full, free up disk space.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29748"/>18019: Socket I/O timeout.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Timeout during I/O operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check for any communication problems between the server and the client.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29761"/>18020: A health check request has been received.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Skip logging authentication error for health check request.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>This is not an error case.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch16.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch18.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제16장 17000 ~ 17999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제18장 19000 ~ 19999</td></tr></table></div><div xmlns="" align="center"/></body></html>

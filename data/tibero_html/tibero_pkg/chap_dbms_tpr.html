@@ -1,0 +1,1182 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제44장 DBMS_TPR</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_system.html" title="제43장 DBMS_SYSTEM"/><link rel="next" href="chap_dbms_transaction.html" title="제45장 DBMS_TRANSACTION"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제44장 DBMS_TPR</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_system.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_transaction.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_tpr"/>제44장 DBMS_TPR</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_tpr.html#d5e19259">44.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#d5e19265">44.2. 프러시저</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_CREATE_SNAPSHOT">44.2.1. CREATE_SNAPSHOT</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_CREATE_SNAPSHOT_ALL">44.2.2. CREATE_SNAPSHOT_ALL</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_TEXT">44.2.3. REPORT_TEXT</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_TEXT_ID">44.2.4. REPORT_TEXT_ID</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_TEXT_GID">44.2.5. REPORT_TEXT_GID</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_TEXT_LAST">44.2.6. REPORT_TEXT_LAST</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_TEXT_SPECIFIC_TIMES">44.2.7. REPORT_TEXT_SPECIFIC_TIMES</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_TEXT_MARKED">44.2.8. REPORT_TEXT_MARKED</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_HTML">44.2.9. REPORT_HTML</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_HTML_ID">44.2.10. REPORT_HTML_ID</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_HTML_GID">44.2.11. REPORT_HTML_GID</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_HTML_LAST">44.2.12. REPORT_HTML_LAST</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_HTML_SPECIFIC_TIMES">44.2.13. REPORT_HTML_SPECIFIC_TIMES</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_REPORT_HTML_MARKED">44.2.14. REPORT_HTML_MARKED</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_FLUSH_ASH">44.2.15. FLUSH_ASH</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_ASH_REPORT_TEXT">44.2.16. ASH_REPORT_TEXT</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_CREATE_BASELINE">44.2.17. CREATE_BASELINE</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_CREATE_BASELINE_ID">44.2.18. CREATE_BASELINE_ID</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_DROP_BASELINE">44.2.19. DROP_BASELINE</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_DROP_BASELINE_ID">44.2.20. DROP_BASELINE_ID</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_BASELINE_REPORT_TEXT">44.2.21. BASELINE_REPORT_TEXT</a></span></dt><dt><span class="section"><a href="chap_dbms_tpr.html#DBMS_TPR_BASELINE_REPORT_TEXT_ID">44.2.22. BASELINE_REPORT_TEXT_ID</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_TPR 패키지의 기본 개념과 패키지 내의 프러시저를 사용하는 방법을 설명한다. 보다 자세한 설명은
+  "<span>Tibero</span><span/> 관리자 안내서"의 "제14장 Tibero Performance
+  Repository"을 참조하기 바란다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e19259"/>44.1. 개요<a id="d5e19261" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_TPR 패키지</strong></span>는 Tibero Performance
+    Repository(이하 TPR) 기능을 사용하는데 필요로 하는 기능을 제공하기 위한 패키지이다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e19265"/>44.2. 프러시저</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_TPR 패키지에서 제공하는 프러시저를 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_CREATE_SNAPSHOT"/>44.2.1. CREATE_SNAPSHOT<a id="d5e19270" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>TPR을 위한 스냅샷을 바로 남긴다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_SNAPSHOT 프러시저<a id="d5e19276" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p><pre class="programlisting">PROCEDURE CREATE_SNAPSHOT();</pre>
+        </li><li>
+          <p>예제</p><pre class="programlisting">exec DBMS_TPR.CREATE_SNAPSHOT();
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_CREATE_SNAPSHOT_ALL"/>44.2.2. CREATE_SNAPSHOT_ALL<a id="d5e19287" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>TAC 구성에서 모든 인스턴스에서 TPR을 위한 스냅샷을 바로 남긴다. 이때, 기존에 각 스냅샷별로 매겨지던 스냅샷
+      ID에 추가로, 모든 인스턴스에서 함께 떨어진 스냅샷을 지칭하기 위해 글로벌 스냅샷 ID가 추가로 매겨진다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_SNAPSHOT_ALL 프러시저<a id="d5e19293" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE CREATE_SNAPSHOT_ALL();</pre>
+        </li><li>
+          <p>예제</p><pre class="programlisting">exec DBMS_TPR.CREATE_SNAPSHOT_ALL();
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_TEXT"/>44.2.3. REPORT_TEXT<a id="d5e19305" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 구간의 성능 분석 리포트(text)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_TEXT 프러시저의 세부 내용은 다음과 같다.<a id="d5e19311" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE REPORT_TEXT
+(
+    begin_time       IN DATE
+    end_time         IN DATE
+    instance_no      IN VARCHAR
+    file_name        IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_time</td><td>성능 분석 리포트 대상 구간 중 시작 시간이다.</td></tr><tr><td align="left">end_time</td><td>성능 분석 리포트 대상 구간 중 종료 시간이다.</td></tr><tr><td align="left">instance_no</td><td>성능 분석 리포트 대상 인스턴스 번호이다. (기본값: ALL)</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                  tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>아래의 예제는 두 개의 인자 모두 DATE 타입이므로 사용 중인 DATE 포맷에 맞게 입력해야
+          한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT('2011/07/01 12:00:00', '2011/07/02 11:59:59');
+/</pre>
+
+          <p>파라미터 중 file_name을 지정하면 지정된 파일명의 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT('2011/07/01 12:00:00', 
+'2011/07/02 11:59:59', file_name=&gt;'tpr.txt');
+/</pre>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_TEXT_ID"/>44.2.4. REPORT_TEXT_ID<a id="d5e19356" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 스냅샷 ID 혹은 ID 구간의 성능 분석 리포트(text)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_TEXT_ID 프러시저는 input이 특정 ID 혹은 ID 구간 두 종류로 나뉘어지며, 그 세부 내용은
+      다음과 같다.<a id="d5e19362" class="indexterm"/></p>
+
+      <p/>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>특정 ID</p>
+
+          <p/>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>프로토타입</p>
+
+              <pre class="programlisting">PROCEDURE REPORT_TEXT_ID
+(
+    one_snap_id       IN NUMBER
+    file_name         IN VARCHAR
+);</pre>
+            </li><li>
+              <p>파라미터</p>
+
+              <div class="informaltable">
+                  <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">one_snap_id</td><td>성능 분석 리포트 대상 스냅샷 ID이다.</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                        tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+                </div>
+            </li><li>
+              <p>예제</p>
+
+              <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_ID(5);
+/</pre>
+            </li></ul></div>
+        </li><li>
+          <p>ID 구간</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>프로토타입</p>
+
+              <pre class="programlisting">PROCEDURE REPORT_TEXT_ID
+(
+    begin_snap_id       IN NUMBER
+    end_snap_id         IN NUMBER
+    instance_no         IN VARCHAR
+    file_name           IN VARCHAR
+);</pre>
+            </li><li>
+              <p>파라미터</p>
+
+              <div class="informaltable">
+                <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_snap_id</td><td>성능 분석 리포트 대상 구간 중 시작 스냅샷 ID이다.</td></tr><tr><td align="left">end_snap_id</td><td>성능 분석 리포트 대상 구간 중 종료 스냅샷 ID이다.</td></tr><tr><td align="left">instance_no</td><td>성능 분석 리포트 대상 인스턴스 번호이다. (기본값: ALL)</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                      tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+              </div>
+            </li><li>
+              <p>예제</p>
+
+              <p>파라미터 중 instance_no를 입력하지 않으면 기본적으로 모든 인스턴스를 대상으로 하는 리포트를
+              출력한다.</p>
+
+              <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_ID(5, 10);
+/</pre>
+
+              <p>파라미터 중 instance_no를 입력하면 해당 인스턴스를 대상으로 하는 리포트를
+              출력한다.</p>
+
+              <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_ID(5, 10, instance=&gt;'2');
+/</pre>
+            </li></ul></div>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_TEXT_GID"/>44.2.5. REPORT_TEXT_GID<a id="d5e19443" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 스냅샷 GID 혹은 GID 구간의 성능 분석 리포트(text)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_TEXT_GID 프러시저는 input이 특정 GID 혹은 GID 구간 두 종류로 나뉘어지며, 그 세부
+      내용은 다음과 같다.<a id="d5e19449" class="indexterm"/></p>
+
+      <p/>
+
+      <p/>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>특정 GID</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>프로토타입</p>
+
+              <pre class="programlisting">PROCEDURE REPORT_TEXT_GID
+(
+    one_snap_gid       IN NUMBER
+    file_name          IN VARCHAR
+); </pre>
+            </li><li>
+              <p>파라미터</p>
+
+              <div class="informaltable">
+                <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">one_snap_gid</td><td>성능 분석 리포트 대상 스냅샷의 GID이다.</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                      tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+              </div>
+            </li><li>
+              <p>예제</p>
+
+              <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_GID(3);
+/</pre>
+            </li></ul></div>
+        </li><li>
+          <p>GID 구간</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>프로토타입</p>
+
+              <pre class="programlisting">PROCEDURE REPORT_TEXT_ID
+(
+    begin_snap_gid       IN NUMBER
+    end_snap_gid         IN NUMBER
+    file_name            IN VARCHAR
+);</pre>
+            </li><li>
+              <p>파라미터</p>
+
+              <div class="informaltable">
+                  <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_snap_gid</td><td>성능 분석 리포트 대상 구간 중 시작 스냅샷의 GID이다.</td></tr><tr><td align="left">end_snap_gid</td><td>성능 분석 리포트 대상 구간 중 종료 스냅샷의 GID이다.</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p><p>(기본값:
+                        tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+                </div>
+            </li><li>
+              <p>예제</p>
+
+              <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_GID(3, 4);
+/</pre>
+            </li></ul></div>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_TEXT_LAST"/>44.2.6. REPORT_TEXT_LAST<a id="d5e19521" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>마지막으로 남긴 스냅샷에 대한 성능 분석 리포트(text)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_TEXT_LAST 프러시저의 세부 내용은 다음과 같다.<a id="d5e19527" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE REPORT_TEXT_LAST
+(
+    file_name         IN VARCHAR
+); </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                  tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_LAST();
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_TEXT_SPECIFIC_TIMES"/>44.2.7. REPORT_TEXT_SPECIFIC_TIMES<a id="d5e19557" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 요일, 시간대에 해당되는 스냅샷들에 대한 성능 분석 리포트(text)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_TEXT_SPECIFIC_TIMES 프러시저의 세부 내용은 다음과 같다.<a id="d5e19563" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE REPORT_TEXT_SPECIFIC_TIMES(
+   begin_time        IN DATE
+   end_time          IN DATE
+   begin_hour        IN VARCHAR2
+   end_hour          IN VARCHAR2
+   days              IN VARCHAR2
+   instance_no       IN VARCHAR2
+   file_name         IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_time</td><td>성능 분석 리포트 대상 구간 중 시작 날짜와 시간이다. DATE 타입이므로 사용 중인 DATE
+                  포맷에 맞게 입력한다.</td></tr><tr><td align="left">end_time</td><td>성능 분석 리포트 대상 구간 중 종료 날짜와 시간이다. DATE 타입이므로 사용 중인 DATE
+                  포맷에 맞게 입력한다.</td></tr><tr><td align="left">begin_hour</td><td>성능 분석 리포트 대상 구간 중 출력되는 스냅샷 시간대의 시작 시간이다. VARCHAR2
+                  타입으로 'HH24:MM' 포맷을 따라야 한다. (예: 09:00)</td></tr><tr><td align="left">end_hour</td><td>성능 분석 리포트 대상 구간 중 출력되는 스냅샷 시간대의 종료 시간이다. VARCHAR2
+                  타입으로 'HH24:MM' 포맷을 따라야 한다. (예: 18:00)</td></tr><tr><td align="left">days</td><td><p>성능 분석 리포트 대상 구간 중 리포트 출력할 스냅샷의 요일이다.</p>
+                  <p>(기본값: MON,TUE,WED,THU,FRI,SAT,SUN)</p></td></tr><tr><td align="left">instance_no</td><td>성능 분석 리포트 대상 인스턴스 번호이다. (기본값: ALL)</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                  tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p/>
+
+          <p>아래의 예제는 1월 1일 00:00부터 2월 1일 23:59:59 사이에 월,수,금 오전 9시부터 오후
+          6시까지에 해당하는 스냅샷에 대한 리포트 생성을 하는 예제이다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_SPECIFIC_TIMES('2015/01/01 00:00:00', 
+                                         '2015/02/01 23:59:59', 
+                                         '09:00', '18:00', 'MON,WED,FRI');
+/</pre>
+
+          <p>파라미터 중 instance_no를 입력하면 해당 인스턴스를 대상으로 하는 리포트를 출력한다. 입력하지 않는
+          경우 기본적으로 모든 인스턴스를 대상으로 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_SPECIFIC_TIMES( '2015/01/01 00:00:00', 
+                                          '2015/02/01 23:59:59', 
+                                          '09:00', '18:00', 
+                                          'MON,WED,FRI', instance_no=&gt;'1');
+/</pre>
+
+          <p>파라미터 중 file_name을 지정하면 지정된 파일명의 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_SPECIFIC_TIMES('2015/01/01 00:00:00', 
+                                         '2015/02/01 23:59:59', 
+                                         '09:00', '18:00', 'MON,WED,FRI', 
+                                         instance_no=&gt;'1', 'workinghours.txt');
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_TEXT_MARKED"/>44.2.8. REPORT_TEXT_MARKED<a id="d5e19621" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>유저가 지정한 스냅샷들에 대한 성능 분석 리포트(text)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_TEXT_MARKED 프러시저의 세부 내용은 다음과 같다.<a id="d5e19627" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE REPORT_TEXT_MARKED
+(
+   file_name         IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                  tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>지정한 스냅샷에 대한 리포트를 생성해주기 때문에 먼저 출력할 스냅샷을 지정해야 한다.</p>
+
+          <p>V$TPR_SNAPSHOT을 조회하면 스냅샷과 관련된 정보 및 marking되었는지 여부를 볼 수
+          있다.</p>
+
+          <pre class="programlisting">select * from V$TPR_SNAPSHOT;
+/</pre>
+
+          <pre class="programlisting">   SNAP_ID    THREAD# INSTANCE_NUMBER BEGIN_INTERVAL_TIME             
+   ---------- ---------- --------------- --------------------------------
+   END_INTERVAL_TIME                  SNAP_GID MARKED_FOR_REPORT
+   -------------------------------- ---------- -----------------
+            1          0               0 2015/11/26
+            2015/11/26                                  N
+
+            2          0               0 2015/11/27
+            2015/11/27                                  N
+/</pre>
+
+          <p>SNAP_ID 2번에 해당하는 리포트를 출력하기 위해 다음과 같은 query를 실행한다.</p>
+
+          <pre class="programlisting">update V$TPR_SNAPSHOT set MARKED_FOR_REPORT='Y' where SNAP_ID=2;
+commit;
+/</pre>
+
+          <p>V$TPR_SNAPSHOT을 다시 조회하면 원하는 스냅샷이 marking되었음을 확인할 수 있다.</p>
+
+          <pre class="programlisting">   SNAP_ID    THREAD# INSTANCE_NUMBER BEGIN_INTERVAL_TIME             
+   ---------- ---------- --------------- --------------------------------
+   END_INTERVAL_TIME                  SNAP_GID MARKED_FOR_REPORT
+   -------------------------------- ---------- -----------------
+            1          0               0 2015/11/26
+            2015/11/26                                  N
+
+            2          0               0 2015/11/27
+            2015/11/27                                  Y
+/</pre>
+
+          <p>원하는 스냅샷을 모두 marking하였으면 리포트 출력을 실행시킨다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_MARKED();
+/</pre>
+
+          <p>파라미터 중 file_name을 지정하면 지정된 파일명의 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_TEXT_MARKED('marked.txt');
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_HTML"/>44.2.9. REPORT_HTML<a id="d5e19673" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 구간의 성능 분석 리포트(html)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_HTML 프러시저의 세부 내용은 다음과 같다.<a id="d5e19679" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE REPORT_HTML
+(
+    begin_time       IN DATE
+    end_time         IN DATE
+    instance_no      IN VARCHAR
+    file_name        IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_time</td><td>성능 분석 리포트 대상 구간 중 시작 시간이다.</td></tr><tr><td align="left">end_time</td><td>성능 분석 리포트 대상 구간 중 종료 시간이다.</td></tr><tr><td align="left">instance_no</td><td>성능 분석 리포트 대상 인스턴스 번호이다. (기본값: ALL)</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p><p>(기본값:
+                  tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.html)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>다음의 예제는 두 개의 인자 모두 DATE 타입이므로, 사용 중인 DATE 포맷에 맞게 입력해야
+          한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_HTML('2011/07/01 12:00:00', '2011/07/02 11:59:59');
+/</pre>
+
+          <p>파라미터 중 file_name을 지정하면 지정된 파일명의 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_HTML('2011/07/01 12:00:00', '2011/07/02 11:59:59', file_name=&gt;'tpr.html');
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_HTML_ID"/>44.2.10. REPORT_HTML_ID<a id="d5e19722" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 스냅샷 ID 혹은 ID 구간의 성능 분석 리포트(html)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_HTML_ID 프러시저는 input이 특정 ID 혹은 ID 구간 두 종류로 나뉘어지며, 그 세부 내용은
+      다음과 같다.<a id="d5e19728" class="indexterm"/></p>
+
+      <p/>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>특정 ID</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>프로토타입</p>
+
+              <pre class="programlisting">PROCEDURE REPORT_HTML_ID
+(
+   one_snap_id       IN NUMBER
+   file_name         IN VARCHAR
+);</pre>
+            </li><li>
+              <p>파라미터</p>
+
+              <div class="informaltable">
+                  <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">one_snap_id</td><td>성능 분석 리포트 대상 스냅샷 ID이다.</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p><p>(기본값:
+                        tpr_report.{db_name}.{current_time}.html)</p></td></tr></tbody></table>
+                </div>
+            </li><li>
+              <p>예제</p>
+
+              <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_ID(5);
+/</pre>
+            </li></ul></div>
+        </li><li>
+          <p>ID 구간</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>프로토타입</p>
+
+              <pre class="programlisting">PROCEDURE REPORT_HTML_ID
+(
+   begin_snap_id       IN NUMBER
+   end_snap_id         IN NUMBER
+   instance_no         IN VARCHAR
+   file_name           IN VARCHAR
+);</pre>
+            </li><li>
+              <p>파라미터</p>
+
+              <div class="informaltable">
+                  <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_snap_id</td><td>성능 분석 리포트 대상 구간 중 시작 스냅샷 ID이다.</td></tr><tr><td align="left">end_snap_id</td><td>성능 분석 리포트 대상 구간 중 종료 스냅샷 ID이다.</td></tr><tr><td align="left">instance_no</td><td>성능 분석 리포트 대상 인스턴스 번호이다. (기본값: ALL)</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                        tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.html)</p></td></tr></tbody></table>
+                </div>
+            </li><li>
+              <p>예제</p>
+
+              <p/>
+
+              <p>파라미터 중 instance_no를 입력하지 않으면 기본적으로 모든 인스턴스를 대상으로 하는 리포트를
+              출력한다.</p>
+
+              <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_ID(5, 10);
+/</pre>
+
+              <p>파라미터 중 instance_no를 입력하면 해당 인스턴스를 대상으로 하는 리포트를
+              출력한다.</p>
+
+              <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_ID(5, 10, instance_no=&gt;'2');
+/</pre>
+            </li></ul></div>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_HTML_GID"/>44.2.11. REPORT_HTML_GID<a id="d5e19806" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 스냅샷 GID 혹은 GID 구간의 성능 분석 리포트(html)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_HTML_GID 프러시저는 input이 특정 GID 혹은 GID 구간 두 종류로 나뉘어지며, 그 세부
+      내용은 다음과 같다.<a id="d5e19812" class="indexterm"/></p>
+
+      <p/>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>특정 ID</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>프로토타입</p>
+
+              <p/>
+
+              <pre class="programlisting">PROCEDURE REPORT_HTML_GID
+(
+   one_snap_gid       IN NUMBER
+);</pre>
+            </li><li>
+              <p>파라미터</p>
+
+              <div class="informaltable">
+                  <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">one_snap_gid</td><td>성능 분석 리포트 대상 스냅샷의 GID이다.</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                        tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.html)</p></td></tr></tbody></table>
+                </div>
+            </li><li>
+              <p>예제</p>
+
+              <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_GID(3);
+/</pre>
+            </li></ul></div>
+        </li><li>
+          <p>GID 구간</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>프로토타입</p>
+
+              <pre class="programlisting">PROCEDURE REPORT_HTML_ID
+(
+   begin_snap_gid       IN NUMBER
+   end_snap_gid         IN NUMBER
+   file_name            IN VARCHAR
+);</pre>
+            </li><li>
+              <p>파라미터</p>
+
+              <div class="informaltable">
+                <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_snap_gid</td><td>성능 분석 리포트 대상 구간 중 시작 스냅샷의 GID이다.</td></tr><tr><td align="left">end_snap_gid</td><td>성능 분석 리포트 대상 구간 중 종료 스냅샷의 GID이다.</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                      tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.html)</p></td></tr></tbody></table>
+              </div>
+            </li><li>
+              <p>예제</p>
+
+              <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_GID(3, 4);
+/</pre>
+            </li></ul></div>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_HTML_LAST"/>44.2.12. REPORT_HTML_LAST<a id="d5e19886" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>마지막으로 남긴 스냅샷에 대한 성능 분석 리포트(html)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_HTML_LAST 프러시저의 세부 내용은 다음과 같다.<a id="d5e19892" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE REPORT_HTML_LAST
+(
+    file_name         IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                  tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.html)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_LAST();
+/</pre>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_HTML_SPECIFIC_TIMES"/>44.2.13. REPORT_HTML_SPECIFIC_TIMES<a id="d5e19923" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 요일, 시간대에 해당되는 스냅샷들에 대한 성능 분석 리포트(html)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_HTML_SPECIFIC_TIMES 프러시저의 세부 내용은 다음과 같다.<a id="d5e19929" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE REPORT_HTML_SPECIFIC_TIMES
+(
+   begin_time        IN DATE
+   end_time          IN DATE
+   begin_hour        IN VARCHAR2
+   end_hour          IN VARCHAR2
+   days              IN VARCHAR2
+   instance_no       IN VARCHAR2
+   file_name         IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_time</td><td>성능 분석 리포트 대상 구간 중 시작 날짜와 시간이다. DATE 타입이므로 사용 중인 DATE
+                  포맷에 맞게 입력해야 한다.</td></tr><tr><td align="left">end_time</td><td>성능 분석 리포트 대상 구간 중 종료 날짜와 시간이다. DATE 타입이므로 사용 중인 DATE
+                  포맷에 맞게 입력해야 한다.</td></tr><tr><td align="left">begin_hour</td><td>성능 분석 리포트 대상 구간 중 출력되는 스냅샷 시간대의 시작 시간이다. VARCHAR2
+                  타입으로 'HH24:MM' 포맷을 따라야 한다. (예: 09:00)</td></tr><tr><td align="left">end_hour</td><td>성능 분석 리포트 대상 구간 중 출력되는 스냅샷 시간대의 종료 시간이다. VARCHAR2
+                  타입으로 'HH24:MM' 포맷을 따라야 한다. (예: 18:00)</td></tr><tr><td align="left">days</td><td><p>성능 분석 리포트 대상 구간 중 리포트 출력할 스냅샷의 요일이다. </p>
+                  <p>(기본값: MON,TUE,WED,THU,FRI,SAT,SUN)</p></td></tr><tr><td align="left">instance_no</td><td>성능 분석 리포트 대상 인스턴스 번호이다. (기본값: ALL)</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                  tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>아래의 예제는 1월 1일 00:00부터 2월 1일 23:59:59 사이에 월,수,금 오전 9시 부터 오후
+          6시까지에 해당하는 스냅샷에 대한 리포트 생성을 하는 예제이다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_SPECIFIC_TIMES( '2015/01/01 00:00:00', 
+                                          '2015/02/01 23:59:59', 
+                                          '09:00', '18:00', 'MON,WED,FRI');
+/</pre>
+
+          <p>파라미터 중 instance_no를 입력하면 해당 인스턴스를 대상으로 하는 리포트를 출력한다. 입력하지 않는
+          경우 기본적으로 모든 인스턴스를 대상으로 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_SPECIFIC_TIMES( '2015/01/01 00:00:00',
+                                          '2015/02/01 23:59:59', 
+                                          '09:00', '18:00', 'MON,WED,FRI', 
+                                          instance_no=&gt;'1');
+/</pre>
+
+          <p>파라미터 중 file_name을 지정하면 지정된 파일명의 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_SPECIFIC_TIMES( '2015/01/01 00:00:00', 
+                                          '2015/02/01 23:59:59', 
+                                          '09:00', '18:00', 'MON,WED,FRI', 
+                                          instance_no=&gt;'1', 'workinghours.txt');
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_REPORT_HTML_MARKED"/>44.2.14. REPORT_HTML_MARKED<a id="d5e19986" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>유저가 지정한 스냅샷들에 대한 성능 분석 리포트(html)를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_HTML_MARKED 프러시저의 세부 내용은 다음과 같다.<a id="d5e19992" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE REPORT_HTML_MARKED
+(
+   file_name         IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                  tpr_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>지정한 스냅샷에 대한 리포트를 생성해주기 때문에 먼저 출력할 스냅샷을 지정해야한다.</p>
+
+          <p>V$TPR_SNAPSHOT을 조회하면 스냅샷과 관련된 정보 및 marking되었는지 여부를 볼 수
+          있다.</p>
+
+          <pre class="programlisting">select * from V$TPR_SNAPSHOT;
+/</pre>
+
+          <pre class="programlisting">   SNAP_ID    THREAD# INSTANCE_NUMBER BEGIN_INTERVAL_TIME             
+   ---------- ---------- --------------- --------------------------------
+   END_INTERVAL_TIME                  SNAP_GID MARKED_FOR_REPORT
+   -------------------------------- ---------- -----------------
+            1          0               0 2015/11/26
+            2015/11/26                                  N
+
+            2          0               0 2015/11/27
+            2015/11/27                                  N
+/</pre>
+
+          <p>SNAP_ID 2번에 해당하는 리포트를 출력하기 위해 다음과 같은 query를 실행한다.</p>
+
+          <pre class="programlisting">update V$TPR_SNAPSHOT set MARKED_FOR_REPORT='Y' where SNAP_ID=2;
+commit;
+/</pre>
+
+          <p>V$TPR_SNAPSHOT을 다시 조회하면 원하는 스냅샷이 marking되었음을 확인할 수 있다.</p>
+
+          <pre class="programlisting">   SNAP_ID    THREAD# INSTANCE_NUMBER BEGIN_INTERVAL_TIME             
+   ---------- ---------- --------------- --------------------------------
+   END_INTERVAL_TIME                  SNAP_GID MARKED_FOR_REPORT
+   -------------------------------- ---------- -----------------
+            1          0               0 2015/11/26
+            2015/11/26                                  N
+
+            2          0               0 2015/11/27
+            2015/11/27                                  Y
+/</pre>
+
+          <p>원하는 스냅샷을 모두 marking하였으면 리포트 출력을 실행시킨다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_MARKED();
+/</pre>
+
+          <p>파라미터 중 file_name을 지정하면 지정된 파일명의 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.REPORT_HTML_MARKED('marked.txt');
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_FLUSH_ASH"/>44.2.15. FLUSH_ASH<a id="d5e20038" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>메모리상에 담겨있는 ASH 샘플들을 _TPR_ACTIVE_SESSION_HISTORY 테이블에 저장한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>FLUSH_ASH 프러시저의 세부 내용은 다음과 같다.<a id="d5e20044" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE FLUSH_ASH ();</pre>
+        </li><li>
+          <p>예제</p>
+
+          <p>FLUSH_ASH 프러시저를 수행함으로서 메모리상에만 존재하던 ASH 샘플들이
+          _TPR_ACTIVE_SESSION_HISTORY 테이블상에 저장된다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.FLUSH_ASH();
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_ASH_REPORT_TEXT"/>44.2.16. ASH_REPORT_TEXT<a id="d5e20058" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 구간의 ASH 성능 분석 리포트(text)를 생성한다.</p>
+
+      <p>ASH 샘플은 IPARAM(ACTIVE_SESSION_HISTORY)을 Y로 설정했을 때만 남게 되며, ASH 리포트는
+      이 샘플들의 정보를 취합하여 리포트를 작성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>ASH_REPORT_TEXT 프러시저의 세부 내용은 다음과 같다.<a id="d5e20065" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE ASH_REPORT_TEXT
+(
+    begin_time       IN DATE
+    end_time         IN DATE
+    instance_no      IN VARCHAR
+    file_name        IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_time</td><td>성능 분석 리포트 대상 구간 중 시작 시간이다.</td></tr><tr><td align="left">end_time</td><td>성능 분석 리포트 대상 구간 중 종료 시간이다.</td></tr><tr><td align="left">instance_no</td><td>성능 분석 리포트 대상 인스턴스 번호이다. (기본값: ALL)</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                  ash_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>아래의 예제는 두 개의 인자 모두 DATE 타입이므로 사용 중인 DATE 포맷에 맞게 입력해야
+          한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.ASH_REPORT_TEXT( '2015/01/29 21:00:00', 
+                               '2015/01/29 22:59:59');
+/</pre>
+
+          <p>파라미터 중 file_name을 지정하면 지정된 파일명의 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.ASH_REPORT_TEXT( '2015/01/29 21:00:00', 
+                               '2015/01/29 22:59:59', 
+                               file_name=&gt;'ash.txt');
+/</pre>
+
+          <p>파라미터 중 instance_no를 입력하면 해당 인스턴스를 대상으로 하는 리포트를 출력한다. 입력하지 않는
+          경우 기본적으로 모든 인스턴스를 대상으로 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.ASH_REPORT_TEXT( '2015/01/29 21:00:00',
+                               '2015/01/29 22:59:59', 
+                              instance_no=&gt;'1');
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_CREATE_BASELINE"/>44.2.17. CREATE_BASELINE<a id="d5e20111" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 구간에 대한 TPR 스냅샷을 Baseline으로 지정한다. 프러시저 실행시 입력된 시작 시간과 종료 시간 사이에
+      존재하는 TPR 스냅샷들을 Baseline에 등록한다. Baseline에 등록된 TPR 스냅샷들은 Retention 기간을 넘겨도
+      파기되지 않고 남아있게 된다. 등록된 Baseline에 관한 내용은 _TPR_BASELINE 테이블을 조회하여 확인할 수
+      있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_BASELINE 프러시저의 세부 내용은 다음과 같다.<a id="d5e20117" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE CREATE_BASELINE
+(
+    begin_time       IN DATE
+    end_time         IN DATE
+    instance_no      IN VARCHAR
+    baseline_name    IN VARCHAR
+    expiration       IN NUMBER
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_time</td><td>Baseline에 포함될 TPR 스냅샷 범위의 시작시간이다.</td></tr><tr><td align="left">end_time</td><td>Baseline에 포함될 TPR 스냅샷 범위의 종료시간이다.</td></tr><tr><td align="left">instance_no</td><td>Baseline 대상 인스턴스 번호이다. (기본값: ALL)</td></tr><tr><td align="left">baseline_name</td><td>만들어질 Baseline의 이름이다. (기본값:
+                  BASELINE{<span class="emphasis"><em>BASELINE_ID</em></span>})</td></tr><tr><td align="left">expiration</td><td>Baseline 자체의 Expiration 기간이다. (기본값: Null, 단위:
+                  Hours)</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>아래의 예제는 두 개의 인자 모두 DATE 타입이므로 사용 중인 DATE 포맷에 맞게 입력해야
+          한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE( '2015/01/29 21:00:00', 
+                               '2015/01/29 22:59:59');
+/</pre>
+
+          <p>파라미터 중 baseline_name을 지정하면 입력된 이름으로 된 Baseline을 생성한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE( '2015/01/29 21:00:00', 
+                               '2015/01/29 22:59:59', 
+                                baseline_name=&gt;'my_baseline');
+/</pre>
+
+          <p>파라미터 중 instance_no를 입력하면 해당 인스턴스를 대상으로 하는 Baseline을 생성한다. 입력하지
+          않는 경우 기본적으로 모든 인스턴스를 대상으로 하는 Baseline을 생성한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE( '2015/01/29 21:00:00', 
+                               '2015/01/29 22:59:59',
+                               instance_no=&gt;'1');
+/</pre>
+
+          <p>파라미터 중 expiration을 입력하면 expiration이 등록된 Baseline이 생성된다. 이러한
+          Baseline은 생성 후 지정된 expiration만큼의 시간(hrs)이 흐른 뒤 해당 Baseline이 자동 삭제된다.
+          명시적으로 expiration을 지정하지 않은 경우 사용자가 직접 Baseline을 삭제하기 전까지 Baseline은
+          삭제되지 않는다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE( '2015/01/29 21:00:00', 
+                               '2015/01/29 22:59:59', 
+                                expiration=&gt;168);
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_CREATE_BASELINE_ID"/>44.2.18. CREATE_BASELINE_ID<a id="d5e20166" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 스냅샷 ID 혹은 ID 구간을 Baseline으로 지정한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_BASELINE_ID 프러시저는 input이 특정 ID 혹은 ID 구간 두 종류로 나뉘어지며, 그 세부
+      내용은 다음과 같다. <a id="d5e20172" class="indexterm"/></p>
+
+      <p/>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>특정 ID</p>
+
+          <p/>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>프로토타입</p>
+
+              <pre class="programlisting">PROCEDURE CREATE_BASELINE_ID
+(
+    one_snap_id    IN NUMBER
+    baseline_name    IN VARCHAR
+    expiration       IN NUMBER
+);</pre>
+            </li><li>
+              <p>파라미터</p>
+
+              <div class="informaltable">
+                  <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">one_snap_id</td><td>Baseline에 포함될 TPR 스냅샷 ID이다.</td></tr><tr><td align="left">baseline_name</td><td>만들어질 Baseline의 이름이다. (기본값:
+                        BASELINE{<span class="emphasis"><em>BASELINE_ID</em></span>})</td></tr><tr><td align="left">expiration</td><td>Baseline 자체의 Expiration 기간이다. (기본값: Null, 단위:
+                        Hours)</td></tr></tbody></table>
+                </div>
+            </li><li>
+              <p>예제</p>
+
+              <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE_ID(30);
+/</pre>
+
+              <p>파라미터 중 baseline_name을 지정하면 입력된 이름으로 된 Baseline을
+              생성한다.</p>
+
+              <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE_ID(30, baseline_name=&gt;'my_baseline');
+/</pre>
+
+              <p>파라미터 중 expiration을 입력하면 expiration이 등록된 Baseline이 생성된다.
+              이러한 Baseline은 생성 후 지정된 expiration만큼의 시간(hrs)이 흐른 뒤 해당 Baseline이
+              자동 삭제된다. 명시적으로 expiration을 지정하지 않은 경우 사용자가 직접 Baseline을 삭제하기전까지
+              Baseline은 삭제되지 않는다.</p>
+
+              <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE_ID(30, expiration=&gt;168);
+/</pre>
+            </li></ul></div>
+        </li><li>
+          <p>ID 구간</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>프로토타입</p>
+
+              <pre class="programlisting">PROCEDURE CREATE_BASELINE_ID
+(
+    begin_snap_id    IN NUMBER
+    end_snap_id      IN NUMBER
+    instance_no      IN VARCHAR
+    baseline_name    IN VARCHAR
+    expiration       IN NUMBER
+);</pre>
+            </li><li>
+              <p>파라미터</p>
+
+              <div class="informaltable">
+                  <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">begin_snap_id</td><td>Baseline에 포함될 TPR 스냅샷 범위의 시작 ID이다.</td></tr><tr><td align="left">end_snap_id</td><td>Baseline에 포함될 TPR 스냅샷 범위의 종료 ID이다.</td></tr><tr><td align="left">instance_no</td><td>Baseline 대상 인스턴스 번호이다. (기본값: ALL)</td></tr><tr><td align="left">baseline_name</td><td>만들어질 Baseline의 이름이다. (기본값:
+                        BASELINE{<span class="emphasis"><em>BASELINE_ID</em></span>})</td></tr><tr><td align="left">expiration</td><td>Baseline 자체의 Expiration 기간이다. (기본값: Null, 단위:
+                        Hours)</td></tr></tbody></table>
+                </div>
+            </li><li>
+              <p>예제</p>
+
+              <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE_ID(30, 50);
+/</pre>
+
+              <p>파라미터 중 baseline_name을 지정하면 입력된 이름으로 된 Baseline을
+              생성한다.</p>
+
+              <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE_ID(30, 50, baseline_name=&gt;'my_baseline');
+/</pre>
+
+              <p>파라미터 중 instance_no를 입력하면 해당 인스턴스를 대상으로 하는 Baseline을 생성한다.
+              입력하지 않는 경우 기본적으로 모든 인스턴스를 대상으로 하는 Baseline을 생성한다.</p>
+
+              <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE_ID(30, 50, instance_no=&gt;'1');
+/</pre>
+
+              <p>파라미터 중 expiration을 입력하면 expiration이 등록된 Baseline이 생성된다.
+              이러한 Baseline은 생성 후 지정된 expiration만큼의 시간(hrs)이 흐른 뒤 해당 Baseline이
+              자동 삭제된다. 명시적으로 expiration을 지정하지 않은 경우 사용자가 직접 Baseline을 삭제하기전까지
+              Baseline은 삭제되지 않는다.</p>
+
+              <pre class="programlisting">exec DBMS_TPR.CREATE_BASELINE_ID(30, 50, expiration=&gt;168);
+/</pre>
+            </li></ul></div>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_DROP_BASELINE"/>44.2.19. DROP_BASELINE<a id="d5e20265" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>지정된 Baseline 이름을 지니는 Baseline을 제거한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DROP_BASELINE 프러시저의 세부 내용은 다음과 같다 <a id="d5e20271" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE DROP_BASELINE
+(
+    baseline_name_    IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">baseline_name_</td><td>삭제할 Baseline의 이름이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">exec DBMS_TPR.DROP_BASELINE('my_baseline');
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_DROP_BASELINE_ID"/>44.2.20. DROP_BASELINE_ID<a id="d5e20297" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>지정된 Baseline ID를 지니는 Baseline을 제거한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DROP_BASELINE_ID 프러시저의 세부 내용은 다음과 같다 <a id="d5e20303" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE DROP_BASELINE_ID
+(
+    baseline_id_    IN NUMBER
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">baseline_id_</td><td>삭제할 Baseline의 Baseline ID이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">exec DBMS_TPR.DROP_BASELINE_ID(5);
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_BASELINE_REPORT_TEXT"/>44.2.21. BASELINE_REPORT_TEXT<a id="d5e20329" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>지정된 Baseline 이름을 지니는 Baseline에 포함된 TPR 스냅샷들에 대한 리포트(text)를 작성한다.
+      이때 출력되는 리포트는 Baseline에 포함된 TPR 스냅샷에 대해 REPORT_TEXT 프러시저를 수행할 때 출력되는 리포트와
+      동일하다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>BASELINE_REPORT_TEXT 프러시저의 세부 내용은 다음과 같다 <a id="d5e20335" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE BASELINE_REPORT_TEXT
+(
+    baseline_name_    IN VARCHAR
+    file_name         IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">baseline_name_</td><td>리포트를 출력할 Baseline의 이름이다.</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                  baseline_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">exec DBMS_TPR.BASELINE_REPORT_TEXT('my_baseline');
+/</pre>
+
+          <p>파라미터 중 file_name을 지정하면 지정된 파일명의 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.BASELINE_REPORT_TEXT('my_baseline', file_name=&gt;'baseline.txt');
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_TPR_BASELINE_REPORT_TEXT_ID"/>44.2.22. BASELINE_REPORT_TEXT_ID<a id="d5e20371" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>지정된 Baseline ID를 지니는 Baseline에 포함된 TPR 스냅샷들에 대한 리포트(text)를 작성한다.
+      이때 출력되는 리포트는 Baseline에 포함된 TPR 스냅샷에 대해 REPORT_TEXT 프러시저를 수행할 때 출력되는 리포트와
+      동일하다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>BASELINE_REPORT_TEXT_ID 프러시저의 세부 내용은 다음과 같다 <a id="d5e20377" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE BASELINE_REPORT_TEXT_ID
+(
+    baseline_id_      IN NUMBER
+    file_name         IN VARCHAR
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">baseline_id_</td><td>리포트를 출력할 Baseline의 ID이다.</td></tr><tr><td align="left">file_name</td><td><p>만들어질 성능 분석 리포트 파일명이다.</p> <p>(기본값:
+                  baseline_report.{<span class="emphasis"><em>db_name</em></span>}.{<span class="emphasis"><em>current_time</em></span>}.txt)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">exec DBMS_TPR.BASELINE_REPORT_TEXT_ID(5);
+/</pre>
+
+          <p>파라미터 중 file_name을 지정하면 지정된 파일명의 리포트를 출력한다.</p>
+
+          <pre class="programlisting">exec DBMS_TPR.BASELINE_REPORT_TEXT_ID(5, file_name=&gt;'baseline.txt');
+/</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_system.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_transaction.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제43장 DBMS_SYSTEM </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제45장 DBMS_TRANSACTION</td></tr></table></div><div xmlns="" align="center"/></body></html>

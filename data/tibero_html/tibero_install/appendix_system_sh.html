@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Appendix D. system.sh</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 설치 안내서"/><link rel="up" href="index.html" title="Tibero 설치 안내서"/><link rel="prev" href="appendix_charset.html" title="Appendix C. Tibero 지원 문자 집합"/><link rel="next" href="appendix_hugepage.html" title="Appendix E. HugePage 설정 방법"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">Appendix D. system.sh</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="appendix_charset.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="appendix_hugepage.html">다음</a></td></tr></table><hr/></div><div class="appendix" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="appendix_system_sh"/>Appendix D. system.sh</h2></div></div></div>
+  
+
+  <p>본 부록에서는 <span>system.sh(vbs)를 수행하는 경우 각 옵션에 대하여
+  </span>설명한다.<a id="d5e4251" class="indexterm"/></p>
+
+  <div class="literallayout"><p/></div>
+
+  <p>system.sh(vbs)에서 사용 가능한 옵션은 다음과 같다.</p>
+
+  <pre class="programlisting">$ system.sh -h
+Usage: system.sh [option] [arg]
+-h : dispaly usage
+-p1 password : sys password
+-p2 password : syscat password
+-a1 Y/N : create default system users &amp; roles
+-a2 Y/N : create system tables related to profile
+-a3 Y/N : register dbms stat job to Job Scheduler
+-a4 Y/N : create TPR tables
+pkgonly : create psm built-in packages only
+-sod Y/N : separation of duties
+error : print error whenever sql encounters error</pre>
+
+  <p>다음은 각 옵션에 대한 설명이다.</p>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">-h</td><td>도움말 화면을 출력한다.</td></tr><tr><td align="left">-p1 password</td><td>sys 계정의 패스워드를 입력한다. (기본값: <span>tibero</span>)</td></tr><tr><td align="left">-p2 password</td><td>syscat 계정의 패스워드를 입력한다. (기본값: syscat)</td></tr><tr><td align="left">-a1</td><td><p>시스템 유저 생성 및 권한부여 여부를 설정한다. 최초 설치일 경우 반드시
+          '<span><strong class="guibutton">Y</strong></span>'로 설정한다. </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                <p>Y : 시스템 유저 생성 및 권한을 부여한다.</p>
+              </li><li style="list-style-type: circle">
+                <p>N : 데이터를 보존한다.</p>
+              </li></ul></div></td></tr><tr><td align="left">-a2</td><td><p>데이터베이스 사용자의 패스워드 관리 정책을 지정할 수 있는 프로파일을 위한 테이블의 생성 여부를
+          설정한다. 최초 설치일 경우 반드시 '<span><strong class="guibutton">Y</strong></span>'로 설정한다.
+          </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                <p>Y : 기존 테이블을 삭제한 후 생성한다.</p>
+              </li><li style="list-style-type: circle">
+                <p>N : 데이터를 보존한다.</p>
+              </li></ul></div><p>프로파일에 대한 자세한 내용은 "<span>Tibero</span> 관리자 안내서"의 "5장 사용자 관리와 데이터베이스 보안"을 참고한다.</p></td></tr><tr><td align="left">-a3</td><td><p>데이터베이스 객체의 통계 정보 수집을 위한 Job 스케줄링 등록 여부를 설정한다. 최초 설치일 경우
+          '<span><strong class="guibutton">Y</strong></span>'로 설정하는 것을 권장한다. </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                <p>Y : 통계정보 수집을 위한 Job을 삭제한 후 등록한다.</p>
+              </li><li style="list-style-type: circle">
+                <p>N : 등록하지 않는다.</p>
+              </li></ul></div></td></tr><tr><td align="left">-a4</td><td><p>통계정보를 주기적으로 자동 수집하기 위한 TPR 관련 테이블의 생성여부를 설정한다. 최초 설치일
+          경우 반드시 '<span><strong class="guibutton">Y</strong></span>'로 설정한다. </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                <p>Y : 기존 테이블을 삭제한 후 생성한다.</p>
+              </li><li style="list-style-type: circle">
+                <p>N : 데이터를 보존한다.</p>
+              </li></ul></div><p>APM에 대한 자세한 내용은 "<span>Tibero</span> 관리자 안내서"의 "제14장 <span>Tibero</span> Performance Repository"를 참고한다.</p></td></tr><tr><td align="left">pkgonly</td><td>PSM built-in package 스크립트들만 수행한다.</td></tr><tr><td align="left">-sod</td><td><p>보안을 위하여 기존 하나의 관리자 권한을 아래와 같이 3개의 관리자로 나뉘어 설치할 것인지에 대한
+          여부를 설정한다. </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                <p>SYSSEC : 보안 관리자</p>
+              </li><li style="list-style-type: circle">
+                <p>SYSAUD : 감사 관리자</p>
+              </li><li style="list-style-type: circle">
+                <p>SYSADM : 시스템 관리자</p>
+              </li></ul></div><p>(기본값: N, Windows 계열에서는 미지원)</p></td></tr><tr><td align="left">error</td><td>system.sh 수행 중 특정 스크립트에서 에러가 발생할 경우 에러 내용을 터미널에 출력한다.
+          (Windows 계열에서는 미지원)</td></tr></tbody></table>
+  </div>
+
+  <p/>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="appendix_charset.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="appendix_hugepage.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">Appendix C. <span>Tibero</span> 지원 문자 집합 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> Appendix E. HugePage 설정 방법</td></tr></table></div><div xmlns="" align="center"/></body></html>

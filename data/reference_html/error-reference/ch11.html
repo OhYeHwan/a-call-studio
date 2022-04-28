@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제11장 11000 ~ 11999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch10.html" title="제10장 10000 ~ 10999"/><link rel="next" href="ch12.html" title="제12장 12000 ~ 12999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제11장 11000 ~ 11999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch10.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch12.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e19464"/>제11장 11000 ~ 11999</h2></div></div></div>
+  
+
+  <h2><a id="d5e19466"/>11001: Subquery returned a tuple where a scalar value was expected.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>More than one column was returned by a subquery.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if there are more than two columns in the selection list of the scalar subquery.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19479"/>11002: Subquery returned multiple rows where a scalar value was expected.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A subquery expected to return a scalar value returned more than two rows.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the scalar subquery.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19492"/>11003: Invalid function argument type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The function argument type is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the declaration of the function.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19505"/>11004: Invalid function argument.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified function argument is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the declaration of the function.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19518"/>11005: Specified value '%1$s' is invalid for mathematical function argument(s).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified mathematical function argument is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the declaration of the function.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19531"/>11006: Invalid USERENV parameter.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The input is invalid for the USERENV function parameter.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Ensure that the function parameter is CLIENT_INFO, ENTRYID, ISDBA, LANG, LANGUAGE, SESSIONID or TERMINAL.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19544"/>11007: The TRIM set may not contain more than one character.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The first parameter of the TRIM function contains more than one character.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify only one character for the first parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19557"/>11008: Escape character must be one character long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The length of the escape character in the LIKE clause does not equal 1.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Set a single character for the escape argument.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19570"/>11009: Invalid use of escape character.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid use of escape character.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The percent sign "%", underscore "_", and the escape character itself are the only characters permitted to follow an escape character.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19583"/>11010: TO_CHAR format cannot be specified for this data type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TO_CHAR format cannot be specified for this type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove the format from the function formula.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19596"/>11011: TO_DATE format cannot be specified for this data type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TO_DATE format cannot be specified for this type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove the format from the function formula.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19609"/>11012: TO_TIME format cannot be specified for this data type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TO_TIME format cannot be specified for this type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove the format from the function formula.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19622"/>11013: TO_TIMESTAMP format cannot be specified for this data type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TO_TIMESTAMP format cannot be specified for this type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove the format from the function formula.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19635"/>11014: TO_NUMBER format cannot be specified for this data type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TO_NUMBER format cannot be specified for this type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove the format from the function formula.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19648"/>11015: Input parameter string is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Part of the input parameter string was too long.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Shorten the length of the string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19661"/>11016: Unsupported multi-byte character set in CLOB.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to use a CLOB with a multi-byte character set.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use single-byte character sets, or do not use a CLOB.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19674"/>11017: The relational operator accepts only boolean values.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A non-boolean operand was specified for the relational operator.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the operand is a boolean operand.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19687"/>11018: Operator does not accept operands of the given data type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The operand type is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid operand type for the operator.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19700"/>11019: Concatenation applied to invalid data type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The CONCAT operation may not be used on this data type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use CHAR, VARCHAR or CLOB, or use a value that can be converted to one of those data types.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19713"/>11020: String concatenation result is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The result of a string concatenation is too long.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Make sure that the total length of the concatenation result 65,531.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19726"/>11021: Error occurred during type casting.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to convert the data type to an invalid data type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the specified data type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19739"/>11022: Values are from incompatible data types.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The values are from incompatible data types.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the data types to be compatible.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19752"/>11023: Values are from data types that cannot be compared.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The values are from incomparable data types.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the data types to be comparable.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19765"/>11024: Cardinality mismatch found during group comparison.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>During a group comparison operation, the number of values on either side did not match.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Match the lengths of tuples on both sides of the comparison.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19778"/>11025: Data is too long for the column.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The data length is too long for the column.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Shorten the data length.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19791"/>11026: Data is too long to be converted to CHAR/VARCHAR/RAW data type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The data length exceeds the allowed length of a RAW, CHAR or VARCHAR type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the data length or change the data type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19804"/>11027: String is not in hexadecimal form.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The string is not in hexadecimal form.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check that the string correctly follows hexadecimal form.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19817"/>11028: Parameter mismatch occurred in the user-defined function.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Either the number of specified parameters does not match the required number or the omitted parameter is undefined.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Ensure the number of specified parameters is correct and the parameters are valid.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19830"/>11029: No function matches the specified argument(s).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>No function matches the specified list of arguments.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the argument data type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19843"/>11030: Multiple functions match the specified argument(s).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>More than one function matches the specified list of arguments.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the argument data type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19856"/>11031: A function in the SQL statement has output parameter(s).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Functions that have the output parameter(s) can only be call in a CALL statement.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the definition of the function.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19869"/>11032: An invalid data type was returned by the PSM function.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The return type of the PSM function is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check that the return type of the PSM function can be processed in an SQL statement.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19882"/>11033: Insufficient columns for update.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of columns returned by the subquery in the UPDATE SET clause is insufficient.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the number of columns in the UPDATE SET clause.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19895"/>11034: Too many columns for update.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of columns returned by the subquery in the UPDATE SET clause is too large.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the number of columns in the UPDATE SET clause.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19908"/>11035: Invalid NLS parameter exists in SQL function.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid NLS parameter exists in an SQL function.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the NLS parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19921"/>11036: Alias is required.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An alias was not specified for a non-column expression.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify an alias.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19934"/>11038: Percentile value must be between 0 and 1.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The percentile value must be between 0 and 1.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the percentile is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19947"/>11039: Invalid SYS_CONTEXT namespace.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The namespace is invalid for the SYS_CONTEXT function.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Ensure that the parameter of the function is USERENV.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19960"/>11040: Invalid NLSSORT linguistic definition.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The linguistic definition is invalid for the NLSSORT function.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the parameter is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19973"/>11041: Unsupported character set in regexp function.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The character set is not supported in the regexp function.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify another character set.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19986"/>11042: Invalid regular expression in regexp function.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid regular expression was used in the regexp function.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Correct the regular expression.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19999"/>11043: Unsupported character set was described.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The character set is not supported.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the character set.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20012"/>11044: Invalid UNISTR argument.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The UNISTR argument is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the UNISTR function.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20025"/>11045: A function in the SQL statement has non-primitive type parameter(s).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Functions that have the non-primitive parameter(s) can only be called from a CALL statement.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the definition of the function.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20038"/>11046: A function in the SQL statement has non-primitive type parameter(s).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Functions that have the non-primitive parameter(s) can only be called from a CALL statement.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the definition of the function.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20051"/>11047: Bind parameter or expression is not allowed in the given position.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A bind parameter or expression cannot be used in the given position.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a constant(number or string literal).</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20064"/>11048: \"%1$s\".\"%2$s\".\"%3$s\" The value is too large for the column. (Actual value: %4$d, Maximum value: %5$d)</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The data length is not appropriate for the column.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Shorten the data length.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20077"/>11050: The length of the source document used in the regular expression function is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The length of the source document used in the regular expression function is too long.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the value of iparam_EX_REGEXP_CLOB_MAX_LEN. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20090"/>11051: The length of the result returned by the REGEXP_REPLACE function is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The length of the result returned by the REGEXP_REPLACE function is too long.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the query.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20103"/>11052: The object cannot be updated or inserted as NULL.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The value of an object in an object table or a nested table cannot be NULL.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the query.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20116"/>11053: The file name specified for With Materialization is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified file cannot be created.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the file name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20129"/>11054: The input type is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>This data type cannot be used when the method is invoked using a call statement.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check how the method was invoked, and that you are not using a psm data type as a parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20142"/>11055: The output format is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The output format does not comply with the format rule.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the output format. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20155"/>11056: The mask character is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The mask character must be in one character.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if the mask character has more than one character. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20168"/>11057: The input column data have inconsistent lengths.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The input column data must have consistent length.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if the input column data have consistent length.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20181"/>11058: The input format is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The input format must consist of 'V' or 'F'.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if the input format has characters other than 'V' or 'F'.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20194"/>11059: This character set conversion is not supported.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The CONVERT function does not support conversion between the two character sets.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a character set that is supported by the CONVERT function.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20207"/>11060: JSON Document is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>JSON Document is does not comply with the JSON syntax.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the JSON document.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20220"/>11061: JSONPath is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>JSONPath is does not comply with the JSONPath syntax.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the JSONPath.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20233"/>11062: JSON Function Error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred in JSON Function.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the JSON function arguments.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20246"/>11063: The number of elements exceeds the maximum varray size allocated to varray.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot insert an element in excess of the maximum varray size.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the query to insert fewer elements than the varray size.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20259"/>11064: Cycle mark and non-cycle mark values must be one-byte character string values.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The cycle mark or non-cycle mark values specified in the CYCLE clause of a recursive WITH query are not one-byte character string values.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a one-byte character string for the cycle mark and non-cycle mark values.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e20272"/>11065: The output value is too large (Actual value: %1$d, Maximum value: %2$d)</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The data length is not appropriate for the output type length.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the data length.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch10.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch12.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제10장 10000 ~ 10999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제12장 12000 ~ 12999</td></tr></table></div><div xmlns="" align="center"/></body></html>

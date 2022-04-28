@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Appendix B. Tibero와 Tuxedo 연동 예제</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 애플리케이션 개발자 안내서"/><link rel="up" href="index.html" title="Tibero 애플리케이션 개발자 안내서"/><link rel="prev" href="appendix_a.html" title="Appendix A. tbJDBC 예제"/><link rel="next" href="idx.html" title="색인"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">Appendix B. <span xmlns="http://www.w3.org/1999/xhtml">Tibero</span>와 Tuxedo 연동 예제</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="appendix_a.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="idx.html">다음</a></td></tr></table><hr/></div><div class="appendix" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="appendix_b"/>Appendix B. <span>Tibero</span>와 Tuxedo 연동 예제</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="appendix_b.html#d5e3055">B.1. <span>tb_</span>tux.env</a></span></dt><dt><span class="section"><a href="appendix_b.html#d5e3073">B.2. <span>tb_</span>tux.conf.m</a></span></dt><dt><span class="section"><a href="appendix_b.html#d5e3089">B.3. <span>tmax</span>32.fld</a></span></dt><dt><span class="section"><a href="appendix_b.html#d5e3094">B.4. trans_fml32.<span>tb</span>c</a></span></dt><dt><span class="section"><a href="appendix_b.html#d5e3100">B.5. builds.sh</a></span></dt><dt><span class="section"><a href="appendix_b.html#d5e3112">B.6. insert.c</a></span></dt><dt><span class="section"><a href="appendix_b.html#d5e3116">B.7. select.c</a></span></dt><dt><span class="section"><a href="appendix_b.html#d5e3120">B.8. buildc.sh</a></span></dt><dt><span class="section"><a href="appendix_b.html#d5e3124">B.9. create_table.sql</a></span></dt><dt><span class="section"><a href="appendix_b.html#d5e3130">B.10. run.sh</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 <span>Tibero</span>와 Tuxedo 연동 예제 프로그램의 전체 소스 코드와 각종 스크립트를
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3055"/>B.1. <span>tb_</span>tux.env</h2></div></div></div>
+    
+
+    <p>다음은 시스템 환경변수 설정 파일이다.</p>
+
+    <pre class="programlisting"># for <span>tibero</span>
+export <span>TB_</span>HOME=/path/to/<span>tibero</span>
+export <span>TB_</span>SID=<span>tibero</span>
+export PATH=$<span>TB_</span>HOME/bin:$<span>TB_</span>HOME/client/bin:$<span>TB_</span>HOME/scripts:$PATH
+export LD_LIBRARY_PATH=$<span>TB_</span>HOME/client/lib:$<span>TB_</span>HOME/lib:$LD_LIBRARY_PATH
+export LIBPATH=$<span>TB_</span>HOME/client/lib:$<span>TB_</span>HOME/lib:$LIBPATH
+
+# for tuxedo
+export TUXDIR=/path/to/tuxedo
+export JAVA_HOME=$TUXDIR/jre
+export JVMLIBS=$JAVA_HOME/lib/amd64/server:$JAVA_HOME/jre/bin
+export PATH=$TUXDIR/bin:$JAVA_HOME/bin:$PATH
+export COBCPY=:$TUXDIR/cobinclude; export COBCPY
+export COBOPT="-C ANS85 -C ALIGN=8 -C NOIBMCOMP -C TRUNC=ANSI -C OSEXT=cbl"
+export SHLIB_PATH=$TUXDIR/lib:$JVMLIBS:$SHLIB_PATH
+export LIBPATH=$TUXDIR/lib:$JVMLIBS:$LIBPATH
+export LD_LIBRARY_PATH=$TUXDIR/lib:$JVMLIBS:$LD_LIBRARY_PATH
+export WEBJAVADIR=$TUXDIR/udataobj/webgui/java
+
+export TUXCONFIG=/path/to/tuxedo/tuxconf
+export FLDTBLDIR32=/path/to/tuxedo
+export FIELDTBLS32=<span>tmax</span>32.fld
+export TLOGDEVICE=/path/to/tuxedo/TLOG
+export ULOGPFX=/path/to/tuxedo/ULOG</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3073"/>B.2. <span>tb_</span>tux.conf.m</h2></div></div></div>
+    
+
+    <p>다음은 Tuxedo 환경설정 파일이다.</p>
+
+    <pre class="programlisting">*RESOURCES
+IPCKEY          68300
+
+DOMAINID        tbrdomain
+MASTER          tbrtest
+MAXACCESSERS    10
+MAXSERVERS      5
+MAXSERVICES     20
+MODEL           SHM
+LDBAL           N
+
+*MACHINES
+DEFAULT:
+                TUXDIR="/data1/apmqam/oracle/tuxedo/tuxedo10gR3"
+                APPDIR="/data1/apmqam/<span>tibero</span>_tuxedo_test"
+                TUXCONFIG="/data1/apmqam/<span>tibero</span>_tuxedo_test/tuxconf"
+                TLOGDEVICE="/data1/apmqam/<span>tibero</span>_tuxedo_test/TLOG"
+
+<span>tmax</span>i4          LMID=tbrtest
+
+*GROUPS
+<span>TBXA</span>            LMID=tbrtest GRPNO=1
+                TMSNAME=tms_<span>tibero</span>
+                OPENINFO="<span>TIBERO</span>_XA:<span>TIBERO</span>_XA:user=sys,pwd=<span>tibero</span>,
+                          sestm=60,db=<span>tibero</span>"
+
+*SERVERS
+DEFAULT:
+                CLOPT="-A -r"
+
+trans_fml32     SRVGRP=<span>TBXA</span>  SRVID=1
+
+*SERVICES
+SELECT_FML32
+INSERT_FML32</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3089"/>B.3. <span>tmax</span>32.fld</h2></div></div></div>
+    
+
+    <p>다음은 필드 테이블 파일이다.</p>
+
+    <pre class="programlisting">#name           number          type            flag    comment
+OUTPUT          302             string          0       -
+EMPNO           901             long            0       -
+ENAME           902             string          0       -
+JOB             903             string          0       -
+MGR             904             long            0       -
+SAL             905             float           0       -
+COMM            906             float           0       -
+DEPTNO          907             long            0       -</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3094"/>B.4. trans_fml32.<span>tb</span>c</h2></div></div></div>
+    
+
+    <p>다음은 서버 프로그램 <span>tbESQL</span>/C 파일이다.</p>
+
+    <pre class="programlisting">#include &lt;stdio.h&gt;
+#include &lt;atmi.h&gt;
+#include &lt;userlog.h&gt;
+#include &lt;Uunix.h&gt;
+#include &lt;fml32.h&gt;
+#include "fml32.fld.h"
+#include &lt;tx.h&gt;
+#include "sqlca.h"
+
+EXEC SQL include SQLCA.H;
+
+EXEC SQL begin declare section;
+    int h_empno;
+    char h_ename[10];
+    char h_job[10];
+EXEC SQL end declare section;
+
+void INSERT_FML32(rqst)
+TPSVCINFO *rqst;
+{
+    FBFR32 *sndbuf;
+    char msgbuf[256];
+    FLDLEN32 flen;
+    XID *xid;
+    TXINFO info;
+    char xidstring[1000];
+    char str[100];
+
+    int i;
+
+    sndbuf = (FBFR32 *)rqst-&gt;data;
+
+    tx_info(&amp;info);
+    xid = &amp;(info.xid);
+
+    memset( xidstring, 0x00, 1000);
+
+    for( i = 0 ; i &lt; xid-&gt;gtrid_length+xid-&gt;bqual_length ; i++ )
+    {
+        sprintf(xidstring+strlen(xidstring),"%0x\0",xid-&gt;data[i]);
+    }
+
+    Fprint32(sndbuf);
+    memset( &amp;h_empno, 0x00, sizeof ( h_empno ) );
+    memset( h_ename, 0x00, sizeof ( h_ename ) );
+    memset( h_job, 0x00, sizeof ( h_job ) );
+
+    Fget32(sndbuf, EMPNO, 0, (char *)&amp;h_empno, &amp;flen);
+    Fget32(sndbuf, ENAME, 0, (char *)h_ename, &amp;flen);
+    Fget32(sndbuf, JOB, 0, (char *)h_job, &amp;flen);
+
+    printf("SVR: EMPNO %d ENAME %s JOB %s\n", h_empno, h_ename, h_job);
+    printf("SVR: INSERT_FML32 XID:%d.%d. %0x.%s - %s\n\n",
+            xid-&gt;gtrid_length, xid-&gt;bqual_length,
+            xid-&gt;formatID, xidstring, h_ename);
+
+    EXEC SQL INSERT
+    INTO emp( empno, ename, job )
+    VALUES ( :h_empno, :h_ename, :h_job );
+
+    if ( sqlca.sqlcode != 0 ){
+        sprintf(msgbuf, "insert fail: sqlcode = %d(%s)\n",
+                        sqlca.sqlcode, sqlca.sqlerrm.sqlerrmc);
+        Fchg32(sndbuf, OUTPUT, 0, msgbuf, 0);
+        tpreturn(TPFAIL, -1, (char *)sndbuf, 0, 0);
+    }
+
+    strcpy(msgbuf, "insert success!" );
+    Fchg32(sndbuf, OUTPUT, 0, msgbuf, 0);
+    tpreturn(TPSUCCESS, 0, rqst-&gt;data, strlen(rqst-&gt;data), 0);
+}
+
+void SELECT_FML32(rqst)
+TPSVCINFO *rqst;
+{
+    FBFR32 *sndbuf;
+    char msgbuf[256];
+    FLDLEN32 flen;
+
+    sndbuf = (FBFR32 *)rqst-&gt;data;
+    Fprint32(sndbuf);
+    Fget32(sndbuf, EMPNO, 0, (char *)&amp;h_empno, &amp;flen);
+
+    EXEC SQL SELECT NVL(ename,' '), NVL(job,' ')
+    INTO :h_ename,:h_job
+    FROM emp
+    WHERE empno = :h_empno;
+
+    if ( sqlca.sqlcode != 0 ){
+        sprintf(msgbuf, "select failed sqlcode = %d(%s)\n",
+                        sqlca.sqlcode, sqlca.sqlerrm.sqlerrmc);
+        Fchg32(sndbuf, OUTPUT, 0, msgbuf, 0);
+        tpreturn(TPFAIL, -1, (char *)sndbuf, 0, 0);
+    }
+
+    printf("#### %d \n", h_empno);
+    Fchg32(sndbuf, ENAME, 0,(char *)h_ename, 0);
+    Fchg32(sndbuf, JOB, 0, (char *)h_job, 0);
+    Fchg32(sndbuf, EMPNO, 0, (char *)&amp;h_empno, 0);
+
+    strcpy(msgbuf, "select success!" );
+    Fchg32(sndbuf, OUTPUT, 0, msgbuf, 0);
+
+    Fprint32(sndbuf);
+    tpreturn(TPSUCCESS, 0,(char *)sndbuf, sizeof(sndbuf), 0);
+}</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3100"/>B.5. builds.sh</h2></div></div></div>
+    
+
+    <p>다음은 서버 프로그램 빌드 스크립트이다.</p>
+
+    <pre class="programlisting">#### transaction server precompile ####
+PRECOMP=$<span>TB_</span>HOME/client/bin/<span>tbpc</span>
+PRECOMPFLAGS="UNSAFE_NULL=YES"
+LIB=$<span>TB_</span>HOME/client/lib
+INC=$<span>TB_</span>HOME/client/include
+CFLAGS="-l<span>tbcli</span> -ltbxa -lm -lrt -lpthread -l<span>tbertl</span> -g "
+CC=gcc
+rm -f trans_fml32.c
+$PRECOMP INCLUDE=$TUXDIR/include UNSAFE_NULL=YES INCLUDE=$INC 
+$PRECOMPFLAGS ONAME=trans_fml32.c trans_fml32.<span>tb</span>c
+
+#### transaction server build ####
+buildserver -o trans_fml32 -v -f trans_fml32.c -s INSERT_FML32,SELECT_FML32 -r <span>
+TIBERO</span>_XA</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3112"/>B.6. insert.c</h2></div></div></div>
+    
+
+    <p>다음은 INSERT 클라이언트 프로그램 파일이다.</p>
+
+    <pre class="programlisting">#include &lt;stdio.h&gt;
+#include &lt;atmi.h&gt;
+#include &lt;fml32.h&gt;
+#include &lt;string.h&gt;
+#include "fml32.fld.h"
+
+struct temp_str{
+        int   empno;
+        char  ename[11];
+        char  job[10];
+};
+typedef struct temp_str *str;
+
+main(argc, argv)
+char *argv[];
+{
+    FBFR32 *sendbuf;
+    FBFR32 *recvbuf;
+    long recvlen = 0;
+    int ret;
+    str tmpbuf;
+    char msgbuf[30];
+    FLDLEN32 flen;
+
+    tmpbuf = malloc(sizeof(struct temp_str));
+
+    if (tpinit((TPINIT *) NULL) == -1) {
+        fprintf(stderr, "Tpinit failed\n");
+        exit(1);
+    }
+
+    if((sendbuf = (FBFR32 *) tpalloc("FML32", NULL, 0)) == NULL) {
+        fprintf(stderr,"Error allocating send buffer\n");
+        tpterm();
+        exit(1);
+    }
+
+    if((recvbuf = (FBFR32 *) tpalloc("FML32", NULL, 0)) == NULL) {
+        fprintf(stderr,"Error allocating receive buffer\n");
+        tpfree((char *)sendbuf);
+        tpterm();
+        exit(1);
+    }
+
+    tmpbuf = malloc(sizeof(struct temp_str));
+
+    printf("\n******************************************\n");
+    printf( "|  Employee Number : " ); scanf ( "%d", &amp;tmpbuf-&gt;empno );
+    printf( "|  Employee Name   : " ); scanf ( "%s", tmpbuf-&gt;ename );
+    printf( "|  Employee Job    : " ); scanf ( "%s", tmpbuf-&gt;job );
+    printf("******************************************\n\n");
+
+    tpbegin(10, 0);
+    Fchg32(sendbuf,EMPNO,0,(char *)&amp;tmpbuf-&gt;empno,0);
+    Fchg32(sendbuf,ENAME,0,(char *)tmpbuf-&gt;ename,0);
+    Fchg32(sendbuf,JOB,0,(char *)tmpbuf-&gt;job,0);
+
+    ret = tpcall("INSERT_FML32", (char *)sendbuf, 0, (char **)&amp;recvbuf,
+                 &amp;recvlen, (long)0);
+    if(ret == -1) {
+        fprintf(stderr, "tperrno = %d (%s) \n", tperrno, tpstrerror(tperrno));
+        tpfree((char *)sendbuf);
+        tpfree((char *)recvbuf);
+        tpterm();
+        exit(1);
+    }
+
+    flen = sizeof( msgbuf );
+    Fget32(recvbuf, OUTPUT, 0, (char *)msgbuf, &amp;flen);
+    printf("%s\n", msgbuf);
+
+    tpcommit(0);
+
+    free(tmpbuf);
+    tpfree((char *)sendbuf);
+    tpterm();
+}</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3116"/>B.7. select.c</h2></div></div></div>
+    
+
+    <p>다음은 SELECT 클라이언트 프로그램 파일이다.</p>
+
+    <pre class="programlisting">#include &lt;stdio.h&gt;
+#include &lt;atmi.h&gt; 
+#include &lt;fml32.h&gt;
+#include &lt;string.h&gt;
+#include "fml32.fld.h"
+
+
+main(argc, argv)
+char *argv[];
+{
+    FBFR32 *sendbuf;
+    FBFR32 *recvbuf;
+    long recvlen;
+    int ret;
+    int empno;
+    FLDLEN32 flen;
+    int h_empno;
+    char h_ename[10];
+    char h_job[10];
+    char msgbuf[256];
+
+    if (tpinit((TPINIT *) NULL) == -1) {
+        fprintf(stderr, "Tpinit failed\n");
+        exit(1);
+    }
+
+    if((sendbuf = (FBFR32 *) tpalloc("FML32", NULL, 0)) == NULL) {
+        fprintf(stderr,"Error allocating send buffer\n");
+        tpterm();
+        exit(1);
+    }
+
+    if((recvbuf = (FBFR32 *) tpalloc("FML32", NULL, 0)) == NULL) {
+        fprintf(stderr,"Error allocating receive buffer\n");
+        tpfree((char *)sendbuf);
+        tpterm();
+        exit(1);
+    }
+
+    printf("\n******************************************\n");
+    printf( "|  Employee Number : " ); scanf ( "%d", &amp;empno );
+    printf("******************************************\n\n");
+
+    Fchg32(sendbuf,EMPNO,0,(char *)&amp;empno,0);
+
+    ret = tpcall("SELECT_FML32", (char *)sendbuf, 0, (char **)&amp;recvbuf,
+                 &amp;recvlen, (long)0);
+    if(ret == -1) {
+        fprintf(stderr, "tperrno = %d (%s)\n", tperrno, tpstrerror(tperrno));
+        flen = sizeof( msgbuf );
+        Fget32(recvbuf, OUTPUT, 0, (char *)msgbuf, &amp;flen);
+        printf("error msg: %s\n", msgbuf);
+        tpfree((char *)sendbuf);
+        tpfree((char *)recvbuf);
+        tpterm();
+        exit(1);
+    }
+
+    flen = sizeof(msgbuf);
+    Fget32(recvbuf, OUTPUT, 0, (char *)msgbuf, &amp;flen);
+    printf("%s\n", msgbuf);
+
+    flen = sizeof(&amp;h_empno);
+    Fget32(recvbuf, EMPNO, 0, (char *)&amp;h_empno, &amp;flen);
+    printf("EMPNO; %d \n", h_empno);
+    flen = sizeof(h_ename);
+    Fget32(recvbuf, ENAME, 0, (char *)h_ename, &amp;flen);
+    printf("ENAME: %s \n", h_ename);
+    flen = sizeof(h_job);
+    Fget32(recvbuf, JOB, 0, (char *)h_job, &amp;flen);
+    printf("JOB: %s \n", h_job);
+
+    tpfree((char *)recvbuf);
+    tpfree((char *)sendbuf);
+    tpterm();
+}
+~</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3120"/>B.8. buildc.sh</h2></div></div></div>
+    
+
+    <p>다음은 클라이언트 프로그램 빌드 스크립트이다.</p>
+
+    <pre class="programlisting">buildclient -o insert -v -f insert.c
+buildclient -o select -v -f select.c</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3124"/>B.9. create_table.sql</h2></div></div></div>
+    
+
+    <p>다음은 SELECT 클라이언트 프로그램 파일이다.</p>
+
+    <pre class="programlisting">drop table emp;
+CREATE TABLE emp (
+    empno           NUMBER,
+    ename           VARCHAR2(10),
+    job             VARCHAR2(9),
+    mgr             NUMBER(4),
+    hiredate        DATE,
+    sal             NUMBER(7,2),
+    comm            NUMBER(7,2),
+    deptno          NUMBER(2)
+);
+~</pre>
+
+    <p/>
+
+    <p/>
+
+    
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3130"/>B.10. run.sh</h2></div></div></div>
+    
+
+    <p>다음은 Tuxedo 시스템 기동 스크립트이다.</p>
+
+    <pre class="programlisting">#!/bin/sh
+
+tmshutdown -y
+rm ULOG* &gt; /dev/null 2&gt;&amp;1
+rm xa* &gt; /dev/null 2&gt;&amp;1
+
+tmloadcf -y <span>tb_</span>tux.conf.m
+rm /data1/apmqam/<span>tibero</span>_tuxedo_test/TLOG* &gt; /dev/null 2&gt;&amp;1
+rm /data1/apmqam/<span>tibero</span>_tuxedo_test/ULOG* &gt; /dev/null 2&gt;&amp;1
+
+tmadmin -c &lt;&lt; EOF
+crdl -z /data1/apmqam/<span>tibero</span>_tuxedo_test/TLOG -b 1000
+q
+EOF
+
+tmboot -y</pre>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="appendix_a.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="idx.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">Appendix A. <span>tbJDBC</span> 예제 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 색인</td></tr></table></div><div xmlns="" align="center"/></body></html>

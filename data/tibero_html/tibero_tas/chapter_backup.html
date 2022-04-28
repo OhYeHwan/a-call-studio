@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제5장 백업과 복구</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero Active Storage 관리자 안내서"/><link rel="up" href="index.html" title="Tibero Active Storage 관리자 안내서"/><link rel="prev" href="chapter_view.html" title="제4장 TAS 정보 조회"/><link rel="next" href="chapter_cmd.html" title="제6장 커맨드라인 툴"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제5장 백업과 복구</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_view.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_cmd.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_backup"/>제5장 백업과 복구</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_backup.html#d5e1788">5.1. 백업</a></span></dt><dt><span class="section"><a href="chapter_backup.html#d5e1802">5.2. 복구</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 <span>Tibero</span> 복구 관리자(이하 RMGR)를 사용하여 <span>TAS</span>의 디스크
+  스페이스에 저장한 <span>Tibero</span> 데이터베이스 파일의 백업 및 복구 방법을 설명한다.</p>
+
+  <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+    <p>RMGR에 대한 자세한 내용은 "<span>Tibero</span> 관리자 안내서"를 참고한다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1788"/>5.1. 백업<a id="d5e1790" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>다음은 <span><strong class="guibutton"><span>tb</span>rmgr</strong></span> 명령을 사용해서 <span>TAS</span> 디스크
+    스페이스에 저장한 모든 데이터를 '/backupdir' 디렉터리에 백업하는 예이다.</p>
+
+    <div class="example"><a id="ex_backup_tblspc"/><p class="title"><b>[예 5.1] <span>TAS</span> 디스크 스페이스에 저장한 데이터 백업</b></p><div class="example-contents">
+      
+
+      
+
+      <pre class="programlisting"><span>tb</span>rmgr backup -o /backupdir</pre>
+    </div></div><br class="example-break"/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1802"/>5.2. 복구</h2></div></div></div>
+    
+
+    <p>다음은 <span><strong class="guibutton"><span>tb</span>rmgr</strong></span> 명령을 사용해서 <span>TAS</span> 디스크
+    스페이스에 모든 데이터를 '/backupdir' 디렉터리에 있는 백업본으로 복구하는 예이다.</p>
+
+    <div class="example"><a id="ex_recover_tblspc"/><p class="title"><b>[예 5.2] <span>TAS</span> 디스크 스페이스에 저장한 데이터 복구</b></p><div class="example-contents">
+      
+
+      
+
+      <pre class="programlisting"><span>tb</span>rmgr recover -o /backupdir</pre>
+    </div></div><br class="example-break"/>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_view.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_cmd.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제4장 <span>TAS</span> 정보 조회 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제6장 커맨드라인 툴</td></tr></table></div><div xmlns="" align="center"/></body></html>

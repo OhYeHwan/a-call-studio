@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Appendix A. tbESQL/C 프로그램 예제</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbESQL/C 안내서"/><link rel="up" href="index.html" title="Tibero tbESQL/C 안내서"/><link rel="prev" href="chapter_precompiler_option.html" title="제9장 tbESQL/C 프리컴파일러 옵션"/><link rel="next" href="idx.html" title="색인"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">Appendix A. <span xmlns="http://www.w3.org/1999/xhtml">tbESQL</span>/C 프로그램 예제</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_precompiler_option.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="idx.html">다음</a></td></tr></table><hr/></div><div class="appendix" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="appendix_a"/>Appendix A. <span>tbESQL</span>/C 프로그램 예제</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="appendix_a.html#appendix_ddl_psm">A.1. DDL과 PSM</a></span></dt><dt><span class="section"><a href="appendix_a.html#appendix_database">A.2. 데이터베이스의 이름</a></span></dt><dt><span class="section"><a href="appendix_a.html#d5e8685">A.3. 대용량 객체형</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 DDL과 PSM, 데이터베이스의 이름, 대용량 객체형을 사용하여 <span>tbESQL</span>/C
+  프로그램의 예제를 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="appendix_ddl_psm"/>A.1. DDL과 PSM</h2></div></div></div>
+    
+
+    <p>다음은 DDL과 PSM을 사용하여 <span>tbESQL</span>/C 프로그램을 작성한 예이다.</p>
+
+    
+
+    <pre class="programlisting">void Test_call1(void)
+{
+    char *conn_str = "<span>tibero</span>/<span>tmax</span>";
+    int num;
+    int fact;
+
+    EXEC SQL CONNECT :conn_str;
+
+    EXEC SQL CREATE OR REPLACE FUNCTION fact(n IN INTEGER) RETURN INTEGER IS
+    BEGIN
+        IF (n &lt;= 0) then return 1;
+        ELSE return n * fact(n - 1);
+        END IF;
+    END fact;
+    END-EXEC;
+
+    num = 5;
+
+    EXEC SQL CALL fact(:num) INTO :fact;
+    
+    EXEC SQL COMMIT WORK RELEASE;
+}
+
+void Test_call2(void)
+{
+    char *conn_str = "<span>tibero</span>/<span>tmax</span>";
+    char x[10];
+    int y;
+
+    EXEC SQL CONNECT :conn_str;
+ 
+    EXEC SQL DROP TABLE T1;
+    EXEC SQL CREATE TABLE T1(x VARCHAR(10));
+
+    EXEC SQL CREATE OR REPLACE PROCEDURE test_proc(x IN VARCHAR, y IN OUT NUMBER) IS
+        BEGIN
+            INSERT INTO T1 VALUES(x);
+            y := 2;
+        END;
+    END-EXEC;
+
+    memset(x, 0, sizeof(x));
+    strcpy(x, "<span>TIBERO</span>");
+
+    EXEC SQL CALL test_proc(:x, :y);
+
+    memset(x, 0, sizeof(x));
+
+    EXEC SQL SELECT x INTO :x FROM T1; /* x값은 "<span>TIBERO</span>   "가 된다 */
+
+    EXEC SQL COMMIT WORK RELEASE;
+}</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="appendix_database"/>A.2. 데이터베이스의 이름</h2></div></div></div>
+    
+
+    <p>다음은 데이터베이스의 이름을 사용하여 <span>tbESQL</span>/C 프로그램을 작성한 예이다.</p>
+
+    
+
+    <pre class="programlisting">void Test_named_database(void)
+{
+    VARCHAR branch[5], postal[10], region[10];
+    
+    char *user_pass = "<span>tibero</span>/<span>tmax</span>";
+
+    EXEC SQL WHENEVER SQLERROR 
+        DO printf("file: %s, line: %d, error: %d\n", 
+                   __FILE__, __LINE__, sqlca.sqlcode);
+
+    EXEC SQL DECLARE C1 DATABASE;
+
+    EXEC SQL CONNECT :user_pass AT C1; 
+    
+    EXEC SQL at C1 DECLARE C1 CURSOR FOR 
+        select * from branch order by branch_cd;
+
+    EXEC SQL OPEN C1;
+
+    memset(branch.arr, 0, 5);
+    memset(postal.arr, 0, 10);
+    memset(region.arr, ' ', 10);
+
+    EXEC SQL FETCH C1 INTO :branch, :postal, :region;
+
+    memset(branch.arr, 0, 5);
+    memset(postal.arr, 0, 10);
+    memset(region.arr, ' ', 10);
+
+    EXEC SQL FETCH C1 INTO :branch, :postal, :region;
+
+    EXEC SQL CLOSE C1;
+
+    EXEC SQL AT C1 COMMIT;
+}</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e8685"/>A.3. 대용량 객체형</h2></div></div></div>
+    
+
+    <p>다음은 대용량 객체형을 사용하여 <span>tbESQL</span>/C 프로그램을 작성한 예이다. ClobLocator,
+    BlobLocator 의 사용을 위해서는 esql_lob.h 헤더 파일을 명시해야 한다.</p>
+
+    
+
+    <pre class="programlisting">#include &lt;esql_lob.h&gt;
+
+#define MAXBUFLEN   5000
+
+char *conn_str = "<span>tibero</span>/<span>tmax</span>";
+
+void Test_clob_write(void)
+{
+    ClobLocator *clob;
+    unsigned int clob_len, write_amt, offset;
+    unsigned char buffer[MAXBUFLEN];
+    int i;
+
+    EXEC SQL CONNECT :conn_str;
+
+    EXEC SQL DROP TABLE CLOB_TABLE;
+
+    EXEC SQL WHENEVER SQLERROR
+        do printf("error: %d!!!\n", sqlca.sqlcode);
+
+    EXEC SQL WHENEVER NOTFOUND
+        do printf("notfound!!!\n");
+
+    EXEC SQL CREATE TABLE CLOB_TABLE (num_col number, clob_col clob);
+
+    EXEC SQL INSERT INTO CLOB_TABLE VALUES (1, empty_clob());
+
+    EXEC SQL ALLOCATE :clob;
+
+    EXEC SQL SELECT clob_col INTO :clob FROM CLOB_TABLE WHERE num_col = 1;
+
+    EXEC SQL LOB DESCRIBE :clob GET LENGTH INTO :clob_len;
+
+    write_amt = MAXBUFLEN;
+    offset = clob_len + 1;
+
+    for (i = 0; i &lt; MAXBUFLEN; i += 25) {
+        strcpy((char *)(buffer + i), "abcdefghijklmnopqrstuvwxy");
+    }
+
+    EXEC SQL LOB WRITE ONE :write_amt FROM :buffer
+        WITH LENGTH :write_amt INTO :clob AT :offset;
+
+    EXEC SQL FREE :clob;
+
+    EXEC SQL COMMIT RELEASE;
+}
+
+void Test_clob_read(void)
+{
+    ClobLocator *clob;
+    unsigned int clob_len, read_amt;
+    unsigned char buffer[26];
+
+    memset(buffer, 0, sizeof(buffer));
+
+    EXEC SQL CONNECT :conn_str;
+
+    EXEC SQL ALLOCATE :clob;
+
+    EXEC SQL SELECT clob_col INTO :clob FROM CLOB_TABLE WHERE num_col = 1;
+
+    EXEC SQL LOB DESCRIBE :clob GET LENGTH INTO :clob_len;
+
+    read_amt = 25;
+
+    EXEC SQL LOB READ :read_amt FROM :clob 
+        INTO :buffer WITH LENGTH :read_amt;
+
+    EXEC SQL FREE :clob;
+
+    EXEC SQL COMMIT RELEASE;
+}
+
+void Test_blob_write(void)
+{
+    BlobLocator *blob;
+    unsigned int blob_len, offset; 
+    unsigned char buffer[MAXBUFLEN * 2];
+    FILE *fp;
+
+    memset(buffer, 0, sizeof(buffer));
+
+    EXEC SQL CONNECT :conn_str;
+
+    EXEC SQL WHENEVER SQLERROR CONTINUE;
+
+    EXEC SQL DROP TABLE BLOB_TABLE;
+
+    EXEC SQL WHENEVER SQLERROR
+        do printf("error: %d!!!\n", sqlca.sqlcode);
+
+    EXEC SQL WHENEVER NOTFOUND
+        do printf("notfound!!!\n");
+
+    EXEC SQL CREATE TABLE BLOB_TABLE (blob_col blob);
+
+    EXEC SQL ALLOCATE :blob;
+
+    EXEC SQL INSERT INTO BLOB_TABLE VALUES (empty_blob())
+        RETURNING blob_col INTO :blob;
+
+    fp = fopen((const char *)"./test_blob.jpeg", (const char *)"r");
+    fseek(fp, 0L, SEEK_END);
+    blob_len = (unsigned int)ftell(fp);
+
+    fseek(fp, 0L, SEEK_SET);
+    fread((void *)buffer, (size_t)blob_len, (size_t)1, fp);
+    offset = 1;
+
+    EXEC SQL LOB WRITE ONE :blob_len FROM :buffer
+        WITH LENGTH :blob_len INTO :blob AT :offset;
+
+    fclose(fp);
+
+    EXEC SQL FREE :blob;
+
+    EXEC SQL COMMIT RELEASE;
+}
+
+void Test_blob_read(void)
+{
+    ClobLocator *blob;
+    unsigned int blob_len, read_amt;
+    unsigned char org_buffer[MAXBUFLEN * 2];
+    unsigned char buffer[MAXBUFLEN * 2];
+    FILE *fp;
+
+    memset(buffer, 0, sizeof(org_buffer));
+    memset(buffer, 0, sizeof(buffer));
+
+    EXEC SQL CONNECT :conn_str;
+
+    EXEC SQL ALLOCATE :blob;
+
+    EXEC SQL SELECT blob_col INTO :blob FROM BLOB_TABLE;
+
+    EXEC SQL LOB DESCRIBE :blob GET LENGTH INTO :blob_len;
+
+    read_amt = MAXBUFLEN * 2;
+
+    EXEC SQL LOB READ :blob_len FROM :blob 
+        INTO :buffer WITH LENGTH :read_amt;
+
+    fp = fopen((const char *)"TESTCASE/pc_success/test_blob.jpeg",
+               (const char *)"r");
+    fread((void *)org_buffer, (size_t)blob_len, (size_t)1, fp);
+
+    fclose(fp);
+ 
+    EXEC SQL FREE :blob;
+
+    EXEC SQL COMMIT RELEASE;
+}</pre>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_precompiler_option.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="idx.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제9장 <span>tbESQL</span>/C 프리컴파일러 옵션 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 색인</td></tr></table></div><div xmlns="" align="center"/></body></html>
