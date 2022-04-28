@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Appendix A. 설치 후 문제 해결</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 설치 안내서"/><link rel="up" href="index.html" title="Tibero 설치 안내서"/><link rel="prev" href="ch07.html" title="제7장 TAC 설치와 제거"/><link rel="next" href="appendix_mount.html" title="Appendix B. 마운트"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">Appendix A. 설치 후 문제 해결</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="appendix_mount.html">다음</a></td></tr></table><hr/></div><div class="appendix" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="appendix_troubleshooting"/>Appendix A. 설치 후 문제 해결</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="appendix_troubleshooting.html#d5e3835">A.1. 사용자 환경설정 파일</a></span></dt><dd><dl><dt><span class="section"><a href="appendix_troubleshooting.html#d5e3839">A.1.1. <span>TB_</span>HOME</a></span></dt><dt><span class="section"><a href="appendix_troubleshooting.html#d5e3856">A.1.2. LD_LIBRARY_PATH</a></span></dt><dt><span class="section"><a href="appendix_troubleshooting.html#d5e3872">A.1.3. <span>TB_</span>SID</a></span></dt></dl></dd><dt><span class="section"><a href="appendix_troubleshooting.html#d5e3895">A.2. TAC 설치</a></span></dt><dd><dl><dt><span class="section"><a href="appendix_troubleshooting.html#sect_tac_node_add">A.2.1. 노드 추가</a></span></dt><dt><span class="section"><a href="appendix_troubleshooting.html#sect_tac_tpr">A.2.2. <span>TAC</span> raw device 환경에서 TPR 관련 주의사항</a></span></dt></dl></dd><dt><span class="section"><a href="appendix_troubleshooting.html#d5e3985">A.3. 기타</a></span></dt><dd><dl><dt><span class="section"><a href="appendix_troubleshooting.html#d5e3987">A.3.1. 포트 번호</a></span></dt><dt><span class="section"><a href="appendix_troubleshooting.html#d5e4004">A.3.2. dbtimezone</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 부록에서는 <span>Tibero</span>를 설치한 후 발생할 수 있는 문제를 해결하는 방법을
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3835"/>A.1. 사용자 환경설정 파일<a id="d5e3837" class="indexterm"/></h2></div></div></div>
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3839"/>A.1.1. <span>TB_</span>HOME</h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문제</p>
+
+          <pre class="programlisting">TBR-2048 : Data source was not found.</pre>
+
+          <p><span><strong class="guibutton"><span>tbSQL</span> </strong></span>유틸리티에 접속할 때 이러한 메시지가
+          나타나면 <span><strong class="guibutton"><span>TB_</span>HOME</strong></span>이 설정되지 않았거나 잘못된 경우 또는
+          <span>Tibero</span>를 설치한 후 환경설정 파일을 적용하지 않은 경우에
+          발생하는 문제이다.</p>
+        </li><li>
+          <p>해결 방법</p>
+
+          <p>사용자 환경설정 파일의 <span>TB_</span>HOME 환경변수를 확인하고 변경한 뒤 시스템에
+          적용시킨다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3856"/>A.1.2. LD_LIBRARY_PATH</h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문제</p>
+
+          <pre class="programlisting"><span>tbsql</span>: error while loading shared libraries: <span>libtb</span>cli.so: 
+cannot open shared object file: No such file or directory</pre>
+
+          <p><span><strong class="guibutton"><span>tbSQL</span></strong></span> 유틸리티에 접속할 때 이러한 메시지가
+          나타나면 <span><strong class="guibutton">LD_LIBRARY_PATH</strong></span>가 설정되지 않았거나 잘못된 경우 또는
+          <span>Tibero</span>를 설치한 후 환경설정 파일을 적용하지 않은 경우에
+          발생하는 문제이다.</p>
+        </li><li>
+          <p>해결 방법</p>
+
+          <p>사용자 환경설정 파일의 LD_LIBRARY_PATH를 확인하고 변경한 뒤 시스템에 적용시킨다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3872"/>A.1.3. <span>TB_</span>SID</h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문제</p>
+
+          <pre class="programlisting">ERROR: environment variable $<span>TB_</span>SID is not set</pre>
+
+          <pre class="programlisting"><span>tbdown</span>: environment variable <span>TB_</span>HOME or <span>TB_</span>SID is not set.</pre>
+
+          <pre class="programlisting">Tip file open failure.: No such file or directory</pre>
+
+          <pre class="programlisting">tbdown failed. proc info file is deleted.</pre>
+
+          <p><span><strong class="guibutton">tbboot</strong></span> 또는 <span><strong class="guibutton">tbdown</strong></span>
+          명령어를 실행할 때 위와 같은 메시지 중 하나가 나타나면 <span><strong class="guibutton"><span>TB_</span>SID</strong></span>가 설정되지 않은 경우에 발생하는
+          문제이다.</p>
+        </li><li>
+          <p>해결 방법</p>
+
+          <p>사용자 환경설정 파일의 <span>TB_</span>SID를 확인하고 변경한 뒤 시스템에 적용시킨다.</p>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3895"/>A.2. TAC 설치</h2></div></div></div>
+    
+
+    <p>본 절에서는 <span>TAC</span> 환경에서 <span>Tibero</span>를 설치한 후 발생할 수 있는 문제와 해결방법을 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_tac_node_add"/>A.2.1. 노드 추가</h3></div></div></div>
+      
+
+      <p/>
+
+      <h4><a id="d5e3903"/>tip 파일 접근 문제</h4>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문제</p>
+
+          <pre class="programlisting">tip file does not exist / reading tip file failed / malformed tip file</pre>
+
+          <p>노드를 추가할 때 설정 파일(.tip)을 찾지 못하여 발생하는 문제이다.</p>
+        </li><li>
+          <p>해결 방법</p>
+
+          <p><span>TB_</span>HOME, <span>TB_</span>SID를 참고하여 해당 경로에 기존 <span>Tibero</span> 인스턴스의 $<span>TB_</span>SID.tip이 위치해 있는지 확인한다.</p>
+        </li></ul></div>
+
+      <p/>
+
+      <h4><a id="d5e3917"/><span>TAC</span> 접근 문제</h4>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문제</p>
+
+          <pre class="programlisting">extracting information from the existing cluster failed</pre>
+
+          <p>노드를 자동으로 추가할 때 설정값들을 읽어오기 위하여 기존 노드에 접속하는데 이를 실패하여 발생하는
+          문제이다.</p>
+        </li><li>
+          <p>해결 방법</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p><span>TB_</span>HOME와 <span>TB_</span>SID가 제대로 설정되어 있는지 확인한다.</p>
+            </li><li>
+              <p><span><span>tbsql</span></span>로 기존 노드에 접속 가능한지 확인한다.</p>
+            </li><li>
+              <p>기존 노드가 작동하고 있지 않은 경우 <span><strong class="guibutton"><span>tbcm</span></strong></span>, <span><span><strong class="guibutton"><span>tbboot</span></strong></span></span> 명령어로 기동한
+              후 노드 추가를 재시도한다.</p>
+            </li></ul></div>
+        </li></ul></div>
+
+      <p/>
+
+      <h4><a id="d5e3943"/>scp 파일 전송 문제</h4>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문제</p>
+
+          <pre class="programlisting">Remote file transfer failed! / Remote configuration export failed!</pre>
+
+          <p>새로운 노드에 <span>Tibero</span> 설치 파일을 전송하는 도중 실패하여 발생하는
+          문제이다.</p>
+        </li><li>
+          <p>해결 방법</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>추가하려는 노드에 현재 노드에서 접근할 수 있는지 ping 또는 ssh 등으로 확인한다.</p>
+            </li><li>
+              <p>원활하게 이루어지지 않을 경우 계정 동기화 설정과 네트워크 설정, 방화벽 설정 등을
+              확인한다.</p>
+            </li></ul></div>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_tac_tpr"/>A.2.2. <span>TAC</span> raw device 환경에서 TPR 관련 주의사항</h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문제</p>
+
+          <p><span>Tibero</span> 5.0 r61295 이후부터는 TPR 관련 테이블을
+          담는 TPR 전용 테이블 스페이스(SYSSUB)가 추가되었다. 설치 또는 패치할 때 시스템 스키마를 구성하는 단계에서
+          자동으로 $<span>TB_</span> HOME/database/$<span>TB_</span> SID 아래에 파일(syssub001.dtf)을 만든다. 단,
+          DB_CREATE_FILE_DEST가 명시되어 있는 경우에는 그곳에 만든다.</p>
+
+          <p>하지만 <span>TAC</span> raw device 사용 환경이라면 그 시스템 스키마를 수행하는
+          노드의 로컬 디스크에 해당 파일이 생성되어 다른 노드에서는 TPR 테이블 스페이스에 접근하지 못하는 오류가 발생한다. 공유
+          파일 시스템이면서 DB_CREATE_FILE_DEST가 적절한 경로로 지정되지 않은 환경에서도 마찬가지이다.</p>
+        </li><li>
+          <p>해결 방법</p>
+
+          <p>아래와 같은 방법으로 SYSSUB 테이블 스페이스를 재생성한다.</p>
+
+          <div class="orderedlist"><ol type="1"><li>
+              <p>테이블 스페이스를 삭제한다.</p>
+
+              <pre class="programlisting">SQL&gt; DROP TABLESPACE SYSSUB INCLUDING CONTENTS AND DATAFILES;</pre>
+            </li><li>
+              <p>테이블 스페이스를 생성한다.</p>
+
+              <pre class="programlisting">SQL&gt; CREATE TABLESPACE SYSSUB DATAFILE '&lt;SYSSUB 위치&gt;/syssub001.dtf' ...;</pre>
+            </li><li>
+              <p>다음의 스크립트를 실행한다.</p>
+
+              <pre class="programlisting">$<span>TB_</span>HOME/scripts/tpr.sql
+$<span>TB_</span>HOME/scripts/pkg/_pkg_dbms_tpr.tbw</pre>
+            </li></ol></div>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3985"/>A.3. 기타</h2></div></div></div>
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3987"/>A.3.1. 포트 번호</h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문제</p>
+
+          <pre class="programlisting">Listener port = 8629
+bind() failed: Address already in use.
+Error: Timedout while trying to open port 8629
+Check if there are any <span>Tibero</span> instances running.
+<span>Tibero</span> instance startup failed!</pre>
+
+          <p><span><span><strong class="guibutton"><span>tb</span>boot</strong></span> 명령어를 실행할 때
+          </span>사용하려는 포트 번호가 이미 사용 중인 경우에 발생하는 문제이다.</p>
+        </li><li>
+          <p>해결 방법</p>
+
+          <p>해당 인스턴스가 이미 실행 중인지 확인하거나 $<span>TB_</span>HOME/client/config 디렉터리에 있는 $<span>TB_</span>SID.tip 파일에 설정된 포트 번호를 수정한다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4004"/>A.3.2. dbtimezone</h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>권고 사항</p>
+
+          <p>dbtimezone 값은 timestamp with local timezone 데이터 타입을 DB에 저장할 때
+          사용되는 기준 timezone 값이다. DB 내부에서 처리되는 값이므로 불필요한 연산이 추가되어 성능상에도 안좋은 영향을
+          미치게 되어 임의 변경을 권고하지 않는다.</p>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="appendix_mount.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제7장 <span>TAC</span> 설치와 제거 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> Appendix B. 마운트</td></tr></table></div><div xmlns="" align="center"/></body></html>

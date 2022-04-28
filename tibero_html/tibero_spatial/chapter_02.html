@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제2장 Spatial 구조</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero Spatial 참조 안내서"/><link rel="up" href="index.html" title="Tibero Spatial 참조 안내서"/><link rel="prev" href="chapter_01.html" title="제1장 Spatial 소개"/><link rel="next" href="chapter_03.html" title="제3장 공간 인덱스"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제2장 Spatial 구조</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_01.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_03.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_02"/>제2장 Spatial 구조</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_02.html#d5e418">2.1. 테이블</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_02.html#sect_SPATIAL_REF_SYS_BASE">2.1.1. SPATIAL_REF_SYS_BASE</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_02.html#d5e485">2.2. 뷰</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_02.html#sect_ALL_GEOMETRY_COLUMNS">2.2.1. ALL_GEOMETRY_COLUMNS</a></span></dt><dt><span class="section"><a href="chapter_02.html#sect_SPATIAL_REF_SYS">2.2.2. SPATIAL_REF_SYS</a></span></dt><dt><span class="section"><a href="chapter_02.html#sect_USER_GEOMETRY_COLUMNS">2.2.3. USER_GEOMETRY_COLUMNS</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_02.html#d5e611">2.3. 프러시저</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_02.html#sect_REGISTER_SRS">2.3.1. REGISTER_SRS</a></span></dt><dt><span class="section"><a href="chapter_02.html#sect_UNREGISTER_SRS">2.3.2. UNREGISTER_SRS</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>Tibero</span> Spatial과 관련된 스키마 객체에 대하여 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e418"/>2.1. 테이블</h2></div></div></div>
+    
+
+    <p>다음은 관련 테이블 목록이다.<a id="d5e421" class="indexterm"/></p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="200" align="left"/><col/></colgroup><thead><tr><th align="left">테이블</th><th>설명</th></tr></thead><tbody><tr><td align="left"><a href="chapter_02.html#sect_SPATIAL_REF_SYS_BASE" title="2.1.1. SPATIAL_REF_SYS_BASE">SPATIAL_REF_SYS_BASE</a></td><td>데이터베이스에서 사용된 Spatial Reference System의 메타데이터를 저장하는
+            테이블이다.</td></tr></tbody></table>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_SPATIAL_REF_SYS_BASE"/>2.1.1. SPATIAL_REF_SYS_BASE<a id="d5e437" class="indexterm"/><a id="d5e439" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에서 사용된 Spatial Reference System의 메타데이터를 저장하는 테이블이다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>컬럼</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col width="110" align="left"/><col/></colgroup><thead><tr><th align="left">컬럼</th><th align="left">데이터 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">OWNER</td><td align="left">VARCHAR(30)</td><td>Spatial Reference System를 추가한 DB 사용자이다.</td></tr><tr><td align="left">SRID</td><td align="left">INTEGER</td><td>Spatial Reference System의 데이터베이스 내에서의 ID이다.</td></tr><tr><td align="left">AUTH_NAME</td><td align="left">VARCHAR(256)</td><td>Spatial Reference System에서 사용된 표준의 이름이다.</td></tr><tr><td align="left">AUTH_SRID</td><td align="left">NUMBER</td><td>표준에 의해 정의된 Spatial Reference System의 ID이다.</td></tr><tr><td align="left">SRTEXT</td><td align="left">VARCHAR(2000)</td><td>Spatial Reference System의 Well-Known Text
+                  표현이다.</td></tr><tr><td align="left">PROJ4TEXT</td><td align="left">VARCHAR(2000)</td><td>좌표 변환을 위한 proj4 라이브러리의 좌표 정의 string 표현이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>참조</p>
+
+          <p><a href="chapter_02.html#sect_SPATIAL_REF_SYS" title="2.2.2. SPATIAL_REF_SYS">SPATIAL_REF_SYS</a></p>
+        </li></ul></div>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e485"/>2.2. 뷰</h2></div></div></div>
+    
+
+    <p>본 절에서는 Spatial Reference System의 메타데이터 테이블을 저장하는 테이블과 연결된 뷰에 대하여
+    설명한다.</p>
+
+    <p>다음은 관련 뷰 목록이다.<a id="d5e489" class="indexterm"/></p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="200" align="left"/><col/></colgroup><thead><tr><th align="left">뷰</th><th>설명</th></tr></thead><tbody><tr><td align="left"><a href="chapter_02.html#sect_ALL_GEOMETRY_COLUMNS" title="2.2.1. ALL_GEOMETRY_COLUMNS">ALL_GEOMETRY_COLUMNS</a></td><td>GEOMETRY_COLUMNS_BASE에 등록되어 있는 모든 GEOMETRY COLUMN의 메타데이터를
+            나열한다.</td></tr><tr><td align="left"><a href="chapter_02.html#sect_SPATIAL_REF_SYS" title="2.2.2. SPATIAL_REF_SYS">SPATIAL_REF_SYS</a></td><td>데이터베이스에서 사용된 Spatial Reference System 정보를 나열한다.</td></tr><tr><td align="left"><a href="chapter_02.html#sect_USER_GEOMETRY_COLUMNS" title="2.2.3. USER_GEOMETRY_COLUMNS">USER_GEOMETRY_COLUMNS</a></td><td>GEOMETRY_COLUMNS_BASE에 등록되어 있는 현재 사용자의 GEOMETRY COLUMN의
+            메타데이터를 나열한다.</td></tr></tbody></table>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_ALL_GEOMETRY_COLUMNS"/>2.2.1. ALL_GEOMETRY_COLUMNS<a id="d5e513" class="indexterm"/><a id="d5e515" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>ALL_GEOMETRY_COLUMNS는 데이터베이스의 모든 GEOMETRY COLUMN에 대한 메타 데이터를 나열하는
+      뷰이다. 본 뷰는 OGC 표준에 맞게 설정되었다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>컬럼</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col width="110" align="left"/><col/></colgroup><thead><tr><th align="left">컬럼</th><th align="left">데이터 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">F_TABLE_CATALOG</td><td align="left">VARCHAR(64)</td><td>GEOMETRY 컬럼이 속한 데이터베이스의 이름이다.</td></tr><tr><td align="left">F_TABLE_SCHEMA</td><td align="left">VARCHAR(128)</td><td>GEOMETRY 컬럼이 속한 TABLE의 소유자이다.</td></tr><tr><td align="left">F_TABLE_NAME</td><td align="left">VARCHAR(128)</td><td>GEOMETRY 컬럼이 속한 TABLE의 이름이다.</td></tr><tr><td align="left">F_GEOMETRY_COLUMN</td><td align="left">VARCHAR(128)</td><td>GEOMETRY 컬럼의 이름이다.</td></tr><tr><td align="left">STORAGE_TYPE</td><td align="left">VARCHAR(0)</td><td>항상 NULL이다.</td></tr><tr><td align="left">GEOMETRY_TYPE</td><td align="left">NUMBER</td><td>GEOMETRY 타입의 정수 표기법이다.</td></tr><tr><td align="left">TYPE</td><td align="left">VARCHAR (65532)</td><td>GEOMETRY 타입을 나타내는 문자열이다.</td></tr><tr><td align="left">COORD_DIMENSION</td><td align="left">NUMBER</td><td>GEOMETRY의 DIMENSION이다.</td></tr><tr><td align="left">MAX_PPR</td><td align="left">VARCHAR(0)</td><td>항상 NULL이다.</td></tr><tr><td align="left">SRID</td><td align="left">NUMBER</td><td>GEOMETRY의 Spatial Reference System ID이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>참조</p>
+
+          <p><a href="chapter_02.html#sect_USER_GEOMETRY_COLUMNS" title="2.2.3. USER_GEOMETRY_COLUMNS">USER_GEOMETRY_COLUMNS</a></p>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_SPATIAL_REF_SYS"/>2.2.2. SPATIAL_REF_SYS<a id="d5e579" class="indexterm"/><a id="d5e581" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>SPATIAL_REF_SYS는 데이터베이스에서 사용된 Spatial Reference System 정보를 나열하는
+      뷰이다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>컬럼</p>
+
+          <p>SPATIAL_REF_SYS_BASE 테이블에서 OWNER 컬럼을 제외한 컬럼들로 구성된다.</p>
+        </li><li>
+          <p>참조</p>
+
+          <p><a href="chapter_02.html#sect_SPATIAL_REF_SYS_BASE" title="2.1.1. SPATIAL_REF_SYS_BASE">SPATIAL_REF_SYS_BASE</a></p>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_USER_GEOMETRY_COLUMNS"/>2.2.3. USER_GEOMETRY_COLUMNS<a id="d5e596" class="indexterm"/><a id="d5e598" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>USER_GEOMETRY_COLUMNS은 현재 사용자가 소유한 모든 테이블의 GEOMETRY COLUMN을 나열하는
+      뷰이다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>컬럼</p>
+
+          <p>ALL_GEOMETRY_COLUMNS과 같다.</p>
+        </li><li>
+          <p>참조</p>
+
+          <p><a href="chapter_02.html#sect_ALL_GEOMETRY_COLUMNS" title="2.2.1. ALL_GEOMETRY_COLUMNS">ALL_GEOMETRY_COLUMNS</a></p>
+        </li></ul></div>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e611"/>2.3. 프러시저</h2></div></div></div>
+    
+
+    <p>본 절에서는 Spatial Reference System의 메타데이터 테이블을 관리하기 위한 프러시저를 사용하는 방법을
+    설명한다.</p>
+
+    <p>다음은 Spatial에서 제공하는 프러시저 목록이다.<a id="d5e615" class="indexterm"/></p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="200" align="left"/><col/></colgroup><thead><tr><th align="left">프러시저</th><th>설명</th></tr></thead><tbody><tr><td align="left"><a href="chapter_02.html#sect_REGISTER_SRS" title="2.3.1. REGISTER_SRS">REGISTER_SRS</a></td><td>SPATIAL_REF_SYS_BASE 테이블에 Spatial Reference System 메타데이터를
+            등록한다.</td></tr><tr><td align="left"><a href="chapter_02.html#sect_UNREGISTER_SRS" title="2.3.2. UNREGISTER_SRS">UNREGISTER_SRS</a></td><td>SPATIAL_REF_SYS_BASE 테이블에 등록한 Spatial Reference System
+            메타데이터를 삭제한다.</td></tr></tbody></table>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_REGISTER_SRS"/>2.3.1. REGISTER_SRS<a id="d5e635" class="indexterm"/><a id="d5e638" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>SPATIAL_REF_SYS_BASE 테이블에 Spatial Reference System 메타데이터를 등록하는
+      프러시저이다.</p>
+
+      <p>REGISTER_SRS 프러시저의 세부 내용은 다음과 같다.<a id="d5e642" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p><pre class="programlisting">EXEC REGISTER_SRS
+              (
+         SRID      IN INTEGER, 
+         AUTH_NAME IN VARCHAR2, 
+         AUTH_SRID IN INTEGER, 
+         SRTEXT    IN VARCHAR2,
+         PROJ4TEXT IN VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">SRID</td><td>Spatial Reference System의 데이터베이스 내에서의 ID이다.</td></tr><tr><td align="left">AUTH_NAME</td><td>Spatial Reference System에서 사용된 표준의 이름이다.</td></tr><tr><td align="left">AUTH_SRID</td><td>표준에 의해 정의된 Spatial Reference System의 ID이다.</td></tr><tr><td align="left">SRTEXT</td><td>Spatial Reference System의 Well-Known Text
+                  표현이다.</td></tr><tr><td align="left">PROJ4TEXT</td><td>좌표 변환을 위한 proj4 라이브러리의 좌표 정의 string 표현이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_UNREGISTER_SRS"/>2.3.2. UNREGISTER_SRS<a id="d5e675" class="indexterm"/><a id="d5e678" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>SPATIAL_REF_SYS_BASE 테이블에 등록한 Spatial Reference System 메타데이터를 삭제하는
+      프러시저이다.</p>
+
+      <p>UNREGISTER_SRS 프러시저의 세부 내용은 다음과 같다.<a id="d5e682" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p><pre class="programlisting">EXEC UNREGISTER_SRS
+(
+         AUTH_NAME IN VARCHAR2
+         AUTH_SRID IN INTEGER
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">AUTH_NAME</td><td>삭제할 Spatial Reference System에서 사용된 표준의 이름이다.</td></tr><tr><td align="left">AUTH_SRID</td><td>삭제할 Spatial Reference System에서 사용된 표준의 ID이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_01.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_03.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제1장 Spatial 소개 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제3장 공간 인덱스</td></tr></table></div><div xmlns="" align="center"/></body></html>

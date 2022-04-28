@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제10장 10000 ~ 10999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch09.html" title="제9장 9000 ~ 9999"/><link rel="next" href="ch11.html" title="제11장 11000 ~ 11999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제10장 10000 ~ 10999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch09.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch11.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e18435"/>제10장 10000 ~ 10999</h2></div></div></div>
+  
+
+  <h2><a id="d5e18437"/>10001: Cursor pool overflow.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The cursor pool is full.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the size of the pool.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18450"/>10003: Data is too long to be bound to the specified type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The amount of data exceeds the maximum allowed of the type to which it will be bound.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the length of the data.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18463"/>10004: Cannot use UNION command on these tables or views.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot perform the UNION operation for the given tables or views.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check that the numbers of columns are equal and that the types of each column are compatible.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18476"/>10005: NOT NULL constraint violation (\'%1$s\'.\'%2$s\'.\'%3$s\').</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to insert the NULL value into a column where the NOT NULL constraint is specified.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove the NOT NULL constraint, or insert a value that is not NULL.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18489"/>10006: CHECK constraint violation (\'%1$s\'.\'%2$s\').</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The inserted value(s) do(es) not satisfy the existing CHECK condition.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Insert a value that satisfies the CHECK condition.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18502"/>10007: UNIQUE constraint violation (\'%1$s\'.\'%2$s\').</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to insert a duplicate value into a column where the UNIQUE constraint is specified.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Cancel the UNIQUE constraint, or insert a unique value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18515"/>10008: INTEGRITY constraint violation (\'%1$s\'.\'%2$s\'): primary key not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A primary key does not exist for the foreign key.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the foreign key, or add a primary key.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18528"/>10009: INTEGRITY constraint violation (\'%1$s\'.\'%2$s\'): foreign key exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to delete a primary key that is referenced by a foreign key.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the foreign key first and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18541"/>10010: Statement does not satisfy the WHERE clause of the view.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The INSERT or UPDATE statement of the view does not satisfy the WHERE clause when the WITH CHECK OPTION is specified.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the DML statement to satisfy the WHERE condition clause of the view, or delete WITH CHECK OPTION of the view.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18554"/>10011: SORT_AREA_SIZE is too small to accommodate all active sort operators.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There are not enough allocated sort areas.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the value of SORT_AREA_SIZE.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18567"/>10012: Cannot pin more blocks.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot process all data because the buffer cache is not big enough.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the value of DB_CACHE_SIZE.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18580"/>10013: HASH_AREA_SIZE is too small to accommodate all active sort operators.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There are not enough allocated hash areas.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the value of HASH_AREA_SIZE.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18593"/>10014: Maximum LEVEL value exceeded during a CONNECT BY operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The LEVEL value of a node exceeded the maximum during a CONNECT BY operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18606"/>10015: Loop detected during a CONNECT BY operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A loop was detected during a CONNECT BY operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the CONNECT BY clause and data so that a loop does not occur.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18619"/>10016: Table mutation occurred during trigger execution.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Table mutation occurred during trigger execution.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the mutation.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18632"/>10017: Unable to open file \'%1$s\' in file scan mode.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified file could not be found.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the name and directory of the specified datafile.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18645"/>10018: Partition key does not map to a partition.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There is no defined partition to which the partition key is mapped.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the definition of the partition in the corresponding table.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18658"/>10019: Updating partition key column would cause a partition change.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Updating the partitioned table key will cause a partition change.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the definition of the partition in the corresponding table.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18671"/>10020: Specified row no longer exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified row does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the specified row is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18684"/>10021: Inconsistent set of rows in source tables.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Inconsistent DML result due to a non-deterministic WHERE condition.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the non-deterministic WHERE condition.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18697"/>10022: Empty pivot column must not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There is an empty pivot column.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the PIVOT_PICK_COL parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18710"/>10023: Invalid pivot aggregation alias.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred in the string pattern that determines a column name when performing a pivot operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check to see if a percent (%) character is missing in the string pattern.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18723"/>10024: Pivot column name must be unique for CASE or DECODE operations.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Results with the same pivot column name were selected when performing a CASE/DECODE operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the string pattern for the column names given to each set operation when performing a pivot operation.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18736"/>10025: Too many pivot column names generated after calculation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There are too many pivot column names created after calculation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Decrease the number of calculations.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18749"/>10026: The REFCUR table contains invalid number of columns.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of columns defined in the REFCUR table does not match the actual number.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the REFCUR table clause to match the actual number.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18762"/>10027: REFCUR table contains invalid column type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The data type of a column defined in the REFCUR table does not match the actual data type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the REFCUR table clause to match the actual data type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18775"/>10028: Number of columns specified in file \'%1$s\' and in data dictionary do not match.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of columns specified in the file does not match the number of columns in the data dictionary.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the number of columns of specified in the file.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18788"/>10029: Unable to read table (or index) with old snapshot.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unable to read a table or index with an old snapshot.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a snapshot from after the table or index was modified.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18801"/>10030: Invalid WKB geometry data.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The entered WKB data is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the WKB data.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18814"/>10031: Invalid geometric object type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid geometric object type was executed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check to see if the geometric object type is executable.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18827"/>10032: Index number is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The value of N is less than 1 or larger than the number of Points in LineString.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the N value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18840"/>10033: Invalid WKT geometry data.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The entered WKT data is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the WKT data.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18853"/>10034: Internal error: %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An internal error occurred.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the data.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18866"/>10035: Invalid pivot expression.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Too many pivot columns were created after the operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the query.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18879"/>10036: Invalid XML.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid type of XML was entered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the XML.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18892"/>10037: Invalid XQuery.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid XQuery.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the XQuery syntax.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18905"/>10038: Comparing multi-valued pivot columns is restricted.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Comparing multi-valued pivot columns is restricted.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check whether the pivot columns have multi values.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18918"/>10039: Invalid text query syntax.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid query syntax of the text.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the query syntax.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18931"/>10040: No more stop words can be inserted.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot add another stop word for the text.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the number of stop words.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18944"/>10041: The text index is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The text index is not available.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the text index status.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18957"/>10042: A multi valued result is not allowed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Multi valued results are not allowed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>There are multiple results for XPath in the XML.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18970"/>10043: Invalid XPath expression.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid XPath expression.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the XPath expression.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18983"/>10044: Invalid child value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid child value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the child value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e18996"/>10046: XML library error '%1$s'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred in an external XML library.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the error message.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19009"/>10047: XQuery type mismatch.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The return type of XQuery does not match the declared column type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Change the type of the column.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19022"/>10048: XPath does not point to a leaf node.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The given XPath does not indicate a leaf node.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify XPath to indicate a leaf node.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19035"/>10049: XPath does not point to a single node.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The given XPath has multiple nodes.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify XPath to have only one node.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19048"/>10050: Size of datatype is too small to serialize the XML document.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The size of the data type to serialize the XML document is too small.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the data type size.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19061"/>10051: Invalid XML namespace.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The format of the XML namespace is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check whether the format is 'xmlns:&lt;prefix&gt;=&lt;href&gt;'.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19074"/>10052: The XML document is too big for the DOM tree.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The XML document is too big for the DOM tree.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Decrease the size of the XML document.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19087"/>10053: It is impossible to bind two or more LOBs or LONG data together.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>It was attempted to bind two or more LOBs or LONG data through the database link.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the SQL and change it.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19100"/>10054: The table needs more tablets.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Add tablets to the table</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td> </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19113"/>10055: The table needs more tablets for bucketno \'%1$d\'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Add \'%1$d\' bucketno tablets to table.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td> </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19126"/>10062: Unable to access LONG or LOB columns through DBlink.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made use DBlink to refer to an object with LONG or LOB columns.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the query.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19139"/>10063: The cached remote table information does not match the actual remote table's information.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The remote table definition (number of columns, type, or length) has changed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19152"/>10064: Loop detected during %1$s operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A loop was detected during a %1$s operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the %1$s clause or data so that a loop does not occur.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19165"/>10065: There are too many Aggregate functions.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot be executed in parallel or in multiple passes.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Cannot be executed in parallel or in multiple passes. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19178"/>10066: Invalid TSN value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TSN value of the flashback query must be greater than 0.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a valid TSN value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19191"/>10067: The policy check constraint is violated.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The data to be added or updated does not satisfy the policy predicate.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19204"/>10068: The number of columns in the cached remote table does not match the number of columns in the remote table. (local: %1$d, remote: %2$d)</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of columns in the remote table has changed, or the number of columns in the REFCUR/PROC table has been incorrectly set.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Retry or modify the number of columns in the REFCUR/PROC table.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19217"/>10069: The column length of the cached remote table is shorter than the column length of the remote table. (column: %1$d, local: %2$d bytes, remote: %3$d bytes)</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The column length of the remote table has changed, or the column length of the RERCUR/PROC table has been incorrectly set.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Retry or modify the column length of the REFCUR/PROC table so that it is longer than or the same as the column length of the remote table.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19230"/>10070: The column type of the cached remote table does not match the column type of the remote table. (column: %1$d, local: %2$s, remote: %3$s)</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The column type of the remote table has changed, or the column type of the REFCUR/PROC table has been incorrectly set.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Retry or modify the column type in the REFCUR/PROC table.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19243"/>10071: Cannot assign a process to execute the global view.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>All processes are currently in use.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the number of processes or terminate another session.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19256"/>10072: Cannot assign a thread to execute the global view.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>All threads are currently in use.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the number of threads or terminate another session.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19269"/>10073: Response time for the global view exceeded threshold.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Global view search is taking a long time or there is a network problem.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the response time limit for the global view.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19282"/>10074: An error occurred while executing the '%1$s' function.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Check the definition of the object type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the definition of the object type and regenerate it.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19295"/>10075: Exceeds the reject limit.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Exceeds the reject limit.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the data or increase the reject limit.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19308"/>10076: Received a GV error reply(ec=%1$d) from session %2$d.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>One of GV sessions sent an error reply.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the error of the error-occurred session in the log file.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19321"/>10077: The pattern used with the LIKE operator is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The pattern used with the LIKE operator is too long.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the pattern used with the LIKE operator.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19334"/>10078: Partial multibyte character found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Character set conversion did not occur due to partial multibyte character or buffer overflow.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the data.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19347"/>10079: catsearch does not support functional invocation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>catsearch does not support functional invocation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the catsearch syntax.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19360"/>10080: DML rolled back due to index integrity.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The current DML was rolled back because it caused index integrity violation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the tracedump.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19373"/>10081: Communication between Tibero and storage server failed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Communication between Tibero and storage server failed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the information of storage server.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19386"/>10082: This function is not supported in current envrionment.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Contact the technical support team.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td> </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19399"/>10083: Cannot assign a process to execute the in-memory column store.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>All processes are currently in use.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the number of processes or terminate another session.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19412"/>10084: Cannot assign a thread to execute the in-memory column store.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>All threads are currently in use.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the number of threads or terminate another session.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19425"/>10085: Response time for the in-memory column store exceeded threshold.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>In-memory column store scan is taking a long time or there is a network problem.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the response time limit for the in-memory column store scan.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19438"/>10086: Received an in-memory column store error reply(ec=%1$d) from session %2$d.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>One of in-memory column store sessions sent an error reply.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the error of the error-occurred session in the log file.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e19451"/>10087: The status of a remote node has been changed while executing in-memory cloumn store scan.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The status of a remote node has been changed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the status of the remote node and execute the SQL statement again.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch09.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch11.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제9장 9000 ~ 9999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제11장 11000 ~ 11999</td></tr></table></div><div xmlns="" align="center"/></body></html>

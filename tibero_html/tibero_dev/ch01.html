@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제1장 데이터 타입의 사용</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 애플리케이션 개발자 안내서"/><link rel="up" href="index.html" title="Tibero 애플리케이션 개발자 안내서"/><link rel="prev" href="about.html" title="안내서에 대하여"/><link rel="next" href="ch02.html" title="제2장 tbJDBC의 사용"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제1장 데이터 타입의 사용</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="about.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch02.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e399"/>제1장 데이터 타입의 사용</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="ch01.html#d5e407">1.1. 개요</a></span></dt><dt><span class="section"><a href="ch01.html#d5e473">1.2. 문자형</a></span></dt><dt><span class="section"><a href="ch01.html#d5e590">1.3. 숫자형</a></span></dt><dt><span class="section"><a href="ch01.html#d5e625">1.4. 날짜형</a></span></dt><dt><span class="section"><a href="ch01.html#d5e710">1.5. 간격형</a></span></dt><dt><span class="section"><a href="ch01.html#d5e765">1.6. 바이너리</a></span></dt><dt><span class="section"><a href="ch01.html#d5e806">1.7. 내재형</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 각종 애플리케이션 라이브러리를 사용하기 앞서 <span>Tibero</span>가 기본적으로 제공하는
+  데이터 타입을 소개하고 사용하는 방법을 설명한다.</p>
+
+  <p/>
+
+  <div class="literallayout"><p/></div>
+
+  <p/>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e407"/>1.1. 개요<a id="d5e409" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">데이터 타입</strong></span>은 데이터베이스에 스키마 객체를 생성할 때 필요하며, 일반적인
+    클라이언트 프로그램에서도 모든 데이터 타입에 대응되는 변수를 사용할 수 있다.</p>
+
+    <p><span>Tibero</span>에서 제공하는 데이터 타입은 다음과 같다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="80" align="left"/><col width="210" align="left"/><col/></colgroup><thead><tr><th align="left">구분</th><th align="left">데이터 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">문자형<a id="d5e427" class="indexterm"/></td><td align="left">CHAR, VARCHAR, VARCHAR2, NCHAR, NVARCHAR, CLOB, NCLOB,
+            <span>LONG, XMLTYPE</span></td><td>문자열을 표현하는 데이터 타입이다.</td></tr><tr><td align="left">숫자형<a id="d5e434" class="indexterm"/></td><td align="left">NUMBER, BINARY_FLOAT, BINARY_DOUBLE</td><td>정수나 실수의 숫자를 저장하는 데이터 타입이다.</td></tr><tr><td align="left">날짜형<a id="d5e440" class="indexterm"/></td><td align="left"><p>DATE, TIME, TIMESTAMP,</p><p>TIMESTAMP WITH
+            TIME ZONE,</p><p>TIMESTAMP WITH LOCAL TIME
+            ZONE</p></td><td>시간이나 날짜를 저장하는 데이터 타입이다.</td></tr><tr><td align="left">간격형<a id="d5e449" class="indexterm"/></td><td align="left"><p>INTERVAL YEAR TO MONTH,</p><p>INTERVAL DAY TO
+            SECOND</p></td><td>시간 간격을 저장하는 데이터 타입이다.</td></tr><tr><td align="left">바이너리<a id="d5e457" class="indexterm"/></td><td align="left">RAW, BLOB<span>, LONG
+            RAW</span></td><td>바이너리 데이터를 저장하는 데이터 타입이다.</td></tr><tr><td align="left">내재형<a id="d5e464" class="indexterm"/></td><td align="left">ROWID</td><td>사용자가 명시적으로 선언하지 않아도 <span>Tibero</span>가 자동으로 삽입되는 로우마다 포함하는 컬럼의 타입이다.</td></tr></tbody></table>
+    </div>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>데이터 타입에 대한 자세한 내용은 "<span>Tibero</span> SQL 참조
+      안내서"를 참고한다.</p>
+    </div>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e473"/>1.2. 문자형</h2></div></div></div>
+    
+
+    <p>본 절에서는 문자열을 표현하는 데이터 타입에 대해서 설명한다.</p>
+
+    <p/>
+
+    <h3><a id="d5e477"/>CHAR<a id="d5e478" class="indexterm"/></h3>
+
+    <p>CHAR 타입은 일반 문자열을 저장하는 데이터 타입으로, 고정 길이 문자열이다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">CHAR[(size[BYTE|CHAR])]</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">size</td><td><p>size는 선택적으로 사용할 수 있다. (최댓값:
+            2,000bytes)</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>size를 입력한 경우 : size만큼의 고정 길이를 갖는다.</p>
+                </li><li style="list-style-type: circle">
+                  <p>size를 입력하지 않은 경우 : 기본값인 1byte의 고정 길이를 갖는다.</p>
+                </li></ul></div></td></tr></tbody></table>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e502"/>VARCHAR, VARCHAR2<a id="d5e503" class="indexterm"/><a id="d5e505" class="indexterm"/></h3>
+
+    <p>VARCHAR 또는 VARCHAR2 타입은 일반 문자열을 저장하는 데이터 타입으로, 가변 길이 문자열이다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">VARCHAR(size[BYTE|CHAR])
+VARCHAR2(size[BYTE|CHAR])</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">size</td><td>size에 정의된 만큼의 길이를 갖는다. (최댓값: 65,532bytes)</td></tr></tbody></table>
+    </div>
+
+    <p/>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e524"/>NCHAR<a id="d5e525" class="indexterm"/></h3>
+
+    <p>NCHAR 타입은 다국어 문자집합을 사용하는 문자열을 저장하는 데이터 타입으로, 고정 길이 문자열이다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">NCHAR(size)</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">size</td><td>size에 정의된 만큼의 고정 길이를 갖는다. (최댓값: 2,000bytes)</td></tr></tbody></table>
+    </div>
+
+    <p/>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e544"/>NVARCHAR<a id="d5e545" class="indexterm"/></h3>
+
+    <p>NVARCHAR 타입은 다국어 문자집합을 사용하는 문자열을 저장하는 데이터 타입으로, 가변 길이 문자열이다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">NVARCHAR(size)</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">size</td><td>size에 정의된 만큼의 길이를 갖는다. (최댓값: 65,532bytes)</td></tr></tbody></table>
+    </div>
+
+    <p/>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e564"/>CLOB<a id="d5e565" class="indexterm"/></h3>
+
+    <p>CLOB 타입은 읽을 수 있는 문자열을 데이터베이스에 저장하는 데이터 타입으로, 대용량 데이터를 저장한다. 대용량 데이터는
+    4GB까지 저장할 수 있다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">CLOB</pre>
+
+    <p/>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e573"/>NCLOB<a id="d5e574" class="indexterm"/></h3>
+
+    <p>NCLOB 타입은 읽을 수 있는 National Characterset 문자열을 데이터베이스에 저장하는 데이터 타입으로,
+    대용량 데이터를 저장한다. 대용량 데이터는 4GB까지 저장할 수 있다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">NCLOB</pre>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <p><span><h3><a id="d5e583"/>LONG<a id="d5e584" class="indexterm"/></h3></span></p>
+
+    <p>LONG 타입은 대용량 데이터를 저장하기 위한 데이터 타입이다. 단, Oracle과의 호환성을 위해서만 사용한다. 그
+    외에는 CLOB 타입을 사용할 것을 권장한다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">LONG</pre>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e590"/>1.3. 숫자형</h2></div></div></div>
+    
+
+    <p>본 절에는 정수나 실수의 숫자를 저장하는 데이터 타입에 대해서 설명한다.</p>
+
+    <p/>
+
+    <h3><a id="d5e594"/>NUMBER<a id="d5e595" class="indexterm"/></h3>
+
+    <p>NUMBER 타입은 정수 또는 실수를 저장하는 데이터 타입이다. 실제로 데이터베이스에 저장될 때는 숫자의 크기에 따라 가변
+    길이로 저장된다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">NUMBER[(precision[, scale])]</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">precision</td><td>정밀도이며, 유효숫자의 최대 자릿수를 설정한다.</td></tr><tr><td align="left">scale</td><td>스케일이며, 소수점 아래 가장 오른쪽 유효숫자까지의 자릿수를 설정한다.</td></tr></tbody></table>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e615"/>BINARY_FLOAT<a id="d5e616" class="indexterm"/></h3>
+
+    <p>BINARY_FLOAT 타입은 실수나 정수를 표현하고, 32비트로 저장하는 단일 정밀도 데이터 타입이다.</p>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e621"/>BINARY_DOUBLE<a id="d5e622" class="indexterm"/></h3>
+
+    <p>BINARY_DOUBLE 타입은 실수나 정수를 표현하고, 64비트로 저장하는 2배 정밀도 데이터 타입이다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e625"/>1.4. 날짜형</h2></div></div></div>
+    
+
+    <p>본 절에서는 시간이나 날짜를 저장하는 데이터 타입에 대해서 설명한다.</p>
+
+    <p/>
+
+    <h3><a id="d5e629"/>DATE<a id="d5e630" class="indexterm"/></h3>
+
+    <p>DATE 타입은 년, 월, 일의 날짜를 저장하는 데이터 타입이다. 실제로 데이터베이스에 저장될 때는 고정 길이로
+    저장된다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">DATE</pre>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e636"/>TIME<a id="d5e637" class="indexterm"/></h3>
+
+    <p>TIME 타입은 시, 분, 초의 시간을 저장하는 데이터 타입이다. 실제로 데이터베이스에 저장될 때는 고정 길이로
+    저장된다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">TIME</pre>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e643"/>TIMESTAMP<a id="d5e644" class="indexterm"/></h3>
+
+    <p>TIMESTAMP 타입은 DATE 타입을 확장한 것으로 시간까지 저장하는 데이터 타입이다. 실제로 데이터베이스에 저장될
+    때는 고정 길이로 저장된다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">TIMESTAMP[(fractional_seconds_precision)]</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">fractional_seconds_precision</td><td><p>소수점 초 단위 정밀도를 설정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>0부터 9까지 사용할 수 있다. (기본값: 6)</p>
+                </li></ul></div></td></tr></tbody></table>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e665"/>TIMESTAMP WITH TIME ZONE<a id="d5e666" class="indexterm"/></h3>
+
+    <p>TIMESTAMP WITH TIME ZONE 타입은 TIMESTAMP 타입을 확장한 것으로 주어진 시간을 UTC 시간대로
+    변경하고, 시간대 정보까지 저장하는 데이터 타입이다. 실제로 데이터베이스에 저장될 때는 고정 길이로 저장된다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">TIMESTAMP[(fractional_seconds_precision)] WITH TIME ZONE</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">fractional_seconds_precision</td><td><p>소수점 초 단위 정밀도를 설정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>0부터 9까지 사용할 수 있다. (기본값: 6)</p>
+                </li></ul></div></td></tr></tbody></table>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e687"/>TIMESTAMP WITH LOCAL TIME ZONE<a id="d5e688" class="indexterm"/></h3>
+
+    <p>TIMESTAMP WITH LOCAL TIME ZONE 타입은 TIMESTAMP WITH TIME ZONE 타입과
+    마찬가지로 UTC 시간대로 바꾸기는 하지만, 시간대 정보는 저장하지 않는 데이터 타입이다. 실제로 데이터베이스에 저장될 때는 고정
+    길이로 저장되고, TIMESTAMP 타입과 같은 길이를 가진다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">TIMESTAMP[(fractional_seconds_precision)] WITH LOCAL TIME ZONE</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">fractional_seconds_precision</td><td><p>소수점 초 단위 정밀도를 설정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>0부터 9까지 사용할 수 있다. (기본값: 6)</p>
+                </li></ul></div></td></tr></tbody></table>
+    </div>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e710"/>1.5. 간격형</h2></div></div></div>
+    
+
+    <p>본 절에서는 시간 간격을 저장하는 데이터 타입인 간격형에 대해서 설명한다.</p>
+
+    <p/>
+
+    <h3><a id="d5e714"/>INTERVAL YEAR TO MONTH<a id="d5e715" class="indexterm"/></h3>
+
+    <p>INTERVAL YEAR TO MONTH 타입은 년과 월의 차이를 저장하는 데이터 타입이다. 실제로 데이터베이스에 저장될
+    때는 고정 길이로 저장된다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">INTERVAL YEAR [(year_precision)] TO MONTH</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">year_precision</td><td><p>연단위 정밀도를 설정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>0부터 9까지 사용할 수 있다. (기본값: 2)</p>
+                </li><li style="list-style-type: circle">
+                  <p>연도의 자릿수를 제한할 수 있다.</p>
+                </li></ul></div></td></tr></tbody></table>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    
+
+    <h3><a id="d5e738"/>INTERVAL DAY TO SECOND<a id="d5e739" class="indexterm"/></h3>
+
+    <p>INTERVAL DAY TO SECOND 타입은 날짜와 시간의 차이를 저장하는 데이터 타입이다. 실제로 데이터베이스에
+    저장될 때는 고정 길이로 저장된다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">INTERVAL DAY [(day_precision)] TO SECOND [(fractional_seconds_precision)]</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">day_precision</td><td><p>일단위 정밀도를 설정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                  <p>0부터 9까지 사용할 수 있다. (기본값: 2)</p>
+                </li></ul></div></td></tr><tr><td align="left">fractional_seconds_precision</td><td>TIMESTMAP 타입에 정의된 옵션과 같다.</td></tr></tbody></table>
+    </div>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>이 타입은 day_precision 옵션과 fractional_seconds_precision 옵션을 사용하여 날짜의
+      자릿수, 초 이하의 자릿수를 제한할 수 있다.</p>
+    </div>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e765"/>1.6. 바이너리</h2></div></div></div>
+    
+
+    <p>본 절에서는 바이너리 데이터를 저장하는 데이터 타입에 대해서 설명한다.</p>
+
+    <p/>
+
+    <h3><a id="d5e770"/>RAW<a id="d5e771" class="indexterm"/></h3>
+
+    <p>RAW 타입은 가변 길이를 갖는 바이너리 데이터를 저장하는 데이터 타입이다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">RAW(size)</pre>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">size</td><td>size에 정의된 만큼의 길이를 갖는다. (최댓값: 2,000bytes)</td></tr></tbody></table>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <h3><a id="d5e788"/>BLOB<a id="d5e789" class="indexterm"/></h3>
+
+    <p>BLOB 타입은 대용량의 바이너리 데이터를 저장하는 데이터 타입이다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">BLOB </pre>
+
+    <p>대용량의 바이너리 데이터는 4GB까지 저장할 수 있다.</p>
+
+    <p/>
+
+    <div class="literallayout"><p/></div>
+
+    <p/>
+
+    <h3><a id="d5e798"/>LONG RAW<a id="d5e799" class="indexterm"/></h3>
+
+    <p/>
+
+    <p>LONG RAW 타입은 대용량의 바이너리 데이터를 저장하는 데이터 타입이다. 단, Oracle과의 호환성을 위해서만
+    사용한다. 그 외에는 BLOB 타입을 사용할 것을 권장한다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <pre class="programlisting">LONG RAW</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e806"/>1.7. 내재형</h2></div></div></div>
+    
+
+    <p>본 절에서는 사용자가 명시적으로 선언하지 않아도 Tibero가 자동으로 삽입되는 로우마다 포함하는 컬럼의 타입인 내재형에
+    대해서 설명한다.</p>
+
+    <p/>
+
+    <h3><a id="d5e811"/>ROWID<a id="d5e812" class="indexterm"/></h3>
+
+    <p>ROWID 타입은 데이터베이스 테이블의 컬럼 주소를 저장하는 데이터 타입이다. 실제로 데이터베이스에 저장될 때는 고정
+    길이로 저장된다.</p>
+
+    <p>사용 방법은 다음과 같다.</p>
+
+    <p/>
+
+    <pre class="programlisting">ROWID</pre>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="about.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch02.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">안내서에 대하여 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제2장 <span>tbJDBC</span>의 사용</td></tr></table></div><div xmlns="" align="center"/></body></html>

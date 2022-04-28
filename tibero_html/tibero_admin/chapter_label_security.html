@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제10장 Tibero Label Security</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 관리자 안내서"/><link rel="up" href="index.html" title="Tibero 관리자 안내서"/><link rel="prev" href="chapter_vpd.html" title="제9장 Virtual Private Database"/><link rel="next" href="chapter_backuprecovery.html" title="제11장 백업과 복구"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제10장 <span xmlns="http://www.w3.org/1999/xhtml">Tibero</span> Label Security</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_vpd.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_backuprecovery.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_label_security"/>제10장 <span>Tibero</span> Label Security</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_label_security.html#d5e7314">10.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_label_security.html#d5e7320">10.2. Label Security의 구성 요소</a></span></dt><dt><span class="section"><a href="chapter_label_security.html#d5e7349">10.3. 레이블에 대한 이해</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_label_security.html#d5e7352">10.3.1. 레이블 기반 보안 방식</a></span></dt><dt><span class="section"><a href="chapter_label_security.html#d5e7362">10.3.2. 레이블 구성 요소</a></span></dt><dt><span class="section"><a href="chapter_label_security.html#d5e7455">10.3.3. 레이블 구문 유형</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_label_security.html#d5e7555">10.4. 관리자 권한 작동 방식</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_label_security.html#d5e7558">10.4.1. 권한 부여 레벨</a></span></dt><dt><span class="section"><a href="chapter_label_security.html#d5e7581">10.4.2. 권한 부여 구획</a></span></dt><dt><span class="section"><a href="chapter_label_security.html#d5e7614">10.4.3. 권한 부여 그룹</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_label_security.html#d5e7651">10.5. Label Security 정책 생성</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_label_security.html#d5e7655">10.5.1. Label Security 정책 컨테이너 생성</a></span></dt><dt><span class="section"><a href="chapter_label_security.html#d5e7662">10.5.2. Label Security 정책에 대한 데이터 레이블 생성</a></span></dt><dt><span class="section"><a href="chapter_label_security.html#d5e7791">10.5.3. Label Security 정책에 대한 사용자 권한 부여</a></span></dt><dt><span class="section"><a href="chapter_label_security.html#d5e7897">10.5.4. 데이터베이스 테이블에 정책 적용</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>레이블을 통하여 </span>사용자의 접근을 제어하는 기능인
+  Label Security에 대해서 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e7314"/>10.1. 개요</h2></div></div></div>
+    
+
+    <p><span>Label Security는 특정 테이블의 열 및 사용자에게 할당 된
+    레이블을 이용하여 대상 테이블의 행에 대한 접근을 제어하는 기능이다.</span></p>
+
+    <p><span>기본적으로 </span>Label Security는 행 레이블과 사용자
+    레이블을 비교하여 사용자의 접근을 제어하는 방식으로 동작하며, 민감한 정보를 승인된 사용에게만 접근 가능하도록 설정할 수
+    있다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e7320"/>10.2. Label Security의 구성 요소</h2></div></div></div>
+    
+
+    <p>Label Security 기능을 사용하기 위해선 접근 제어 지표인 레이블과 접근 제어 관련 정보를 관리하는 정책이
+    필요하다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>레이블</p>
+
+        <p>레이블은 다음과 같은 조건을 만족해야 한다.</p>
+
+        <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">구분</th><th>설명</th></tr></thead><tbody><tr><td align="left">Level</td><td>데이터의 민감한 정도를 수직적으로 나타낸다. (예: 공개, 대외비, 기밀)</td></tr><tr><td align="left">Compartment</td><td>데이터의 구성을 수평적으로 나타낸다. 개별 프로젝트에 대한 접근을 제어하는 데 도움이 된다. (예:
+                알파, 베타, 감마)</td></tr><tr><td align="left">Group</td><td>데이터의 구성을 tree 형태로 나타낸다. 계층형 구조의 데이터에 대한 접근을 제어하는 데 도움이
+                된다. (예: 티맥스 – 티맥스데이터, 티맥스소프트)</td></tr></tbody></table>
+        </div>
+      </li><li>
+        <p>정책</p>
+
+        <p>접근 제어 관련 정보를 관리하는 메인 컨테이너이다.</p>
+      </li></ul></div>
+
+    <p>예를 들어 데이터의 민감도가 공개자료, 대외비, 기밀 3 단계의 level로 이루어져 있을 때 특정 사용자에게 대외비까지
+    접근할 수 있는 level이 부여되었다면 그 사용자가 기밀 데이터에 접근하는 것은 불가능하다.</p>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e7349"/>10.3. 레이블에 대한 이해</h2></div></div></div>
+    
+
+    <p>Label Security 기능을 사용하기 위해서는 레이블 기반 보안 방식에 및 레이블 구성 요소에 대한 이해가
+    필요하다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e7352"/>10.3.1. 레이블 기반 보안 방식</h3></div></div></div>
+      
+
+      <p>레이블은 크게 데이터 레이블과 사용자 레이블로 나누어 생각할 수 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>데이터 레이블</p>
+
+          <p>행 데이터의 민감한 정도와 특성을 나타내며, 사용자가 해당 행에 접근하기 위해 충족해야 하는 기준이
+          된다.</p>
+        </li><li>
+          <p>사용자 레이블</p>
+
+          <p>사용자의 민감한 정도와 레이블이 지정된 데이터에 대한 사용자의 접근을 제한하는 기준이 된다. 각 사용자에게는
+          레벨, 구획, 그룹의 범위가 할당되며 해당 범위 내의 레이블이 있는 데이터에 접근 가능하다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e7362"/>10.3.2. 레이블 구성 요소</h3></div></div></div>
+      
+
+      <p>레이블을 구성하는 요소는 레벨, 구획, 그룹으로 나뉜다. 해당 요소들을 적절하게 결합하여 레이블을 생성할 수
+      있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7367"/>레벨 구성 요소</h4>
+
+      <p>레벨은 레이블 정보의 민감도를 등급화 한 지표이다. 큰 레벨 값은 정보의 민감도가 높다는 것을 의미한다.</p>
+
+      <p>다음과 같이 레벨을 정의할 수 있다.</p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/><col/></colgroup><thead><tr><th align="left">숫자 형식</th><th>긴 형식</th><th>짧은 형식</th></tr></thead><tbody><tr><td align="left">30</td><td>기밀 (SECRET)</td><td>S</td></tr><tr><td align="left">20</td><td>대외비 (CONFIDENTIAL)</td><td>C</td></tr><tr><td align="left">10</td><td>공개 (PUBLIC)</td><td>P</td></tr></tbody></table>
+        </div>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7396"/>구획 구성 요소</h4>
+
+      <p>구획은 레이블이 지정된 데이터 정보의 민감도를 더 세분화하는 영역이다. 특정 프로젝트와 관련 있는 모든 데이터는 동일한
+      구획으로 레이블을 지정할 수 있다.</p>
+
+      <p>다음과 같이 구획을 정의할 수 있다.</p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/><col/></colgroup><thead><tr><th align="left">숫자 형식</th><th>긴 형식</th><th>짧은 형식</th></tr></thead><tbody><tr><td align="left">80</td><td>알파 (ALPHA)</td><td>A</td></tr><tr><td align="left">50</td><td>베타 (BETA)</td><td>B</td></tr><tr><td align="left">20</td><td>감마 (GAMMA)</td><td>G</td></tr></tbody></table>
+        </div>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7425"/>그룹 구성 요소</h4>
+
+      <p>그룹은 계층적 구조로 레이블이 지정된 데이터 정보의 민감도를 더 세분화하는 영역이다. 조직 구성을 기반으로 데이터에
+      레이블을 지정할 수 있으며, 특정 부서와 관련있는 모든 데이터는 레이블에 해당 부서의 그룹을 포함할 수 있다.</p>
+
+      <p>다음과 같이 그룹을 정의할 수 있다.</p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/><col/><col/></colgroup><thead><tr><th align="left">숫자 형식</th><th>긴 형식</th><th>짧은 형식</th><th>부모 그룹</th></tr></thead><tbody><tr><td align="left">1000</td><td>TMAX</td><td>T</td><td> </td></tr><tr><td align="left">1100</td><td>TMAX_DATA</td><td>T_DATA</td><td>T</td></tr><tr><td align="left">1200</td><td>TMAX_SOFT</td><td>T_SOFT</td><td>T</td></tr></tbody></table>
+        </div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e7455"/>10.3.3. 레이블 구문 유형</h3></div></div></div>
+      
+
+      <p>레이블 구성 요소를 정의한 후 특정 레벨, 구획, 그룹 집합을 결합하여 데이터 레이블을 생성할 수 있다.</p>
+
+      <p>다음과 같은 구문 형태로 레이블 문자열 표현이 가능하다.</p>
+
+      <pre class="programlisting">LEVEL:COMPARTMENT1,…,COMPARTMENTn:GROUP1,…,GROUPn</pre>
+
+      <p/>
+
+      <pre class="programlisting">SECRET:ALPHA,BETA:TMAX_DATA
+CONFIDENTIAL:GAMMA:TMAX
+PUBLIC
+SECRET::TMAX_SOFT</pre>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7466"/>레벨 구성 요소</h4>
+
+      <p>레벨은 레이블 정보의 민감도를 등급화한 지표이다. 큰 레벨 값은 정보의 민감도가 높다는 것을 의미한다.</p>
+
+      <p>다음과 같이 레벨을 정의할 수 있다.</p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/><col/></colgroup><thead><tr><th align="left">숫자 형식</th><th>긴 형식</th><th>짧은 형식</th></tr></thead><tbody><tr><td align="left">30</td><td>기밀 (SECRET)</td><td>S</td></tr><tr><td align="left">20</td><td>대외비 (CONFIDENTIAL)</td><td>C</td></tr><tr><td align="left">10</td><td>공개 (PUBLIC)</td><td>P</td></tr></tbody></table>
+        </div>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7495"/>구획 구성 요소</h4>
+
+      <p>구획은 레이블이 지정된 데이터 정보의 민감도를 더 세분화하는 영역이다. 특정 프로젝트와 관련 있는 모든 데이터는 동일한
+      구획으로 레이블을 지정할 수 있다.</p>
+
+      <p>다음과 같이 구획을 정의할 수 있다.</p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/><col/></colgroup><thead><tr><th align="left">숫자 형식</th><th>긴 형식</th><th>짧은 형식</th></tr></thead><tbody><tr><td align="left">80</td><td>알파 (ALPHA)</td><td>A</td></tr><tr><td align="left">50</td><td>베타 (BETA)</td><td>B</td></tr><tr><td align="left">20</td><td>감마 (GAMMA)</td><td>G</td></tr></tbody></table>
+        </div>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7524"/>그룹 구성 요소</h4>
+
+      <p/>
+
+      <p>그룹은 계층적 구조로 레이블이 지정된 데이터 정보의 민감도를 더 세분화하는 영역이다. 조직 구성을 기반으로 데이터에
+      레이블을 지정할 수 있으며, 특정 부서와 관련있는 모든 데이터는 레이블에 해당 부서의 그룹을 포함할 수 있다.</p>
+
+      <p>다음과 같이 그룹을 정의할 수 있다.</p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/><col/><col/></colgroup><thead><tr><th align="left">숫자 형식</th><th>긴 형식</th><th>짧은 형식</th><th>부모 그룹</th></tr></thead><tbody><tr><td align="left">1000</td><td>TMAX</td><td>T</td><td> </td></tr><tr><td align="left">1100</td><td>TMAX_DATA</td><td>T_DATA</td><td>T</td></tr><tr><td align="left">1200</td><td>TMAX_SOFT</td><td>T_SOFT</td><td>T</td></tr></tbody></table>
+        </div>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e7555"/>10.4. 관리자 권한 작동 방식</h2></div></div></div>
+    
+
+    <p>Label Security 관리자가 설정 한 권한에 따라 사용자의 접근을 제어한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e7558"/>10.4.1. 권한 부여 레벨</h3></div></div></div>
+      
+
+      <p>관리자는 사용자에게 Label Security 정책에 대한 레벨 권한을 명시적으로 설정할 수 있다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">권한 부여</th><th>설명</th></tr></thead><tbody><tr><td align="left">사용자 최대 레벨</td><td>사용자가 읽기/쓰기 작업 중 접근 가능한 최대 레벨</td></tr><tr><td align="left">사용자 최소 레벨</td><td>사용자가 쓰기 잡업 중 접근 가능한 최소 레벨(사용자 최대 레벨은 사용자 최소 레벨보다 크거나 같아야
+              한다.)</td></tr><tr><td align="left">사용자 기본 레벨</td><td>기본적으로 설정되는 레벨</td></tr><tr><td align="left">사용자 기본 행 레벨</td><td>데이터를 삽입할 때 기본적으로 사용되는 레벨</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e7581"/>10.4.2. 권한 부여 구획</h3></div></div></div>
+      
+
+      <p>관리자는 사용자가 접근할 수 있는 구획을 명시적으로 지정할 수 있다. 쓰기 권한이 없는 구획이 포함된 r행을 직접
+      삽입, 업데이트 또는 삭제할 수 없다.</p>
+
+      <p>다음은 사용자에게 지정한 구획에 대한 예이다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/><col/><col/><col/></colgroup><thead><tr><th align="left">짧은 이름</th><th>긴 이름</th><th>쓰기</th><th>기본</th><th>행</th></tr></thead><tbody><tr><td align="left">A</td><td>알파 (ALPHA)</td><td>YES</td><td>YES</td><td>YES</td></tr><tr><td align="left">B</td><td>베타(BETA)</td><td>YES</td><td>YES</td><td>NO</td></tr><tr><td align="left">C</td><td>감마(GAMMA)</td><td>YES</td><td>YES</td><td>NO</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e7614"/>10.4.3. 권한 부여 그룹</h3></div></div></div>
+      
+
+      <p>관리자는 사용자가 접근할 수 있는 그룹을 명시적으로 지정할 수 있다.</p>
+
+      <p>다음은 사용자에게 지정한 그룹에 대한 예이다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/><col/><col/><col/><col/></colgroup><thead><tr><th align="left">짧은 이름</th><th>긴 이름</th><th>쓰기</th><th>기본</th><th>행</th><th>부모</th></tr></thead><tbody><tr><td align="left">T</td><td>TMAX</td><td>YES</td><td>YES</td><td>YES</td><td> </td></tr><tr><td align="left">T_DATA</td><td>TMAX_DATA</td><td>YES</td><td>YES</td><td>NO</td><td>T</td></tr><tr><td align="left">T_SOFT</td><td>TMAX_SOFT</td><td>YES</td><td>YES</td><td>NO</td><td>T</td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e7651"/>10.5. Label Security 정책 생성</h2></div></div></div>
+    
+
+    <p>본 절에서는 Label Security의 정책을 생성하는 방법과 그 과정을 설명한다.</p>
+
+    <p/>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e7655"/>10.5.1. Label Security 정책 컨테이너 생성</h3></div></div></div>
+      
+
+      <p>Label Security 정책 컨테이너는 정책에 대한 메타 데이터를 저장한다. 이 컨테이너는 정책의 이름, 정책을
+      부여할 테이블에 추가되는 행의 이름, 정책에 대한 기본 옵션을 담고있다.</p>
+
+      <p>다음은 정책을 생성하는 구문에 대한 예이다.</p>
+
+      <pre class="programlisting">BEGIN
+  SA_SYSDBA.CREATE_POLICY (
+    policy_name =&gt; 'tls_pol',
+    column_name =&gt; 'lb_col',
+    default_options =&gt; 'read_control');
+  END;
+/</pre>
+
+      <p>Default option은 정책을 특정 테이블에 적용할 때, 테이블 옵션을 부여하지 않을 경우 설정되는 기본
+      옵션이다.</p>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e7662"/>10.5.2. Label Security 정책에 대한 데이터 레이블 생성</h3></div></div></div>
+      
+
+      <p>데이터 레이블은 테이블 행 의 민감도를 나타낸다. 데이터 레이블의 구성요소는 레벨, 구획, 그룹이 있다.</p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">레벨</td><td>등급에 따른 구분 (예: 기밀(SECRET), 대외비(CONFIDENTIAL),
+                공개(PUBLIC))</td></tr><tr><td align="left">구획</td><td>영역에 따른 구분 (예: 알파(ALPHA), 베타(BETA), 감마(GAMMA))</td></tr><tr><td align="left">그룹</td><td>계층에 따른 구분 (예: TMAX, TMAX_DATA, TMAX_SOFT)</td></tr></tbody></table>
+        </div>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7687"/>정책에 대한 레벨 생성</h4>
+
+      <p/>
+
+      <p>레벨은 등급에 따른 구분이다. 숫자카 클수록 높은 보안 등급을 의미한다.</p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/><col/></colgroup><thead><tr><th align="left">숫자 형식</th><th>긴 형식</th><th>짧은 형식</th></tr></thead><tbody><tr><td align="left">30</td><td>기밀 (SECRET)</td><td>S</td></tr><tr><td align="left">20</td><td>대외비 (CONFIDENTIAL)</td><td>C</td></tr><tr><td align="left">10</td><td>공개 (PUBLIC)</td><td>P</td></tr></tbody></table>
+        </div>
+
+      <p>다음은 정책에 대한 레벨을 생성하는 예이다.</p>
+
+      <pre class="programlisting">BEGIN 
+  SA_COMPONENTS.CREATE_LEVEL(
+    policy_name =&gt; 'tls_pol',
+    level_num   =&gt; 30,
+    short_name =&gt; 'S',
+    long_name   =&gt; 'SECRET'
+  );
+  SA_COMPONENTS.CREATE_LEVEL(
+    policy_name =&gt; 'tls_pol',
+    level_num   =&gt; 20,
+    short_name =&gt; 'C',
+    long_name   =&gt; 'CONFIDENTIAL'
+  );
+  SA_COMPONENTS.CREATE_LEVEL(
+    policy_name =&gt; 'tls_pol',
+    level_num   =&gt; 10,
+    short_name =&gt; 'P',
+    long_name   =&gt; 'PUBLIC'
+  );
+END;
+/</pre>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7718"/>정책에 대한 구획 생성</h4>
+
+      <p>구획은 영역에 따른 구분이다. 사용자는 자신이 속한 영역의 데이터를 읽을 수 있다.</p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/><col/></colgroup><thead><tr><th align="left">숫자 형식</th><th>긴 형식</th><th>짧은 형식</th></tr></thead><tbody><tr><td align="left">80</td><td>알파 (ALPHA)</td><td>A</td></tr><tr><td align="left">50</td><td>베타 (BETA)</td><td>B</td></tr><tr><td align="left">20</td><td>감마 (GAMMA)</td><td>G</td></tr></tbody></table>
+        </div>
+
+      <p>다음은 정책에 대한 구획을 생성하는 예이다.</p>
+
+      <pre class="programlisting">BEGIN
+  SA_COMPONENTS.CREATE_COMPARTMENT (
+    policy_name     =&gt; 'tls_pol',
+    comp_num      =&gt; '80',
+    short_name      =&gt; 'A',
+    long_name       =&gt; 'ALPHA’
+  );
+  SA_COMPONENTS.CREATE_COMPARTMENT (
+    policy_name     =&gt; 'tls_pol',
+    comp_num      =&gt; '50',
+    short_name      =&gt; 'B',
+    long_name       =&gt; 'BETA')
+  ;
+  SA_COMPONENTS.CREATE_COMPARTMENT (
+    policy_name     =&gt; 'tls_pol',
+    comp_num       =&gt; '20',
+    short_name      =&gt; 'G',
+    long_name       =&gt; 'GAMMA')
+  ;
+END;
+/</pre>
+
+      <div class="literallayout"><p/></div><h4><a id="d5e7746"/>정책에 대한 그룹
+      생성</h4>
+
+      <p/>
+
+      <p>그룹은 계층에 따른 구분이다. 사용자는 자신이 속한 조직의 데이터를 읽을 수 있다.</p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="140" align="left"/><col/><col/><col/></colgroup><thead><tr><th align="left">숫자 형식</th><th>긴 형식</th><th>짧은 형식</th><th>부모 그룹</th></tr></thead><tbody><tr><td align="left">1000</td><td>TMAX</td><td>T</td><td> </td></tr><tr><td align="left">1100</td><td>TMAX_DATA</td><td>T_DATA</td><td>T</td></tr><tr><td align="left">1200</td><td>TMAX_SOFT</td><td>T_SOFT</td><td>T</td></tr></tbody></table>
+        </div>
+
+      <p>다음은 정책에 대한 그룹을 생성하는 예이다.</p>
+
+      <pre class="programlisting">BEGIN
+  SA_COMPONENTS.CREATE_GROUP (
+    policy_name     =&gt; 'tls_pol',
+    group_num       =&gt; 1000,
+    short_name      =&gt; 'T’,
+    long_name       =&gt; 'TMAX')
+  ;
+  SA_COMPONENTS.CREATE_GROUP (
+    policy_name     =&gt; 'tls_pol',
+    group_num       =&gt; 1100,
+    short_name      =&gt; 'T_DATA',
+    long_name       =&gt; 'TMAX_DATA’,
+    parent_name     =&gt; 'T')
+  ;
+  SA_COMPONENTS.CREATE_GROUP (
+    policy_name     =&gt; 'tls_pol',
+    group_num       =&gt; 1200,
+    short_name      =&gt; 'T_SOFT',
+    long_name       =&gt; 'TMAX_SOFT',
+    parent_name      =&gt; 'T')
+  ;
+END;
+/</pre>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7781"/>데이터 레이블 생성</h4>
+
+      <p/>
+
+      <p>SA_LABEL_ADMIN.CREATE_LABEL을 통해 데이터 레이블을 생성할 수 있다.</p>
+
+      <p>다음은 데이터 레이블을 생성하는 예이다.</p>
+
+      <pre class="programlisting">BEGIN
+  SA_LABEL_ADMIN.CREATE_LABEL(
+    policy_name =&gt; 'tls_pol',
+    label_tag   =&gt; 300000,
+    label_value =&gt; 'S',
+    data_label  =&gt; TRUE
+);
+  SA_LABEL_ADMIN.CREATE_LABEL(
+    policy_name =&gt; 'tls_pol',
+    label_tag   =&gt; 200000,
+    label_value =&gt; 'C',
+    data_label  =&gt; TRUE
+);
+  SA_LABEL_ADMIN.CREATE_LABEL(
+    policy_name =&gt; 'tls_pol',
+    label_tag   =&gt; 100000,
+    label_value =&gt; 'P',
+    data_label  =&gt; TRUE
+);
+END;
+/</pre>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+          <p>모든 정책에 대해 레이블 테그(label_tag)는 유일해야 하며, 같은 정책 내에서 같은 레이블
+          값(label_value)에 서로 다른 레이블 테그를 설정하는 것은 불가능하다. 하지만 다른 정책에 대해서는 레이블 값이
+          동일 하더라도 서로 다른 레이블 테그를 설정할 수 있다.</p>
+        </div>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e7791"/>10.5.3. Label Security 정책에 대한 사용자 권한 부여</h3></div></div></div>
+      
+
+      <p>사용자 레이블은 SA_USER_ADMIN.SET_LEVELS, SA_USER_ADMIN.SET_COMPARTMENTS,
+      SA_USER_ADMIN.SET_GROUPS 프러시저를 통해 부여할 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7796"/>정책에 대한 사용자 레벨 부여</h4>
+
+      <p>레벨은 SA_USER_ADMIN.SET_LEVELS 프러시저를 통해 부여할 수 있다.</p>
+
+      <p>다음은 정책에 대한 사용자 레벨을 부여하는 예이다.</p>
+
+      <pre class="programlisting">BEGIN
+  SA_USER_ADMIN.SET_LEVELS(
+    policy_name =&gt; 'tls_pol',
+    user_name   =&gt; 'tibero',
+    max_level   =&gt; 'S',
+    min_level   =&gt; 'C',
+    def_level   =&gt; 'C',
+    row_level   =&gt; 'C')
+  ;
+END;
+/</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">매개 변수</th><th>설명</th></tr></thead><tbody><tr><td align="left">policy_name</td><td>정책 이름</td></tr><tr><td align="left">user_name</td><td>정책이 적용될 사용자 이름</td></tr><tr><td align="left">max_level</td><td>사용자가 읽기/쓰기 작업 중 접근 가능한 최대 레벨</td></tr><tr><td align="left">min_level</td><td>사용자가 쓰기 잡업 중 접근 가능한 최소 레벨(사용자 최대 레벨은 사용자 최소 레벨보다 크거나 같아야
+              한다.)</td></tr><tr><td align="left">def_level</td><td>기본적으로 설정되는 레벨</td></tr><tr><td align="left">row_level</td><td>데이터를 삽입할 때 기본적으로 사용되는 레벨</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7830"/>정책에 대한 사용자 구획 부여</h4>
+
+      <p>레벨을 설정한 후 선택적으로 구획을 사용자에게 부여할 수 있다. SA_USER_ADMIN.SET_COMPARTMENTS
+      프러시저를 통해 부여할 수 있다.</p>
+
+      <p>다음은 정책에 대한 사용자 구획을 부여하는 예이다.</p>
+
+      <pre class="programlisting">BEGIN
+  SA_USER_ADMIN.SET_COMPARTMENTS (
+    policy_name   =&gt; 'tls_pol',
+    user_name     =&gt; 'tibero', 
+    read_comps    =&gt; 'A, B, G',
+    write_comps   =&gt; 'A, B',
+    def_comps     =&gt; 'A, B',
+    row_comps     =&gt; 'A, B')
+  ;
+END;
+/</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">매개 변수</th><th>설명</th></tr></thead><tbody><tr><td align="left">policy_name</td><td>정책 이름</td></tr><tr><td align="left">user_name</td><td>정책이 적용될 사용자 이름</td></tr><tr><td align="left">read_comps</td><td>읽기 가능한 구획</td></tr><tr><td align="left">write_comps</td><td>쓰기 가능한 구획</td></tr><tr><td align="left">def_comps</td><td>기본적으로 설정되는 구획</td></tr><tr><td align="left">row_comps</td><td>데이터를 삽입할 때 기본적으로 사용되는 구획</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e7864"/>정책에 대한 사용자 그룹 부여</h4>
+
+      <p>레벨을 설정한 후 선택적으로 그룹을 사용자에게 부여할 수 있다. SA_USER_ADMIN.SET_GROUPS 프러시저를
+      통해 부여할 수 있다.</p>
+
+      <p>다음은 정책에 대한 사용자 그룹을 부여하는 예이다.</p>
+
+      <pre class="programlisting">BEGIN 
+  SA_USER_ADMIN.SET_GROUPS (
+    policy_name    =&gt; 'tls_pol',
+    user_name      =&gt; 'tibero', 
+    read_groups    =&gt; 'T',
+    write_groups   =&gt; 'T',
+    def_groups     =&gt; 'T',
+    row_groups     =&gt; 'T')
+  ;
+END;
+/</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">매개 변수</th><th>설명</th></tr></thead><tbody><tr><td align="left">policy_name</td><td>정책 이름</td></tr><tr><td align="left">user_name</td><td>정책이 적용될 사용자 이름</td></tr><tr><td align="left">read_groups</td><td>읽기 가능한 그룹</td></tr><tr><td align="left">write_groups</td><td>쓰기 가능한 그룹</td></tr><tr><td align="left">def_groups</td><td>기본적으로 설정되는 그룹</td></tr><tr><td align="left">row_groups</td><td>데이터를 삽입할 때 기본적으로 사용되는 그룹</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e7897"/>10.5.4. 데이터베이스 테이블에 정책 적용</h3></div></div></div>
+      
+
+      <p>테이블에 대한 정책 적용은 SP_POLICY_ADMIN.APPLY_TABLE_POLICY 프러시저를 통해 할 수
+      있다.</p>
+
+      <p>다음은 데이터베이스 테이블에 정책을 적용하는 예이다.</p>
+
+      <pre class="programlisting">BEGIN
+  SA_POLICY_ADMIN.APPLY_TABLE_POLICY(
+    policy_name       =&gt; 'tls_pol',
+    schema_name       =&gt; 'tibero',
+    table_name        =&gt; 'test_table',
+    table_options     =&gt;‘read_control’)
+  ;
+END;
+/</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">매개 변수</th><th>설명</th></tr></thead><tbody><tr><td align="left">policy_name</td><td>정책 이름</td></tr><tr><td align="left">schema_name</td><td>스키마 이름</td></tr><tr><td align="left">table_name</td><td>정책이 적용될 테이블 이름</td></tr><tr><td align="left">table_options</td><td>정책 시행 옵션</td></tr><tr><td align="left">label_function</td><td>Label 함수의 문자열</td></tr><tr><td align="left">predicate</td><td>Read control과 함께 쓰이는 조건</td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_vpd.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_backuprecovery.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제9장 Virtual Private Database </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제11장 백업과 복구</td></tr></table></div><div xmlns="" align="center"/></body></html>
