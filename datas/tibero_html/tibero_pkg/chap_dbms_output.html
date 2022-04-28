@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제24장 DBMS_OUTPUT</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_obfuscation.html" title="제23장 DBMS_OBFUSCATION_TOOLKIT"/><link rel="next" href="chap_dbms_pipe.html" title="제25장 DBMS_PIPE"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제24장 DBMS_OUTPUT</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_obfuscation.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_pipe.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_output"/>제24장 DBMS_OUTPUT</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_output.html#d5e9445">24.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_output.html#d5e9464">24.2. 프러시저</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_output.html#DBMS_OUTPUT_DISABLE">24.2.1. DISABLE</a></span></dt><dt><span class="section"><a href="chap_dbms_output.html#DBMS_OUTPUT_ENABLE">24.2.2. ENABLE</a></span></dt><dt><span class="section"><a href="chap_dbms_output.html#DBMS_OUTPUT_GET_LINE">24.2.3. GET_LINE, GET_LINES</a></span></dt><dt><span class="section"><a href="chap_dbms_output.html#DBMS_OUTPUT_NEW_LINE">24.2.4. NEW_LINE</a></span></dt><dt><span class="section"><a href="chap_dbms_output.html#DBMS_OUTPUT_PUT">24.2.5. PUT, PUT_LINE</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_OUTPUT 패키지의 기본 개념과 패키지 내의 프러시저를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e9445"/>24.1. 개요<a id="d5e9447" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_OUTPUT</strong></span>은 메시지를 버퍼에 저장하고 버퍼로부터 메시지를 읽어오기 위한
+    인터페이스를 제공하는 패키지이다. 하나의 프러시저, 함수, 트리거 등에 의해 저장된 메시지는 다른 프러시저, 함수, 트리거 등에서
+    읽어올 수 있다.</p>
+
+    <p>DBMS_OUTPUT 패키지 내의 ENABLE 프러시저를 실행하여 메시지를 주고받기 위한 버퍼를 지정된 크기로 할당한다.
+    만약 메시지를 지정된 버퍼 크기 이상으로 저장하려고 하면 예외 상황이 발생한다.</p>
+
+    <p>할당된 버퍼는 DISABLE 프러시저를 실행하여 제거할 수 있으며, 다시 ENABLE 프러시저를 실행하기 전에는
+    GET_LINE 및 GET_LINES 또는 PUT 및 PUT_LINE, NEW_LINE 프러시저를 호출해도 무시된다. 버퍼 내의
+    메시지는 여러 라인으로 구성되어 있으며, 라인마다 라인 끝(End of Line, 이하 EOL) 문자로 끝난다.</p>
+
+    <p>PUT_LINE 프러시저를 통해 버퍼에 저장된 메시지는 GET_LINE이나 GET_LINES 프러시저를 실행하여 읽어올 수
+    있다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 DBMS_OUTPUT 패키지 내에 정의된 타입이다.<a id="d5e9457" class="indexterm"/></p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>CHARARR</p>
+
+        <p>메시지 버퍼에서 읽어온 내용을 저장하기 위한 공간이다.</p>
+
+        <pre class="programlisting">TYPE CHARARR IS TABLE OF VARCHAR2(32767)</pre>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e9464"/>24.2. 프러시저</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_OUTPUT 패키지에서 제공하는 프러시저를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_OUTPUT_DISABLE"/>24.2.1. DISABLE<a id="d5e9469" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>할당된 메시지 버퍼를 제거하고, DBMS_OUTPUT 패키지 내의 다른 프러시저를 사용할 수 없게 하는 프러시저이다.
+      이 프로서지를 실행하면 메시지 버퍼에 남아있는 모든 메시지가 함께 제거된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      
+
+      <p>DISABLE 프러시저의 세부 내용은 다음과 같다.<a id="d5e9475" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_OUTPUT.DISABLE;</pre>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    DBMS_OUTPUT.PUT_LINE('Before DISABLE');
+    DBMS_OUTPUT.DISABLE;
+    DBMS_OUTPUT.PUT_LINE('After DISABLE');
+END;
+/
+
+PSM completed
+SQL&gt; </pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_OUTPUT_ENABLE"/>24.2.2. ENABLE<a id="d5e9486" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>지정된 크기의 메시지 버퍼를 할당하고 DBMS_OUTPUT 패키지 내의 다른 프러시저를 사용할 수 있게 하는
+      프러시저이다. 이 프러시저를 여러 번 호출하면 가장 크게 지정한 크기로 메시지 버퍼를 할당한다. 이때 메시지 버퍼의 크기는 최소
+      2KB, 최대 1MB이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>ENABLE 프러시저의 세부 내용은 다음과 같다.<a id="d5e9492" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_OUTPUT.ENABLE 
+(
+    buffer_size     IN          INTEGER     DEFAULT 20000
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">buffer_size</td><td>할당할 메시지 버퍼의 크기이다. (단위: Byte)</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    DBMS_OUTPUT.DISABLE;
+    DBMS_OUTPUT.PUT_LINE('Before ENABLE');
+    DBMS_OUTPUT.ENABLE(32768);
+    DBMS_OUTPUT.PUT_LINE('After ENABLE');
+END;
+/
+After ENABLE
+
+PSM completed
+SQL&gt; </pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_OUTPUT_GET_LINE"/>24.2.3. GET_LINE, GET_LINES<a id="d5e9516" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>메시지 버퍼로부터 라인 단위로 메시지를 읽어오는 프러시저이다. 이 프러시저는 라인 단위로 메시지를 읽으며, 하나의
+      라인을 형성하지 않은 메시지는 읽지 않는다.</p>
+
+      <p>GET_LINE 또는 GET_LINES 프러시저를 호출한 후에 PUT 또는 PUT_LINE 프러시저를 호출하면,
+      현재까지 메시지 버퍼에 남아 있던 메시지는 모두 제거된다.</p>
+
+      <p>한 라인의 메시지는 최대 255bytes의 크기를 가지므로, 출력 파라미터의 크기를 충분하게 설정해야
+      한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>GET_LINE, GET_LINES 프러시저의 세부 내용은 다음과 같다.<a id="d5e9524" class="indexterm"/><a id="d5e9526" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>GET_LINE</p>
+
+              <p>GET_LINE 프러시저는 한 번 호출될 때마다 하나의 라인만을 읽어온다.</p>
+
+              <pre class="programlisting">DBMS_OUTPUT.GET_LINE 
+(
+    line            OUT         VARCHAR, 
+    status          OUT         INTEGER
+);</pre>
+            </li><li>
+              <p>GET_LINES</p>
+
+              <p>GET_LINE 프러시저는 지정된 수만큼, 한 번에 여러 라인의 메시지를 읽어온다. 이때 메시지
+              버퍼로부터 실제로 읽어온 메시지 라인의 수를 반환한다. 만약 메시지 버퍼 내에 충분한 수의 메시지 라인이 없어서
+              지정된 수만큼의 메시지 라인을 가져오지 못하면, 가져온 메시지 라인의 수만큼만 저장된다.</p>
+
+              <pre class="programlisting">DBMS_OUTPUT.GET_LINES 
+(
+    lines           OUT         CHARARR, 
+    numlines       IN OUT      INTEGER
+);</pre>
+            </li></ul></div>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">line, lines</td><td>메시지 버퍼로부터 읽어 온 한 라인 또는 여러 라인의 메시지이다.</td></tr><tr><td align="left">status</td><td><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>메시지를 성공적으로 읽어 온 경우에는 0을 반환한다.</p>
+                      </li><li>
+                        <p>메시지를 성공적으로 읽어 오지 못한 경우에는 1을 반환한다.</p>
+                      </li></ul></div></td></tr><tr><td align="left">numlines</td><td>읽어 올 메시지 라인의 수를 입력하고, 실제로 읽어 온 메시지 라인의 수를
+                  출력한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>GET_LINE</p>
+
+              <pre class="programlisting">DECLARE
+    message VARCHAR(1024);
+    status INTEGER;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('A poet is the painter of the soul');
+    DBMS_OUTPUT.PUT_LINE('Faith without deeds is useless');
+    DBMS_OUTPUT.PUT_LINE('Forgiveness is better than revenge');
+    DBMS_OUTPUT.GET_LINE(message, status);
+    DBMS_OUTPUT.PUT_LINE(message);
+END;
+/
+A poet is the painter of the soul
+
+PSM completed
+SQL&gt; </pre>
+            </li></ul></div>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>GET_LINES</p>
+
+              <pre class="programlisting">DECLARE
+    message_arr DBMS_OUTPUT.CHARARR;
+    num_lines INTEGER := 4;
+BEGIN
+    DBMS_OUTPUT.PUT('A poet is ');
+    DBMS_OUTPUT.PUT('the painter of the soul');
+    DBMS_OUTPUT.NEW_LINE;
+    DBMS_OUTPUT.PUT_LINE('Faith without deeds is useless');
+    DBMS_OUTPUT.PUT_LINE('Forgiveness is better than revenge');
+    DBMS_OUTPUT.GET_LINES(message_arr, num_lines);
+    DBMS_OUTPUT.PUT_LINE(message_arr(2));
+END;
+/
+Faith without deeds is useless
+
+PSM completed
+SQL&gt; </pre>
+            </li></ul></div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_OUTPUT_NEW_LINE"/>24.2.4. NEW_LINE<a id="d5e9576" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>메시지 버퍼에 EOL 문자를 저장하는 프러시저이다.</p>
+
+      <p>PUT 프러시저로 메시지를 저장한 경우 EOL 문자가 없으므로 라인 단위로 메시지를 읽는 GET_LINE,
+      GET_LINES 프러시저로 문자열을 읽어 올 수 없다. 단, NEW_LINE 프러시저를 사용하면 GET_LINE,
+      GET_LINES 프러시저로 문자열을 읽어 올 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>NEW_LINE 프러시저의 세부 내용은 다음과 같다.<a id="d5e9583" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_OUTPUT.NEW_LINE;</pre>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    DBMS_OUTPUT.PUT_LINE('The will of a man is his happiness');
+    DBMS_OUTPUT.NEW_LINE;
+    DBMS_OUTPUT.PUT_LINE('Love your neighbor as yourself');
+END;
+/
+The will of a man is his happiness
+
+Love your neighbor as yourself
+
+PSM completed
+SQL&gt; </pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_OUTPUT_PUT"/>24.2.5. PUT, PUT_LINE<a id="d5e9594" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>메시지 버퍼에 메시지를 저장하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>PUT, PUT_LINE 프러시저의 세부 내용은 다음과 같다.<a id="d5e9600" class="indexterm"/><a id="d5e9602" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>PUT</p>
+
+              <p>PUT 프러시저는 하나의 라인을 여러 번에 걸쳐 저장할 수 있다. 버퍼에 저장되는 메시지의 마지막 라인
+              끝에 EOL 문자가 첨부되지 않는다.</p>
+
+              <pre class="programlisting">DBMS_OUTPUT.PUT
+(
+    data IN NUMBER
+);</pre>
+
+              <pre class="programlisting">DBMS_OUTPUT.PUT
+(
+   data IN VARCHAR
+);</pre>
+            </li><li>
+              <p>PUT_LINE</p>
+
+              <p>PUT_LINE 프러시저는 PUT 프러시저와는 반대로 버퍼에 저장되는 메시지의 마지막 라인 끝에 EOL
+              문자를 첨부한다. 만약 EOL 문자만을 저장하려면 NEW_LINE 프러시저를 호출한다.</p>
+
+              <pre class="programlisting">DBMS_OUTPUT.PUT_LINE
+(
+   data IN NUMBER
+);</pre>
+
+              <pre class="programlisting">DBMS_OUTPUT.PUT_LINE
+(
+   data IN VARCHAR
+);</pre>
+            </li></ul></div>
+        </li><li>
+          <p>파라미터</p>
+
+          <p>입력 값으로 주어진 파라미터의 데이터 타입은 NUMBER, VARCHAR, DATE 세 가지이며, 메시지로
+          저장되기 전에 항상 VARCHAR 타입으로 변환된다. NUMBER와 DATE 타입의 데이터는 TO_CHAR 함수를 적용하여
+          반환된 결과로 저장된다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">data</td><td>메시지 버퍼에 저장할 메시지 데이터이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">BUF_OVERFLOW</td><td>메시지 버퍼의 최댓값을 초과한 경우이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_obfuscation.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_pipe.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제23장 DBMS_OBFUSCATION_TOOLKIT </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제25장 DBMS_PIPE</td></tr></table></div><div xmlns="" align="center"/></body></html>

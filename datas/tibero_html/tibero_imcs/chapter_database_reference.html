@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제4장 In-Memory DataBase Reference</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero IMCS 안내서"/><link rel="up" href="index.html" title="Tibero IMCS 안내서"/><link rel="prev" href="chapter_imcs_tac.html" title="제3장 In-Memory Column Store의 고가용성"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제4장 In-Memory DataBase Reference</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_imcs_tac.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> </td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_database_reference"/>제4장 In-Memory DataBase Reference</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_database_reference.html#d5e674">4.1. In-Memory Initialization Parameters</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_database_reference.html#d5e676">4.1.1. INMEMORY_SIZE</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_database_reference.html#d5e681">4.2. In-Memory Dynamic Performance Views</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_database_reference.html#d5e683">4.2.1. V$IM_COLUMN_LEVEL</a></span></dt><dt><span class="section"><a href="chapter_database_reference.html#d5e715">4.2.2. V$IM_SEGMENTS</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 In-Memory Column Store 관련 Initialization Parameter 와 Dynamic
+  Performance View 들에 대해 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e674"/>4.1. In-Memory Initialization Parameters</h2></div></div></div>
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e676"/>4.1.1. INMEMORY_SIZE</h3></div></div></div>
+      
+
+      <p>INMEMORY_SIZE는 인스턴스에 할당할 In-Memory Column Store의 크기를 지정하는 파라미터이다.
+      기본값은 0이며, 이 경우 In-Memory Column Store를 위한 메모리 공간을 따로 할당하지 않는다.</p>
+
+      <p>INMEMORY_SIZE로 지정가능한 최소값은 100MB이며 DB 운영 중에 파라미터 값을 동적으로 변경할 수 없다.
+      TAC를 사용하는 경우, 모든 TAC 인스턴스가 동일한 INMEMORY_SIZE 파라미터 값을 가져야하는 제약이
+      있다.</p>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e681"/>4.2. In-Memory Dynamic Performance Views</h2></div></div></div>
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e683"/>4.2.1. V$IM_COLUMN_LEVEL</h3></div></div></div>
+      
+
+      <p>Column별 In-Memory Compression 옵션과 No inmemory 여부를 확인 할 수 있는
+      View이다. TAC 환경에서도 node 별로 다른 정보가 없기에 GV$IM_COLUMN_LEVEL은 없다.</p>
+
+      <div class="informaltable"><a id="table_catsearch_syntax"/>
+        <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">OWNER</td><td>테이블의 Owner 이름이다.</td></tr><tr><td align="left">OBJ_NUM</td><td>테이블의 오브젝트 ID이다.</td></tr><tr><td align="left">TABLE_NAME</td><td>테이블 이름이다.</td></tr><tr><td align="left">SEGMENT_COLUMN_ID</td><td>Column의 Segment Column Number이다.</td></tr><tr><td align="left">COLUMN_NAME</td><td>Column 이름이다.</td></tr><tr><td align="left">INMEMORY_COMPRESSION</td><td>Column에 적용된 In-Memory Compression 옵션이다. No inmemory 여부를
+              포함한다.</td></tr><tr><td align="left">CON_ID</td><td>데이터가 속해 있는 container의 ID이다.</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e715"/>4.2.2. V$IM_SEGMENTS</h3></div></div></div>
+      
+
+      <p>In-Memory Area에 존재하는 세그먼트의 정보를 조회할 수 있는 View이다. V$IM_SEGMENTS 뷰를
+      통해 populate된 세그먼트에 대한 정보를 확인할 수 있다.</p>
+
+      <div class="informaltable"><a id="table_catsearch_syntax"/>
+        <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">OWNER</td><td>Segment의 Owner 이름이다.</td></tr><tr><td align="left">SEGMENT_NAME</td><td>Segment의 이름이다.</td></tr><tr><td align="left">PARTITION_NAME</td><td>해당 Segment가 속하는 Partition 이름이다. Non-Partitioned라면 NULL
+              이다.</td></tr><tr><td align="left">SEGMENT_TYPE</td><td><p>Segment의 타입이다. </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>Table</p>
+                  </li><li style="list-style-type: circle">
+                    <p>Table Partition</p>
+                  </li><li style="list-style-type: circle">
+                    <p>Table Subpartition</p>
+                  </li></ul></div></td></tr><tr><td align="left">TABLESPACE_NAME</td><td>Segment가 속한 테이블 스페이스의 이름이다.</td></tr><tr><td align="left">INMEMORY_SIZE</td><td>Segment가 In-Memory Area에서 차지하고 있는 공간의 크기이다. (단위: Byte)
+              </td></tr><tr><td align="left">BYTES</td><td>Segment의 총 크기이다. (단위: Byte) </td></tr><tr><td align="left">BYTES_NOT_POPULATED</td><td>Segment의 데이터 중 In-Memory Area에 적재되지 않은 부분의 크기이다. (단위:
+              Byte) </td></tr><tr><td align="left">POPULATE_STATUS</td><td><p>Segment의 population의 상태이다.
+              </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>STARTED</p>
+                  </li><li style="list-style-type: circle">
+                    <p>COMPLETED</p>
+                  </li><li style="list-style-type: circle">
+                    <p>FAILED</p>
+                  </li></ul></div></td></tr><tr><td align="left">INMEMORY_PRIORITY</td><td><p>Segment의 population 우선순위이다.
+              </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>LOW</p>
+                  </li><li style="list-style-type: circle">
+                    <p>MEDIUM</p>
+                  </li><li style="list-style-type: circle">
+                    <p>HIGH</p>
+                  </li><li style="list-style-type: circle">
+                    <p>CRITICAL</p>
+                  </li><li style="list-style-type: circle">
+                    <p>NONE</p>
+                  </li></ul></div></td></tr><tr><td align="left">INMEMORY_DISTRIBUTE</td><td><p>Segment에 지정된 In-Memory Distribute 옵션이다.
+              </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>AUTO</p>
+                  </li><li style="list-style-type: circle">
+                    <p>BY ROWID RANGE</p>
+                  </li><li style="list-style-type: circle">
+                    <p>BY PARTITION</p>
+                  </li><li style="list-style-type: circle">
+                    <p>BY SUBPARTITION</p>
+                  </li></ul></div></td></tr><tr><td align="left">INMEMORY_DUPLICATE</td><td><p>Segment에 지정된 In-Memory Duplicate 옵션이다.
+              </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>NO DUPLICATE</p>
+                  </li><li style="list-style-type: circle">
+                    <p>DUPLICATE</p>
+                  </li><li style="list-style-type: circle">
+                    <p>DUPLICATE ALL</p>
+                  </li></ul></div></td></tr><tr><td align="left">INMEMORY_COMPRESSION</td><td><p>Segment에 지정된 In-Memory Compression 옵션이다.
+              </p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>NO MEMCOMPRESS</p>
+                  </li><li style="list-style-type: circle">
+                    <p>FOR QUERY LOW</p>
+                  </li><li style="list-style-type: circle">
+                    <p>FOR QUERY HIGH</p>
+                  </li></ul></div></td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_imcs_tac.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top">제3장 <span>In-Memory Column Store의 고가용성 </span> </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div><div xmlns="" align="center"/></body></html>
