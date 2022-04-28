@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제74장 UTL_URL</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_utl_tcp.html" title="제73장 UTL_TCP"/><link rel="next" href="idx.html" title="색인"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제74장 UTL_URL</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_utl_tcp.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="idx.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_utl_url"/>제74장 UTL_URL</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_utl_url.html#d5e35750">74.1. 개요</a></span></dt><dt><span class="section"><a href="chap_utl_url.html#d5e35771">74.2. 함수</a></span></dt><dd><dl><dt><span class="section"><a href="chap_utl_url.html#UTL_URL_ESCAPE">74.2.1. ESCAPE</a></span></dt><dt><span class="section"><a href="chap_utl_url.html#UTL_URL_UNESCAPE">74.2.2. UNESCAPE</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 UTL_URL 패키지의 기본 개념과 패키지 내의 함수를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e35750"/>74.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">UTL_URL</strong></span><a id="d5e35754" class="indexterm"/>는 URL 주소를 ESCAPE 형태로 변환하기 위한 함수를 제공하는 패키지이다. ESCAPE 형태는
+    Legal Characters와 Reserved characters를 제외한 문자를 %xx{ASCII의 16진수 표현}으로 변경하는
+    것을 말한다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">문자 구분</th><th>정규 표현식</th></tr></thead><tbody><tr><td align="left">Unreserved Characters</td><td>[0-9] | [a-zA-Z] | - | _ | . | ! | ~ |* | ` | ( | )</td></tr><tr><td align="left">Reserved characters</td><td>; | / | ? | ; | @ | &amp; | = | + | $ | ,</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e35771"/>74.2. 함수</h2></div></div></div>
+    
+
+    <p>본 절에서는 UTL_URL 패키지에서 제공하는 함수를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="UTL_URL_ESCAPE"/>74.2.1. ESCAPE<a id="d5e35776" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>URL 주소를 ESCAPE 형태로 변환하는 함수이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>ESCAPE 함수<a id="d5e35782" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">FUNCTION ESCAPE
+(
+    url                     IN  VARCHAR2,
+    escape_reserved_chars   IN  BOOLEAN  DEFAULT FALSE,
+    url_charset             IN  VARCHAR2 DEFAULT utl_http.get_body_charset 
+) 
+RETURN VARCHAR2;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">url</td><td>ESCAPE 형태로 변경할 URL 이름이다.</td></tr><tr><td align="left">escape_reserved_chars</td><td><p>Reserved characters를 ESCAPE 형태로 변환할지의 여부를
+                  결정한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>TRUE : 변환한다.</p>
+                      </li><li>
+                        <p>FALSE : 변환하지 않는다. (기본값)</p>
+                      </li></ul></div></td></tr><tr><td align="left">url_charset</td><td><p>URL 주소의 문자 집합이다.</p><p>기본값은 UTL_HTTP 패키지의
+                  기본값을 사용하게 되며, UTL_HTTP의 BODY 문자집합의 기본값은 'ISO-8859-1' 이다.
+                  </p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">BEGIN
+  dbms_output.put_line( UTL_URL.ESCAPE('http://www.w3.org/blah blah.html') );
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="UTL_URL_UNESCAPE"/>74.2.2. UNESCAPE<a id="d5e35821" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>ESCAPE 형태(%xx)를 포함하는 URL 주소를 ESCAPE 형태가 아닌 일반 문자열로 변환하는
+      함수이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>UNESCAPE 함수<a id="d5e35827" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">FUNCTION UNESCAPE
+(
+    url            IN  VARCHAR2,
+    url_charset    IN  VARCHAR2 DEFAULT utl_http.get_body_charset 
+) 
+RETURN VARCHAR2;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">url</td><td>ESCAPE 형태의 URL 주소의 문자열이다.</td></tr><tr><td align="left">url_charset</td><td><p>URL 주소의 문자 집합이다.</p><p>기본값은 UTL_HTTP 패키지의
+                  기본값을 사용하게 되며, UTL_HTTP의 BODY 문자집합의 기본값은 'ISO-8859-1' 이다.
+                  </p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">URL_BAD_URL</td><td>잘못된 ESCAPE 문자열을 포함하는 경우이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    ourl VARCHAR2(32767);    
+    eurl VARCHAR2(32767);    
+BEGIN
+    eurl := UTL_URL.ESCAPE('http://www.w3.org/Protocols/');
+    ourl := UTL_URL.UNESCAPE(eurl);
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_utl_tcp.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="idx.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제73장 UTL_TCP </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 색인</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제22장 DBMS_MVIEW</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_monitor.html" title="제21장 DBMS_MONITOR"/><link rel="next" href="chap_dbms_obfuscation.html" title="제23장 DBMS_OBFUSCATION_TOOLKIT"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제22장 DBMS_MVIEW</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_monitor.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_obfuscation.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_mview"/>제22장 DBMS_MVIEW</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_mview.html#d5e8831">22.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_mview.html#d5e8838">22.2. 프러시저</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_mview.html#DBMS_MVIEW_EXPLAIN_REWRITE">22.2.1. EXPLAIN_REWRITE</a></span></dt><dt><span class="section"><a href="chap_dbms_mview.html#DBMS_MVIEW_REFRESH">22.2.2. REFRESH</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_MVIEW 패키지의 기본 개념과 패키지 내의 프러시저를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e8831"/>22.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_MVIEW</strong></span><a id="d5e8835" class="indexterm"/>는 실체화 뷰와 관련된 정보를 제공하고 이 정보를 최근의 것으로 변경할 수 있는 REFRESH 기능을
+    사용하기 위한 프러시저를 제공하는 패키지이다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e8838"/>22.2. 프러시저</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_MVIEW 패키지에서 제공하는 프러시저를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_MVIEW_EXPLAIN_REWRITE"/>22.2.1. EXPLAIN_REWRITE<a id="d5e8843" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>SQL의 <span><strong class="guibutton">질의 다시 쓰기</strong></span>(Query Rewrite) 정보를 설명하는
+      프러시저이다. 이 프러시저는 왜 SQL 질의가 재작성에 실패했는지 또는 어떤 실체화 뷰를 사용해서 재작성 되었는지, 재작성된
+      SQL 질의는 무엇인지를 설명해준다.</p>
+
+      <p>이러한 정보를 밑바탕으로 사용자는 SQL 질의가 재작성될 수 있도록 처리할 수 있다. query 파라미터로 전달받은
+      SQL 질의문은 실제로 수행되지 않으며, 결과는 현재 스키마의 REWRITE_TABLE 테이블에 저장된다. 단, 이 프러시저를
+      호출하기 전에 $<span>TB_</span>HOME/scripts/rewrite_table.sql 스크립트를 실행하여
+      REWRITE_TABLE 테이블을 미리 생성해야 한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>EXPLAIN_REWRITE 프러시저<a id="d5e8852" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_MVIEW.EXPLAIN_REWRITE
+(
+    query         IN   VARCHAR2,
+    statement_id  IN   VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">query</td><td>SQL 질의문이다.</td></tr><tr><td align="left">statement_id</td><td><p>SQL 질의문의 결과를 구별하기 위해 사용자가 정한 고유
+                  식별자이다.</p><p>이 식별자는 REWRITE_TABLE 테이블의 STATEMENT_ID
+                  컬럼에 저장된다.</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; create table base as (select mod(level, 100) a, level*10 b from dual 
+        connect by level&lt;=100);
+SQL&gt; create materialized view mv enable query rewrite as 
+        select sum(a+b) s, count(b+a) c from base;
+SQL&gt; @rewrite_table.sql
+SQL&gt; exec dbms_mview.explain_rewrite('select avg(a+b) from base')
+SQL&gt; select MV_OWNER, MV_NAME, QUERY, REWRITTEN_TXT, MESSAGE
+     from rewrite_table;
+
+MV_OWNER MV_NAME QUERY                  REWRITTEN_TXT            MESSAGE          
+-------- ------- --------------- ------------------------ ------------------------
+SYS      MV      SELECT AVG(A+B) SELECT ("MV"."S"         010: query was rewritten    
+                 FROM BASE         / "MV"."C") "AVG(A+B)"   with materialized view  
+                                 FROM "SYS"."MV"                              
+                                                    
+                 select avg(a+b) SELECT ("MV"."S"         000: whole query was
+                 from base         / "MV"."C") "AVG(A+B)"   written  
+                                 FROM "SYS"."MV"                                 </pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_MVIEW_REFRESH"/>22.2.2. REFRESH<a id="d5e8882" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>실체화 뷰를 Refresh하는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REFRESH 프러시저<a id="d5e8888" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_MVIEW.REFRESH
+(
+    qualified_obj     IN   VARCHAR2,
+    refresh_method    IN   VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">qualified_obj</td><td>Refresh할 실체화 뷰이다.</td></tr><tr><td align="left">refresh_method</td><td><p>Refresh에 사용될 방법이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>C 또는 c : 완전 Refresh를 사용한다.</p>
+                      </li><li>
+                        <p>F 또는 f : 빠른 Refresh를 사용한다.</p>
+                      </li><li>
+                        <p>? : 빠른 Refresh가 가능한 경우 빠른 Refresh를 사용하고, 그렇지 않으면
+                        완전 Refresh를 사용한다. (기본값)</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">call dbms_mview.refresh('myuser.mv_t','f');
+call dbms_mview.refresh('mv_t','c');</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_monitor.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_obfuscation.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제21장 DBMS_MONITOR </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제23장 DBMS_OBFUSCATION_TOOLKIT</td></tr></table></div><div xmlns="" align="center"/></body></html>

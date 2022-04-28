@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제2장 Tibero 7 FixSet01</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 릴리즈 노트"/><link rel="up" href="index.html" title="Tibero 릴리즈 노트"/><link rel="prev" href="ch01.html" title="제1장 소개"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제2장 Tibero 7 FixSet01</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> </td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e363"/>제2장 Tibero 7 FixSet01</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="ch02.html#d5e367">2.1. 신규 기능</a></span></dt><dd><dl><dt><span class="section"><a href="ch02.html#d5e371">2.1.1. DBMS 엔진</a></span></dt><dt><span class="section"><a href="ch02.html#d5e531">2.1.2. 유틸리티</a></span></dt></dl></dd><dt><span class="section"><a href="ch02.html#d5e660">2.2. 변경 기능</a></span></dt><dd><dl><dt><span class="section"><a href="ch02.html#d5e663">2.2.1. DBMS 엔진</a></span></dt></dl></dd></dl></div>
+  
+
+  <p/>
+
+  <p>본 장에서는 Tibero 7 FixSet01에 추가된 신규 기능 및 변경된 기능에 대해서 간략히 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e367"/>2.1. 신규 기능</h2></div></div></div>
+    
+
+    <p/>
+
+    <p>본 절에서는 신규로 추가된 기능에 대해서 간략히 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e371"/>2.1.1. DBMS 엔진</h3></div></div></div>
+      
+
+      <p>다음과 같은 기능들이 추가되었다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p><span><strong class="guibutton">SQL Plan Management</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>실행계획 변경으로 인한 성능저하 방지를 위해 SQL Plan Management 기능이
+              추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">In-Memory Column Store</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>컬럼에 대한 스캔 최적화 하기 위해 In-Memory Column Store 기능이
+              추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">JSON type</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>JSON 데이터를 저장 및 처리하기 위해 JSON type이 추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">Fine-grained Auditing</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>테이블 또는 뷰에서 특정 조건을 만족하는 컬럼 또는 로우 단위의 데이터를 감사하는 Fine-grained
+              Auditing(FGA) 기능을 DBMS_FGA 패키지를 통해 지원한다.</p>
+
+              <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+                  <p>자세한 내용은 "<span>Tibero</span> 관리자 안내서"의 "제5장 사용자 관리와
+                  데이터베이스 보안"을 참고한다.</p>
+                </div>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">Flashback Database 기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>DB 전체를 백업/복구 과정 없이 특정 과거 시점으로 되돌릴 수 있다.</p>
+            </li><li>
+              <p>특정 과거 시점으로 되돌아가기 위한 일반적인 백업 파일 복원과 복구 시간을 대폭 단축 시킬 수
+              있다.</p>
+            </li><li>
+              <p>단, 과거로 돌아가기 위해 특정 파일을 생성하여 기록하기 때문에 평상시 성능 저하를 감안해야
+              한다.</p>
+
+              <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+                  <p>자세한 내용은 "<span>Tibero</span> 관리자 안내서"의 "제6장 백업과
+                  복구"를 참고한다.</p>
+                </div>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">TSC(Tibero Standby Cluster)</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>Snapshot Standby</p>
+
+              <p>Primary와의 동기화를 위한 redo log 수신은 계속 진행함과 동시에, 특정 시점부터 독자적으로
+              DDL/DML을 수행할 수 있게 한다. 단, 실제 Primary와 동기화를 위해서는 수행했던 DDL/DML들은 모두
+              롤백된다.</p>
+            </li><li>
+              <p>Multi-Node Standby (멀티노드 TSC)</p>
+
+              <p>Primary-Standby 노드간 동기화의 가용성을 높이며, read-only 모드로 사용 시 쿼리를
+              분산시킬 수 있어 성능 향상을 기대할 수 있다.</p>
+            </li><li>
+              <p>Cascade Standby (캐스케이드 TSC)</p>
+
+              <p>Primary node로부터 Standby node가 전송 받은 redo log를 Primary 대신
+              또다른 Standby node에게 전송해주어 Primary node의 네트워크 부담을 줄여준다.</p>
+
+              <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+                  <p>자세한 내용은 "<span>Tibero</span> 관리자 안내서"의 "제8장 Tibero
+                  Standby Cluster"를 참고한다.</p>
+                </div>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">AWS QuickStarts</strong></span></p>
+
+          <p>Observer 가용성을 위한 기능이 추가되었다.</p>
+        </li><li>
+          <p><span><strong class="guibutton">HSM 장비를 이용한 암호화 키 분리 기능</strong></span></p>
+
+          <p>Wallet에 보관하는 키를 HSM(Hardware Security Module) 장비에 보관하는 기능이
+          추가되었다.</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>HSM 장비 지원 목록은 다음과 같다.</p>
+
+              <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                  <p>D’Amo KMS(펜타시큐리티)</p>
+                </li><li>
+                  <p>Vormetric Data Security Manager(탈레스)</p>
+                </li></ul></div>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">cloud 환경에서 티베로 과금을 위한 정보를 측정하고 기록하는
+          기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>cloud 라이선스 사용시 과금을 위한 정보를 기록하는 기능이 추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">GOST 암호화 알고리즘</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>Tibero 암호화 알고리즘으로 GOST 암호화가 추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">OLTP Compression 기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>OLTP 환경에서 Direct Path Insert/Load가 아닌 일반적인 DML이 발생하는 테이블에
+              대해서 압축을 수행할 수 있는 기능이 추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">Index Prefix Compression 기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>Index Leaf Block에서 상위 Key Column들에 대한 중복을 제거하여 공간 효율을 높이는
+              압축 기능이 추가되었다. Index를 생성 혹은 재생성할 때 COMPRESS N clause를 추가하여 기능을
+              사용할 수 있다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">Geometry KNN 연산 지원</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>KNN 연산을 지원한다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">TAS disk resize 기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>TAS에서 사용중인 디스크의 크기를 기존의 크기보다 더 크게 변경할 수 있는 기능이
+              추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">TAS disk repair timer 기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>TAS에서 디스크에 장애가 발생할 시 일정 시간이 지나면 디스크를 자동으로 drop하는 기능이
+              추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">tbascmd과 DDL을 이용한 TAS meta 정합성 체크
+          기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>TAS에서 관리하는 파일과 디스크 공간 관련 메타 정보에 이상이 없는지 체크할 수 있는 tbascmd
+              구문과 DDL이 추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">SSVR에서 log flush를 타 작업보다 우선 처리하는
+          기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>SSVR에서 다른 작업보다 log flush 부하를 우선적으로 처리하는 기능이 추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">GIS Geography 공간좌표계</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>다양한 공간좌표계 및 공간좌표계를 고려한 연산들이 추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">GIS Geometry 신기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>공간 데이터에 대하여 2D, 3D를 포함한 여러 타입 및 연산이 추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">Label Security 기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>특정 테이블의 열 및 사용자에게 할당된 레이블을 이용하여 대상 테이블의 행에 대한 접근을 제어하는 기능인
+              Label Security가 추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">In-Memory Column Store</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>특정 column에 대한 scan을 최적화하기 위해 데이터를 컬럼 포맷으로 메모리 상에 저장하는 기능인
+              In-Memory Column Store 기능이 추가되었다.</p>
+            </li></ul></div>
+
+          <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+              <p>자세한 내용은 "Tibero IMCS 안내서"를 참고한다.</p>
+            </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e531"/>2.1.2. 유틸리티</h3></div></div></div>
+      
+
+      <p>다음과 같은 기능들이 추가되었다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p><span><strong class="guibutton">Recovery Manager Tool(RMGR)</strong></span></p>
+
+          <p>RMGR에 추가된 기능은 다음과 같다. 자세한 내용은 "<span>Tibero</span> 관리자 안내서"의 "제6장 백업과 복구"를 참고한다.</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>Veritas 사의 백업/복구 솔루션인 NetBackup 과의 연동을 지원한다.</p>
+            </li><li>
+              <p>Standby node에서 온라인 백업을 진행할 수 있으며, 이를 이용해 Primary node를 복구할
+              수 있다.</p>
+            </li><li>
+              <p>다음과 같은 기능을 제공하는 옵션들이 추가/변경 되었다.</p>
+
+              <div class="informaltable">
+                <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">--interval</td><td>RMGR 백업/복구 진행률을 확인하여 출력해주는 실시간 시간 간격을 초 단위로
+                      조절한다.</td></tr><tr><td align="left">-v, --verbose</td><td>RMGR 백업/복구를 진행하는 경우 각 데이터 파일마다의 절대 경로를
+                      출력한다.</td></tr><tr><td align="left">-s, --silent</td><td>RMGR 백업/복구를 진행하는 경우 각 데이터 파일마다의 진행률을 출력하지
+                      않는다.</td></tr><tr><td align="left">-l, --log-level</td><td>클라이언트 측 RMGR history를 남기는 log level을
+                      설정한다.</td></tr><tr><td align="left">-L</td><td>클라이언트 측 RMGR history를 남기는 log 파일의 경로를
+                      설정한다.</td></tr><tr><td align="left">-o</td><td>백업/복구에 사용될 최대 16개까지의 분산 경로를 지정할 수 있다.</td></tr><tr><td align="left">-n</td><td>NetBackup을 사용하는 경우 백업/복구에 사용될 NetBackup 경로를
+                      지정한다.</td></tr><tr><td align="left">-d, --datafile</td><td>백업/복구할 대상 데이터 파일을 지정한다.</td></tr><tr><td align="left">-T, --skip-tablespace</td><td>백업/복구 대상에서 제외할 테이블 스페이스를 지정한다.</td></tr><tr><td align="left">--skip-readonly</td><td>백업/복구 대상에서 Read only 테이블 스페이스들은 제외한다.</td></tr><tr><td align="left">--skip-offline</td><td>백업/복구 대상에서 Offline 테이블 스페이스들은 제외한다.</td></tr><tr><td align="left">-a, --archive-only</td><td>데이터 파일이 아닌 최신 아카이브 로그파일들을 백업한다.</td></tr><tr><td align="left">--from-seq</td><td>백업할 아카이브 로그의 처음 시퀀스를 지정한다.</td></tr><tr><td align="left">--to-seq</td><td>백업할 아카이브 로그의 마지막 시퀀스를 지정한다.</td></tr><tr><td align="left">--thread</td><td>아카이브 로그 백업/복구할 때 Redo 스레드를 지정한다.</td></tr><tr><td align="left">--arc-dest-force</td><td>아카이브 로그 백업/복구할 때 대상 구간에 임의의 아카이브 로그 파일을 찾을 수 없어도
+                      실패하지 않고 진행되게 한다.</td></tr><tr><td align="left">--delete-original</td><td>아카이브 로그 백업/복구 후 백업 본이 아닌 원본 파일들을 삭제한다.</td></tr><tr><td align="left">--with-password-file</td><td>MOUNT 모드에서 SYS 계정 로그인에 필요한 password file을 함께
+                      백업/복구한다.</td></tr><tr><td align="left">--no-rollback</td><td>백업 도중 취소/실패 시 지금까지 백업한 파일들을 롤백하지 않고 보존한다.</td></tr><tr><td align="left">--continue</td><td>백업 파일을 가져오지 않고 복구만 진행한다.</td></tr><tr><td align="left">--for-standby</td><td>Standby 구축을 위한 모든 데이터 파일들과 복구에 필요한 아카이브 로그 파일,
+                      그리고 온라인 리두 로그 파일들까지 백업/복구한다.</td></tr><tr><td align="left">--recover-to</td><td>지정한 특정 경로에 백업 셋을 복원 후 복구를 수행한다.</td></tr><tr><td align="left">--restore-only</td><td>대상 백업 데이터 파일들을 가져온 후 복구는 수행하지 않는다.</td></tr><tr><td align="left">--restore-archive-only</td><td>대상 백업 아카이브 로그 파일들을 가져온 후 복구는 수행하지 않는다.</td></tr><tr><td align="left">--wallet</td><td>사용자가 명시한 PASSWORD를 통해 WALLET을 열고 암호화된 테이블 스페이스를
+                      복구할 수 있게한다.</td></tr><tr><td align="left">-b, --backup-set</td><td>지정한 백업 셋을 삭제하거나 복구할 때에는 지정한 백업 셋부터 탐색하여
+                      가져온다.</td></tr><tr><td align="left">--archivelog</td><td>백업이 아닌 실제 아카이브 로그들을 삭제한다.</td></tr><tr><td align="left">--cf-only</td><td>실제 백업 셋 혹은 아카이브 로그의 물리적 파일은 삭제하지 않고 컨트롤 파일에서만 정보를
+                      삭제한다.</td></tr><tr><td align="left">--sent-to-standby</td><td>Standby로 전송이 완료된 아카이브 로그들을 삭제한다.</td></tr><tr><td align="left">--switch</td><td>데이터베이스의 데이터 파일을 백업 데이터 파일로 즉시 대체하여 사용한다.</td></tr><tr><td align="left">--no-image-logging</td><td>백업을 수행할 때 기존의 image logging 방식이 아닌 block
+                      consistency check 방식을 이용한다.</td></tr></tbody></table>
+              </div>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">gateway for oracle 19c</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>Oracle 19c용 Gateway가 추가되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">ESRI shapefile 변환 기능</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>table을 shpfile 형태로 변환하는 기능 tibero2shp가 추가되었다.</p>
+            </li></ul></div>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e660"/>2.2. 변경 기능</h2></div></div></div>
+    
+
+    <p>본 절에서는 변경 또는 개선된 주요 기능에 대해서 간략히 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e663"/>2.2.1. DBMS 엔진</h3></div></div></div>
+      
+
+      <p>다음과 같은 기능들이 개선되었다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p><span><strong class="guibutton">Default Character Set</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>Tibero의 Default Charactet Set이 MSWIN949에서 UTF8로
+              변경되었다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">DBMS_SCHEDULER 기능 지원</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>DBMS_SCHEDULER 패키지의 전반적인 기능 개선 및 일부 세부 미지원되던 기능들
+              지원한다.</p>
+            </li></ul></div>
+        </li><li>
+          <p><span><strong class="guibutton">TAC Recovery Parallel
+          Reconfiguration</strong></span></p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>Tibero active cluster (TAC)를 구성하는 instance가 down되거나 새로운
+              instance가 active cluster에 참여하면, clustering을 위해 instance별로 관리하는
+              내부 리소스들을 재분배한다.</p>
+            </li><li>
+              <p>기존에는 이러한 resource 재분배 작업을 single thread가 단독으로 수행하였으나, 수행
+              시간 단축을 위해 multi thread가 병렬로 수행하도록 개선하였다.</p>
+            </li></ul></div>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> </td></tr><tr><td width="40%" align="left" valign="top">제1장 소개 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> </td></tr></table></div><div xmlns="" align="center"/></body></html>

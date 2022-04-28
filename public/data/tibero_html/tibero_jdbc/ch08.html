@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제8장 LOB 데이터 처리</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero JDBC 개발자 안내서"/><link rel="up" href="index.html" title="Tibero JDBC 개발자 안내서"/><link rel="prev" href="ch07.html" title="제7장 Row Set"/><link rel="next" href="chapter_failover.html" title="제9장 Failover와 Load balancing"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제8장 LOB 데이터 처리</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_failover.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e2758"/>제8장 LOB 데이터 처리</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="ch08.html#d5e2762">8.1. 개요</a></span></dt><dt><span class="section"><a href="ch08.html#d5e2784">8.2. LOB 지시자</a></span></dt><dd><dl><dt><span class="section"><a href="ch08.html#d5e2788">8.2.1. LOB 지시자 얻어오기</a></span></dt><dt><span class="section"><a href="ch08.html#d5e2808">8.2.2. LOB 지시자 넘겨주기</a></span></dt></dl></dd><dt><span class="section"><a href="ch08.html#d5e2828">8.3. LOB 데이터 읽고 쓰기</a></span></dt><dt><span class="section"><a href="ch08.html#d5e2862">8.4. 임시 LOB</a></span></dt><dt><span class="section"><a href="ch08.html#d5e2934">8.5. API 목록</a></span></dt><dd><dl><dt><span class="section"><a href="ch08.html#d5e2936">8.5.1. 표준 API</a></span></dt><dt><span class="section"><a href="ch08.html#d5e2939">8.5.2. 확장 API</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>tbJDBC</span>에서 LOB 데이터를 처리하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2762"/>8.1. 개요</h2></div></div></div>
+    
+
+    <p>JDBC 표준에서는 LOB 데이터를 처리하기 위해 두 가지 타입을 제공한다. BLOB(바이너리 데이터)와 CLOB(문자열
+    데이터)가 이에 해당한다. <span>tbJDBC</span>에서는 이 두 가지 타입을 효율적으로 처리하기 위해
+    지시자(locator)라는 개념을 사용한다.<a id="d5e2766" class="indexterm"/></p>
+
+    <p>일반적으로 LOB 데이터는 데이터베이스에 저장된 후에 지시자를 생성하여 데이터가 저장된 위치를 찾아갈 수 있도록 한다.
+    따라서 사용자는 이 지시자만을 사용하여 필요할 때마다 LOB 데이터를 읽고 쓸 수 있다. 이 때문에 시스템 성능을 향상시키는 데
+    도움을 줄 수 있다.</p>
+
+    <p>다음은 <span>tbJDBC</span>에서 제공하는 LOB 클래스이다.<a id="d5e2771" class="indexterm"/></p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>com.<span>tmax.tibero</span>.jdbc.<span>TbBlob</span></p>
+      </li><li>
+        <p>com.<span>tmax.tibero</span>.jdbc.<span>TbClob</span></p>
+      </li></ul></div>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2784"/>8.2. LOB 지시자<a id="d5e2786" class="indexterm"/></h2></div></div></div>
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2788"/>8.2.1. LOB 지시자 얻어오기</h3></div></div></div>
+      
+
+      <p>JDBC 표준에서 제공하는 ResultSet 객체나 CallableStatement 객체의 메소드를 이용하여 LOB
+      지시자를 얻어올 수 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>ResultSet 객체<a id="d5e2794" class="indexterm"/></p>
+
+          <pre class="programlisting">ResultSet.getBlob()
+ResultSet.getClob()
+ResultSet.getObject()</pre>
+
+          <p>다음은 ResultSet 객체를 이용하여 LOB 지시자를 얻어오는 예이다.</p>
+
+          <pre class="programlisting">ResultSet rs = stmt.executeQuery("SELECT document, image FROM library");
+while (rs.next())
+{
+    Clob document = rs.getClob(1);
+    // 또는 Clob document = (Clob)rs.getObject(1);
+
+    Blob image = rs.getBlob(2);
+    // 또는 Blob image = (Blob)rs.getObject(1);
+}</pre>
+        </li><li>
+          <p>CallableStatement 객체<a id="d5e2802" class="indexterm"/></p>
+
+          <pre class="programlisting">CallableStatement.getBlob()
+CallableStatement.getClob()
+CallableStatement.getObject()</pre>
+
+          <p>다음은 CallableStatement 객체를 이용하여 LOB 지시자를 얻어오는 예이다.</p>
+
+          <pre class="programlisting">CallableStatement cstmt = conn.prepareCall("{call proc(?)}");
+cstmt.registerOutParameter(1, Types.CLOB);
+cstmt.execute();
+
+Clob document = cstmt.getClob(1);
+// 또는 Clob document = (Clob)cstmt.getObject(1);</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2808"/>8.2.2. LOB 지시자 넘겨주기</h3></div></div></div>
+      
+
+      <p>JDBC 표준에서 제공하는 PreparedStatement 객체나 CallableStatement 객체의 메소드를
+      이용하여 LOB 지시자를 넘겨줄 수 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>PreparedStatement 객체<a id="d5e2814" class="indexterm"/></p>
+
+          <pre class="programlisting">PreparedStatement.setBlob()
+PreparedStatement.setClob()
+PreparedStatement.setObject()</pre>
+
+          <p>다음은 PreparedStatement 객체를 이용하여 LOB 지시자를 넘겨주는 예이다.</p>
+
+          <pre class="programlisting">PreparedStatement pstmt = conn.prepareStatement("INSERT INTO library 
+VALUES (?, ?)");
+
+pstmt.setClob(1, document);
+// 또는 pstmt.setObject(1, document, Types.CLOB);
+
+pstmt.setBlob(2, image);
+// 또는 pstmt.setObject(1, image, Types.BLOB);
+
+pstmt.executeUpdate();</pre>
+        </li><li>
+          <p>CallableStatement 객체<a id="d5e2822" class="indexterm"/></p>
+
+          <pre class="programlisting">CallableStatement.setBlob()
+CallableStatement.setClob()
+CallableStatement.setObject()</pre>
+
+          <p>다음은 CallableStatement 객체를 이용하여 LOB 지시자를 넘겨주는 예이다.</p>
+
+          <pre class="programlisting">CallableStatement cstmt = conn.prepareCall("{call proc(?, ?)}");
+
+cstmt.setClob(1, document);
+// 또는 cstmt.setObject(1, document, Types.CLOB);
+
+cstmt.setBlob(2, image);
+// 또는 cstmt.setObject(1, image, Types.BLOB);
+
+cstmt.execute();</pre>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2828"/>8.3. LOB 데이터 읽고 쓰기</h2></div></div></div>
+    
+
+    <p>LOB 지시자를 얻어오면 JDBC 표준에서 제공하는 API를 이용하여 데이터를 읽고 쓸 수 있다. LOB 데이터는 보통
+    Byte 배열이나 스트림 형태로 읽어올 수 있는데, 일반적인 스트림 형태와 달리 데이터베이스 서버 내부에 데이터가 있으므로 연결이
+    유지되는 한 언제든지 접근할 수 있다.</p>
+
+    <p>JDBC 표준에서는 LOB 데이터를 읽고 쓸 수 있도록 다음과 같은 API를 제공한다.<a id="d5e2832" class="indexterm"/></p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>InputStream Clob.getAsciiStream()</p>
+      </li><li>
+        <p>Reader Clob.getCharacterStream()</p>
+      </li><li>
+        <p>String Clob.getSubString()</p>
+      </li><li>
+        <p>OutputStream Clob.setAsciiStream()</p>
+      </li><li>
+        <p>Writer Clob.setCharacterStream()</p>
+      </li><li>
+        <p>int Clob.setString()</p>
+      </li><li>
+        <p>InputStream Blob.getBinaryStream()</p>
+      </li><li>
+        <p>byte[] Blob.getBytes()</p>
+      </li><li>
+        <p>OutputStream Blob.setBinaryStream()</p>
+      </li><li>
+        <p>int Blob.setBytes()</p>
+      </li></ul></div>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 LOB 데이터를 읽는 예이다.</p>
+
+    <pre class="programlisting">// BLOB 데이터
+InputStream is = image.getBinaryStream();
+byte[] imageData = new byte[1000];
+int readLength = is.read(imageData);
+
+// CLOB 데이터
+Reader reader = document.getCharacterStream();
+char[] docData = new char[1000];
+int readLength = reader.read(docData, 0, docData.length);</pre>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 LOB 데이터를 쓰는 예이다.</p>
+
+    <pre class="programlisting">// BLOB 데이터
+byte[] imageData = {32, 53, 78, 19, 2, 93};
+OutputStream os = image.setBinaryStream();
+os.write(imageData);
+
+// CLOB 데이터
+char[] docData = {'J', 'D', 'B', 'C', '안', '내', '서'};
+Writer writer = document.setCharacterStream();
+writer.write(docData);
+writer.flush();
+writer.close();</pre>
+
+    <p>위의 예에서 OutputStream이나 Writer 객체는 데이터를 쓸 때마다 데이터베이스에 직접 전송되므로 별도의
+    UPDATE 문장을 실행할 필요가 없다. 하지만 LOB 자체는 트랜잭션 범위에 포함되므로 반드시 커밋을 수행해야 데이터베이스에
+    최종적으로 반영된다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2862"/>8.4. 임시 LOB</h2></div></div></div>
+    
+
+    <p><span>tbJDBC</span>에서는 대용량 데이터를 LOB 형태로 저장하기 위해 임시
+    LOB<a id="d5e2866" class="indexterm"/>을 제공한다. 단, 이 대용량 데이터는 테이블에 저장되지 않는다.</p>
+
+    <p>이를 위해 다음과 같은 메소드를 제공한다.<a id="d5e2869" class="indexterm"/></p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>Connection.createBlob() return Blob</p>
+      </li><li>
+        <p>Connection.createClob() return Clob</p>
+      </li><li>
+        <p>Connection.createNClob() return NClob</p>
+      </li><li>
+        <p>Blob.free()</p>
+      </li><li>
+        <p>Clob.free()</p>
+      </li><li>
+        <p>NClob.free()</p>
+      </li></ul></div>
+
+    <div class="literallayout"><p/></div>
+
+    <p>임시 LOB을 사용하여 저장한 데이터는 임시 테이블 스페이스에 저장된다. 이 영역에 저장된 데이터가 더는 필요하지 않게
+    되면, 사용자는 반드시 이것을 해제해야 한다. 그렇지 않으면 이 영역의 데이터는 계속 남아있게 된다.</p>
+
+    <p>임시 LOB는 LOB 컬럼의 데이터를 바인딩할 때 주로 사용한다. 예를 들면 다음과 같다.</p>
+
+    <pre class="programlisting">PreparedStatement pstmt = conn.prepareStatement("INSERT INTO 
+library VALUES (?, ?)");
+pstmt.setInt(1, 20090811);
+
+Clob doc = conn.createClob();
+doc.setString(1, "JDBC Guide&lt;br&gt;writer:Rachael&lt;br&gt;proofreader:Patrick");
+pstmt.setClob(2, doc);
+pstmt.executeUpdate();
+
+doc.free();
+pstmt.close();</pre>
+
+    <p/>
+
+    <p>위에서 나열한 메소드들은 JDBC 표준 API들로 일부 메소드는 Java 버전에 따라 사용할 수 없는 것들이 존재한다.
+    이를 위해 <span>tbJDBC</span>에서는 별도로 다음과 같은 구현 메소드들을 제공하고 있다. 이 메소드들을
+    이용할 경우 다른 JDBC와의 호환성은 떨어지지만 <span>tbJDBC</span>에 한하여 Java 버전에 관계 없이 사용할 수 있는 장점이
+    있다.</p><div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p><span>Tb</span>Connection.create<span>TbBlob</span>() return <span>TbBlob</span></p>
+        </li><li>
+          <p><span>Tb</span>Connection.create<span>TbClob</span>() return <span>TbClob</span></p>
+        </li><li>
+          <p><span>Tb</span>Connection.create<span>TbNClob</span>() return <span>TbNClob</span></p>
+        </li></ul></div>
+
+    <p/>
+
+    <p><span>Tibero 4.0 SP1까지의 tbJDBC에서는 구현 메소드를 다음과 같은
+    형태로 제공하였으나, 호환성에 문제가 있어 폐기(deprecated)하고 위의 메소드들로 대체되었다.</span></p>
+
+    <p><span><div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>static TbBlob.createTemporary(Connection conn) return
+          TbBlob</p>
+        </li><li>
+          <p>static TbClob.createTemporary(Connection conn) return
+          TbClob</p>
+        </li><li>
+          <p>static TbClob.createTemporaryNClob(Connection conn) return
+          TbClob</p>
+        </li><li>
+          <p>TbBlob.freeTemporary()</p>
+        </li><li>
+          <p>static TbBlob.freeTemporary(TbBlob blob)</p>
+        </li><li>
+          <p>TbClob.freeTemporary()</p>
+        </li><li>
+          <p>static TbClob.freeTemporary(TbClob clob)</p>
+        </li><li>
+          <p>TbNClob.freeTemporary()</p>
+        </li><li>
+          <p>static TbNClob.freeTemporary(TbNClob nclob)</p>
+        </li></ul></div></span></p>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2934"/>8.5. API 목록</h2></div></div></div>
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2936"/>8.5.1. 표준 API</h3></div></div></div>
+      
+
+      <p>LOB와 관련된 표준 API의 정보는 JDBC 표준 문서를 참고한다.</p>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2939"/>8.5.2. 확장 API</h3></div></div></div>
+      
+
+      <p><span>tbJDBC</span>에서는 LOB와 관련된 API로 BLOB, CLOB, NCLOB
+      메소드를 추가로 제공한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e2944"/>CONNECTION API<a id="d5e2945" class="indexterm"/></h4>
+
+      <p><span>Tb</span>Connection 클래스에서는 다음과 같은 API를 추가로
+      제공한다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="200" align="left"/><col/></colgroup><thead><tr><th align="left">API</th><th>설명</th></tr></thead><tbody><tr><td align="left"><span>TbBlob</span> create<span>TbBlob</span>()</td><td>데이터베이스에 임시 BLOB을 생성한 후에 <span>TbBlob</span> 객체를 반환한다.</td></tr><tr><td align="left"><span>TbClob</span> create<span>TbClob</span>()</td><td>데이터베이스에 임시 CLOB을 생성한 후에 <span>TbClob</span> 객체를 반환한다.</td></tr><tr><td align="left"><span>TbNClob</span> create<span>TbNClob</span>()</td><td>데이터베이스에 임시 NCLOB을 생성한 후에 <span>TbNClob</span> 객체를 반환한다.</td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e2977"/>BLOB API<a id="d5e2978" class="indexterm"/></h4>
+
+      <p><span>TbBlob</span> 클래스에서는 다음과 같은 API를 추가로 제공한다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="200" align="left"/><col/></colgroup><thead><tr><th align="left">API</th><th>설명</th></tr></thead><tbody><tr><td align="left"><span>TbBlob</span> createEmptyBlob()</td><td>EMPTY_BLOB을 생성하여 반환한다.</td></tr><tr><td align="left">void close()</td><td>BLOB을 닫는다.</td></tr><tr><td align="left">OutputStream getBinaryOutputStream()</td><td>setBinaryStream(1L)과 동일하다.</td></tr><tr><td align="left">OutputStream getBinaryOutputStream(long)</td><td>setBinaryStream(long)과 동일하다.</td></tr><tr><td align="left">void open(int)</td><td>int 모드로 BLOB을 연다.</td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      
+
+      <h4><a id="d5e3008"/>CLOB API<a id="d5e3009" class="indexterm"/></h4>
+
+      <p><span>TbClob</span> 클래스에서는 다음과 같은 API를 추가로 제공한다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="200" align="left"/><col/></colgroup><thead><tr><th align="left">API</th><th>설명</th></tr></thead><tbody><tr><td align="left"><span>TbClob</span> createEmptyClob()</td><td>EMPTY_CLOB을 생성하여 반환한다.</td></tr><tr><td align="left">void close()</td><td>CLOB을 닫는다.</td></tr><tr><td align="left">int getBufferSize()</td><td>서버와 원활하게 통신할 수 있도록 32KB의 버퍼 크기를 반환한다.</td></tr><tr><td align="left">long getChars(long offset, char[] buffer)</td><td>offset 위치부터 CLOB 데이터를 읽어서 buffer에 저장한다.</td></tr><tr><td align="left">long getChars(long offset, char[] buffer, long
+              numChars)</td><td>offset 위치부터 numChars만큼의 CLOB 데이터를 읽어서 buffer에
+              저장한다.</td></tr><tr><td align="left">long getChars(long offset, char[] buffer, long bufOffset,
+              long numChars)</td><td>offset 위치부터 numChars만큼의 CLOB 데이터를 읽어서 buffer의 bufOffset
+              위치에 저장한다.</td></tr><tr><td align="left">void open(int)</td><td>int 모드로 CLOB을 연다.</td></tr><tr><td align="left">long putChars(long offset, char[] buffer)</td><td>buffer 데이터를 읽어서 offset 위치에 저장한다.</td></tr><tr><td align="left">long putChars(long offset, char[] buffer, long
+              numChars)</td><td>buffer 데이터를 numChars만큼 읽어서 offset 위치에 저장한다.</td></tr><tr><td align="left">long putChars(long offset, char[] buffer, long bufOffset,
+              long numChars)</td><td>buffer 데이터를 bufOffset 위치부터 numChars만큼 읽어서 offset 위치에
+              저장한다.</td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e3054"/>NCLOB API<a id="d5e3055" class="indexterm"/></h4>
+
+      <p><span>TbNClob</span> 클래스에서는 다음과 같은 API를 추가로 제공한다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="200" align="left"/><col/></colgroup><thead><tr><th align="left">API</th><th>설명</th></tr></thead><tbody><tr><td align="left"><span>TbNClob</span> createEmptyNClob()</td><td>EMPTY_NCLOB을 생성하여 반환한다.</td></tr><tr><td align="left">void close()</td><td>NCLOB을 닫는다.</td></tr><tr><td align="left">int getBufferSize()</td><td>서버와 원활하게 통신할 수 있도록 32KB의 버퍼 크기를 반환한다.</td></tr><tr><td align="left">long getChars(long offset, char[] buffer)</td><td>offset 위치부터 NCLOB 데이터를 읽어서 buffer에 저장한다.</td></tr><tr><td align="left">long getChars(long offset, char[] buffer, long
+              numChars)</td><td>offset 위치부터 numChars만큼의 NCLOB 데이터를 읽어서 buffer에
+              저장한다.</td></tr><tr><td align="left">long getChars(long offset, char[] buffer, long bufOffset,
+              long numChars)</td><td>offset 위치부터 numChars만큼의 NCLOB 데이터를 읽어서 buffer의 bufOffset
+              위치에 저장한다.</td></tr><tr><td align="left">void open(int)</td><td>int 모드로 NCLOB을 연다.</td></tr><tr><td align="left">long putChars(long offset, char[] buffer)</td><td>buffer 데이터를 읽어서 offset 위치에 저장한다.</td></tr><tr><td align="left">long putChars(long offset, char[] buffer, long
+              numChars)</td><td>buffer 데이터를 numChars만큼 읽어서 offset 위치에 저장한다.</td></tr><tr><td align="left">long putChars(long offset, char[] buffer, long bufOffset,
+              long numChars)</td><td>buffer 데이터를 bufOffset 위치부터 numChars만큼 읽어서 offset 위치에
+              저장한다.</td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_failover.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제7장 Row Set </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제9장 Failover와 Load balancing</td></tr></table></div><div xmlns="" align="center"/></body></html>

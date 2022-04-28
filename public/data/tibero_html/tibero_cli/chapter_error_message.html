@@ -1,0 +1,1071 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제4장 tbCLI 에러 메시지</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbCLI 안내서"/><link rel="up" href="index.html" title="Tibero tbCLI 안내서"/><link rel="prev" href="chapter_tbcli_function.html" title="제3장 tbCLI 함수"/><link rel="next" href="chapter_tbcli_odbc.html" title="제5장 tbCLI와 ODBC"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제4장 <span xmlns="http://www.w3.org/1999/xhtml">tbCLI</span> 에러 메시지</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_tbcli_function.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_tbcli_odbc.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_error_message"/>제4장 <span>tbCLI</span> 에러 메시지</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_error_message.html#d5e10440">4.1. 반환 코드</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#sect_sqlstate">4.2. SQLSTATE</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_error_message.html#d5e10506">4.2.1. 00000</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#sect_sqlstate_1">4.2.2. 01000 ~01007</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#sect_sqlstate_2">4.2.3. 01S00 ~ 01S09</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e10745">4.2.4. 02000</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e10765">4.2.5. 07001 ~ 07009</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e10847">4.2.6. 07S01</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e10867">4.2.7. 08001 ~ 08007</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e10945">4.2.8. 08S01</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e10973">4.2.9. 21S01 ~ 21S02</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e11009">4.2.10. 22001 ~ 22026</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e11183">4.2.11. 23000, 24000, 25000</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e11238">4.2.12. 25S01 ~ 25S03</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e11287">4.2.13. 28000, 34000</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e11324">4.2.14. 3C000 ~ 3F000</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e11372">4.2.15. 40001 ~ 40003, 42000</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e11445">4.2.16. 42S01 ~ 42S22, 44000</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e11549">4.2.17. HY000 ~ HY024</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e11857">4.2.18. HY090 ~ HY111</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e12129">4.2.19. HYC00</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e12156">4.2.20. HYT00 ~ HYT01</a></span></dt><dt><span class="section"><a href="chapter_error_message.html#d5e12197">4.2.21. IM001 ~ IM015</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>tbCLI</span> 프로그램을 실행하는 과정에서 발생할 수 있는 에러를 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e10440"/>4.1. 반환 코드</h2></div></div></div>
+    
+
+    <p>모든 <span>tbCLI</span> 함수는 실행 후 반환 코드를 반환한다. 반환 코드는
+    <span><strong class="guibutton">SQLRETURN</strong></span> 타입이며 미리 정해진 값 중의 하나이다.<a id="d5e10445" class="indexterm"/></p>
+
+    <p><span>tbCLI</span> 함수는 다음 표와 같이 반환되는 반환 코드에 따라 <span>tbCLI</span>
+    프로그램의 상태를 확인할 수 있다.<a id="d5e10450" class="indexterm"/></p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">반환 코드</th><th>설명</th></tr></thead><tbody><tr><td align="left">SQL_SUCCESS<a id="d5e10462" class="indexterm"/></td><td>함수가 성공적으로 완료된 상태</td></tr><tr><td align="left">SQL_SUCCESS_WITH_INFO<a id="d5e10467" class="indexterm"/></td><td>함수가 성공적으로 완료되었으나, 경고 메시지가 있는 상태</td></tr><tr><td align="left">SQL_NO_DATA<a id="d5e10472" class="indexterm"/></td><td><p>함수가 성공적으로 완료되었으나, 관련된 데이터를 찾을 수 없는 상태</p><p>(예:
+            주어진 SQL 문장에 의해 갱신된 로우가 없는 경우)</p></td></tr><tr><td align="left">SQL_INVALID_HANDLE<a id="d5e10479" class="indexterm"/></td><td>입력 파라미터에 주어진 핸들이 유효하지 않은 상태</td></tr><tr><td align="left">SQL_NEED_DATA<a id="d5e10484" class="indexterm"/></td><td><p>SQL 문장을 실행하기 위해 데이터가 더 필요한 상태</p><p>(예:
+            파라미터)</p></td></tr><tr><td align="left">SQL_STILL_EXECUTING<a id="d5e10491" class="indexterm"/></td><td>이전에 실행한 SQL 문장이 완료되지 않은 상태</td></tr><tr><td align="left">SQL_ERROR<a id="d5e10496" class="indexterm"/></td><td>치명적인 에러가 발생한 상태</td></tr></tbody></table>
+    </div>
+
+    <p>이러한 반환 코드는 추가적으로 SQLSTATE 정보가 존재할 수 있다.</p>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>SQLSTATE에 대한 내용은 관련 API나 <a href="chapter_error_message.html#sect_sqlstate" title="4.2. SQLSTATE">“4.2. SQLSTATE”</a>을
+      참고한다.</p>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_sqlstate"/>4.2. SQLSTATE</h2></div></div></div>
+    
+
+    <p>본 절에서는 SQLSTATE 정보를 코드 순으로 나열하고 이를 설명한다. 추가로 해당 SQLSTATE 코드를 반환할 수
+    있는 함수도 포함하여 기술한다.</p>
+
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10506"/>4.2.1. 00000<a id="d5e10508" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>00000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>함수가 성공적으로 완료된 상태이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>모든 함수</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_sqlstate_1"/>4.2.2. 01000 ~01007<a id="d5e10528" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>01000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>일반적인 경고를 뜻하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLError, SQLGetDiagField, SQLGetDiagRec를 제외한 모든
+                  함수</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01001</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>커서 연산이 충돌했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirec, SQLExecute, SQLParamDat,
+                  SQLSetPos</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01002</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>데이터베이스 연결을 해제하는 중에 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLError, SQLGetDiagField, SQLGetDiagRec</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01003</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>설정된 함수에서 NULL 값을 제거한 경우에 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLExecute, SQLParamData</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01004</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>문자열 데이터가 오른쪽에서 잘릴 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBrowseConnect, SQLBulkOperations,
+                  SQLColAttribute, SQLDataSources,</p><p>SQLDescribeCol,
+                  SQLDriverConnect, SQLDrivers, SQLExecDirect, SQLExecute,
+                  </p><p>SQLExtendedFetch, SQLFetch, SQLFetchScroll,
+                  SQLGetConnectAttr, SQLGetCursorName,
+                  </p><p>SQLGetData, SQLGetDescField, SQLGetDescRec,
+                  SQLGetEnvAttr, SQLGetInfo, </p><p>SQLGetStmtAttr,
+                  SQLNativeSql, SQLParamData, SQLPutData,
+                  SQLSetCursorName</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01006</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>취소되지 않은 특권일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirec, SQLExecute, SQLParamData</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01007</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>부여되지 않은 특권일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLExecute, SQLParamData</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_sqlstate_2"/>4.2.3. 01S00 ~ 01S09<a id="d5e10637" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>01S00</p><div class="informaltable">
+              <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>유효하지 않은 연결 문자열의 속성일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLDriverConnect</td></tr></tbody></table>
+            </div>
+        </li><li>
+          <p>01S01</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>로우에 에러가 있는 경우 발생한다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBulkOperations, SQLExtendedFetch,
+                  SQLSetPos</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01S02</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>옵션 값이 변경되었을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>다음의 함수를 제외한 모든 함수</p><p>SQLBrowseConnect,
+                  SQLConnect, SQLDriverConnect, SQLExecDirect, SQLExecute,
+                  </p><p>SQLParamData, SQLPrepare, SQLSetConnectAttr,
+                  SQLSetDescField, SQLSetEnvAttr,
+                  </p><p>SQLSetStmtAttr</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01S06</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>결과 집합의 첫 번째 로우가 반환되기 전에 페치를 시도한 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExtendedFetch, SQLFetchScroll</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01S07</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>숫자 타입이나 날짜 타입의 일부 정보가 잘릴 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  SQLExtendedFetch, SQLFetch, </p><p>SQLFetchScroll,
+                  SQLGetData, SQLParamData, SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01S08</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>DSN 파일(.dsn)을 저장하지 못할 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>01S09</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 예약어일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10745"/>4.2.4. 02000<a id="d5e10747" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>02000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>함수가 성공적으로 완료되었으나, 관련된 데이터를 찾을 수 없는 상태이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>모든 함수</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10765"/>4.2.5. 07001 ~ 07009<a id="d5e10767" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>07001</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>파라미터의 숫자가 잘못되었을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLExecute</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>07002</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>COUNT 필드에 오류가 있는 경우에 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLExecute, SQLParamData</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>07005</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>커서의 범위가 아닌 준비된 문장인 경우에 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLColAttribute, SQLDescribeCol</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>07006</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>제한된 데이터 타입의 속성에 위배될 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBindCol, SQLBindParameter,
+                  SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  </p><p>SQLExtendedFetch, SQLFetch, SQLFetchScroll,
+                  SQLGetData, SQLParamData, </p><p>SQLPutData,
+                  SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>07009</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 서술자 인덱스일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBindCol, SQLBindParameter,
+                  SQLBulkOperations, SQLColAttribute, SQLDescribeCol,
+                  </p><p>SQLDescribeParam, SQLFetch, SQLFetchScroll,
+                  SQLGetData, SQLGetDescField, </p><p>SQLGetDescRec,
+                  SQLParamData, SQLSetDescField, SQLSetDescRec,
+                  SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10847"/>4.2.6. 07S01<a id="d5e10849" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>07S01</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>디폴트 파라미터를 잘못 사용한 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLExecute, SQLParamData,
+                  SQLPutData</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10867"/>4.2.7. 08001 ~ 08007<a id="d5e10869" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>08001</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>클라이언트가 데이터소스에 연결할 수 없을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect,
+                  SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>08002</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>이미 사용 중인 데이터베이스 연결명일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect, SQLDriverConnect,
+                  SQLSetConnectAttr</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>08003</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>연결이 존재하지 않을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLAllocHandle, SQLDisconnect, SQLEndTran,
+                  SQLGetConnectAttr, SQLGetInfo, </p><p>SQLNativeSql,
+                  SQLSetConnectAttr</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>08004</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>서버가 연결을 거부할 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect,
+                  SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>08007</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>트랜잭션을 수행하는 중에 연결이 실패한 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLEndTran</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10945"/>4.2.8. 08S01<a id="d5e10947" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>08S01</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>통신 연결이 실패한 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBrowseConnect, SQLColumnPrivileges,
+                  SQLColumns, SQLConnect, SQLCopyDesc,
+                  </p><p>SQLDescribeCol, SQLDescribeParam,
+                  SQLDriverConnect, SQLExecDirect, SQLExecute,
+                  </p><p>SQLExtendedFetch, SQLFetch, SQLFetchScroll,
+                  SQLForeignKeys, SQLGetConnectAttr, </p><p>SQLGetData,
+                  SQLGetDescField, SQLGetDescRec, SQLGetFunctions, SQLGetInfo,
+                  </p><p>SQLGetTypeInfo, SQLMoreResults, SQLNativeSql,
+                  SQLNumParams, SQLNumResultCols, </p><p>SQLParamData,
+                  SQLPrepare, SQLPrimaryKeys, SQLProcedureColumns,
+                  SQLProcedures, </p><p>SQLPutData, SQLSetConnectAttr,
+                  SQLSetDescField, SQLSetDescRec, SQLSetEnvAttr,
+                  </p><p>SQLSetStmtAttr, SQLSpecialColumns,
+                  SQLStatistics, SQLTablePrivileges, SQLTables</p></td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10973"/>4.2.9. 21S01 ~ 21S02<a id="d5e10975" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>21S01</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>삽입될 값의 리스트가 컬럼과 일치하지 않을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLPrepare</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>21S02</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>파생된 테이블의 degree가 컬럼과 일치하지 않을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  SQLParamData, SQLPrepare,
+                  </p><p>SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e11009"/>4.2.10. 22001 ~ 22026<a id="d5e11011" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>22001</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>문자열 데이터가 오른쪽에서 잘릴 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  SQLFetch, SQLFetchScroll, </p><p>SQLParamData,
+                  SQLPutData, SQLSetDescField, SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>22002</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>지시자 변수가 요구되었으나, 제공되지 않았을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLExecDirect, SQLExecute, SQLExtendedFetch,
+                  SQLFetch, SQLFetchScroll, </p><p>SQLGetData,
+                  SQLParamData</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>22003</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>한정된 범위를 초과한 숫자 값일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  SQLExtendedFetch, SQLFetch, </p><p>SQLFetchScroll,
+                  SQLGetData, SQLGetInfo, SQLParamData, SQLPutData,
+                  SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>22007</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>유효하지 않은 날짜형(DATETIME) 형식일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  SQLExtendedFetch, SQLFetch, </p><p>SQLFetchScroll,
+                  SQLGetData, SQLParamData, SQLPutData,
+                  SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>22008</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>날짜형 필드에 오버플로우가 발생했을 때 나타나는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  SQLParamData, SQLPutData</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>22012</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>0으로 나누었을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLExecDirect, SQLExecute, SQLExtendedFetch,
+                  SQLFetch, SQLFetchScroll, </p><p>SQLGetData,
+                  SQLParamData, SQLPutData</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>22015</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>INTERVAL 필드에 오버플로우가 발생했을 때 나타나는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  SQLExtendedFetch, SQLFetch, </p><p>SQLFetchScroll,
+                  SQLGetData, SQLParamData, SQLPutData,
+                  SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>22018</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>캐스트 설정을 위한 문자 값이 잘못된 경우에 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  SQLExtendedFetch, SQLFetch, </p><p>SQLFetchScroll,
+                  SQLGetData, SQLParamData, SQLPutData,
+                  SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>22019</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 이스케이프 문자일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLExecute, SQLPrepare</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>22025</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 이스케이프 시퀀스일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLExecute, SQLPrepare</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>22026</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 길이를 가진 문자열 데이터일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLParamData</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e11183"/>4.2.11. 23000, 24000, 25000<a id="d5e11185" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+            <p>23000</p>
+
+            <div class="informaltable">
+              <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>무결성 제약조건에 위배될 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                    SQLParamData, SQLSetPos</td></tr></tbody></table>
+            </div>
+          </li><li>
+            <p>24000</p>
+
+            <div class="informaltable">
+              <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 커서 상태일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLCloseCursor,
+                    SQLColumnPrivileges, SQLColumns,
+                    </p><p>SQLExecDirect, SQLExecute, SQLExtendedFetch,
+                    SQLFetch, SQLFetchScroll, </p><p>SQLForeignKeys,
+                    SQLGetData, SQLGetStmtAttr, SQLGetTypeInfo, SQLNativeSql,
+                    </p><p>SQLPrepare, SQLPrimaryKeys,
+                    SQLProcedureColumns, SQLProcedures,
+                    </p><p>SQLSetConnectAttr, SQLSetCursorName,
+                    SQLSetPos, SQLSetStmtAttr, </p><p>SQLSpecialColumns,
+                    SQLStatistics, SQLTablePrivileges,
+                    SQLTables</p></td></tr></tbody></table>
+            </div>
+          </li><li>
+            <p>25000</p>
+
+            <div class="informaltable">
+              <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 트랜잭션 상태일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLDisconnect</td></tr></tbody></table>
+            </div>
+          </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e11238"/>4.2.12. 25S01 ~ 25S03<a id="d5e11240" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+            <p>25S01</p>
+
+            <div class="informaltable">
+              <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>트랜잭션 상태일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLEndTran</td></tr></tbody></table>
+            </div>
+          </li><li>
+            <p>25S02</p>
+
+            <div class="informaltable">
+              <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>트랜잭션이 아직 활성화 중일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLEndTran</td></tr></tbody></table>
+            </div>
+          </li><li>
+            <p>25S03</p>
+
+            <div class="informaltable">
+              <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>트랜잭션이 롤백되었을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLEndTran</td></tr></tbody></table>
+            </div>
+          </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e11287"/>4.2.13. 28000, 34000<a id="d5e11289" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>28000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 권한을 설정했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect,
+                  SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>34000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 커서 이름일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLPrepare, SQLSetCursorName</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e11324"/>4.2.14. 3C000 ~ 3F000<a id="d5e11326" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>3C000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>중복된 커서 이름일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLSetCursorName</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>3D000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 카탈로그 이름일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLPrepare, SQLSetConnectAttr</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>3F000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 스키마 이름일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLPrepare</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e11372"/>4.2.15. 40001 ~ 40003, 42000<a id="d5e11374" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>40001</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>직렬화에 실패했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLColumnPrivileges,
+                  SQLColumns, SQLEndTran, SQLExecDirect,
+                  </p><p>SQLExecute, SQLFetch, SQLFetchScroll,
+                  SQLForeignKeys, SQLGetTypeInfo, </p><p>SQLMoreResults,
+                  SQLParamData, SQLPrimaryKeys, SQLProcedureColumns,
+                  </p><p>SQLProcedures, SQLSetPos, SQLSpecialColumns,
+                  SQLStatistics, SQLTablePrivileges,
+                  </p><p>SQLTables</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>40002</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>무결성 제약조건에 위배될 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLEndTran</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>40003</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>실행이 완료되지 않았고, 트랜잭션의 상태를 알 수 없을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLColumnPrivileges,
+                  SQLColumns, SQLExecDirect, SQLExecute,
+                  </p><p>SQLFetch, SQLFetchScroll, SQLForeignKeys,
+                  SQLGetTypeInfo, SQLMoreResults,</p><p>SQLPrimaryKeys,
+                  SQLProcedureColumns, SQLProcedures, SQLParamData, SQLSetPos,
+                  </p><p>SQLSpecialColumns, SQLStatistics,
+                  SQLTablePrivileges, SQLTables</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>42000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>문법 에러 또는 접근 위배가 발생한 경우 나타나는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  SQLParamData, SQLPrepare,
+                  </p><p>SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e11445"/>4.2.16. 42S01 ~ 42S22, 44000<a id="d5e11447" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>42S01</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>기반 테이블 또는 뷰가 이미 존재할 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLPrepare</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>42S02</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>기반 테이블 또는 뷰를 찾을 수 없을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLPrepare</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>42S11</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>인덱스가 이미 존재할 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLPrepare</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>42S12</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>인덱스를 찾을 수 없을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLPrepare</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>42S21</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>컬럼이 이미 존재할 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLPrepare</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>42S22</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>컬럼을 찾을 수 없을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExecDirect, SQLPrepare</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>44000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>WITH CHECK OPTION에 위배될 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBulkOperations, SQLExecDirect, SQLExecute,
+                  SQLParamData, SQLSetPos</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e11549"/>4.2.17. HY000 ~ HY024<a id="d5e11551" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>HY000</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>일반적인 에러를 뜻하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>(All ODBC functions except) SQLError,
+                  SQLGetDiagField, SQLGetDiagRec</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY001</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>메모리 할당에 실패했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>(All ODBC functions except) SQLError,
+                  SQLGetDiagField, SQLGetDiagRec</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY003</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 애플리케이션의 버퍼 타입일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBindCol, SQLBindParameter, SQLGetData</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY004</p><div class="informaltable">
+              <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 SQL의 데이터 타입일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBindParameter, SQLGetTypeInfo</td></tr></tbody></table>
+            </div>
+        </li><li>
+          <p>HY007</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>해당 문장이 준비되지 않았을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLCopyDesc, SQLGetDescField, SQLGetDescRec</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY008</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>연산이 취소되었을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBulkOperations, SQLColAttribute,
+                  SQLColumnPrivileges, SQLColumns,
+                  </p><p>SQLDescribeCol, SQLDescribeParam,
+                  SQLExecDirect, SQLExecute, SQLExtendedFetch,
+                  </p><p>SQLFetch, SQLFetchScroll, SQLForeignKeys,
+                  SQLGetData, SQLGetTypeInfo, </p><p>SQLMoreResults,
+                  SQLNumParams, SQLNumResultCols, SQLParamData, SQLPrepare,
+                  </p><p>SQLPrimaryKeys, SQLProcedureColumns,
+                  SQLProcedures, SQLPutData, SQLSetPos,
+                  </p><p>SQLSpecialColumns, SQLStatistics,
+                  SQLTablePrivileges, SQLTables</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY009</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>NULL 포인터를 잘못 사용했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLAllocHandle, SQLBindParameter,
+                  SQLBulkOperations, SQLColumnPrivileges,
+                  </p><p>SQLColumns, SQLExecDirect, SQLForeignKeys,
+                  SQLGetCursorName, SQLGetData, </p><p>SQLGetFunctions,
+                  SQLNativeSql, SQLPrepare, SQLPrimaryKeys,
+                  SQLProcedureColumns, </p><p>SQLProcedures, SQLPutData,
+                  SQLSetConnectAttr, SQLSetCursorName, SQLSetEnvAttr,
+                  </p><p>SQLSetStmtAttr, SQLSpecialColumns,
+                  SQLStatistics, SQLTablePrivileges, SQLTables</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY010</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>함수 시퀀스에 문제가 있는 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLAllocHandle, SQLBindCol, SQLBindParameter,
+                  SQLBulkOperations, SQLCloseCursor,
+                  </p><p>SQLColAttribute, SQLColumnPrivileges,
+                  SQLColumns, SQLCopyDesc, SQLDescribeCol,
+                  </p><p>SQLDescribeParam, SQLDisconnect, SQLEndTran,
+                  SQLExecDirect, SQLExecute, </p><p>SQLExtendedFetch,
+                  SQLFetch, SQLFetchScroll, SQLForeignKeys, SQLFreeHandle,
+                  </p><p>SQLFreeStmt, SQLGetConnectAttr,
+                  SQLGetCursorName, SQLGetData, SQLGetDescField,
+                  </p><p>SQLGetDescRec, SQLGetFunctions, SQLGetStmtAttr,
+                  SQLGetTypeInfo, SQLMoreResults, </p><p>SQLNumParams,
+                  SQLNumResultCols, SQLParamData, SQLPrepare, SQLPrimaryKeys,
+                  </p><p>SQLProcedureColumns, SQLProcedures, SQLPutData,
+                  SQLRowCount, </p><p>SQLSetConnectAttr,
+                  SQLSetCursorName, SQLSetDescField, SQLSetEnvAttr,
+                  </p><p>SQLSetDescRec, SQLSetPos, SQLSetStmtAttr,
+                  SQLSpecialColumns, SQLStatistics,
+                  </p><p>SQLTablePrivileges, SQLTables</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY011</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>현재 설정될 수 없는 속성일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBulkOperations, SQLParamData, SQLSetConnectAttr,
+                  SQLSetPos, SQLSetStmtAttr</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY012</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 트랜잭션의 연산 코드일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLEndTran</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY013</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>메모리 관리에 에러가 발생한 경우 나타나는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>(All ODBC functions except) SQLGetDiagField,
+                  SQLGetDiagRec</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY014</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>한정된 핸들 개수를 초과했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLAllocHandle</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY015</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>사용할 수 있는 커서 이름이 없을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLGetCursorName</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY016</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>구현 로우 서술자를 수정할 수 없을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLCopyDesc, SQLSetDescField, SQLSetDescRec</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY017</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>자동으로 할당된 서술자 핸들을 잘못 사용했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLFreeHandle, SQLSetStmtAttr</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY018</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>서버가 취소 요구를 거부했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLCancel</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY019</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>비문자열(Non-character)과 비이진 데이터(Non-binary data)를 여러
+                  조각으로 나누어 보냈을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLPutData</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY020</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>NULL 값을 접합하려고 시도했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLPutData</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY021</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>모순이 있는 서술자 정보일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBindParameter, SQLCopyDesc, SQLGetDescField,
+                  SQLSetDescField, SQLSetDescRec</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY024</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 속성 값일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLSetConnectAttr, SQLSetEnvAttr,
+                  SQLSetStmtAttr</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e11857"/>4.2.18. HY090 ~ HY111<a id="d5e11859" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>HY090</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 문자열 또는 버퍼 길이일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBindCol, SQLBindParameter, SQLBrowseConnect,
+                  SQLBulkOperations, </p><p>SQLColAttribute,
+                  SQLColumnPrivileges, SQLColumns, SQLConnect, SQLDataSources,
+                  </p><p>SQLDescribeCol, SQLDriverConnect, SQLDrivers,
+                  SQLExecDirect, SQLExecute, </p><p>SQLFetch,
+                  SQLFetchScroll, SQLForeignKeys, SQLGetConnectAttr,
+                  SQLGetCursorName, </p><p>SQLGetData, SQLGetDescField,
+                  SQLGetInfo, SQLGetStmtAttr, SQLNativeSql,
+                  </p><p>SQLParamData, SQLPrepare, SQLPrimaryKeys,
+                  SQLProcedureColumns, SQLProcedures,</p><p>SQLPutData,
+                  SQLSetConnectAttr, SQLSetCursorName, SQLSetDescField,
+                  </p><p>SQLSetDescRec, SQLSetEnvAttr, SQLSetStmtAttr,
+                  SQLSetPos, SQLSpecialColumns, </p><p>SQLStatistics,
+                  SQLTablePrivileges, SQLTables</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY091</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 서술자의 필드 식별자일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLColAttribute, SQLGetDescField,
+                  SQLSetDescField</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY092</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 속성 및 옵션 식별자일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLAllocHandle, SQLBulkOperations, SQLCopyDesc,
+                  SQLDriverConnect, SQLEndTran, </p><p>SQLFreeStmt,
+                  SQLGetConnectAttr, SQLGetEnvAttr, SQLGetStmtAttr,
+                  SQLParamData, </p><p>SQLSetConnectAttr,
+                  SQLSetDescField, SQLSetEnvAttr, SQLSetPos,
+                  SQLSetStmtAttr</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY095</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>영역 밖의 함수 타입인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLGetFunctions</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY096</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 정보 타입인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLGetInfo</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY097</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>영역 밖의 컬럼인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLSpecialColumns</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY098</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>영역 밖의 범위 타입인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLSpecialColumns</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY099</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>영역 밖의 Nullable 타입인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLSpecialColumns</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY100</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>영역 밖의 고유 옵션 타입인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLStatistics</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY101</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>영역 밖의 정확도 옵션 타입인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLStatistics</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY103</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 검색(retrieval) 코드인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLDataSources, SQLDrivers</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY104</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 정밀도 또는 스케일 값인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBindParameter</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY105</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 파라미터 타입인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBindParameter, SQLExecDirect, SQLExecute,
+                  SQLParamData, SQLSetDescField</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY106</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>영역 밖의 페치 타입인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExtendedFetch, SQLFetchScroll</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY107</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>영역 밖의 로우 값인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExtendedFetch, SQLFetch, SQLFetchScroll,
+                  SQLSetPos</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY109</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 커서 위치일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLExecDirect, SQLExecute, SQLGetData,
+                  SQLGetStmtAttr, SQLNativeSql, </p><p>SQLParamData,
+                  SQLSetPos</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY110</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 드라이버 완성(driver completion)일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HY111</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 북마크 값인 경우 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLExtendedFetch, SQLFetchScroll</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e12129"/>4.2.19. HYC00<a id="d5e12131" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>HYC00</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>구현되지 않은 선택적인 기능(Optional feature)을 사용하려 할 때 발생하는
+                  에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBindCol, SQLBindParameter,
+                  SQLBulkOperations, SQLColAttribute,
+                  </p><p>SQLColumnPrivileges, SQLColumns,
+                  SQLDriverConnect, SQLEndTran,
+                  SQLExecDirect,</p><p>SQLExecute, SQLExtendedFetch,
+                  SQLFetch, SQLFetchScroll, SQLForeignKeys,
+                  </p><p>SQLGetConnectAttr, SQLGetData, SQLGetEnvAttr,
+                  SQLGetInfo, SQLGetStmtAttr, </p><p>SQLGetTypeInfo,
+                  SQLParamData, SQLPrepare, SQLPrimaryKeys,
+                  SQLProcedureColumns, </p><p>SQLProcedures,
+                  SQLSetConnectAttr, SQLSetEnvAttr, SQLSetPos, SQLSetStmtAttr,
+                  </p><p>SQLSpecialColumns, SQLStatistics,
+                  SQLTablePrivileges, SQLTables</p></td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e12156"/>4.2.20. HYT00 ~ HYT01<a id="d5e12158" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>HYT00</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>제한 시간을 초과했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>SQLBrowseConnect, SQLBulkOperations,
+                  SQLColumnPrivileges, SQLColumns, </p><p>SQLConnect,
+                  SQLDriverConnect, SQLExecDirect, SQLExecute,
+                  SQLExtendedFetch, </p><p>SQLForeignKeys,
+                  SQLGetTypeInfo, SQLParamData, SQLPrepare, SQLPrimaryKeys,
+                  </p><p>SQLProcedureColumns, SQLProcedures, SQLSetPos,
+                  SQLSpecialColumns, </p><p>SQLStatistics,
+                  SQLTablePrivileges, SQLTables</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>HYT01</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>데이터베이스 연결 제한 시간을 초과했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>(All ODBC functions except) SQLDrivers,
+                  SQLDataSources, </p><p>SQLGetEnvAttr,
+                  SQLSetEnvAttr</p></td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e12197"/>4.2.21. IM001 ~ IM015<a id="d5e12199" class="indexterm"/></h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>IM001</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>드라이버가 해당 함수를 제공하지 않을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td><p>(All ODBC functions except) SQLAllocHandle,
+                  SQLDataSources, SQLDrivers, </p><p>SQLFreeHandle,
+                  SQLGetFunctions</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM002</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>데이터소스의 이름을 찾을 수 없거나, 디폴트 드라이버가 존재하지 않을 때 발생하는
+                  에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect,
+                  SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM003</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>지정한 드라이버를 로드할 수 없을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect,
+                  SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM004</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>해당 드라이버에 <a href="chapter_tbcli_function.html#SQLAllocHandle" title="3.1.3. SQLAllocHandle">SQLAllocHandle</a> 함수를 이용한 환경 핸들
+                  할당에 실패했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect,
+                  SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM005</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>해당 드라이버에 <a href="chapter_tbcli_function.html#SQLAllocHandle" title="3.1.3. SQLAllocHandle">SQLAllocHandle</a> 함수를 이용한 연결 핸들
+                  할당에 실패했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect,
+                  SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM006</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>해당 드라이버에 <a href="chapter_tbcli_function.html#SQLSetConnectAttr" title="3.1.61. SQLSetConnectAttr">SQLSetConnectAttr</a> 함수를 이용한
+                  데이터베이스 연결 속성 설정에 실패했을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect,
+                  SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM007</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>데이터소스 또는 드라이버가 지정되지 않았을 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM009</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>Translation DLL를 로드하는 것이 불가능할 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect, SQLDriverConnect,
+                  SQLSetConnectAttr</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM010</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>데이터소스의 이름이 SQL_MAX_DSN_LENGTH 파라미터에 설정된 값보다 길 때 발생하는
+                  에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLConnect,
+                  SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM011</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>드라이버 이름이 길 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM012</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>드라이버 예약어에 문법 에러가 발생했을 때 나타나는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLBrowseConnect, SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM013</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>트레이스 파일에 문제가 발생한 경우 나타나는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>All ODBC functions</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM014</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>잘못된 파일 DSN의 이름일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>IM015</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">설명</strong></span></td><td>손상된 파일의 데이터소스일 때 발생하는 에러이다.</td></tr><tr><td align="left"><span><strong class="guibutton">함수</strong></span></td><td>SQLDriverConnect</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_tbcli_function.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_tbcli_odbc.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제3장 <span>tbCLI</span> 함수 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제5장 <span>tbCLI</span>와 ODBC</td></tr></table></div><div xmlns="" align="center"/></body></html>

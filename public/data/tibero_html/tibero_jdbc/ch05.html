@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제5장 분산 트랜잭션</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero JDBC 개발자 안내서"/><link rel="up" href="index.html" title="Tibero JDBC 개발자 안내서"/><link rel="prev" href="ch04.html" title="제4장 DataSource 객체와 데이터베이스 URL"/><link rel="next" href="ch06.html" title="제6장 결과 집합 확장기능"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제5장 분산 트랜잭션</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch06.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1813"/>제5장 분산 트랜잭션</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="ch05.html#d5e1817">5.1. 개요</a></span></dt><dt><span class="section"><a href="ch05.html#d5e1844">5.2. 구성요소</a></span></dt><dt><span class="section"><a href="ch05.html#d5e1876">5.3. 전역 트랜잭션과 지역 트랜잭션 간의 변환</a></span></dt><dt><span class="section"><a href="ch05.html#d5e1946">5.4. <span>Tibero</span>
+    XA 패키지</a></span></dt><dt><span class="section"><a href="ch05.html#d5e1969">5.5. XA 인터페이스의 구성요소</a></span></dt><dd><dl><dt><span class="section"><a href="ch05.html#d5e1973">5.5.1. XADataSource 인터페이스</a></span></dt><dt><span class="section"><a href="ch05.html#d5e1987">5.5.2. XAConnection 인터페이스</a></span></dt><dt><span class="section"><a href="ch05.html#d5e2000">5.5.3. XAResource 인터페이스</a></span></dt><dt><span class="section"><a href="ch05.html#d5e2329">5.5.4. XID 인터페이스</a></span></dt></dl></dd><dt><span class="section"><a href="ch05.html#d5e2363">5.6. 분산 트랜잭션 예제</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 <span>tbJDBC</span>에서 제공하는 분산 트랜잭션(Distributed Transaction)
+  기능을 설명한다. 분산 트랜잭션의 대표적인 예로는 XA(Extended Architecture)가 있으며 이와 관련된 설명을 주로
+  한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1817"/>5.1. 개요</h2></div></div></div>
+    
+
+    <p>분산 트랜잭션<a id="d5e1820" class="indexterm"/>은 보통 전역 트랜잭션이라고도 하는데, 통합으로 관리되는 하나 이상의 트랜잭션 집합을 말한다. 분산
+    트랜잭션에 참여하는 트랜잭션은 동일한 데이터베이스에 존재할 수도 있고, 다른 데이터베이스에 존재할 수도 있다. 이러한 각각의
+    트랜잭션을 <span><strong class="guibutton">트랜잭션 브랜치</strong></span>(Transaction Branch)라고 한다.<a id="d5e1823" class="indexterm"/></p>
+
+    <p>분산 트랜잭션은 JDBC 2.0 표준의 확장 API로서 접속 풀링 기능을 기반으로 제공되거나 X/Open
+    DTP(Distributed Transaction Processing) 규약의 XA 표준으로 제공되기도 한다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>분산 트랜잭션은 다음과 같은 특징이 있다.<a id="d5e1828" class="indexterm"/></p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>분산 트랜잭션은 개별 트랜잭션을 관리하기 위해 외부의 트랜잭션 관리자를 이용한다.</p>
+
+        <p>트랜잭션 관리자는 Java Transaction API 표준을 구현한 소프트웨어 요소로서 여러
+        벤더(vendor)에서 XA 호환 JTA 모듈을 제공한다.<a id="d5e1834" class="indexterm"/></p>
+      </li><li>
+        <p>XA 기능은 애플리케이션 프로그램과는 별도로 구분되며, 대부분 애플리케이션 프로그램 서버(Application
+        Server)와 같은 Middle-tier에서 사용된다.<a id="d5e1838" class="indexterm"/></p>
+      </li><li>
+        <p>리소스 매니저(Resource Manager)는 데이터나 다른 종류의 리소스를 지칭하는 용어로 본 장에서는
+        데이터베이스를 가리킨다.<a id="d5e1842" class="indexterm"/></p>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1844"/>5.2. 구성요소</h2></div></div></div>
+    
+
+    <p>다음은 XA 구성요소별 기능 설명이다. </p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>XADataSource<a id="d5e1850" class="indexterm"/></p>
+
+        <p>XADataSource는 Connection Pool DataSource나 다른 DataSource와 비슷한 개념과
+        기능을 가진다. 분산 트랜잭션에서 사용되는 각각의 리소스 매니저(데이터베이스)에는 하나의 XADataSource 객체가
+        존재하고, 이 XADataSource가 XAConnection을 생성한다.</p>
+      </li><li>
+        <p>XAConnection<a id="d5e1856" class="indexterm"/></p>
+
+        <p>XAConnection은 Pooled Connection의 확장이며, 개념이나 기능면에서는 비슷하다.</p>
+
+        <p>XAConnection은 물리적인 데이터베이스 연결에 대한 임시 핸들이 되고, 하나의 XA Connection은
+        하나의 데이터베이스 세션에 해당한다.</p>
+      </li><li>
+        <p>XAResource<a id="d5e1863" class="indexterm"/></p>
+
+        <p>XAResource는 분산 트랜잭션의 각 트랜잭션 브랜치를 조합하기 위해 트랜잭션 관리자에 의해 사용된다. 각각의
+        XAConnection으로부터 하나의 XAResource 객체를 얻어올 수 있고, 1:1 관계를 가진다.</p>
+
+        <p>따라서 하나의 XAResource 객체는 하나의 데이터베이스 세션에 해당된다. 하나의 XAResource 객체는
+        실행 중인 오직 하나의 트랜잭션 브랜치만 있을 수 있다. 그러나 실행 중인 트랜잭션과는 별개로 정지된 트랜잭션도 있을 수
+        있다. 각각의 XAResource 객체는 해당 세션에서 수행되며 시작, 종료, 준비, 커밋, 롤백 등의 기능이
+        있다.<a id="d5e1868" class="indexterm"/></p>
+      </li><li>
+        <p>XID<a id="d5e1872" class="indexterm"/></p>
+
+        <p>각각의 트랜잭션 브랜치를 구분하기 위해 XID(트랜잭션 ID)를 사용하고, 하나의 XID는 트랜잭션 브랜치 ID와
+        분산 트랜잭션 ID로 구성된다.</p>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1876"/>5.3. 전역 트랜잭션과 지역 트랜잭션 간의 변환</h2></div></div></div>
+    
+
+    <p>JDBC 3.0 표준에서는 전역 트랜잭션과 지역 트랜잭션 사이에서 커넥션을 공유할 수 있고, 각각으로 변환할 수
+    있다.</p>
+
+    <p>일반적으로 커넥션은 다음의 세 가지 모드 중에 반드시 하나를 갖는다.</p>
+
+    <p/>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">모드</th><th>설명</th></tr></thead><tbody><tr><td align="left">NO_TXN<a id="d5e1891" class="indexterm"/><a id="d5e1894" class="indexterm"/></td><td>현재 커넥션을 사용하는 활성화된 트랜잭션이 없는 모드이다.</td></tr><tr><td align="left">LOCAL_TXN<a id="d5e1899" class="indexterm"/><a id="d5e1902" class="indexterm"/></td><td><p>auto-commit 모드를 비활성화시킨 상태로 현재 커넥션을 사용하는 활성화된 트랜잭션이 있는
+            모드이다.</p><p>커넥션 모드에 따라 prepare(), commit(), rollback(),
+            forget(), end() 메소드를 호출할 수 없고, XAException이 발생한다.</p></td></tr><tr><td align="left">GLOBAL_TXN<a id="d5e1909" class="indexterm"/><a id="d5e1912" class="indexterm"/></td><td><p>현재 커넥션을 사용하는 활성화된 트랜잭션이 있는 모드이다.</p><p>커넥션 모드에
+            따라 commit(), rollback(), setAutoCommit(), setSavepoint() 메소드를 호출할
+            수 없고, SQLException이 발생한다.</p></td></tr></tbody></table>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <p>각 커넥션은 실행 상태에 따라 다음과 같이 세 가지 모드 사이에서 자동으로 바뀐다. 단, 커넥션이 초기화될 때에는 항상
+    NO_TXN 모드로 동작한다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="100" align="left"/><col width="170" align="left"/><col width="170" align="left"/><col/></colgroup><thead><tr><th align="left">현재 모드</th><th align="left">NO_TXN으로 변환</th><th align="left">LOCAL_TXN으로 변환</th><th align="left">GLOBAL_TXN으로 변환</th></tr></thead><tbody><tr><td align="left">NO_TXN</td><td align="left">-</td><td align="left">auto-commit 모드를 비활성화시키고 DML 문을 수행했을 때</td><td align="left">XAConnection에서 얻은 XAResource에 end() 메소드를 호출했을 때</td></tr><tr><td align="left">LOCAL_TXN</td><td align="left">DDL 문이 수행되거나 commit() 또는 rollback() 메소드를 호출했을 때</td><td align="left">-</td><td align="left">불가능</td></tr><tr><td align="left">GLOBAL_TXN</td><td align="left">XAConnection에서 얻은 XAResource에 end() 메소드를 호출했을 때</td><td align="left">불가능</td><td align="left">-</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1946"/>5.4. <span>Tibero</span>
+    XA 패키지</h2></div></div></div>
+    
+
+    <p><span>Tibero</span>에서는 XA 표준에 따른 분산 트랜잭션 패키지인 com.<span>tmax.tibero</span>.jdbc.ext 내부에 다음과 같은 클래스를 지원한다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p><span>Tb</span>XAConnection</p>
+      </li><li>
+        <p><span>Tb</span>XADataSource</p>
+      </li><li>
+        <p><span>Tb</span>XAException</p>
+      </li><li>
+        <p><span>Tb</span>XAResource</p>
+      </li><li>
+        <p><span>Tb</span>Xid</p>
+      </li></ul></div>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1969"/>5.5. XA 인터페이스의 구성요소</h2></div></div></div>
+    
+
+    <p>본 절에서는 JDBC 2.0 표준 패키지에 정의된 XA 인터페이스의 구성요소를 설명한다.</p>
+
+    <p/>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1973"/>5.5.1. XADataSource 인터페이스<a id="d5e1975" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>javax.sql.XADataSource에 정의된 인터페이스는 다음과 같다.</p>
+
+      <pre class="programlisting">public interface XADataSource
+{
+  XAConnection getXAConnection() throws SQLException;
+  XAConnection getXAConnection(String user, String password) throws SQLException;
+  ...
+}</pre>
+
+      <p><span>tbJDBC</span>에서는 com.<span>tmax.tibero</span>.jdbc.ext.<span>Tb</span>XADataSource 클래스로 제공된다. 또한 <span>Tb</span>ConnectionPoolDataSource를 확장하여 일반적인
+      DataSource에서 사용할 수 있는 커넥션의 특성을 사용할 수도 있다.</p>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1987"/>5.5.2. XAConnection 인터페이스<a id="d5e1989" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>javax.sql.XAConnection에 정의된 인터페이스는 다음과 같다.</p>
+
+      <pre class="programlisting">public interface XAConnection extends PooledConnection
+{
+  javax.transaction.xa.XAResource getXAResource() throws SQLException;
+}</pre>
+
+      <p><span>tbJDBC</span>에서는 com.<span>tmax.tibero</span>.jdbc.ext.<span>Tb</span>XAConnection 클래스로 제공된다.</p>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2000"/>5.5.3. XAResource 인터페이스<a id="d5e2002" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>javax.transaction.xa.XAResource에 정의된 인터페이스는 다음과 같다.</p>
+
+      <pre class="programlisting">public interface XAResource
+{
+  void commit(Xid xid, boolean onePhase) throws XAException;
+  void end(Xid xid, int flags) throws XAException;
+  void forget(Xid xid) throws XAException;
+  int prepare(Xid xid) throws XAException;
+  int rollback(Xid xid) throws XAException;
+  void start(Xid xid, int flags) throws XAException;
+  boolean isSameRM(XAResource xares) throws XAException;
+}</pre>
+
+      <p><span>tbJDBC</span>에서는 com.<span>tmax.tibero</span>.jdbc.ext.<span>Tb</span>XAResource 클래스로 제공된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>XAResource 인터페이스에서 설정할 수 있는 메소드는 다음과 같다.<a id="d5e2013" class="indexterm"/></p>
+
+      <div class="informaltable">
+          <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">메소드</th><th>설명</th></tr></thead><tbody><tr><td align="left"><a href="ch05.html#sect_xaresource_method_start" title="5.5.3. Start???TITLE??????TITLE???">Start</a></td><td>XID와 관련된 트랜잭션의 특정 브랜치를 시작하거나 이미 존재하는 트랜잭션을 재시작 또는 변경
+                사항을 조인한다.</td></tr><tr><td align="left"><a href="ch05.html#sect_xaresource_method_end" title="5.5.3. End???TITLE??????TITLE???">End</a></td><td>XID와 관련된 트랜잭션의 특정 브랜치에 대한 종료 상태(정상 또는 실패)를 알리거나 이미 존재하는
+                트랜 잭션을 멈춘다.</td></tr><tr><td align="left"><a href="ch05.html#sect_xaresource_method_prepare" title="5.5.3. Prepare???TITLE??????TITLE???">Prepare</a></td><td>현재의 트랜잭션 브랜치에서 수행된 변경사항을 적용하기 위해 준비한다.</td></tr><tr><td align="left"><a href="ch05.html#sect_xaresource_method_commit" title="5.5.3. Commit???TITLE??????TITLE???">Commit</a></td><td>현재의 트랜잭션 브랜치의 변화를 반영한다.</td></tr><tr><td align="left"><a href="ch05.html#sect_xaresource_method_rollback" title="5.5.3. Rollback???TITLE??????TITLE???">Rollback</a></td><td>현재의 트랜잭션 브랜치의 변화를 롤백시킨다.</td></tr><tr><td align="left"><a href="ch05.html#sect_xaresource_method_forget" title="5.5.3. Forget???TITLE??????TITLE???">Forget</a></td><td>리소스 매니저가 지정한 트랜잭션 브랜치를 무시하도록 한다.</td></tr><tr><td align="left"><a href="ch05.html#sect_xaresource_method_recover" title="5.5.3. Recover???TITLE??????TITLE???">Recover</a></td><td>현재 준비가 완료되었거나 수행이 끝난 트랜잭션 브랜치의 목록을 반환한다.</td></tr><tr><td align="left"><a href="ch05.html#sect_xaresource_method_isSameRM" title="5.5.3. isSameRM???TITLE??????TITLE???">isSameRM</a></td><td>두 개의 XA 리소스 객체가 동일한 리소스 매니저에 속해 있는지의 여부를 반환한다.</td></tr></tbody></table>
+        </div>
+
+      <p/>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      
+
+      <h4><a id="sect_xaresource_method_start"/>Start<a id="d5e2060" class="indexterm"/><a id="d5e2063" class="indexterm"/></h4>
+
+      <p>XID와 관련된 트랜잭션의 특정 브랜치를 시작하거나 이미 존재하는 트랜잭션을 재시작 또는 변경 사항을 조인시키기 위해
+      사용하는 메소드이다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <pre class="programlisting">void start(Xid xid, int flags)</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">xid</td><td>현재 리소스 객체와 관련된 글로벌 트랜잭션의 ID이다.</td></tr><tr><td align="left">flags</td><td><p>flags 파라미터는 반드시 다음의 값 중의 하나여야
+                  한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>XAResource.TMNOFLAGS : 새로운 트랜잭션 브랜치가 시작된다.</p>
+                      </li><li>
+                        <p>XAResource.TMJOIN : 이미 존재하는 트랜잭션 브랜치에 다음 동작을
+                        조인시킨다.</p>
+                      </li><li>
+                        <p>XAResource.TMRESUME : 정지된 트랜잭션을 다시 시작시킨다.</p>
+                      </li><li>
+                        <p><span>Tb</span>XAResource.TBRTMSERIALIZABLE :
+                        Serializable 트랜잭션을 시작시킨다.</p>
+                      </li><li>
+                        <p><span>Tb</span>XAResource.TBRTMREADONLY :
+                        Read-only 트랜잭션을 시작시킨다.</p>
+                      </li><li>
+                        <p><span><span>Tb</span>XAResource.TBRTMREADWRITE :
+                        Read/write 트랜잭션을 시작시킨다.</span></p>
+                      </li><li>
+                        <p><span>Tb</span>XAResource.TBRTRANSLOOSE :
+                        Loosely-coupled 트랜잭션을 시작시킨다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="sect_xaresource_method_end"/>End<a id="d5e2110" class="indexterm"/><a id="d5e2113" class="indexterm"/></h4>
+
+      <p>XID와 관련된 트랜잭션의 특정 브랜치에 대한 종료 상태(정상 또는 실패)를 알리거나 이미 존재하는 트랜잭션을 멈추기
+      위해 사용하는 메소드이다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <pre class="programlisting">void end(Xid xid, int flags)</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">xid</td><td>현재 리소스 객체와 관련된 글로벌 트랜잭션의 ID이다.</td></tr><tr><td align="left">flags</td><td><p>flags 파라미터는 반드시 다음의 값 중의 하나여야
+                  한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>XAResource.TMSUCCESS : 현재 트랜잭션 브랜치가 성공했음을
+                        알린다.</p>
+                      </li><li>
+                        <p>XAResource.TMFAIL : 현재 트랜잭션 브랜치가 실패했음을
+                        알린다.</p>
+                      </li><li>
+                        <p>XAResource.TMSUSPEND : 현재 트랜잭션 브랜치를 정지시킨다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="sect_xaresource_method_prepare"/>Prepare<a id="d5e2146" class="indexterm"/><a id="d5e2149" class="indexterm"/></h4>
+
+      <p>현재의 트랜잭션 브랜치에서 수행된 변경사항을 적용하기 위해 준비하는 과정으로 Two-phase commit 과정의 첫
+      번째 단계이다. 만약 분산 트랜잭션 내부에 오직 하나의 트랜잭션만 있는 경우라면 prepare()를 수행할 필요가
+      없다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <pre class="programlisting">int prepare(Xid xid)</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="160" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">xid</td><td>현재 리소스 객체와 관련된 글로벌 트랜잭션의 ID이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환 값</p>
+
+          <p>이 메소드는 반드시 다음의 값 중의 하나를 반환한다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="160" align="left"/><col/></colgroup><thead><tr><th align="left">반환 값</th><th>설명</th></tr></thead><tbody><tr><td align="left">XAResource.XA_RDONLY</td><td>현재의 트랜잭션 브랜치는 read-only 모드로 동작하므로 SELECT 문만 수행할 수
+                  있다.</td></tr><tr><td align="left">XAResource.XA_OK</td><td>현재의 트랜잭션 브랜치에서는 어떠한 수정 작업도 수행할 수 있다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="sect_xaresource_method_commit"/>Commit<a id="d5e2188" class="indexterm"/><a id="d5e2191" class="indexterm"/></h4>
+
+      <p>현재의 트랜잭션 브랜치의 변화를 반영하는 과정으로 Two-phase commit 과정의 두 번째 단계이다. 단, 모든
+      트랜잭션 브랜치가 prepare를 완료한 후에 수행된다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <pre class="programlisting">void commit(Xid xid, boolean isOnePhase)</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">xid</td><td>현재 리소스 객체와 관련된 글로벌 트랜잭션의 ID이다.</td></tr><tr><td align="left">isOnePhase</td><td><p>isOnePhase 파라미터에 설정된 값에 따라 다음과 같이
+                  동작한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>true : Two-phase commit 과정이 아닌 One-phase commit
+                        과정으로 동작한다.</p>
+                      </li><li>
+                        <p>false : Two-phase commit 과정으로 동작한다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="sect_xaresource_method_rollback"/>Rollback<a id="d5e2222" class="indexterm"/><a id="d5e2225" class="indexterm"/></h4>
+
+      <p>현재의 트랜잭션 브랜치의 변화를 롤백시킨다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <pre class="programlisting">void rollback(Xid xid)</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">xid</td><td>현재 리소스 객체와 관련된 글로벌 트랜잭션의 ID이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="sect_xaresource_method_forget"/>Forget<a id="d5e2247" class="indexterm"/><a id="d5e2250" class="indexterm"/></h4>
+
+      <p>리소스 매니저가 지정한 트랜잭션 브랜치를 무시하도록 한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <pre class="programlisting">void forget(Xid xid)</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">xid</td><td>현재 리소스 객체와 관련된 글로벌 트랜잭션의 ID이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="sect_xaresource_method_recover"/>Recover<a id="d5e2272" class="indexterm"/><a id="d5e2275" class="indexterm"/></h4>
+
+      <p>현재 준비가 완료되었거나 수행이 끝난 트랜잭션 브랜치의 목록을 반환한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <pre class="programlisting">Xid[] recover(int flag)</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">flag</td><td><p>flags 파라미터는 반드시 다음의 값 중의 하나여야
+                  한다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>XAResource.TMSTARTSCAN : 현재 준비가 완료된 트랜잭션을
+                        반환한다.</p>
+                      </li><li>
+                        <p>XAResource.TMENDSCAN : 현재 수행이 끝난 트랜잭션을
+                        반환한다.</p>
+                      </li><li>
+                        <p>XAResource.TMNOFLAGS : 모든 트랜잭션을 반환한다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="sect_xaresource_method_isSameRM"/>isSameRM<a id="d5e2305" class="indexterm"/><a id="d5e2308" class="indexterm"/></h4>
+
+      <p>두 개의 XA 리소스 객체가 동일한 리소스 매니저에 속해 있는지의 여부를 반환한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <pre class="programlisting">boolean isSameRM(XAResource aResource)</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">aResource</td><td>현재 리소스 객체와 비교할 리소스 객체이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2329"/>5.5.4. XID 인터페이스<a id="d5e2331" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>트랜잭션 관리자는 XID 객체를 생성하고, 이를 이용하여 분산 트랜잭션의 브랜치를 관리한다. 각각의 트랜잭션 브랜치는
+      개별적으로 XID를 부여받는다.</p>
+
+      <p>XID는 다음의 정보를 포함한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>포맷 지시자(4bytes)<a id="d5e2339" class="indexterm"/></p>
+
+          <p>Java 트랜잭션 관리자를 가리키며, NULL이 될 수 없다. 이 정보를 얻기 위한 메소드는 다음과
+          같다.</p>
+
+          <pre class="programlisting">public int getFormatId()</pre>
+        </li><li>
+          <p>전역 트랜잭션 지시자(64bytes)<a id="d5e2345" class="indexterm"/></p>
+
+          <p>동일한 분산 트랜잭션에 속하는 트랜잭션 브랜치의 경우 모두 같은 값을 가진다. 이 정보를 얻기 위한 메소드는
+          다음과 같다.</p>
+
+          <pre class="programlisting">public byte[] getGlobalTransactionId()</pre>
+        </li><li>
+          <p>브랜치 지시자(64bytes)<a id="d5e2351" class="indexterm"/></p>
+
+          <p>이 정보를 얻기 위한 메소드는 다음과 같다.</p>
+
+          <pre class="programlisting">public byte[] getBracheQualifier()</pre>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>javax.transaction.xa.Xid에 정의된 인터페이스는 다음과 같다.</p>
+
+      <pre class="programlisting">public <span>Tb</span>Xid(int formatId, byte[] globalId, byte[] branchId) throws XAException</pre>
+
+      <p><span>tbJDBC</span>에서는 com.<span>tmax.tibero</span>.jdbc.ext.<span>Tb</span>Xid
+      클래스로 제공된다.</p>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2363"/>5.6. 분산 트랜잭션 예제</h2></div></div></div>
+    
+
+    <p>다음은 두 개의 트랜잭션 브랜치로 이루어진 Two-phase 분산 트랜잭션 환경을 구현하는 순서이다.</p>
+
+    <div class="orderedlist"><ol type="1" compact="compact"><li>
+        <p>트랜잭션 브랜치 #1을 시작한다.</p>
+      </li><li>
+        <p>트랜잭션 브랜치 #2를 시작한다.</p>
+      </li><li>
+        <p>트랜잭션 브랜치 #1에서 DML 문장을 수행한다.</p>
+      </li><li>
+        <p>트랜잭션 브랜치 #2에서 DML 문장을 수행한다.</p>
+      </li><li>
+        <p>트랜잭션 브랜치 #1의 트랜잭션을 종료한다.</p>
+      </li><li>
+        <p>트랜잭션 브랜치 #2의 트랜잭션을 종료한다.</p>
+      </li><li>
+        <p>트랜잭션 브랜치 #1을 준비한다.</p>
+      </li><li>
+        <p>트랜잭션 브랜치 #2를 준비한다.</p>
+      </li><li>
+        <p>트랜잭션 브랜치 #1을 커밋한다.</p>
+      </li><li>
+        <p>트랜잭션 브랜치 #2를 커밋한다.</p>
+      </li></ol></div>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음의 예는 위 순서에 맞게 구현된 Java 프로그램 소스 코드이다.</p>
+
+    <pre class="programlisting">import java.sql.*;
+import javax.sql.XAConnection;
+import javax.transaction.xa.XAResource;
+import com.<span>tmax.tibero</span>.jdbc.ext.*;
+
+public class TwoBranchXA
+{
+  public static void main(String args[]) throws SQLException
+  {
+    createBaseTable();
+    try {
+          // Create XADataSource instance
+          <span>Tb</span>XADataSource xads1 = new <span>Tb</span>XADataSource();
+          xads1.setUrl("jdbc:<span>tibero</span>:thin:@localhost:7629:dbsvr");
+          xads1.setUser("<span>tibero</span>");
+          xads1.setPassword("<span>tmax</span>");
+          
+          <span>Tb</span>XADataSource xads2 = new <span>Tb</span>XADataSource();
+          xads2.setUrl("jdbc:<span>tibero</span>:thin:@localhost:8629:dbsvr");
+          xads2.setUser("wrpark");
+          xads2.setPassword("<span>tmax</span>");
+          
+          // Get the XA connection
+          XAConnection xacon1 = xads1.getXAConnection();
+          XAConnection xacon2 = xads2.getXAConnection();
+
+          // Get the physical connection
+          Connection conn1 = xacon1.getConnection();
+          Connection conn2 = xacon2.getConnection();
+
+          // Get the XA resource
+          XAResource xars1 = xacon1.getXAResource();
+          XAResource xars2 = xacon2.getXAResource();   
+
+          // Create the Xid
+          Xid xid1 = createXid(1);
+          Xid xid2 = createXid(2);
+
+          // Start the resource
+          xars1.start(xid1, XAResource.TMNOFLAGS);
+          xars2.start(xid2, XAResource.TMNOFLAGS);
+
+          // Execute SQL operations
+          execute1(conn1);
+          execute2(conn2);
+
+          // End both the branches
+          xars1.end(xid1, XAResource.TMSUCCESS);
+          xars2.end(xid2, XAResource.TMSUCCESS);
+
+          // Prepare the resource manager
+          int pre1 = xars1.prepare(xid1);
+          int pre2 = xars2.prepare(xid2);
+
+          // Commit or rollback
+          if (pre1 == XAResource.XA_RDONLY || pre1 == XAResource.XA_OK)
+              xars1.commit(xid1, false);
+          else   
+              xars1.rollback(xid1);    
+
+          if (pre2 == XAResource.XA_RDONLY || pre2 == XAResource.XA_OK)      
+              xars2.commit(xid2, false);  
+          else     
+              xars2.rollback(xid2);   
+
+           // Clear
+           conn1.close();   
+           conn1 = null; 
+           conn2.close();      
+           conn2 = null;    
+
+           xacon1.close();   
+           xacon1 = null;    
+           xacon2.close();       
+           xacon2 = null;  
+        }
+    catch (Exception se) {
+           se.printStackTrace();    
+        }     
+  }
+}</pre>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch06.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제4장 DataSource 객체와 데이터베이스 URL </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제6장 결과 집합 확장기능</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제9장 트랜잭션 및 세션 관리 언어</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero SQL 참조 안내서"/><link rel="up" href="index.html" title="Tibero SQL 참조 안내서"/><link rel="prev" href="ch_dml.html" title="제8장 데이터 조작어"/><link rel="next" href="appendix_reserved_words.html" title="Appendix A. 예약어"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제9장 트랜잭션 및 세션 관리 언어</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch_dml.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="appendix_reserved_words.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="ch_transaction_and_session_management"/>제9장 트랜잭션 및 세션 관리 언어</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="ch_transaction_and_session_management.html#sect_ddl_ALTER_SESSION">9.1. ALTER SESSION</a></span></dt><dt><span class="section"><a href="ch_transaction_and_session_management.html#sect_ddl_ALTER_SYSTEM">9.2. ALTER SYSTEM</a></span></dt><dt><span class="section"><a href="ch_transaction_and_session_management.html#sect_ddl_COMMIT">9.3. COMMIT</a></span></dt><dt><span class="section"><a href="ch_transaction_and_session_management.html#sect_ddl_LOCK_TABLE">9.4. LOCK TABLE</a></span></dt><dt><span class="section"><a href="ch_transaction_and_session_management.html#sect_ddl_ROLLBACK">9.5. ROLLBACK</a></span></dt><dt><span class="section"><a href="ch_transaction_and_session_management.html#sect_ddl_SAVEPOINT">9.6. SAVEPOINT</a></span></dt><dt><span class="section"><a href="ch_transaction_and_session_management.html#sect_ddl_SET_ROLE">9.7. SET ROLE</a></span></dt><dt><span class="section"><a href="ch_transaction_and_session_management.html#sect_ddl_SET_TRANSACTION">9.8. SET TRANSACTION</a></span></dt></dl></div>
+  
+
+  
+
+  <p>본 장에서는 트랜잭션 및 세션 관리를 위한 명령어를 자세히 설명한다. 트랜잭션 및 세션 관리를 위한 명령어는 알파벳 순으로
+  나열하고, 각 명령어에 대한 설명과 문법, 예제를 기술한다. 문법을 설명할 때는 <a href="ch_sql_expressions.html" title="제3장 SQL 연산">“제3장 SQL 연산”</a>의 형식을 그대로 따르고, 키워드와 문법의 구성요소는 별도의 표로
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ddl_ALTER_SESSION"/>9.1. ALTER SESSION</h2></div></div></div>
+  
+
+  
+
+  <p>실행자가 가지고 있는 세션 환경을 조정한다. ALTER SESSION으로 변경된 초기화 환경 변수나 세션 환경 변수는 실행자의
+  접속이 끊어질 때까지 유효하다.</p>
+
+  <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+    <p>현재 세션뿐만 아니라 전체 시스템의 환경을 조정하려면 <a href="ch_transaction_and_session_management.html#sect_ddl_ALTER_SYSTEM" title="9.2. ALTER SYSTEM">“9.2. ALTER SYSTEM”</a>의 내용을 참고한다.</p>
+  </div>
+
+  <div class="literallayout"><p/></div>
+
+  <p>ALTER SESSION의 세부 내용은 다음과 같다.</p>
+
+  <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+      <p>문법</p>
+
+      <div class="informalfigure">
+        <div xmlns="" class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="750"><tr><td><img src="resources/alter_session.png" width="750"/></td></tr></table></div>
+      </div>
+
+      <div class="informalfigure">
+        <div xmlns="" class="mediaobject"><img src="resources/alter_session_params.png"/></div>
+      </div>
+
+      <div class="informalfigure">
+        <div xmlns="" class="mediaobject"><img src="resources/param_assignment_clause.png"/></div>
+      </div>
+    </li><li>
+      <p>특권</p>
+
+      <p>아무런 특권을 요구하지 않는다.</p>
+    </li><li>
+      <p>구성요소</p>
+
+      <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+          <p>alter_session</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">CLOSE DATABASE LINK</td><td>지정한 데이터베이스 링크의 연결을 닫는다. 데이터베이스 링크를 열어 놓음으로써 발생하는 네트워크
+                  리소스의 낭비를 줄이고 싶을 때 사용한다. CLOSE DATABASE LINK를 사용해 명시적으로 연결을
+                  닫지 않으면 세션이 끊어질 때까지 연결이 열려 있다.</td></tr><tr><td align="left">dblink_name</td><td>데이터베이스 링크의 이름을 명시한다.</td></tr><tr><td align="left">SET alter_session_params</td><td>초기화 환경 변수나 세션 환경 변수의 값을 바꾸기 위해 사용한다. 변경한 값은 세션이 유지되는
+                  동안 유효하다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>alter_session_params</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">CURRENT_SCHEMA</td><td>현재 세션의 스키마를 변경한다. 변경 이후 스키마가 지정되지 않은 객체는 변경한 스키마부터
+                  찾아보게 된다. 세션의 스키마가 변경되었다고 해서 세션 사용자가 변경되는 것은 아니다. 즉, 객체를 찾는
+                  데에는 스키마가 사용되지만 그 객체를 사용할 수 있는가를 검사할 때는 세션 사용자를 기준으로
+                  한다.</td></tr><tr><td align="left"><p>ISOLATION
+                  LEVEL</p><p>ISOLATION_LEVEL</p></td><td><p>현재 세션이 만드는 트랜잭션의 고립성 수준을 설정한다.</p><p>설정할
+                  수 있는 고립성 수준은 다음과 같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                        <p>SERIALIZABLE</p>
+                      </li><li style="list-style-type: circle">
+                        <p>READ COMMITED (기본값)</p>
+                      </li><li style="list-style-type: circle">
+                        <p>READ ONLY</p>
+                      </li></ul></div></td></tr><tr><td align="left">SERIALIZABLE</td><td><p>세션에 참가하는 트랜잭션은 SQL-92에 명시된 직렬화된 트랜잭션 고립성 모드
+                  (Serializable Transaction Isolation Mode)로
+                  동작한다.</p><p>이 모드에서는 직렬화된 트랜잭션이 시작되고 난 후 어떤 로우를 갱신한 다른
+                  트랜잭션이 커밋했을 때 그 로우를 직렬화된 트랜잭션이 DML 문을 사용해 변경하려고 하면 변경이 일어나지
+                  않고 에러가 반환된다.</p></td></tr><tr><td align="left">READ COMMITED</td><td>이 모드에서는 어떤 트랜잭션이 로우를 변경하고 커밋하지 않았을 경우 그 로우에 현재 트랜잭션이
+                  DML 문을 사용해 변경하려고 하면 그 로우에 설정된 잠금 때문에 대기하게 된다.</td></tr><tr><td align="left">READ ONLY</td><td>기본적으로 SERIALIZABLE 모드와 똑같이 동작하지만, 데이터를 변경하려고 하면 에러가
+                  반환된다.</td></tr><tr><td align="left">TIME_ZONE</td><td><p>현재 세션의 시간대를 변경한다.</p><p>'[+|-]hh:mi'은 시와
+                  분으로 표현된 시간대 오프셋을 의미하며, -12:00~14:00까지의 값을 사용할 수
+                  있다.</p><p>LOCAL을 설정한 경우 처음 세션이 시작될 때의 시간대를 현재 세션의 시간대로
+                  변경한다. 데이터베이스에서 지원하는 지역 이름을 알고 싶으면 VT_TIMEZONE_NAMES 테이블의
+                  TZNAME 컬럼을 조회하면 된다.</p></td></tr><tr><td align="left">param_assignment_clause</td><td><p>세션 초기화 파라미터를 설정한다.</p><p>VT_PARAMETER 테이블
+                  또는 VT_PARAMETER 동의어에서 파라미터를 확인할 수 있다.</p><p>이중
+                  Dynamic, SESSION 클래스를 가지고 있는 초기화 파라미터만 ALTER SESSION을 사용하여
+                  변경할 수 있다. Dynamic은 서버가 활성화된 상태에서 변경이 가능하다. 참고로 Static은
+                  <span>$<span>TB_SID</span>.tip</span> 파일에 내용을 설정하기 때문에 서버를
+                  재기동해야만 적용된다.</p><p>SESSION은 세션별로 변경이 가능하다. SYSTEM은
+                  세션별로 설정할 수 없고, 데이터베이스 전체에서 함께 사용하는 파라미터를
+                  의미한다.</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>param_assignment_clause</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">param_name</td><td>세션 초기화 파라미터의 이름을 명시한다.</td></tr><tr><td align="left">param_value</td><td>세션 초기화 파라미터의 값을 명시한다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </li><li>
+      <p>예제</p>
+
+      <p>다음은 <span><strong class="guibutton">ALTER SESSION</strong></span>을 사용해 세션 환경을 변경하는
+      예이다.</p>
+
+      <pre class="programlisting">ALTER SESSION CLOSE DATABASE LINK remote;
+ALTER SESSION SET CURRENT_SCHEMA = <span>tibero</span>;
+ALTER SESSION SET ISOLATION_LEVEL = SERIALIZABLE;
+ALTER SESSION SET CURSOR_SHARING = EXACT;</pre>
+    </li></ul></div>
+</div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ddl_ALTER_SYSTEM"/>9.2. ALTER SYSTEM</h2></div></div></div>
+  
+
+  
+
+  <p>체크포인트 작업을 수행하거나 진행 중인 세션을 중지하는 등의 시스템을 조작하거나, 초기화 파라미터를 동적으로 변경하는 등
+  시스템의 속성을 변경할 때 사용한다.</p>
+
+  <div class="literallayout"><p/></div>
+
+  <p>ALTER SYSTEM의 세부 내용은 다음과 같다.</p>
+
+  <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+      <p>문법</p>
+
+      <p/>
+
+      <div class="informalfigure">
+        <div xmlns="" class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="750"><tr><td><img src="resources/alter_system.png" width="750"/></td></tr></table></div>
+
+        <div xmlns="" class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="720"><tr><td><img src="resources/flush_clause.png" width="720"/></td></tr></table></div>
+
+        <div xmlns="" class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="720"><tr><td><img src="resources/kill_session_clause.png" width="720"/></td></tr></table></div>
+
+        <p/>
+
+        <div xmlns="" class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="750"><tr><td><img src="resources/security_clause.png" width="750"/></td></tr></table></div>
+      </div>
+    </li><li>
+      <p>특권</p>
+
+      <p>ALTER SYSTEM 시스템 특권을 부여받아야 한다.</p>
+    </li><li>
+      <p>구성요소</p>
+
+      <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+          <p>alter_system</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">CHECKPOINT</td><td><p><span>Tibero</span>가 체크포인트 작업을 수행하도록 한다.
+                  </p><p>체크포인트 작업을 수행하면 버퍼 캐시의 모든 갱신된 디스크 블록이 디스크에 반영된다.
+                  체크포인트는 트랜잭션의 커밋 여부와는 무관하다. 커밋되지 않은 트랜잭션이 변경한 디스크 블록도 디스크에
+                  반영되며, 그렇다고 해도 다른 트랜잭션이 커밋되지 않은 블록을 볼 수는 없다.</p></td></tr><tr><td align="left">CHECKPOINT LOCAL</td><td><span>Tibero</span> TAC 환경에서 접속한 노드에 대한
+                  체크포인트 작업을 수행하도록 한다.</td></tr><tr><td align="left">CHECKPOINT GLOBAL</td><td><span>Tibero</span> TAC 환경에서 전체 노드에 대한
+                  체크포인트 작업을 수행하도록 한다.</td></tr><tr><td align="left">FLUSH SHARED_POOL</td><td>공유 풀(shared pool)의 내용을 모두 비운다. 공유 풀에는 데이터 딕셔너리(data
+                  dictionary) 정보 등이 들어가며, 현재 사용 중인 정보는 비우지 않는다.</td></tr><tr><td align="left">FLUSH BUFFER_CACHE</td><td>버퍼 캐시(buffer cache)의 더티 블록(dirty block)을 디스크에 기록한다.
+                  이때 버퍼 캐시의 더티 블록을 디스크에 기록만 하고, 버퍼 캐시의 블록들을
+                  무효화(invalidation)시키지는 않는다.</td></tr><tr><td align="left">FLUSH REDO_BUFFER</td><td>Redo 로그를 강제로 flush한다. Redo 로그는 트랜잭션을 커밋하지 않더라도 주기적으로
+                  flush되므로 따로 명령을 실행할 필요는 없으나, Redo 로그가 flush된 것을 명시적으로 나타내기
+                  위해 명령을 실행할 수 있다.</td></tr><tr><td align="left"><p>FLUSH PPC</p><p>FLUSH PPC
+                  ALL</p><p>FLUSH PP_CACHE</p><p>FLUSH PP_CACHE
+                  ALL</p></td><td>PP 캐시에서 모든 physical plan 정보를 강제로 flush한다.</td></tr><tr><td align="left"><p>FLUSH PPC sql_id child_no</p><p>FLUSH PPC
+                  child_no sql_id</p><p>FLUSH PP_CACHE sql_id
+                  child_no</p><p>FLUSH PP_CACHE child_no
+                  sql_id</p></td><td>Physical plan의 sql id와 child number를 명시하면 PP 캐시에서 해당
+                  physical plan 정보를 강제로 flush한다.</td></tr><tr><td align="left">FLUSH DDC unsigned_integer</td><td>unsigned_integer에 스키마 객체 ID를 명시하면 DD 캐시에서 해당 스키마 객체
+                  정보를 강제로 flush 한다. 시퀀스 정보는 flush하지 않는다.</td></tr><tr><td align="left">FLUSH DDC unsigned_integer LOCAL</td><td>TAC 환경일 때 unsigned_integer에 스키마 객체 ID를 명시하면 접속한 노드의
+                  DD 캐시에서 해당 스키마 객체 정보를 강제로 flush한다. 시퀀스 정보는 flush하지
+                  않는다.</td></tr><tr><td align="left">FLUSH DDC unsigned_integer GLOBAL</td><td>TAC 환경일 때 unsigned_integer에 스키마 객체 ID를 명시하면 전체 노드의 DD
+                  캐시에서 해당 스키마 객체 정보를 강제로 flush한다. 시퀀스 정보는 flush하지 않는다.</td></tr><tr><td align="left">FLUSH DDC ALL</td><td>DD 캐시에서 시퀀스를 제외한 모든 스키마 객체 정보를 강제로 flush 한다.</td></tr><tr><td align="left">FLUSH DDC ALL LOCAL</td><td>TAC 환경일 때 접속한 노드의 DD 캐시에서 시퀀스를 제외한 모든 스키마 객체 정보를 강제로
+                  flush한다.</td></tr><tr><td align="left">FLUSH DD_CACHE unsigned_integer</td><td>FLUSH DDC unsigned_integer와 동일한 기능이다.</td></tr><tr><td align="left">FLUSH DD_CACHE unsigned_integer LOCAL</td><td>FLUSH DDC unsigned_integer LOCAL과 동일한 기능이다.</td></tr><tr><td align="left">FLUSH DD_CACHE unsigned_integer GLOBAL</td><td>FLUSH DDC unsigned_integer GLOBAL과 동일한 기능이다.</td></tr><tr><td align="left">FLUSH DD_CACHE ALL</td><td>FLUSH DDC ALL과 동일한 기능이다.</td></tr><tr><td align="left">FLUSH DD_CACHE ALL LOCAL</td><td>FLUSH DDC ALL LOCAL과 동일한 기능이다.</td></tr><tr><td align="left">SWITCH LOGFILE</td><td><p>로그 그룹을 교체한다. 로그 버퍼의 모든 내용이 현재의 로그 그룹으로 저장되고, 이후
+                  생성되는 Redo 로그는 다음의 로그 그룹에 저장된다.</p><p>로그 파일에 대한 자세한 내용은
+                  "<span>Tibero</span> 관리자 안내서"를
+                  참고한다.</p></td></tr><tr><td align="left">SWITCH LOGFILE LOCAL</td><td>TAC 환경에서 접속한 노드에 대해서만 Redo 로그 그룹을 교체한다.</td></tr><tr><td align="left">SWITCH LOGFILE GLOBAL</td><td>TAC 환경에서 전체 노드에 대해 Redo 로그 그룹을 교체한다.</td></tr><tr><td align="left">SWITCH FLASHBACK LOGFILE</td><td>Flashback 로그 그룹을 교체한다. Flashback 로그 버퍼의 모든 내용이 현재의 로그
+                  그룹으로 저장되고, 이후 생성되는 Flashback 로그는 다음의 로그 그룹에 저장된다. Flashback
+                  로그 파일에 대한 자세한 내용은 "<span>Tibero</span> 관리자 안내서"를
+                  참고한다.</td></tr><tr><td align="left">SWITCH FLASHBACK LOGFILE LOCAL</td><td>TAC 환경에서 접속한 노드에 대해서만 Flashback 로그 그룹을 교체한다.</td></tr><tr><td align="left">SWITCH FLASHBACK LOGFILE GLOBAL</td><td>TAC 환경에서 전체 노드에 대해 Flashback 로그 그룹을 교체한다.</td></tr><tr><td align="left">SWITCH SYSLOG</td><td>syslog 파일을 교체한다. 현재 사용 중인 syslog 파일을 백업하고 새로운 syslog
+                  파일을 생성한다.</td></tr><tr><td align="left">SWITCH SYSLOG LOCAL</td><td>TAC 환경에서 접속한 노드에 대해 syslog 파일을 백업하고 새로운 syslog 파일을
+                  생성한다.</td></tr><tr><td align="left">SWITCH SYSLOG GLOBAL</td><td>TAC 환경에서 전체 노드에 대해 syslog 파일을 백업하고 새로운 syslog 파일을
+                  생성한다.</td></tr><tr><td align="left">SWITCH DBMSLOG</td><td>dbmslog 파일을 교체한다. 현재 사용 중인 dbmslog 파일을 백업하고 새로운
+                  dbmslog 파일을 생성한다.</td></tr><tr><td align="left">SWITCH DBMSLOG LOCAL</td><td>TAC 환경에서 접속한 노드에 대해 dbmslog 파일을 백업하고 새로운 dbmslog 파일을
+                  생성한다.</td></tr><tr><td align="left">SWITCH DBMSLOG GLOBAL</td><td>TAC 환경에서 전체 노드에 대해 dbmslog 파일을 백업하고 새로운 dbmslog 파일을
+                  생성한다.</td></tr><tr><td align="left">SWITCH TRACELOG</td><td>tracelog 파일을 교체한다. 현재 사용 중인 tracelog 파일을 백업하고 새로운
+                  tracelog 파일을 생성한다.</td></tr><tr><td align="left">SWITCH TRACELOG LOCAL</td><td>TAC 환경에서 접속한 노드에 대해 tracelog 파일을 백업하고 새로운 tracelog
+                  파일을 생성한다.</td></tr><tr><td align="left">SWITCH TRACELOG GLOBAL</td><td>TAC 환경에서 전체 노드에 대해 tracelog 파일을 백업하고 새로운 tracelog 파일을
+                  생성한다.</td></tr><tr><td align="left">kill_session_clause</td><td>세션을 중지시킨다. 트랜잭션 종료를 기다리지 않고, 마치 접속이 종료된 것처럼
+                  처리한다.</td></tr><tr><td align="left">security_clause</td><td>컬럼 암호화 등의 보안 기능에 사용하는 보안 지갑(Wallet)을 열고 닫는다.</td></tr><tr><td align="left">LISTENER REMOTE ON</td><td>로컬 호스트가 아닌 외부 클라이언트의 네트워크 접속을 허용한다.</td></tr><tr><td align="left">LISTENER REMOTE OFF</td><td>로컬 호스트가 아닌 외부 클라이언트의 네트워크 접속을 차단한다. 단, 로컬 호스트의
+                  tbdsn.tbr 파일에서 IP가 'localhost'라고 설정된 경우에만 해당한다. 그리고 이미 접속된
+                  클라이언트의 접속은 유지된다.</td></tr><tr><td align="left">LISTENER PARAMETER RELOAD</td><td>서버 운영중에 LSNR_INVITED_IP 또는 LSNR_DENIED_IP의 설정을 변경한 경우
+                  이를 적용한다.</td></tr><tr><td align="left">LISTENER ADD PORT port</td><td>LISTENER_PORT 이외의 데이터베이스의 접속 포트 port를 추가한다.</td></tr><tr><td align="left">LISTENER DELETE PORT port</td><td>LISTENER_PORT 이외의 추가된 데이터베이스의 접속 포트 port를
+                  삭제한다.</td></tr><tr><td align="left">ARCHIVE LOG archive_log_clause</td><td>Current가 아닌 모든 Redo 로그 그룹들에 대한 아카이브 로그를 생성한다.</td></tr><tr><td align="left">ARCHIVE LOG archive_log_clause LOCAL</td><td>TAC 환경에서 접속한 노드에만 해당되는 Current가 아닌 모든 Redo 로그 그룹들에 대한
+                  아카이브 로그를 생성한다.</td></tr><tr><td align="left">ARCHIVE LOG archive_log_clause GLOBAL</td><td>TAC 환경에서 전체 노드에 해당되는 Current가 아닌 모든 Redo 로그 그룹들에 대한
+                  아카이브 로그를 생성한다.</td></tr><tr><td align="left">ARCHIVE FLASHBACK LOG archive_log_clause</td><td>Current가 아닌 모든 Flashback 로그 그룹들에 대한 아카이브 로그를
+                  생성한다.</td></tr><tr><td align="left">ARCHIVE FLASHBACK LOG archive_log_clause
+                  LOCAL</td><td>TAC 환경에서 접속한 노드에만 해당되는 Current가 아닌 모든 Flashback 로그
+                  그룹들에 대한 아카이브 로그를 생성한다.</td></tr><tr><td align="left">ARCHIVE FLASHBACK LOG archive_log_clause
+                  GLOBAL</td><td>TAC 환경에서 전체 노드에 해당되는 Current가 아닌 모든 Flashback 로그 그룹들에
+                  대한 아카이브 로그를 생성한다.</td></tr><tr><td align="left">SET param_assignment_clause</td><td><p>시스템 초기화 파라미터를 설정한다.</p><p>ALTER SESSION의
+                  param_assignment_clause와 동일하지만, Dynamic, System 클래스를 가지고 있는
+                  초기화 파라미터를 변경한다는 점이 다르다.</p></td></tr><tr><td align="left">ENABLE BLOCK CHANGE TRACKING</td><td>Block Change Tracking 모드를 활성화한다. Block Change
+                  Tracking에 대한 자세한 내용은 "<span>Tibero</span> 관리자 안내서"를
+                  참고한다.</td></tr><tr><td align="left">DISABLE BLOCK CHANGE TRACKING</td><td>Block Change Tracking 모드를 비활성화한다. Block Change
+                  Tracking에 대한 자세한 내용은 "<span>Tibero</span> 관리자 안내서"를
+                  참고한다.</td></tr><tr><td align="left">ADD SSVR ip port</td><td>TAS 가동 중에 새로운 SSVR를 추가한다. 해당 ip 및 port에 맞는 SSVR가 추가되며
+                  TAS 인스턴스에서 수행해야 한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>kill_session_clause</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left"><p>sess_id</p></td><td><p>접속을 끊을 세션의 ID이다.</p><p>VT_SESSION을 통해 확인할
+                  수 있으며, 해당 세션이 없는 경우 에러가 발생한다.</p></td></tr><tr><td align="left">serial_no</td><td><p>접속을 끊을 세션의 일련번호이다.</p><p>VT_SESSION을 통해
+                  확인할 수 있으며, 해당 세션이 없는 경우 에러가 발생한다.</p></td></tr><tr><td align="left">inst_id</td><td><p>접속을 끊을 세션의 인스턴스의 ID이다. </p><p>TAC 환경에서 다른
+                  노드의 세션의 접속을 끊을 때에만 입력한다. GV$SESSION을 통해 확인할 수 있으며, TAC 환경이
+                  아니거나 해당 인스턴스가 없는 경우 에러가 발생한다.</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>security_clause</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">OPEN IDENTIFIED BY 'password1'</td><td><p>보안 지갑을 열 때 사용한다.</p><p>password1에는 보안 지갑의
+                  패스워드를 입력한다. 패스워드는 보안 지갑을 생성할 때 입력한 것과 같아야 하며, 보안 지갑은
+                  $<span>TB_HOME</span>/bin 디렉터리에 있는 <span>tbwallet</span>_gen 프로그램을 이용하여
+                  생성한다.</p></td></tr><tr><td align="left"><p>OPEN IDENTIFIED BY 'password1' MIGRATE USING
+                  'password2'</p></td><td><p>HSM 장비 사용 환경에서 보안 지갑을 열 때 사용한다.</p><p>HSM
+                  장비를 사용하는 경우 HSM 장비의 패스워드 password1과 보안 지갑의 패스워드 password2를
+                  사용하여 보안 지갑을 열 수 있다.</p></td></tr><tr><td align="left">CLOSE</td><td>보안 지갑을 닫을 때 사용한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>archive_log_clause</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">ALL</td><td>아직 아카이브 되지 않은 Redo 로그를 모두 아카이브한다. 현재 사용 중인 Redo 로그는
+                  대상에서 제외된다. 로그 파일과 아카이브에 대한 자세한 내용은 "<span>Tibero</span> 관리자 안내서"를
+                  참고한다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </li><li>
+      <p>예제</p>
+
+      <p>다음은 <span><strong class="guibutton">ALTER SYSTEM</strong></span>을 사용하여 시스템의 속성을 변경하는
+      예이다.</p>
+
+      <pre class="programlisting">ALTER SYSTEM CHECKPOINT;
+ALTER SYSTEM SWITCH LOGFILE;
+ALTER SYSTEM KILL SESSION (1, 1);
+ALTER SYSTEM KILL SESSION (1, 1, @1);
+ALTER SYSTEM SET ENCRYPTION WALLET OPEN IDENTIFIED BY "password";
+ALTER SYSTEM SET ENCRYPTION WALLET CLOSE;
+ALTER SYSTEM SET DBMS_LOG_DEST = '/tmp/log';</pre>
+
+      
+
+      
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 <span><strong class="guibutton">KILL SESSION</strong></span>을 사용했을 때 해당 세션이 없는 경우 에러가
+      발생하는 예이다.</p>
+
+      <pre class="programlisting">SQL&gt; ALTER SYSTEM KILL SESSION (1, 1);
+TBR-7204: Requested session may be closed already or not exist.</pre>
+    </li></ul></div>
+</div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ddl_COMMIT"/>9.3. COMMIT</h2></div></div></div>
+  
+
+  
+
+  <p>현재 트랜잭션을 종료하고 트랜잭션의 갱신된 내용을 데이터베이스에 반영한다. 동시에 모든 저장점을 삭제하고 로우에 설정된 잠금을
+  해제한다.</p>
+
+  <div class="literallayout"><p/></div>
+
+  <p>COMMIT의 세부 내용은 다음과 같다.</p>
+
+  <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+      <p>문법</p>
+
+      <div class="informalfigure">
+        <div xmlns="" class="mediaobject"><img src="resources/commit.png"/></div>
+      </div>
+    </li><li>
+      <p>구성요소</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">WORK</td><td>SQL 표준과 호환성을 위해 허용된 문법이다. 생략해도 아무런 차이가 없다.</td></tr><tr><td align="left">FORCE</td><td>특정 트랜잭션을 강제로 커밋할 때 사용한다.</td></tr><tr><td align="left">CORRUPT_XID</td><td><p>트랜잭션 복구를 실패한 트랜잭션을 강제로 커밋한다.</p><p>트랜잭션 복구를
+              실패한 트랜잭션은 동적 뷰 V$CORRUPT_XID로 조회할 수 있다. 단, 강제로 커밋된 트랜잭션은 복구되지
+              않으므로 데이터 일관성이 보장되지 않는다.</p></td></tr><tr><td align="left">CORRUPT_XID_ALL</td><td>트랜잭션 복구를 실패한 경우 실패한 모든 트랜잭션을 강제로 커밋한다. 단, 강제로 커밋된 트랜잭션은
+              복구되지 않으므로 데이터 일관성이 보장되지 않는다.</td></tr><tr><td align="left">tx_id_literal</td><td><p>XA에서 지연된 트랜잭션을 처리할 때 사용한다.
+              </p><p>DBA_2PC_PENDING 뷰의 LOCAL_TRAN_ID 컬럼에 해당하는 값을
+              입력한다.</p><p>작은따옴표(' ')를 사용하는 것을 유의한다.</p></td></tr></tbody></table>
+      </div>
+    </li><li>
+      <p>예제</p>
+
+      <p>다음은 <span><strong class="guibutton">COMMIT</strong></span>을 실행하는 예이다.</p>
+
+      <pre class="programlisting">COMMIT;
+COMMIT WORK;
+<span>COMMIT FORCE '2.16.18';</span></pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>존재하지 않는 트랜잭션을 지정하면, 다음과 같은 에러가
+      발생한다.</p>
+
+      <pre class="programlisting">SQL&gt; COMMIT FORCE '2.16.18';
+TBR-21022: No prepared transaction found with transaction id 2.16.18.</pre>
+    </li></ul></div>
+</div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ddl_LOCK_TABLE"/>9.4. LOCK TABLE</h2></div></div></div>
+  
+
+  
+
+  <p>하나 이상의 테이블, 테이블 파티션, 테이블 서브파티션을 특정 모드로 잠근다. DML 수행 등으로 인한 자동 잠김보다 상위
+  모드로 적용되며, 작업 수행 중 다른 사용자의 테이블에 대한 접근을 금지하거나 허용할 수 있다. 잠긴 테이블은 트랜잭션을 커밋하거나
+  롤백할 때까지 풀리지 않는다. 테이블을 조회하는 작업은 테이블 잠금을 필요로하지 않으므로, 테이블을 잠그더라도 다른 사용자의 테이블
+  조회를 막지 않는다.</p>
+
+  <div class="literallayout"><p/></div>
+
+  <p>LOCK TABLE의 세부 내용은 다음과 같다.</p>
+
+  <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+      <p>문법</p>
+
+      <div class="informalfigure">
+        <div xmlns="" class="mediaobject"><img src="resources/lock_table.png"/></div>
+
+        <div xmlns="" class="mediaobject"><img src="resources/partition_ext_clause.png"/></div>
+
+        <div xmlns="" class="mediaobject"><img src="resources/lockmode.png"/></div>
+      </div>
+    </li><li>
+      <p>특권</p>
+
+      <p>사용자의 스키마에 있는 테이블을 잠그기 위해서는 별다른 특권이 필요하지 않다. 단, 다른 사용자의 스키마에 있는
+      테이블을 잠그기 위해서는 LOCK ANY TABLE 시스템 특권이 있어야 한다.</p>
+    </li><li>
+      <p>구성요소</p>
+
+      <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+          <p>lock_table</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">schema</td><td>잠글 테이블을 포함하고 있는 스키마의 이름이다. 생략하면 현재 사용자의 스키마로
+                  인식된다.</td></tr><tr><td align="left">table, view</td><td>잠글 테이블 또는 뷰의 이름이다.</td></tr><tr><td align="left">partition_ext_clause</td><td>잠글 파티션 또는 서브파티션을 지정한다.</td></tr><tr><td align="left">lockmode MODE</td><td>잠글 모드를 설정한다.</td></tr><tr><td align="left">NOWAIT</td><td>다른 사용자가 먼저 테이블을 잠그고 있어서 테이블을 잠글 수 없는 경우 기다리지 않고 곧바로
+                  실패하도록 설정한다.</td></tr><tr><td align="left">WAIT integer</td><td>다른 사용자가 먼저 테이블을 잠그고 있어서 테이블을 잠글 수 없는 경우 일정한 시간만큼
+                  기다린다. 지정된 시간(초)이 초과하면 실패한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>partition_ext_clause</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">partition</td><td>잠글 테이블 파티션의 이름이다.</td></tr><tr><td align="left">subpartition</td><td>잠글 테이블 서브파티션의 이름이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>lockmode</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">ROW SHARE</td><td>테이블에 대한 동시 접근을 허용하지만 배타적 접근을 허용하지 않는다.</td></tr><tr><td align="left">ROW EXCLUSIVE</td><td><p>ROW SHARE와 같지만 SHARE 모드로 잠그는 것도 허용하지
+                  않는다.</p><p>UPDATE, INSERT, DELETE를 수행할 때 자동으로 설정되는
+                  모드이다.</p></td></tr><tr><td align="left">SHARE</td><td>동시 조회는 가능하지만 테이블 수정은 허용하지 않는다.</td></tr><tr><td align="left">SHARE ROW EXCLUSIVE</td><td><p>전체 테이블을 조회할 때 사용된다.</p><p> 다른 사용자가 테이블을
+                  조회하는 것은 허용하지만 SHARE 모드로 테이블을 잠그거나 테이블을 수정하는 것은 허용하지
+                  않는다.</p></td></tr><tr><td align="left">EXCLUSIVE</td><td>테이블 조회는 가능하지만 테이블에 대한 다른 모든 동작은 허용하지 않는다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </li><li>
+      <p>예제</p>
+
+      <p>다음은 <span><strong class="guibutton">LOCK TABLE</strong></span>을 사용해 테이블을 잠그는 예이다.</p>
+
+      <pre class="programlisting">LOCK TABLE table_exmp IN EXCLUSIVE MODE NOWAIT;
+
+LOCK TABLE table_exmp PARTITION (part_exmp1) IN SHARE MODE WAIT 3;</pre>
+    </li></ul></div>
+</div>
+
+  
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ddl_ROLLBACK"/>9.5. ROLLBACK</h2></div></div></div>
+  
+
+  
+
+  <p>현재 트랜잭션을 종료하고 트랜잭션에서 갱신된 내용을 모두 취소한다. 동시에, 모든 저장점을 삭제하고 로우에 설정된 잠금을
+  해제한다.</p>
+
+  <div class="literallayout"><p/></div>
+
+  <p>ROLLBACK의 세부 내용은 다음과 같다.</p>
+
+  <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+      <p>문법</p><div class="informalfigure">
+          <div xmlns="" class="mediaobject"><img src="resources/rollback.png"/></div>
+        </div>
+    </li><li>
+      <p>구성요소</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">WORK</td><td>SQL 표준과 호환성을 위해 허용된 문법이다. 생략해도 아무런 차이가 없다.</td></tr><tr><td align="left">SAVEPOINT</td><td><p>특정 저장점까지만 롤백을 하고자 할 때
+              사용한다.</p><p>지정되지 않은 저장점을
+              명시하면, 에러가 발생한다. 저장점의 이름은 대소문자를 구분하지 않는다.</p></td></tr><tr><td align="left">savept_name</td><td><span>저장점의 이름을
+              명시한다.</span></td></tr><tr><td align="left">FORCE</td><td align="left">특정 트랜잭션을 강제로
+              롤백할 때 사용한다.</td></tr><tr><td align="left">tx_id_literal</td><td><p>XA에서 지연된 트랜잭션을 처리할 때
+              사용한다. </p><p>DBA_2PC_PENDING 뷰의 LOCAL_TRAN_ID 컬럼에 해당하는 값을
+              입력한다.</p><p>작은따옴표(' ')를 사용하는 것을 유의한다.</p></td></tr></tbody></table>
+      </div>
+    </li><li>
+      <p>예제</p>
+
+      <p>다음은 <span><strong class="guibutton">SAVEPOINT</strong></span>로 저장점을 지정하고,
+      <span><strong class="guibutton">ROLLBACK</strong></span>을 사용해 지정된 저장점까지 롤백하는 예이다.</p>
+
+      <pre class="programlisting">SQL&gt; INSERT INTO T VALUES(1);
+
+1 row inserted.
+
+SQL&gt; COMMIT;
+
+Commit completed.
+
+SQL&gt; SELECT * FROM T;
+        A
+---------
+        1
+1 selected.
+
+SQL&gt; UPDATE T SET A=2;
+1 updated.
+
+SQL&gt; SAVEPOINT SP1;
+Savepoint created.
+
+SQL&gt; UPDATE T SET A=3;
+1 updated.
+
+SQL&gt; SELECT * FROM T;
+        A
+---------
+        3
+1 selected.
+    
+SQL&gt; ROLLBACK TO SAVEPOINT SP1;
+Rollback succeeded.
+
+SQL&gt; SELECT * FROM T;
+        A
+---------
+        2
+1 selected.
+    
+SQL&gt; ROLLBACK;
+Rollback succeeded.
+
+SQL&gt; SELECT * FROM T;
+        A
+---------
+        1
+1 selected.
+
+SQL&gt; ROLLBACK TO SAVEPOINT SP1;
+TBR-21008 :  No such savepoint: 'SP1'</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 존재하지 않는 트랜잭션을 지정했을 때 발생하는 에러이다.</p>
+
+      <pre class="programlisting">SQL&gt; ROLLBACK FORCE '2.16.18';
+TBR-21022: No prepared transaction found with transaction id 2.16.18.</pre>
+    </li></ul></div>
+</div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ddl_SAVEPOINT"/>9.6. SAVEPOINT</h2></div></div></div>
+  
+
+  
+
+  <p>현재 트랜잭션에 저장점을 설정한다. 부분 롤백을 수행하기 위해서는 반드시 저장점을 미리 설정해야 한다. 저장점 설정은
+  트랜잭션의 실행에 전혀 영향을 주지 않는다.</p>
+
+  <div class="literallayout"><p/></div>
+
+  <p>SAVEPOINT의 세부 내용은 다음과 같다.</p>
+
+  <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+      <p>문법</p>
+
+      <div class="informalfigure">
+        <div xmlns="" class="mediaobject"><img src="resources/savepoint.png"/></div>
+      </div>
+    </li><li>
+      <p>구성요소</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">savept_name</td><td><p>저장점의 이름은 현재 트랜잭션에서 유일해야 한다. </p><p>만약 같은
+              트랜잭션에서 이전에 설정한 저장점의 이름과 동일한 저장점을 설정하면, 이전의 저장점은 제거된다. 저장점의 이름은
+              대소문자를 구분하지 않는다.</p></td></tr></tbody></table>
+      </div>
+    </li><li>
+      <p>예제</p>
+
+      <p>다음은 <span><strong class="guibutton">SAVEPOINT</strong></span>를 사용해 저장점을 설정하는 예이다.</p>
+
+      <pre class="programlisting">SAVEPOINT sp1;</pre>
+    </li></ul></div>
+</div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ddl_SET_ROLE"/>9.7. SET ROLE</h2></div></div></div>
+  
+
+  
+
+  <p>사용자에게 할당된 역할을 활성화하거나 비활성화한다.</p>
+
+  <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+    <p>1. 역할을 생성, 변경, 제거하기 위해서는 <a href="ch_ddl.html#sect_ddl_CREATE_ROLE" title="7.38. CREATE ROLE">“7.38. CREATE ROLE”</a>,
+    <a href="ch_ddl.html#sect_ddl_ALTER_ROLE" title="7.11. ALTER ROLE">“7.11. ALTER ROLE”</a>, <a href="ch_ddl.html#sect_ddl_DROP_ROLE" title="7.59. DROP ROLE">“7.59. DROP ROLE”</a>의 내용을 참고한다.</p>
+
+    <p>2. 역할에 특권을 부여하거나 회수하기 위해서는 <a href="ch_ddl.html#sect_ddl_GRANT" title="7.71. GRANT">“7.71. GRANT”</a>, <a href="ch_ddl.html#sect_ddl_REVOKE" title="7.75. REVOKE">“7.75. REVOKE”</a>의 내용을 참고한다.</p>
+  </div>
+
+  <div class="literallayout"><p/></div>
+
+  <p>SET ROLE의 세부 내용은 다음과 같다.</p>
+
+  <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+      <p>문법</p>
+
+      <div class="informalfigure">
+        <div xmlns="" class="mediaobject"><img src="resources/set_role.png"/></div>
+      </div>
+    </li><li>
+      <p>특권</p>
+
+      <p>활성화 또는 비활성화하려는 역할은 해당 사용자에게 이미 사용이 허가된 역할이어야 한다.</p>
+    </li><li>
+      <p>구성요소</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">role_name</td><td>부여받은 역할 중에서 활성화하려는 역할을 나열한다. 이곳에 포함되지 않은 역할은 자동으로
+              비활성화된다.</td></tr><tr><td align="left">IDENTIFIED BY</td><td>패스워드가 설정된 경우에는 해당 역할을 사용하려고 할 때 해당 패스워드를 입력해야 한다. 역할에
+              패스워드를 설정하는 방법은 <a href="ch_ddl.html#sect_ddl_ALTER_ROLE" title="7.11. ALTER ROLE">ALTER
+              ROLE</a>과 <a href="ch_ddl.html#sect_ddl_CREATE_ROLE" title="7.38. CREATE ROLE">CREATE
+              ROLE</a>을 참고한다.</td></tr><tr><td align="left">ALL</td><td>부여받은 모든 역할을 사용할 수 있도록 설정한다. 단, 사용할 수 있는 역할 중에 패스워드가 설정된
+              역할이 있으면 해당 역할을 EXCEPT 절로 제외하지 않는 이상 ALL 절을 이용해 사용할 수 있게 설정할 수
+              없다.</td></tr><tr><td align="left">EXCEPT</td><td>ALL 절을 사용해 부여받은 모든 역할을 사용할 수 있도록 설정하려고 할 때 설정에서 제외할 역할이
+              포함된다. 즉, EXCEPT 절에 나열한 역할을 제외하고는 다른 모든 역할을 사용할 수 있게
+              설정된다.</td></tr></tbody></table>
+      </div>
+    </li><li>
+      <p>예제</p>
+
+      <p>다음은 사용자에게 역할을 할당하고, 할당된 역할을 <span><strong class="guibutton">SET ROLE</strong></span>을 사용해
+      활성화하는 예이다.</p>
+
+      <pre class="programlisting">SQL&gt; CONN sys/<span>tibero</span>
+Connected.
+
+SQL&gt; CREATE USER u1 IDENTIFIED BY xxx; <em class="lineannotation"><span class="lineannotation">-- u1 사용자를 생성한다.</span></em>
+User created.
+
+SQL&gt; GRANT CREATE SESSION TO u1;
+Granted.
+
+SQL&gt; CREATE ROLE a; <em class="lineannotation"><span class="lineannotation">-- 역할을 생성한다.</span></em>
+Role created.
+
+SQL&gt; CREATE ROLE b;
+Role created.
+
+SQL&gt; CREATE ROLE c;
+Role created.
+
+SQL&gt; CREATE ROLE d IDENTIFIED BY aaa; <em class="lineannotation"><span class="lineannotation">--일부 역할은 패스워드를 사용한다.</span></em>
+Role created.
+
+SQL&gt; CREATE ROLE e IDENTIFIED BY bbb;
+Role created.
+
+SQL&gt; GRANT a, b, c, d, e TO u1; <em class="lineannotation"><span class="lineannotation">-- U1 사용자에게 역할을 허가한다.</span></em>
+Granted.
+
+SQL&gt; CONN u1/xxx
+Connected.
+
+SQL&gt; SET ROLE a, b, c;
+Set.
+
+SQL&gt; SELECT * FROM session_roles;
+ROLE
+------------------------------
+A
+B
+C
+
+3 rows selected.
+
+SQL&gt; SET ROLE a, b, c, d;
+TBR-7181: need password to enable the role
+
+SQL&gt; SET ROLE c, d IDENTIFIED BY aaa, e IDENTIFIED BY bbb;
+Set.
+
+SQL&gt; SELECT * FROM session_roles;
+ROLE
+------------------------------
+C
+D
+E
+
+3 rows selected</pre>
+
+      <p>위의 예를 보면, 역할 A, B, C, D, E를 생성하는데, 그 중 역할 D와 역할 E는 패스워드를 설정하여
+      생성하였다. 패스워드가 설정되지 않은 역할 A, B, C는 아무런 제약 없이 사용할 수 있지만, 패스워드가 설정된 역할 D와 E는
+      IDENTIFIED BY 절을 사용하여 패스워드를 입력해야만 사용할 수 있다. 또한, 마지막 SET ROLE 문장을 보면 역할
+      A, B를 제외한 C, D, E만 사용할 수 있게 설정했으므로, 기존에 사용할 수 있게 설정되었던 역할 A, B가 사용할 수 없는
+      상태로 설정이 변경된 것을 볼 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 <span><strong class="guibutton">EXCEPT</strong></span>를 사용하는 예이다.</p>
+
+      <pre class="programlisting">SQL&gt; SET ROLE ALL;
+TBR-7181: need password to enable the role
+
+SQL&gt; SET ROLE ALL EXCEPT d, e;
+Set.
+
+SQL&gt; SELECT * FROM session_roles;
+ROLE
+------------------------------
+A
+B
+C
+
+3 rows selected.</pre>
+
+      <p>위의 예에서, 역할 D, E는 패스워드가 설정되어 있다. ALL 절에서는 패스워드를 입력할 방법이 없으므로, ALL
+      절을 이용해서는 역할 D, E를 사용할 수 있게 설정할 수 없다. 패스워드를 사용하는 역할을 EXCEPT 절을 이용하여 제외하면,
+      제외되고 남은 나머지 역할을 ALL 절을 이용하여 사용할 수 있게 설정할 수 있다.</p>
+    </li></ul></div>
+</div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_ddl_SET_TRANSACTION"/>9.8. SET TRANSACTION</h2></div></div></div>
+  
+
+  
+
+  <p>현재 트랜잭션의 고립성 수준이나 이름을 설정한다. 이 명령어는 현재 트랜잭션에서 실행하는 최초의 문장이어야 한다.</p>
+
+  <div class="literallayout"><p/></div>
+
+  <p>SET TRANSACTION의 세부 내용은 다음과 같다.</p>
+
+  <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+      <p>문법</p>
+
+      <div class="informalfigure">
+        <div xmlns="" class="mediaobject"><img src="resources/set_transaction.png"/></div>
+      </div>
+    </li><li>
+      <p>구성요소</p><div class="informaltable">
+          <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left"><p>ISOLATION
+                LEVEL</p><p>또는</p><p>ISOLATION_LEVEL</p></td><td><p>ISOLATION LEVEL 문으로 트랜잭션의 고립성을 설정할 수 있다.
+                </p><p>설정할 수 있는 고립성 수준은 다음과 같다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                      <p>SERIALIZABLE</p>
+                    </li><li style="list-style-type: circle">
+                      <p>READ COMMITED (기본값)</p>
+                    </li><li style="list-style-type: circle">
+                      <p>READ ONLY</p>
+                    </li></ul></div></td></tr><tr><td align="left">SERIALIZABLE</td><td><p>세션에 참가하는 트랜잭션은 SQL-92에 명시된 직렬화된 트랜잭션 고립성 모드
+                (Serializable Transaction Isolation Mode)로 동작한다.</p><p>이
+                모드에서는, 직렬화된 트랜잭션이 시작되고 난 후 어떤 로우를 갱신한 다른 트랜잭션이 커밋했을 때 그 로우를
+                직렬화된 트랜잭션이 DML 문을 사용해 변경하려고 하면 변경이 일어나지 않고 에러가
+                반환된다.</p></td></tr><tr><td align="left">READ COMMITED</td><td>이 모드에서는 어떤 트랜잭션이 로우를 변경하고 커밋하지 않았을 경우 그 로우에 현재 트랜잭션이
+                DML 문을 사용해 변경하려고 하면 그 로우에 설정된 잠금 때문에 대기하게 된다.</td></tr><tr><td align="left">READ ONLY</td><td>기본적으로 SERIALIZABLE 모드와 똑같이 동작하지만, 데이터를 변경하려고 하면 에러가
+                반환된다.</td></tr><tr><td align="left">NAME</td><td><p>NAME 문으로 트랜잭션의 이름을 설정할 수 있다. (기본값:
+                NULL)</p><p>트랜잭션 이름은 V$TRANSACTION을 조회해 보면 알 수 있다.
+                </p><p/></td></tr><tr><td align="left">transaction_name</td><td>설정할 트랜잭션의 이름이다.</td></tr></tbody></table>
+        </div>
+    </li><li>
+      <p>예제</p>
+
+      <p>다음은 현재 트랜잭션을 <span><strong class="guibutton">READ COMMITTED</strong></span>로 설정한 후 동적 뷰
+      <span><strong class="guibutton">V$TRANSACTION</strong></span>을 조회하는 예이다.</p>
+
+      <pre class="programlisting">SQL&gt; SET TRANSACTION ISOLATION_LEVEL READ COMMITTED;
+Set.
+
+SQL&gt; SELECT name, state FROM v$transaction;
+
+NAME                      STATE
+-------------------- ----------
+                              3
+
+1 row selected.
+
+SQL&gt; SET TRANSACTION NAME 'tx1';
+TBR-7191 : Unable to execute SET TRANSACTION: transaction has already started. </pre>
+
+      <p>위와 같이 SET TRANSACTION 문은 트랜잭션 최초의 문장이어야 하며, 그렇지 않은 경우 에러가
+      발생한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음과 같이 트랜잭션의 이름을 설정할 수도 있다.</p>
+
+      <pre class="programlisting">SQL&gt; SELECT name, state FROM v$transaction;
+
+NAME                      STATE
+-------------------- ----------
+
+0 row selected.
+
+SQL&gt; SET TRANSACTION NAME 'tx1';
+Set.
+
+SQL&gt; SELECT name, state FROM v$transaction;
+
+NAME                      STATE
+-------------------- ----------
+tx1                           3
+
+1 row selected.</pre>
+    </li></ul></div>
+</div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch_dml.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="appendix_reserved_words.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제8장 데이터 조작어 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> Appendix A. 예약어</td></tr></table></div><div xmlns="" align="center"/></body></html>

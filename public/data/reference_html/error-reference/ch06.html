@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제6장 6000 ~ 6999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch05.html" title="제5장 5000 ~ 5999"/><link rel="next" href="ch07.html" title="제7장 7000 ~ 7999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제6장 6000 ~ 6999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch07.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e6428"/>제6장 6000 ~ 6999</h2></div></div></div>
+  
+
+  <h2><a id="d5e6430"/>6001: Internal error: DD search failed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to search DD (Data Dictionary) due to an internal error.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6443"/>6002: Synonym translation is no longer valid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The target schema or object does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Change the definition of the synonym so that the synonym refers to a valid object.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6456"/>6003: Sequence \"%1$s\" has not been accessed in this session: no CURRVAL available.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>CURRVAL cannot be used since the indicated sequence has not been used in the current session.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>CURRVAL can be used only after NEXTVAL has been used in the same session.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6469"/>6004: Sequence \"%1$s\" has exceeded its available range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>All values available in sequence are already used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the range of the sequence by using an ALTER SEQUENCE statement.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6482"/>6005: DB data dictionary version does not match binary DD version.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The version of the DD in the DB is different from the version of DD in the binary.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The binary cannot be used in the database.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6495"/>6006: ALTERDD must be run on data dictionary.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The ALTERDD process must be run to use the DD as the binary.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Execute the ALTERDD process to change DD.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6508"/>6007: Table \"%1$s\" cannot be loaded because the size of the constraints on the table is too large.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The size of the constraints on the table is too large.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if the table has unnecessary constraints. Drop unnecessary constraints.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6521"/>6009: Failed to add a pair in a DD object search key map.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An internal error occurred during adding a pair in a DD object search key map.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6534"/>6010: Failed to add a pair in a DD user search key map.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An internal error occurred during adding a pair in a DD user search key map.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6547"/>6011: Cannot execute the current sequence Nextval with the SCALE_NOEXTEND option.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The sequence value conflicts with the SCALE prefix value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the number of digits in the sequence by \"%1$u\", or use the SCALE EXTEND option.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch07.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제5장 5000 ~ 5999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제7장 7000 ~ 7999</td></tr></table></div><div xmlns="" align="center"/></body></html>

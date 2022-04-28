@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제52장 DBMS_XMLSAVE</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_xmlparser.html" title="제51장 DBMS_XMLPARSER"/><link rel="next" href="chap_dbms_xplan.html" title="제53장 DBMS_XPLAN"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제52장 DBMS_XMLSAVE</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_xmlparser.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_xplan.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_xmlsave"/>제52장 DBMS_XMLSAVE</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_xmlsave.html#d5e23550">52.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#sect_dbms_xmlsave_constant">52.2. 상수</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#sect_dbms_xmlsave_type">52.3. 타입</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#sect_dbms_xmlsave_subprogram">52.4. 프러시저와 함수</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_CLEARKEYCOLUMNLIST">52.4.1. CLEARKEYCOLUMNLIST</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_CLEARUPDATECOLUMNLIST">52.4.2. CLEARUPDATECOLUMNLIST</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_CLOSECONTEXT">52.4.3. CLOSECONTEXT</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_DELETEXML">52.4.4. DELETEXML</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_INSERTXML">52.4.5. INSERTXML</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_NEWCONTEXT">52.4.6. NEWCONTEXT</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_SETDATEFORMAT">52.4.7. SETDATEFORMAT</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_SETIGNORECASE">52.4.8. SETIGNORECASE</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_SETKEYCOLUMN">52.4.9. SETKEYCOLUMN</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_SETROWTAG">52.4.10. SETROWTAG</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_SETUPDATECOLUMN">52.4.11. SETUPDATECOLUMN</a></span></dt><dt><span class="section"><a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_UPDATEXML">52.4.12. UPDATEXML</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_XMLSAVE 패키지의 기본 개념과 패키지 내의 상수 및 프러시저와 함수들의 의미를
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23550"/>52.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_XMLSAVE</strong></span><a id="d5e23554" class="indexterm"/>는 XML-to-database-type 기능을 제공한다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_dbms_xmlsave_constant"/>52.2. 상수</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_XMLSAVE</strong></span><a id="d5e23561" class="indexterm"/>에서는 패키지 내의 함수나 프러시저의 파라미터를 설정하기 위한 상수들을 포함하고 있다.</p>
+
+    <p>지원하는 상수들의 목록은 다음 표에 있다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">상수</th><th>설명</th></tr></thead><tbody><tr><td align="left">DEFAULT_ROWTAG</td><td>데이터베이스 레코드들에 대응하는 XML 요소에 대한 태그 이름의 기본값을 지칭하는 상수로, 상수값은
+            'ROW'이다. </td></tr><tr><td align="left">DEFAULT_DATE_FORMAT</td><td>기본 날짜 형식은 'MM/dd/yyyy HH:mm:ss'이다.</td></tr><tr><td align="left">MATCH_CASE</td><td>XML 요소들을 데이터베이스 개체에 대응시킬 때 XML SQL Utility는 case-sensitive
+            해야 함을 명시한다.</td></tr><tr><td align="left">IGNORE_CASE</td><td>XML 요소들을 데이터베이스 개체에 대응시킬 때 XML SQL Utility는
+            case-insensitive 해야 함을 명시한다.</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_dbms_xmlsave_type"/>52.3. 타입</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_XMLSAVE</strong></span><a id="d5e23589" class="indexterm"/>의 함수와 프러시저 에서는 ctxType 타입을 사용한다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxType</td><td>처리할 쿼리 context 타입으로, <a href="chap_dbms_xmlsave.html#DBMS_XMLSAVE_NEWCONTEXT" title="52.4.6. NEWCONTEXT">“52.4.6. NEWCONTEXT”</a>의 리턴값이다.</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_dbms_xmlsave_subprogram"/>52.4. 프러시저와 함수</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_XMLSAVE 패키지에서 제공하는 프러시저와 함수를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_CLEARKEYCOLUMNLIST"/>52.4.1. CLEARKEYCOLUMNLIST<a id="d5e23609" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Key column 리스트를 지운다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CLEARKEYCOLUMNLIST 프러시저<a id="d5e23615" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE CLEARKEYCOLUMNLIST
+(
+   ctxHdl IN ctxType
+);          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 Context이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_CLEARUPDATECOLUMNLIST"/>52.4.2. CLEARUPDATECOLUMNLIST<a id="d5e23639" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Update column 리스트를 지운다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CLEARUPDATECOLUMNLIST 프러시저<a id="d5e23645" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE CLEARUPDATECOLUMNLIST
+(
+   ctxHdl IN ctxType
+);          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 Context이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_CLOSECONTEXT"/>52.4.3. CLOSECONTEXT<a id="d5e23669" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 save context를 닫는다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CLOSECONTEXT 프러시저<a id="d5e23675" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE CLOSECONTEXT
+(
+   ctxHdl IN ctxType
+);          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 Context이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_DELETEXML"/>52.4.4. DELETEXML<a id="d5e23699" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>XML 문서의 데이터에 명시된 레코드들을 context를 생성할 때 명시된 테이블에서 지운다. 리턴값은 지워진 행의
+      개수이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DELETEXML 함수<a id="d5e23705" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">FUNCTION DELETEXML
+(
+  ctxHdl IN ctxPType,
+    xDoc IN VARCHAR2
+) 
+RETURN NUMBER;          </pre>
+
+          <pre class="programlisting">FUNCTION DELETEXML
+(
+  ctxHdl IN ctxType,
+  xDoc IN CLOB
+) 
+RETURN NUMBER;          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 Context이다.</td></tr><tr><td align="left">xDoc</td><td align="left">(IN)</td><td>XML 문서를 포함하고 있는 문자열이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_INSERTXML"/>52.4.5. INSERTXML<a id="d5e23734" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Context 형성 시 명시된 테이블에 XML 문서의 데이터를 삽입한다. 리턴값은 삽입된 행의 개수이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>INSERTXML 함수<a id="d5e23740" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">FUNCTION INSERTXML
+(
+  ctxHdl IN ctxType,
+  xDoc IN VARCHAR2
+) 
+RETURN NUMBER;          </pre>
+
+          <pre class="programlisting">FUNCTION INSERTXML
+(
+  ctxHdl IN ctxType,
+  xDoc IN CLOB
+) 
+RETURN NUMBER;          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 context이다.</td></tr><tr><td align="left">xDoc</td><td align="left">(IN)</td><td>XML 문서를 포함하고 있는 문자열이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_NEWCONTEXT"/>52.4.6. NEWCONTEXT<a id="d5e23769" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>새로운 save context를 만들고 처리할 context를 리턴한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>NEWCONTEXT 함수<a id="d5e23775" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">FUNCTION NEWCONTEXT
+(
+   targetTable IN VARCHAR2
+) 
+RETURN ctxType;          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">targetTable</td><td align="left">(IN)</td><td>XML 문서를 올릴 표적 테이블이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_SETDATEFORMAT"/>52.4.7. SETDATEFORMAT<a id="d5e23799" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>XML 문서로부터 만들어진 date 타입의 형식을 정한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SETDATEFORMAT 프러시저<a id="d5e23805" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE SETDATEFORMAT
+(
+   ctxHdl IN ctxType,
+   mask IN VARCHAR2
+);          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 context이다.</td></tr><tr><td align="left">mask</td><td align="left">(IN)</td><td>Date 타입의 형식에 대한 syntax이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_SETIGNORECASE"/>52.4.8. SETIGNORECASE<a id="d5e23833" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Database의 column 또는 attribute에 XML 구성 요소를 대응시킬 때 대소문자를 무시할 지 말지
+      XXML SQL Utility에게 말해준다. 이러한 대응은 XML 태그 이름을 기반으로 한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SETIGNORECASE 프러시저<a id="d5e23839" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE SETIGNORECASE
+(
+   ctxHdl IN ctxType,
+   flag IN NUMBER
+);          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 context이다.</td></tr><tr><td align="left">flag</td><td align="left">(IN)</td><td>XML 문서의 대소문자를 무시할 지 말지 결정한다. 1이면 무시하고 0이면 무시하지
+                  않는다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_SETKEYCOLUMN"/>52.4.9. SETKEYCOLUMN<a id="d5e23867" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Column을 key column 리스트에 추가한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SETKEYCOLUMN 프러시저<a id="d5e23873" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE SETKEYCOLUMN
+( 
+   ctxHdl IN ctxType,
+   colName IN VARCHAR2
+);          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 context이다.</td></tr><tr><td align="left">colName</td><td align="left">(IN)</td><td>Key column 리스트에 추가할 column의 이름으로 NULL이면 안된다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_SETROWTAG"/>52.4.10. SETROWTAG<a id="d5e23901" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스의 레코드에 대응되는 XML 구성 요소에 대해 XML 문서 상에서 사용되는 태그 이름을
+      지어준다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SETROWTAG 프러시저<a id="d5e23907" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE SETROWTAG
+( 
+   ctxHdl IN ctxType,
+   tag IN VARCHAR2
+);          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 context이다.</td></tr><tr><td align="left">tag</td><td align="left">(IN)</td><td>태그 이름이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_SETUPDATECOLUMN"/>52.4.11. SETUPDATECOLUMN<a id="d5e23935" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Column을 update column 리스트에 추가한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SETUPDATECOLUMN 프러시저<a id="d5e23941" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">PROCEDURE SETUPDATECOLUMN
+( 
+   ctxHdl IN ctxType,
+   colName IN VARCHAR2
+);          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 context이다.</td></tr><tr><td align="left">colName</td><td align="left">(IN)</td><td>Update column 리스트에 추가할 column의 이름으로 NULL이면
+                  안된다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_XMLSAVE_UPDATEXML"/>52.4.12. UPDATEXML<a id="d5e23969" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Context 형성 시 명시된 테이블에 XML 문서 데이터를 업데이트한다. 리턴값은 업데이트 된 행의
+      개수이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>UPDATEXML 함수<a id="d5e23975" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">FUNCTION UPDATEXML
+(
+  ctxHdl IN ctxType,
+  xDoc IN VARCHAR2
+) 
+RETURN NUMBER;          </pre>
+
+          <pre class="programlisting">FUNCTION UPDATEXML
+(
+  ctxHdl IN ctxType,
+  xDoc IN CLOB
+) 
+RETURN NUMBER;          </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="100" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th align="left">IN / OUT</th><th>설명</th></tr></thead><tbody><tr><td align="left">ctxHdl</td><td align="left">(IN)</td><td>처리할 context이다.</td></tr><tr><td align="left">xDoc</td><td align="left">(IN)</td><td>XML 문서를 포함하고 있는 문자열이다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_xmlparser.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_xplan.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제51장 DBMS_XMLPARSER </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제53장 DBMS_XPLAN</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -1,0 +1,1361 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제20장 DBMS_METADATA</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_lock.html" title="제19장 DBMS_LOCK"/><link rel="next" href="chap_dbms_monitor.html" title="제21장 DBMS_MONITOR"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제20장 DBMS_METADATA</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_lock.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_monitor.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_metadata"/>제20장 DBMS_METADATA</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_metadata.html#d5e7252">20.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#d5e7264">20.2. 프러시저와 함수</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_ADD_TRANSFORM">20.2.1. ADD_TRANSFORM</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_CLOSE">20.2.2. CLOSE</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_CONVERT">20.2.3. CONVERT</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_FETCH_DDL">20.2.4. FETCH_DDL</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_FETCH_XML">20.2.5. FETCH_XML</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_GET_DDL">20.2.6. GET_DDL</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_GET_DEPENDENT_DDL">20.2.7. GET_DEPENDENT_DDL</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_GET_DEPENDENT_XML">20.2.8. GET_DEPENDENT_XML</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_GET_GRANTED_DDL">20.2.9. GET_GRANTED_DDL</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_GET_GRANTED_XML">20.2.10. GET_GRANTED_XML</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_GET_XML">20.2.11. GET_XML</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_OPEN">20.2.12. OPEN</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_OPENW">20.2.13. OPENW</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_SET_FILTER">20.2.14. SET_FILTER</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_SET_PARSE_ITEM">20.2.15. SET_PARSE_ITEM</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_SET_REMAP_PARAM">20.2.16. SET_REMAP_PARAM</a></span></dt><dt><span class="section"><a href="chap_dbms_metadata.html#DBMS_METADATA_SET_TRANSFORM_PARAM">20.2.17. SET_TRANSFORM_PARAM</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_METADATA 패키지의 기본 개념과 패키지 내의 프러시저와 함수를 사용하는 방법을
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e7252"/>20.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_METADATA</strong></span><a id="d5e7256" class="indexterm"/>는 DB 객체를 재생성하기 위해 사용할 수 있는 XML 문서나 DDL 구문을 획득하거나 수정할 수 있는
+    패키지이다.</p>
+
+    <p/>
+
+    <div class="itemizedlist"><ul type="disc"><li>
+        <p>타입</p>
+
+        <pre class="programlisting">CREATE OR REPLACE TYPE sys.ku$_parsed_item AS OBJECT (                           
+    item            VARCHAR2(30),                                                
+    value           VARCHAR2(4000),                                              
+    object_row      NUMBER );                                                    
+/                                                                                
+                                                                                 
+CREATE OR REPLACE PUBLIC SYNONYM ku$_parsed_item FOR sys.ku$_parsed_item;        
+                                                                                 
+CREATE OR REPLACE TYPE sys.ku$_parsed_items IS TABLE OF sys.ku$_parsed_item;     
+/                                                                                
+                                                                                 
+CREATE OR REPLACE PUBLIC SYNONYM ku$_parsed_items FOR sys.ku$_parsed_items;      
+                                                                                 
+CREATE OR REPLACE TYPE sys.ku$_ddl AS OBJECT (                                   
+    ddlText        CLOB,                                                         
+    parsedItems sys.ku$_parsed_items );                                          
+/                                                                                
+                                                                                 
+CREATE OR REPLACE PUBLIC SYNONYM ku$_ddl FOR sys.ku$_ddl;                        
+                                                                                 
+CREATE OR REPLACE TYPE sys.ku$_ddls IS TABLE OF sys.ku$_ddl;                     
+/                                                                                
+                                                                                 
+CREATE OR REPLACE PUBLIC SYNONYM ku$_ddls FOR sys.ku$_ddls;                      
+                                                                                 
+CREATE OR REPLACE TYPE sys.ku$_multi_ddl AS OBJECT (                             
+    object_row     NUMBER,                                                       
+    ddls           sys.ku$_ddls );                                               
+/                                                                                
+                                                                                 
+CREATE OR REPLACE PUBLIC SYNONYM ku$_multi_ddl FOR sys.ku$_multi_ddl;            
+                                                                                 
+CREATE OR REPLACE TYPE sys.ku$_multi_ddls IS TABLE OF sys.ku$_multi_ddl;         
+/                                                                                
+                                                                                 
+CREATE OR REPLACE PUBLIC SYNONYM ku$_multi_ddls FOR sys.ku$_multi_ddls;          
+                                                                                 
+CREATE OR REPLACE TYPE sys.ku$_ErrorLine IS OBJECT (                             
+    errorNumber    NUMBER,                                                       
+    errorText      VARCHAR2(2000) );                                             
+/
+                                                                                
+CREATE OR REPLACE TYPE sys.ku$_SubmitResult AS OBJECT (                          
+    ddl          sys.ku$_ddl,                                                    
+    errorLines   sys.ku$_ErrorLines );                                           
+/                                                                                
+                                                                                 
+CREATE OR REPLACE TYPE sys.ku$_SubmitResults IS TABLE OF sys.ku$_SubmitResult;   
+/                                                                                
+                                                                                 
+CREATE OR REPLACE PUBLIC SYNONYM ku$_SubmitResults FOR sys.ku$_SubmitResults;    
+</pre>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e7264"/>20.2. 프러시저와 함수</h2></div></div></div>
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_ADD_TRANSFORM"/>20.2.1. ADD_TRANSFORM<a id="d5e7268" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>CONVERT, FETCH_DDL, FETCH_XML 등에 적용될 transform을 추가한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>ADD_TRANSFORM 함수<a id="d5e7275" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.ADD_TRANSFORM (
+   handle       IN NUMBER,
+   name         IN VARCHAR2,
+   encoding     IN VARCHAR2 DEFAULT NULL,
+   object_type  IN VARCHAR2 DEFAULT NULL)
+ RETURN NUMBER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">handle</td><td>OPEN 또는 OPENW 함수를 통해 획득한 handle이다. </td></tr><tr><td align="left">name</td><td><p>DBMS_METADATA에서 제공하는 transform 이름이다.
+                  </p><p>현재는 'DDL', 'MODIFY'를 제공함</p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>'DDL' : XML을 DDL구문으로 변환하는 transform</p>
+                      </li><li>
+                        <p>'MODIFY' : XML 내용을 수정하는 transform</p>
+                      </li></ul></div></td></tr><tr><td align="left">encoding</td><td>현재 사용 불가</td></tr><tr><td align="left">object_type</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>OPEN, OPENW의 반환값과는 다른 transform handle(SET_TRANSFORM_PARAM,
+          SET_REMAP_PARAM의 파라미터로 사용됨)</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>handle이 NULL이거나 invalid</td></tr><tr><td align="left">INVALID_OPERATION</td><td>FETCH_DDL, FETCH_XML 수행 후에는 호출할 수 없음</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; declare                                                                          
+   2    handle number;                                                                
+   3    transform_handle number;                                                      
+   4 begin                                                                            
+   5    handle := dbms_metadata.open('TABLE');                                        
+   6    transform_handle := dbms_metadata.add_transform(handle, 'DDL');               
+   7    dbms_metadata.close(handle);                                                  
+   8 end;                                                                             
+   9 /
+
+PSM completed.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_CLOSE"/>20.2.2. CLOSE<a id="d5e7334" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>OPEN, OPENW의 반환값인 handle을 정리한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CLOSE 프러시저 <a id="d5e7341" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.CLOSE (
+   handle  IN NUMBER);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">handle</td><td>OPEN 또는 OPENW 함수를 통해 획득한 handle이다. </td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>handle이 NULL이거나 invalid</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; declare                                                                          
+   2     handle number;                                                               
+   3 begin                                                                            
+   4     handle := dbms_metadata.open('TABLE');                                       
+   5     dbms_metadata.close(handle);                                                                                                                                                 
+   6 end;                                                                             
+   7 /
+
+PSM completed.
+</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_CONVERT"/>20.2.3. CONVERT<a id="d5e7378" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>입력된 XML 문서를 DDL로 변환한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CONVERT 프러시저<a id="d5e7385" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.CONVERT (
+  handle   IN NUMBER,
+  document IN XMLType,
+  result   IN OUT NOCOPY CLOB);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">handle</td><td>OPENW 함수를 통해 획득한 handle이다. </td></tr><tr><td align="left">document</td><td>입력 XML 문서이다. </td></tr><tr><td align="left">result</td><td>결과 DDL이다. </td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>handle이 NULL이거나 invalid</td></tr><tr><td align="left">INCONSISTENT_OPERATION</td><td>handle에 'DDL' transform이 추가되어 있지 않음</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; create table t (c1 number);                                                      
+
+Table 'T' created.
+
+SQL&gt; declare                                                                                                                                                                          
+   2     handle  number;                                                              
+   3     handlew number;                                                              
+   4     transform_handle number;                                                              
+   5     ret_xml xmltype;                                                             
+   6     ret_ddl clob;                                                                
+   7 begin                                                                            
+   8     handle := dbms_metadata.open('TABLE');                                       
+   9     dbms_metadata.set_filter(handle, 'NAME', 'T');                               
+  10     ret_xml := dbms_metadata.fetch_xml(handle);                                  
+  11     dbms_metadata.close(handle);                                                 
+  12                                                                                  
+  13     handlew := dbms_metadata.openw('TABLE');                                     
+  14     transform_handle := dbms_metadata.add_transform(handlew, 'DDL');                           
+  15     dbms_metadata.convert(handlew, ret_xml, ret_ddl);                            
+  16     dbms_metadata.close(handlew);                                                
+  17 end;                                                                             
+  18 / 
+
+PSM completed.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_FETCH_DDL"/>20.2.4. FETCH_DDL<a id="d5e7431" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>DDL을 출력한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>FETCH_DDL 함수<a id="d5e7438" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.FETCH_DDL (
+   handle  IN NUMBER)
+RETURN sys.ku$_ddls;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">handle</td><td>OPEN 함수를 통해 획득한 handle이다. </td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>결과 DDL(모든 DDL이 return된 후에는 NULL)</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>handle이 NULL이거나 invalid</td></tr><tr><td align="left">INCONSISTENT_OPERATION</td><td>handle에 'DDL' transform이 추가되어 있지 않음</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; create table t (c1 number);                                                      
+
+Table 'T' created.
+
+SQL&gt; declare                                                                                                                                                                          
+   2     handle  number;                                                              
+   3     transform_handle number;                                                     
+   4     ret_ddl sys.ku$_ddls;                                                        
+   5 begin                                                                            
+   6     handle := dbms_metadata.open('TABLE');                                       
+   7     transform_handle := dbms_metadata.add_transform(handle, 'DDL');              
+   8     dbms_metadata.set_filter(handle, 'NAME', 'T');                               
+   9     loop                                                                         
+  10         ret_ddl := dbms_metadata.fetch_ddl(handle);                              
+  11         exit when ret_ddl is null;                                               
+  12     end loop;                                                                    
+  13     dbms_metadata.close(handle);                                                 
+  14 end;                                                                             
+  15 / 
+
+PSM completed.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_FETCH_XML"/>20.2.5. FETCH_XML<a id="d5e7481" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>XML을 출력한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>FETCH_XML 함수<a id="d5e7488" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.FETCH_XML (
+   handle  IN NUMBER) 
+RETURN XMLType;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">handle</td><td>OPEN 함수를 통해 획득한 handle이다. </td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>결과 XML(모든 XML이 return된 후에는 NULL)</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>handle이 NULL이거나 invalid</td></tr><tr><td align="left">INCONSISTENT_OPERATION</td><td>handle에 'DDL' transform이 추가되어 있음</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; create table t (c1 number);
+
+Table 'T' created.
+
+SQL&gt; declare                                                                                                                                                                          
+   2     handle  number;                                                              
+   3     ret_xml xmltype;                                                             
+   4 begin                                                                            
+   5     handle := dbms_metadata.open('TABLE');                                       
+   6     dbms_metadata.set_filter(handle, 'NAME', 'T');                               
+   7     loop                                                                         
+   8         ret_xml := dbms_metadata.fetch_xml(handle);                              
+   9         exit when ret_xml is null;                                               
+  10     end loop;                                                                    
+  11     dbms_metadata.close(handle);                                                 
+  12 end;                                                                             
+  13 /
+
+PSM completed.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_GET_DDL"/>20.2.6. GET_DDL<a id="d5e7531" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>객체의 DDL을 출력한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>GET_DDL 함수<a id="d5e7538" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.GET_DDL (                                                         
+    object_type         IN VARCHAR2,                                         
+    name                IN VARCHAR2,                                         
+    schema              IN VARCHAR2 DEFAULT NULL,                            
+    version             IN VARCHAR2 DEFAULT 'COMPATIBLE',                    
+    model               IN VARCHAR2 DEFAULT 'TIBERO',                        
+    transform           IN VARCHAR2 DEFAULT 'DDL')                           
+RETURN CLOB;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">object_type</td><td><p>출력하고자 하는 객체 타입이다. </p><p>OPEN, OPENW에서
+                  사용하는 object_type 파라미터와 동일한 값을 사용하면 된다.</p></td></tr><tr><td align="left">name</td><td>객체의 이름이다. </td></tr><tr><td align="left">schema</td><td>객체의 스키마 이름이다. </td></tr><tr><td align="left">version</td><td>현재 사용 불가</td></tr><tr><td align="left">model</td><td>현재 사용 불가</td></tr><tr><td align="left">transform</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>결과 DDL</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">OBJECT_NOT_FOUND</td><td>객체를 찾지 못함</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; set long 90000;
+SQL&gt; create table t (c1 number);
+
+Table 'T' created.
+
+SQL&gt; select dbms_metadata.get_ddl('TABLE', 'T') from dual;
+
+DBMS_METADATA.GET_DDL('TABLE','T')
+--------------------------------------------------------------------------------
+CREATE TABLE "TIBERO"."T" (
+"C1" NUMBER) 
+
+ PCTFREE 10 INITRANS 2 NOCOMPRESS LOGGING
+ STORAGE(INITIAL 131072 NEXT 131072 MINEXTENTS 1 MAXEXTENTS 4294967295)
+ TABLESPACE "USR"
+
+1 row selected.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_GET_DEPENDENT_DDL"/>20.2.7. GET_DEPENDENT_DDL<a id="d5e7595" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>종속 객체의 DDL을 출력한다.</p>
+
+      <p>GET_DEPENDENT_DDL 함수<a id="d5e7600" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.GET_DEPENDENT_DDL (                                                      
+    object_type         IN VARCHAR2,                                                
+    base_object_name    IN VARCHAR2,                                                
+    base_object_schema  IN VARCHAR2 DEFAULT NULL,                                   
+    version             IN VARCHAR2 DEFAULT 'COMPATIBLE',                           
+    model               IN VARCHAR2 DEFAULT 'TIBERO',                               
+    transform           IN VARCHAR2 DEFAULT 'DDL',                                  
+    object_count        IN NUMBER   DEFAULT 10000)                                  
+RETURN CLOB;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">object_type</td><td><p>출력하고자 하는 객체 타입이다. </p><p>OPEN, OPENW에서
+                  사용하는 object_type 파라미터와 동일한 값을 사용하면 된다.</p></td></tr><tr><td align="left">base_object_name</td><td>부모 객체의 이름이다. </td></tr><tr><td align="left">base_object_schema</td><td>부모 객체의 스키마 이름이다. </td></tr><tr><td align="left">version</td><td>현재 사용 불가</td></tr><tr><td align="left">model</td><td>현재 사용 불가</td></tr><tr><td align="left">transform</td><td>현재 사용 불가</td></tr><tr><td align="left">object_count</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>결과 DDL</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">OBJECT_NOT_FOUND</td><td>객체를 찾지 못함</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; set long 90000;
+SQL&gt; create table t (c1 number);
+
+Table 'T' created.
+
+SQL&gt; create index t_idx on t(c1);
+
+Index 'T_IDX' created.
+
+SQL&gt; select dbms_metadata.get_dependent_ddl('INDEX', 'T') from dual;
+
+DBMS_METADATA.GET_DEPENDENT_DDL('INDEX','T')
+--------------------------------------------------------------------------------
+CREATE INDEX "TIBERO"."T_IDX" ON "TIBERO"."T" ("C1")  PCTFREE 10 INITRANS 2  LOG
+GING
+ STORAGE(INITIAL 131072 NEXT 131072 MINEXTENTS 1 MAXEXTENTS 4294967295)
+ TABLESPACE "USR"  
+
+1 row selected.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_GET_DEPENDENT_XML"/>20.2.8. GET_DEPENDENT_XML<a id="d5e7660" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>종속 객체의 XML을 출력한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>GET_DEPENDENT_XML 함수<a id="d5e7667" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.GET_DEPENDENT_XML (                                                      
+    object_type         IN VARCHAR2,                                                
+    base_object_name    IN VARCHAR2,                                                
+    base_object_schema  IN VARCHAR2 DEFAULT NULL,                                   
+    version             IN VARCHAR2 DEFAULT 'COMPATIBLE',                           
+    model               IN VARCHAR2 DEFAULT 'TIBERO',                               
+    transform           IN VARCHAR2 DEFAULT NULL,                                  
+    object_count        IN NUMBER   DEFAULT 10000)                                  
+RETURN CLOB;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">object_type</td><td><p>출력하고자 하는 객체 타입이다. </p><p>OPEN, OPENW에서
+                  사용하는 object_type 파라미터와 동일한 값을 사용하면 된다.</p></td></tr><tr><td align="left">base_object_name</td><td>부모 객체의 이름이다.</td></tr><tr><td align="left">base_object_schema</td><td>부모 객체의 스키마 이름이다. </td></tr><tr><td align="left">version</td><td>현재 사용 불가</td></tr><tr><td align="left">model</td><td>현재 사용 불가</td></tr><tr><td align="left">transform</td><td>현재 사용 불가</td></tr><tr><td align="left">object_count</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>결과 XML</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">OBJECT_NOT_FOUND</td><td>객체를 찾지 못함</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; set long 90000;
+SQL&gt; create table t (c1 number);
+
+Table 'T' created.
+
+SQL&gt; create index t_idx on t(c1);
+
+Index 'T_IDX' created.
+
+SQL&gt; select dbms_metadata.get_dependent_xml('INDEX', 'T') from dual;                                                                                                             
+                                                                                 
+DBMS_METADATA.GET_DEPENDENT_XML('INDEX','T')                                     
+-------------------------------------------------------------------------------- 
+                                                                                 
+&lt;ROWSET&gt;                                                                         
+                                                                                 
+  &lt;INDEX&gt;                                                                        
+            &lt;OBJ_ID&gt;3113&lt;/OBJ_ID&gt;                                                
+            &lt;SGMT_ID&gt;3113&lt;/SGMT_ID&gt;                                              
+            &lt;TS_ID&gt;3&lt;/TS_ID&gt;                                                     
+            &lt;BO_ID&gt;3112&lt;/BO_ID&gt;                                                  
+            &lt;SHDRDBA&gt;8388697&lt;/SHDRDBA&gt;                                           
+            &lt;COL_CNT&gt;1&lt;/COL_CNT&gt;                                                 
+            &lt;ROW_CNT&gt;0&lt;/ROW_CNT&gt;                                                 
+            &lt;BLK_CNT&gt;0&lt;/BLK_CNT&gt;                                                 
+            &lt;DISTINCT_KEY&gt;0&lt;/DISTINCT_KEY&gt;                                       
+            &lt;DBLK_KEY&gt;0&lt;/DBLK_KEY&gt;                                               
+            &lt;LBLK_KEY&gt;0&lt;/LBLK_KEY&gt;                                               
+            &lt;LEAF_BLK_CNT&gt;0&lt;/LEAF_BLK_CNT&gt;                                       
+            &lt;BLEVEL&gt;0&lt;/BLEVEL&gt;                                                   
+            &lt;PCTFREE&gt;10&lt;/PCTFREE&gt;                                                
+            &lt;PCTFREE_BYTES&gt;819&lt;/PCTFREE_BYTES&gt;                                   
+            &lt;INITRANS&gt;2&lt;/INITRANS&gt;                                               
+            &lt;TYPE_NO&gt;1&lt;/TYPE_NO&gt;                                                 
+            &lt;FLAGS&gt;0&lt;/FLAGS&gt;                                                     
+            &lt;PCTTHRES&gt;0&lt;/PCTTHRES&gt;                                               
+            &lt;INCLCOL&gt;-1&lt;/INCLCOL&gt;                                                
+            &lt;CLUFAC&gt;0&lt;/CLUFAC&gt;                                                   
+            &lt;ANALYZETIME NULL="TRUE"/&gt;                                           
+            &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                             
+            &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                             
+            &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                             
+            &lt;RESERVED4 NULL="TRUE"/&gt;                                             
+            &lt;OWNER_NAME&gt;TIBERO&lt;/OWNER_NAME&gt;                                      
+          &lt;OBJ&gt;                                                                  
+              &lt;OBJ_ID&gt;3113&lt;/OBJ_ID&gt;                                              
+              &lt;OWNER_ID&gt;18&lt;/OWNER_ID&gt;                                            
+              &lt;NAME&gt;T_IDX&lt;/NAME&gt;                                                 
+              &lt;SUBNAME NULL="TRUE"/&gt;                                             
+              &lt;BO_ID&gt;3112&lt;/BO_ID&gt;                                                
+              &lt;TYPE_NO&gt;0&lt;/TYPE_NO&gt;                                               
+              &lt;FLAGS&gt;0&lt;/FLAGS&gt;                                                   
+              &lt;CTIME&gt;2022/01/12&lt;/CTIME&gt;                                          
+              &lt;MTIME&gt;2022/01/12&lt;/MTIME&gt;                                          
+              &lt;STIME&gt;2022/01/12&lt;/STIME&gt;                                          
+              &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                           
+              &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                           
+              &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                           
+              &lt;RESERVED4 NULL="TRUE"/&gt;                                           
+              &lt;OWNER_NAME&gt;TIBERO&lt;/OWNER_NAME&gt;                                    
+        &lt;/OBJ&gt;  &lt;ICOL_LIST&gt;                                                      
+      &lt;ICOL&gt;                                                                     
+                &lt;OBJ_ID&gt;3113&lt;/OBJ_ID&gt;                                            
+                &lt;BO_ID&gt;3112&lt;/BO_ID&gt;                                              
+                &lt;COL_NO&gt;0&lt;/COL_NO&gt;                                               
+                &lt;POS_NO&gt;0&lt;/POS_NO&gt;                                               
+                &lt;PROPERTY&gt;0&lt;/PROPERTY&gt;                                           
+                &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                         
+                &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                         
+                &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                         
+                &lt;RESERVED4 NULL="TRUE"/&gt;                                         
+                &lt;EXPRESSION NULL="TRUE"/&gt;                                        
+              &lt;COL&gt;                                                              
+                  &lt;OBJ_ID&gt;3112&lt;/OBJ_ID&gt;                                          
+                  &lt;COL_NO&gt;0&lt;/COL_NO&gt;                                             
+                  &lt;SGMTCOL_NO&gt;0&lt;/SGMTCOL_NO&gt;                                     
+                  &lt;NAME&gt;C1&lt;/NAME&gt;                                                
+                  &lt;TYPE_NO&gt;1&lt;/TYPE_NO&gt;                                           
+                  &lt;LEN&gt;22&lt;/LEN&gt;                                                  
+                  &lt;PRECISION&gt;38&lt;/PRECISION&gt;                                      
+                  &lt;SCALE&gt;-128&lt;/SCALE&gt;                                            
+                  &lt;NOT_NULL&gt;0&lt;/NOT_NULL&gt;                                         
+                  &lt;PROPERTY&gt;0&lt;/PROPERTY&gt;                                                                                                                                         
+                  &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                       
+                  &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                       
+                  &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                       
+                  &lt;RESERVED4 NULL="TRUE"/&gt;                                       
+                  &lt;DFLTVAL_EXP_TXT NULL="TRUE"/&gt;                                 
+        &lt;/COL&gt;&lt;/ICOL&gt;  &lt;/ICOL_LIST&gt;                                              
+    &lt;TS&gt;                                                                         
+              &lt;TS_ID&gt;3&lt;/TS_ID&gt;                                                   
+              &lt;NAME&gt;USR&lt;/NAME&gt;                                                   
+              &lt;TYPE_NO&gt;0&lt;/TYPE_NO&gt;                                               
+              &lt;UNIT&gt;16&lt;/UNIT&gt;                                                    
+              &lt;INC&gt;0&lt;/INC&gt;                                                       
+              &lt;FILE_CNT&gt;1&lt;/FILE_CNT&gt;                                             
+              &lt;FLAGS&gt;20&lt;/FLAGS&gt;                                                  
+              &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                           
+              &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                           
+              &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                           
+              &lt;RESERVED4 NULL="TRUE"/&gt;                                           
+        &lt;/TS&gt;  &lt;BASE_OBJ&gt;                                                        
+              &lt;OBJ_ID&gt;3112&lt;/OBJ_ID&gt;                                              
+              &lt;OWNER_ID&gt;18&lt;/OWNER_ID&gt;                                            
+              &lt;NAME&gt;T&lt;/NAME&gt;                                                     
+              &lt;SUBNAME NULL="TRUE"/&gt;                                             
+              &lt;BO_ID&gt;4294967295&lt;/BO_ID&gt;                                          
+              &lt;TYPE_NO&gt;1&lt;/TYPE_NO&gt;                                               
+              &lt;FLAGS&gt;0&lt;/FLAGS&gt;                                                   
+              &lt;CTIME&gt;2022/01/12&lt;/CTIME&gt;                                          
+              &lt;MTIME&gt;2022/01/12&lt;/MTIME&gt;                                          
+              &lt;STIME&gt;2022/01/12&lt;/STIME&gt;                                          
+              &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                           
+              &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                           
+              &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                           
+              &lt;RESERVED4 NULL="TRUE"/&gt;                                           
+              &lt;OWNER_NAME&gt;TIBERO&lt;/OWNER_NAME&gt;                                    
+        &lt;/BASE_OBJ&gt;  &lt;TS&gt;                                                        
+              &lt;TS_ID&gt;3&lt;/TS_ID&gt;                                                   
+              &lt;NAME&gt;USR&lt;/NAME&gt;                                                   
+              &lt;TYPE_NO&gt;0&lt;/TYPE_NO&gt;                                               
+              &lt;UNIT&gt;16&lt;/UNIT&gt;                                                    
+              &lt;INC&gt;0&lt;/INC&gt;                                                       
+              &lt;FILE_CNT&gt;1&lt;/FILE_CNT&gt;                                             
+              &lt;FLAGS&gt;20&lt;/FLAGS&gt;                                                  
+              &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                           
+              &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                           
+              &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                           
+              &lt;RESERVED4 NULL="TRUE"/&gt;                                                                                                                                           
+        &lt;/TS&gt;  &lt;SGMT&gt;                                                            
+              &lt;SGMT_ID&gt;3113&lt;/SGMT_ID&gt;                                            
+              &lt;TS_ID&gt;3&lt;/TS_ID&gt;                                                   
+              &lt;SHDRDBA&gt;8388697&lt;/SHDRDBA&gt;                                         
+              &lt;NEXT_EXT&gt;0&lt;/NEXT_EXT&gt;                                             
+              &lt;TYPE_NO&gt;2&lt;/TYPE_NO&gt;                                               
+              &lt;USER_ID&gt;18&lt;/USER_ID&gt;                                              
+              &lt;MAX_EXTS&gt;4294967295&lt;/MAX_EXTS&gt;                                    
+              &lt;BUFPOOL&gt;0&lt;/BUFPOOL&gt;                                               
+              &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                           
+              &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                           
+              &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                           
+              &lt;RESERVED4 NULL="TRUE"/&gt;                                           
+        &lt;/SGMT&gt;&lt;/INDEX&gt;                                                          
+                                                                                 
+&lt;/ROWSET&gt;                                                                        
+                                                                                 
+1 row selected.                                                                                                                  </pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_GET_GRANTED_DDL"/>20.2.9. GET_GRANTED_DDL<a id="d5e7727" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>부여된 객체의 DDL을 출력한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>GET_GRANTED_DDL 함수<a id="d5e7734" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.GET_GRANTED_DDL (                                                 
+    object_type         IN VARCHAR2,                                         
+    grantee             IN VARCHAR2 DEFAULT NULL,                            
+    version             IN VARCHAR2 DEFAULT 'COMPATIBLE',                    
+    model               IN VARCHAR2 DEFAULT 'TIBERO',                        
+    transform           IN VARCHAR2 DEFAULT 'DDL',                           
+    object_count        IN NUMBER   DEFAULT 10000)                           
+RETURN CLOB;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">object_type</td><td><p>출력하고자 하는 객체 타입이다.</p><p>OPEN, OPENW에서
+                  사용하는 object_type 파라미터와 동일한 값을 사용하면 된다.</p></td></tr><tr><td align="left">grantee</td><td>수혜자의 이름이다.</td></tr><tr><td align="left">version</td><td>현재 사용 불가</td></tr><tr><td align="left">model</td><td>현재 사용 불가</td></tr><tr><td align="left">transform</td><td>현재 사용 불가</td></tr><tr><td align="left">object_count</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>결과 DDL</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">OBJECT_NOT_FOUND</td><td>객체를 찾지 못함.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; create user usr1 identified by 'tibero';
+
+User 'USR1' created.
+
+SQL&gt; grant dba to usr1;
+
+Granted.
+
+SQL&gt; select dbms_metadata.get_granted_ddl('ROLE_GRANT', 'USR1') from dual;
+
+DBMS_METADATA.GET_GRANTED_DDL('ROLE_GRANT','USR1')
+--------------------------------------------------------------------------------
+GRANT "DBA" TO "USR1"
+
+1 row selected.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_GET_GRANTED_XML"/>20.2.10. GET_GRANTED_XML<a id="d5e7791" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>부여된 객체의 XML을 출력한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>GET_GRANTED_XML 함수<a id="d5e7798" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.GET_GRANTED_XML (                                                 
+    object_type         IN VARCHAR2,                                         
+    grantee             IN VARCHAR2 DEFAULT NULL,                            
+    version             IN VARCHAR2 DEFAULT 'COMPATIBLE',                    
+    model               IN VARCHAR2 DEFAULT 'TIBERO',                        
+    transform           IN VARCHAR2 DEFAULT NULL,                           
+    object_count        IN NUMBER   DEFAULT 10000)                           
+RETURN CLOB;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">object_type</td><td><p>출력하고자 하는 객체 타입이다.</p><p>OPEN, OPENW에서
+                  사용하는 object_type 파라미터와 동일한 값을 사용하면 된다.</p></td></tr><tr><td align="left">grantee</td><td>수혜자의 이름이다.</td></tr><tr><td align="left">version</td><td>현재 사용 불가</td></tr><tr><td align="left">model</td><td>현재 사용 불가</td></tr><tr><td align="left">transform</td><td>현재 사용 불가</td></tr><tr><td align="left">object_count</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>결과 XML</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">OBJECT_NOT_FOUND</td><td>객체를 찾지 못함</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; create user usr1 identified by 'tibero';
+
+User 'USR1' created.
+
+SQL&gt; grant dba to usr1;
+
+Granted.
+
+SQL&gt; select dbms_metadata.get_granted_xml('ROLE_GRANT', 'USR1') from dual;       
+                                                                                 
+DBMS_METADATA.GET_GRANTED_XML('ROLE_GRANT','USR1')                               
+-------------------------------------------------------------------------------- 
+                                                                                 
+&lt;ROWSET&gt;                                                                         
+                                                                                 
+  &lt;ROLE_GRANT&gt;                                                                   
+            &lt;GRANTEE_ID&gt;23&lt;/GRANTEE_ID&gt;                                          
+            &lt;PRIV_NO&gt;11&lt;/PRIV_NO&gt;                                                
+            &lt;FLAGS&gt;0&lt;/FLAGS&gt;                                                     
+            &lt;GRANTEE_NAME&gt;USR1&lt;/GRANTEE_NAME&gt;                                    
+            &lt;ROLE_NAME&gt;DBA&lt;/ROLE_NAME&gt;                                           
+        &lt;/ROLE_GRANT&gt;                                                            
+&lt;/ROWSET&gt;                                                                        
+                                                                                 
+1 row selected. </pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_GET_XML"/>20.2.11. GET_XML<a id="d5e7855" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>객체의 XML을 출력한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>GET_XML 함수<a id="d5e7862" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.GET_XML (                                                         
+    object_type         IN VARCHAR2,                                         
+    name                IN VARCHAR2,                                         
+    schema              IN VARCHAR2 DEFAULT NULL,                            
+    version             IN VARCHAR2 DEFAULT 'COMPATIBLE',                    
+    model               IN VARCHAR2 DEFAULT 'TIBERO',                        
+    transform           IN VARCHAR2 DEFAULT NULL)                           
+RETURN CLOB;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">object_type</td><td><p>출력하고자 하는 객체 타입이다.</p><p>OPEN, OPENW에서
+                  사용하는 object_type 파라미터와 동일한 값을 사용하면 된다.</p></td></tr><tr><td align="left">name</td><td>객체의 이름이다.</td></tr><tr><td align="left">schema</td><td>객체의 스키마 이름이다.</td></tr><tr><td align="left">version</td><td>현재 사용 불가</td></tr><tr><td align="left">model</td><td>현재 사용 불가</td></tr><tr><td align="left">transform</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>결과 XML</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">OBJECT_NOT_FOUND</td><td>객체를 찾지 못함.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; set long 90000;
+SQL&gt; create table t (c1 number);
+
+Table 'T' created.
+
+SQL&gt; select dbms_metadata.get_xml('TABLE', 'T') from dual;                                                                                                                       
+                                                                                 
+DBMS_METADATA.GET_XML('TABLE','T')                                               
+-------------------------------------------------------------------------------- 
+                                                                                 
+&lt;ROWSET&gt;                                                                         
+                                                                                 
+  &lt;TABLE&gt;                                                                        
+            &lt;OBJ_ID&gt;3114&lt;/OBJ_ID&gt;                                                
+            &lt;SGMT_ID&gt;3114&lt;/SGMT_ID&gt;                                              
+            &lt;TS_ID&gt;3&lt;/TS_ID&gt;                                                     
+            &lt;COL_CNT&gt;1&lt;/COL_CNT&gt;                                                 
+            &lt;SHDRDBA&gt;8388681&lt;/SHDRDBA&gt;                                           
+            &lt;PCTFREE&gt;10&lt;/PCTFREE&gt;                                                
+            &lt;PCTFREE_BYTES&gt;819&lt;/PCTFREE_BYTES&gt;                                   
+            &lt;INITRANS&gt;2&lt;/INITRANS&gt;                                               
+            &lt;ROW_CNT&gt;0&lt;/ROW_CNT&gt;                                                 
+            &lt;BLK_CNT&gt;0&lt;/BLK_CNT&gt;                                                 
+            &lt;EMP_CNT&gt;0&lt;/EMP_CNT&gt;                                                 
+            &lt;AVG_SPC&gt;0&lt;/AVG_SPC&gt;                                                 
+            &lt;CHN_CNT&gt;0&lt;/CHN_CNT&gt;                                                 
+            &lt;FLAGS&gt;0&lt;/FLAGS&gt;                                                     
+            &lt;AUDIT_FLAGS&gt;------------------------------------&lt;/AUDIT_FLAGS&gt;      
+            &lt;DOP&gt;0&lt;/DOP&gt;                                                         
+            &lt;AVG_RLN&gt;0&lt;/AVG_RLN&gt;                                                 
+            &lt;ANALYZETIME NULL="TRUE"/&gt;                                           
+            &lt;STATUS&gt;0&lt;/STATUS&gt;                                                   
+            &lt;RPB&gt;744&lt;/RPB&gt;                                                       
+            &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                             
+            &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                             
+            &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                             
+            &lt;RESERVED4 NULL="TRUE"/&gt;                                             
+            &lt;OWNER_NAME&gt;TIBERO&lt;/OWNER_NAME&gt;                                      
+          &lt;OBJ&gt;                                                                  
+              &lt;OBJ_ID&gt;3114&lt;/OBJ_ID&gt;                                              
+              &lt;OWNER_ID&gt;18&lt;/OWNER_ID&gt;                                            
+              &lt;NAME&gt;T&lt;/NAME&gt;                                                     
+              &lt;SUBNAME NULL="TRUE"/&gt;                                             
+              &lt;BO_ID&gt;4294967295&lt;/BO_ID&gt;                                          
+              &lt;TYPE_NO&gt;1&lt;/TYPE_NO&gt;                                               
+              &lt;FLAGS&gt;0&lt;/FLAGS&gt;                                                   
+              &lt;CTIME&gt;2022/01/12&lt;/CTIME&gt;                                          
+              &lt;MTIME&gt;2022/01/12&lt;/MTIME&gt;                                          
+              &lt;STIME&gt;2022/01/12&lt;/STIME&gt;                                          
+              &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                           
+              &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                           
+              &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                           
+              &lt;RESERVED4 NULL="TRUE"/&gt;                                           
+              &lt;OWNER_NAME&gt;TIBERO&lt;/OWNER_NAME&gt;                                    
+        &lt;/OBJ&gt;  &lt;COL_LIST&gt;                                                       
+    &lt;LOB_LIST/&gt;                                                                  
+    &lt;CON_LIST/&gt;                                                                  
+    &lt;REF_CON_LIST/&gt;                                                              
+    &lt;TS&gt;                                                                         
+              &lt;TS_ID&gt;3&lt;/TS_ID&gt;                                                   
+              &lt;NAME&gt;USR&lt;/NAME&gt;                                                   
+              &lt;TYPE_NO&gt;0&lt;/TYPE_NO&gt;                                               
+              &lt;UNIT&gt;16&lt;/UNIT&gt;                                                    
+              &lt;INC&gt;0&lt;/INC&gt;                                                       
+              &lt;FILE_CNT&gt;1&lt;/FILE_CNT&gt;                                             
+              &lt;FLAGS&gt;20&lt;/FLAGS&gt;                                                  
+              &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                           
+              &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                           
+              &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                           
+              &lt;RESERVED4 NULL="TRUE"/&gt;                                           
+        &lt;/TS&gt;  &lt;SGMT&gt;                                                            
+              &lt;SGMT_ID&gt;3114&lt;/SGMT_ID&gt;                                            
+              &lt;TS_ID&gt;3&lt;/TS_ID&gt;                                                   
+              &lt;SHDRDBA&gt;8388681&lt;/SHDRDBA&gt;                                         
+              &lt;NEXT_EXT&gt;0&lt;/NEXT_EXT&gt;                                             
+              &lt;TYPE_NO&gt;1&lt;/TYPE_NO&gt;                                               
+              &lt;USER_ID&gt;18&lt;/USER_ID&gt;                                              
+              &lt;MAX_EXTS&gt;4294967295&lt;/MAX_EXTS&gt;                                    
+              &lt;BUFPOOL&gt;0&lt;/BUFPOOL&gt;                                               
+              &lt;RESERVED1&gt;0&lt;/RESERVED1&gt;                                           
+              &lt;RESERVED2&gt;0&lt;/RESERVED2&gt;                                           
+              &lt;RESERVED3&gt;0&lt;/RESERVED3&gt;                                           
+              &lt;RESERVED4 NULL="TRUE"/&gt;                                           
+        &lt;/SGMT&gt;&lt;/TABLE&gt;                                                          
+                                                                                 
+&lt;/ROWSET&gt;                                                                        
+                                                                                 
+1 row selected.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_OPEN"/>20.2.12. OPEN<a id="d5e7919" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>DBMS_METADATA 패키지에서 사용할 handle을 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>OPEN 함수<a id="d5e7926" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.OPEN (
+   object_type  IN VARCHAR2,
+   version      IN VARCHAR2 DEFAULT 'COMPATIBLE',
+   model        IN VARCHAR2 DEFAULT 'TIBERO', 
+   network_link IN VARCHAR2 DEFAULT NULL)
+ RETURN NUMBER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">object_type</td><td>객체 타입은 <a href="chap_dbms_metadata.html#table_object_type1">"[객체
+                  타입]"</a>을 참고한다. </td></tr><tr><td align="left">version</td><td>현재 사용 불가</td></tr><tr><td align="left">model</td><td>현재 사용 불가</td></tr><tr><td align="left">network_link</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>내부에서 정의된 handle(다른 함수나 프로시저의 파라미터로 사용됨)</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>잘못된 파라미터가 입력됨</td></tr><tr><td align="left">INVALID_OPERATION</td><td>FETCH_DDL, FETCH_XML 수행 후에는 호출할 수 없음</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; declare                                                                          
+   2     handle number;                                                               
+   3 begin                                                                            
+   4     handle := dbms_metadata.open('TABLE');                                       
+   5     dbms_metadata.close(handle);                                                 
+   6 end;                                                                                                                                                                             
+   7 / 
+
+PSM completed.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_OPENW"/>20.2.13. OPENW<a id="d5e7979" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>패키지에서 사용할 쓰기 전용 handle을 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>OPENW 함수<a id="d5e7986" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.OPENW (
+   object_type  IN VARCHAR2,
+   version      IN VARCHAR2 DEFAULT 'COMPATIBLE',
+   model        IN VARCHAR2 DEFAULT 'TIBERO')
+ RETURN NUMBER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+              <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">object_type</td><td>객체 타입은 <a href="chap_dbms_metadata.html#table_object_type1">"[객체
+                    타입]"</a>을 참고한다.</td></tr><tr><td align="left">version</td><td>현재 사용 불가</td></tr><tr><td align="left">model</td><td>현재 사용 불가</td></tr></tbody></table>
+            </div>
+
+          <p/>
+
+          <p><span><strong class="guibutton">[객체 타입] </strong></span></p>
+
+          <div class="informaltable"><a id="table_object_type1"/>
+            <table border="1"><colgroup><col width="150" align="left"/><col width="250" align="left"/><col/></colgroup><thead><tr><th align="left">객체 타입</th><th align="left">설명 </th><th>객체 타입 유형</th></tr></thead><tbody><tr><td align="left">CONSTRAINT</td><td align="left">제약조건</td><td>SND</td></tr><tr><td align="left">FUNCTION</td><td align="left">사용자 함수</td><td>SN</td></tr><tr><td align="left">INDEX</td><td align="left">인덱스</td><td>SND</td></tr><tr><td align="left">JAVA_SOURCE</td><td align="left">자바 객체</td><td>SN</td></tr><tr><td align="left">JOB</td><td align="left">작업</td><td>S</td></tr><tr><td align="left">LIBRARY</td><td align="left">라이브러리</td><td>SN</td></tr><tr><td align="left">MATERIALIZED_VIEW</td><td align="left">실체화 뷰</td><td>SN</td></tr><tr><td align="left">MATERIALIZED_VIEW_LOG</td><td align="left">실체화 뷰 로그</td><td>D</td></tr><tr><td align="left">OBJECT_GRANT</td><td align="left">스키마 객체 특권</td><td>DG</td></tr><tr><td align="left">PACKAGE</td><td align="left">패키지(패키지 선언과 본문을 모두 포함)</td><td>SN</td></tr><tr><td align="left">PACKAGE_SPEC</td><td align="left">패키지 선언</td><td>SN</td></tr><tr><td align="left">PACKAGE_BODY</td><td align="left">패키지 본문</td><td>SN</td></tr><tr><td align="left">PROCEDURE</td><td align="left">프러시저</td><td>SN</td></tr><tr><td align="left">PROFILE</td><td align="left">프로파일</td><td>N</td></tr><tr><td align="left">REF_CONSTRAINT</td><td align="left">참조 무결성 제약조건</td><td>SND</td></tr><tr><td align="left">ROLE</td><td align="left">역할</td><td>N</td></tr><tr><td align="left">ROLE_GRANT</td><td align="left">역할 특권</td><td>G</td></tr><tr><td align="left">SEQUENCE</td><td align="left">시퀀스</td><td>SN</td></tr><tr><td align="left">SYNONYM</td><td align="left">동의어(PUBLIC도 스키마처럼 사용)</td><td>SN</td></tr><tr><td align="left">SYSTEM_GRANT</td><td align="left">시스템 특권</td><td>G</td></tr><tr><td align="left">TABLE</td><td align="left">테이블</td><td>SN</td></tr><tr><td align="left">TABLESPACE</td><td align="left">테이블 스페이스</td><td>N</td></tr><tr><td align="left">TRIGGER</td><td align="left">트리거</td><td>SND</td></tr><tr><td align="left">TYPE</td><td align="left">사용자 정의 타입(사용자 정의 타입 선언과 본문을 모두 포함)</td><td>SN</td></tr><tr><td align="left">TYPE_SPEC</td><td align="left">사용자 정의 타입 선언</td><td>SN</td></tr><tr><td align="left">TYPE_BODY</td><td align="left">사용자 정의 타입 본문</td><td>SN</td></tr><tr><td align="left">USER</td><td align="left">사용자</td><td>N</td></tr><tr><td align="left">VIEW</td><td align="left">뷰</td><td>SN</td></tr></tbody></table>
+          </div>
+
+          <p>다음은 객체 타입 유형의 의미이다.</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>S : 스키마 객체 (Schema objects). 스키마에 속한 객체 타입</p>
+            </li><li>
+              <p>N : 이름이 있는 객체 (Named objects)</p>
+            </li><li>
+              <p>D : 종속 객체 (Dependent objects). 부모 객체가 존재하는 객체 타입</p>
+            </li><li>
+              <p>G : 부여된 객체 (Granted objects). 권한과 관련된 객체 타입</p>
+            </li></ul></div>
+
+          <p/>
+
+          <p/>
+        </li><li>
+          <p>반환값</p>
+
+          <p>내부에서 정의된 쓰기 전용 handle(CONVERT의 파라미터로 사용됨)</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>잘못된 파라미터가 입력됨</td></tr><tr><td align="left">INVALID_OPERATION</td><td>FETCH_DDL, FETCH_XML 수행 후에는 호출할 수 없음</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; declare                                                                          
+   2     handle number;                                                               
+   3 begin                                                                            
+   4     handle := dbms_metadata.openw('TABLE');                                       
+   5     dbms_metadata.close(handle);                                                 
+   6 end;                                                                                                                                                                             
+   7 / 
+
+PSM completed.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_SET_FILTER"/>20.2.14. SET_FILTER<a id="d5e8174" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>대상 객체를 특정할 수 있는 필터를 설정한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SET_FILTER 함수<a id="d5e8181" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.SET_FILTER (                                                                                                                                                     
+    handle              IN NUMBER,                                           
+    name                IN VARCHAR2,                                         
+    value               IN VARCHAR2,                                         
+    object_type_path    IN VARCHAR2 DEFAULT NULL);                           
+
+DBMS_METADATA.SET_FILTER (                                                     
+    handle              IN NUMBER,                                           
+    name                IN VARCHAR2,                                         
+    value               IN BOOLEAN DEFAULT TRUE,                             
+    object_type_path    IN VARCHAR2 DEFAULT NULL);                           
+
+DBMS_METADATA.SET_FILTER (                                                     
+    handle              IN NUMBER,                                           
+    name                IN VARCHAR2,                                         
+    value               IN NUMBER,                                           
+    object_type_path    IN VARCHAR2 DEFAULT NULL);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">handle</td><td>OPEN 또는 OPENW 함수를 통해 획득한 handle이다. </td></tr><tr><td align="left">name</td><td><p>필터 이름이다(<a href="chap_dbms_metadata.html#table_object_type2">"[객체
+                  타입]"</a> 참고).</p><p> 각 필터의 값의 타입에 맞는 프로시저를 사용해야
+                  한다.</p></td></tr><tr><td align="left">value</td><td>필터 값이다. </td></tr><tr><td align="left">object_type_path</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+
+          <p/>
+
+          <p><span><strong class="guibutton">[객체 타입]</strong></span></p>
+
+          <p>아래 표는 필터 이름과 대응하는 객체 타입을 표시한다.</p>
+
+          <div class="informaltable"><a id="table_object_type2"/>
+              <table border="1"><colgroup><col width="150" align="left"/><col width="150" align="left"/><col width="80" align="left"/><col/></colgroup><thead><tr><th align="left">객체 타입 유형</th><th align="left">필터 이름</th><th align="left">타입</th><th>설명 </th></tr></thead><tbody><tr><td align="left">S</td><td align="left">SCHEMA</td><td align="left">Varchar2</td><td>스키마 이름이다(PUBLIC도 사용 가능)</td></tr><tr><td align="left">N</td><td align="left">NAME</td><td align="left">Varchar2</td><td>객체 이름이다.</td></tr><tr><td align="left">N</td><td align="left">NAME_EXPR</td><td align="left">Varchar2</td><td><p>객체 이름과 관련된 expression이다. </p><p>객체 특정 시
+                    WHERE 절에 사용된다. </p></td></tr><tr><td align="left">D</td><td align="left">BASE_OBJECT_NAME</td><td align="left">Varchar2</td><td>부모 객체 이름이다. </td></tr><tr><td align="left">D</td><td align="left">BASE_OBJECT_SCHEMA</td><td align="left">Varchar2</td><td>부모 객체의 스키마 이름이다. </td></tr><tr><td align="left">D</td><td align="left">BASE_OBJECT_NAME_EXPR</td><td align="left">Varchar2</td><td><p>부모 객체 이름과 관련된 expression이다. </p><p>부모
+                    객체 특정 시 WHERE 절에 사용된다. </p></td></tr><tr><td align="left">D</td><td align="left">BASE_OBJECT_TYPE</td><td align="left">Varchar2</td><td>부모 객체 타입이다. </td></tr><tr><td align="left">INDEX, TRIGGER</td><td align="left">SYSTEM_GENERATED</td><td align="left">Boolean</td><td>TRUE이면 시스템이 생성한 인덱스/트리거를 포함한다. FALSE이면 생략한다. (기본값 :
+                    TRUE)</td></tr><tr><td align="left">G</td><td align="left">GRANTEE</td><td align="left">Varchar2</td><td>수혜자 이름이다. </td></tr></tbody></table>
+            </div>
+
+          <p/>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>handle이 NULL이거나 invalid</td></tr><tr><td align="left">INVALID_OPERATION</td><td>FETCH_DDL, FETCH_XML 수행 후에는 호출할 수 없음</td></tr><tr><td align="left">INCONSISTENT_ARGS</td><td>handle 생성 시 입력된 object_type 파라미터와 대응하지 않는 필터를 설정하려
+                  함</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; declare                                                                          
+   2     handle number;                                                               
+   3 begin                                                                            
+   4     handle := dbms_metadata.open('TABLE');                                       
+   5     dbms_metadata.set_filter(handle, 'NAME', 'T');                               
+   6     dbms_metadata.close(handle);                                                                                                                                                 
+   7 end;                                                                             
+   8 /
+
+PSM completed.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_SET_PARSE_ITEM"/>20.2.15. SET_PARSE_ITEM<a id="d5e8303" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>추출된 XML 문서에서 별도로 추출하고자 하는 정보를 설정한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SET_PARSE_ITEM 함수<a id="d5e8310" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.SET_PARSE_ITEM (                                                 
+    handle              IN NUMBER,                                           
+    name                IN VARCHAR2,                                         
+    object_type         IN VARCHAR2 DEFAULT NULL);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">handle</td><td>OPEN 또는 OPENW 함수를 통해 획득한 handle이다. </td></tr><tr><td align="left">name</td><td>Parse item 이름이다(<a href="chap_dbms_metadata.html#table_object_type3">"[객체 타입]"</a> 참고).</td></tr><tr><td align="left">object_type</td><td>객체 타입</td></tr></tbody></table>
+          </div>
+
+          <p><span><strong class="guibutton">[객체 타입]</strong></span></p>
+
+          <p>아래 표는 Parse item 이름과 대응하는 객체 타입 종류를 표시한다.</p>
+
+          <div class="informaltable"><a id="table_object_type3"/>
+              <table border="1"><colgroup><col width="150" align="left"/><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">객체 타입 유형</th><th align="left">Parse item 이름</th><th>설명</th></tr></thead><tbody><tr><td align="left">모든 객체 (SNDG)</td><td align="left">VERB</td><td>DDL 구문의 동사 (CREATE, GRANT 등)</td></tr><tr><td align="left">모든 객체(SNDG)</td><td align="left">OBJECT_TYPE</td><td>DDL 구문의 객체 타입 (TABLE, INDEX 등)</td></tr><tr><td align="left">N</td><td align="left">NAME</td><td>DDL 구문의 객체 이름</td></tr><tr><td align="left">G</td><td align="left">GRANTEE</td><td>DDL 구문의 수혜자 이름</td></tr></tbody></table>
+            </div>
+
+          <p/>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>handle이 NULL이거나 invalid</td></tr><tr><td align="left">INVALID_OPERATION</td><td>FETCH_DDL, FETCH_XML 수행 후에는 호출할 수 없음</td></tr><tr><td align="left">INCONSISTENT_ARGS</td><td>handle 생성 시 입력된 object_type 파라미터와 대응하지 않는 Parse item을
+                  설정하려 함</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; create table t (c1 number);
+
+Table 'T' created.
+
+SQL&gt; set serveroutput on;
+SQL&gt; DECLARE                                                                          
+   2     handle NUMBER;                                                               
+   3     transform_handle NUMBER;                                                     
+   4     ddls sys.ku$_ddls;                                                           
+   5     pi sys.ku$_parsed_items;                                                                                                                                                     
+   6 BEGIN                                                                            
+   7     handle := dbms_metadata.open('TABLE');                                       
+   8     dbms_metadata.set_filter(handle, 'NAME', 'T');                               
+   9                                                                                  
+  10     dbms_metadata.set_parse_item(handle, 'OBJECT_TYPE');                         
+  11     dbms_metadata.set_parse_item(handle, 'VERB');                                
+  12                                                                                  
+  13     transform_handle := dbms_metadata.add_transform(handle, 'DDL');              
+  14     ddls := dbms_metadata.fetch_ddl(handle);                                     
+  15     if ddls.count &gt; 0 then                                                       
+  16         for cur_ddl in ddls.first..ddls.last loop                                
+  17             pi := ddls(cur_ddl).parseditems;                                     
+  18             if pi.count &gt; 0 then                                                 
+  19                 for i in pi.first..pi.last loop                                  
+  20                     dbms_output.put_line(pi(i).item || ' : ' || pi(i).value);    
+  21                 end loop;                                                        
+  22             end if;                                                              
+  23             dbms_output.put_line(' ');                                           
+  24         end loop;                                                                
+  25     end if;                                                                      
+  26     dbms_metadata.close(handle);                                                 
+  27 END;                                                                             
+  28 /
+VERB : CREATE
+OBJECT_TYPE : TABLE
+ 
+
+PSM completed.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_SET_REMAP_PARAM"/>20.2.16. SET_REMAP_PARAM<a id="d5e8391" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>추출된 XML 문서 중 특정 값을 변경할 때 사용하는 파라미터를 설정한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SET_REMAP_PARAM 함수<a id="d5e8398" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.SET_REMAP_PARAM (                                                
+    transform_handle    IN NUMBER,                                           
+    name                IN VARCHAR2,                                         
+    old_value           IN VARCHAR2,                                         
+    new_value           IN VARCHAR2,                                         
+    object_type         IN VARCHAR2 DEFAULT NULL);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">transform_handle</td><td><p>ADD_TRANSFORM 함수를 통해 획득한 transform
+                  handle이다.</p><p>'MODIFY' transform만 사용
+                  가능하다.</p></td></tr><tr><td align="left">name</td><td>파라미터 이름이다(<a href="chap_dbms_metadata.html#table_object_type4">"[객체
+                  타입]"</a> 참고).</td></tr><tr><td align="left">old_value</td><td>변경 대상이 되는 값이다.</td></tr><tr><td align="left">new_value</td><td>변경 하고자 하는 값이다.</td></tr><tr><td align="left">object_type</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+
+          <p/>
+
+          <p><span><strong class="guibutton">[객체 타입]</strong></span></p>
+
+          <p>아래 표는 파라미터 이름과 대응하는 객체 타입을 표시한다.</p>
+
+          <div class="informaltable"><a id="table_object_type4"/>
+              <table border="1"><colgroup><col width="150" align="left"/><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">객체 타입 유형</th><th align="left">파라미터 이름</th><th>설명</th></tr></thead><tbody><tr><td align="left"><p>N</p><p>부모 객체가 이름이 있는 객체인 종속
+                    객체</p></td><td align="left">REMAP_NAME</td><td><p>객체 이름을 변경한다.</p><p>종속 객체의 경우 부모 객체의 이름을
+                    변경한다.</p></td></tr><tr><td align="left"><p>SDG</p><p>User</p></td><td align="left">REMAP_SCHEMA</td><td><p>스키마 이름을 변경한다.</p><p>종속 객체의 경우 부모 객체의
+                    스키마를 변경한다. 부여된 객체의 경우 수혜자 이름을 변경한다.</p></td></tr></tbody></table>
+            </div>
+
+          <p/>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>transform handle이 NULL이거나 invalid</td></tr><tr><td align="left">INVALID_OPERATION</td><td>FETCH_DDL, FETCH_XML 수행 후에는 호출할 수 없음</td></tr><tr><td align="left">INCONSISTENT_ARGS</td><td>handle 생성 시 입력된 object_type 파라미터와 대응하지 않는 파라미터를 설정하려
+                  함</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; create table t (c1 number);
+
+Table 'T' created.
+
+SQL&gt; declare                                                                          
+   2     handle number;                                                               
+   3     transform_handle number;                                                     
+   4     ret_xml xmltype;                                                             
+   5 begin                                                                            
+   6     handle := dbms_metadata.open('TABLE');                                       
+   7     dbms_metadata.set_filter(handle, 'NAME', 'T');                               
+   8     transform_handle := dbms_metadata.add_transform(handle, 'MODIFY');           
+   9     dbms_metadata.set_remap_param(transform_handle, 'REMAP_SCHEMA',
+ 'TIBERO', 'TTT');
+  10     ret_xml := dbms_metadata.fetch_xml(handle);                                  
+  11     dbms_metadata.close(handle);                                                 
+  12 end;                                                                             
+  13 / 
+
+PSM completed.</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_METADATA_SET_TRANSFORM_PARAM"/>20.2.17. SET_TRANSFORM_PARAM<a id="d5e8488" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>추출된 DDL의 형태를 결정하는 파라미터를 설정한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SET_TRANSFORM_PARAM 함수<a id="d5e8495" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_METADATA.SET_TRANSFORM_PARAM (                                            
+    transform_handle    IN NUMBER,                                           
+    name                IN VARCHAR2,                                         
+    value               IN VARCHAR2,                                         
+    object_type         IN VARCHAR2 DEFAULT NULL);                           
+                                                                                 
+DBMS_METADATA.SET_TRANSFORM_PARAM (                                            
+    transform_handle    IN NUMBER,                                           
+    name                IN VARCHAR2,                                         
+    value               IN BOOLEAN,                                          
+    object_type         IN VARCHAR2 DEFAULT NULL);                           
+                                                                                 
+DBMS_METADATA.SET_TRANSFORM_PARAM (                                            
+    transform_handle    IN NUMBER,                                           
+    name                IN VARCHAR2,                                         
+    value               IN NUMBER,                                           
+    object_type         IN VARCHAR2 DEFAULT NULL);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">transform_handle</td><td><p>ADD_TRANSFORM 함수를 통해 획득한 transform handle이다.
+                  </p><p>'DDL' transform만 사용
+                  가능하다.</p><p>SESSION_TRANSFORM은 해당 세션에서 기본적으로 사용하는 DDL
+                  transform을 의미한다. SESSION_TRANSFORM은 DBMS_METADATA 패키지에 정의되어
+                  있다.</p><p>GET_DDL 등의 함수에서도 사용된다.</p></td></tr><tr><td align="left">name</td><td><p>파라미터 이름이다(<a href="chap_dbms_metadata.html#table_object_type5">"[객체 타입]"</a>
+                  참고).</p><p>각 파라미터값의 타입에 맞는 프러시저를 사용해야
+                  한다.</p></td></tr><tr><td align="left">value</td><td>파라미터 값이다. </td></tr><tr><td align="left">object_type_path</td><td>현재 사용 불가</td></tr></tbody></table>
+          </div>
+
+          <p/>
+
+          <p/>
+
+          <p><span><strong class="guibutton">[객체 타입]</strong></span></p>
+
+          <p>아래 표는 파라미터 이름과 대응하는 객체 타입 및 파라미터 값의 타입을 표시한다.</p>
+
+          <div class="informaltable"><a id="table_object_type5"/>
+              <table border="1"><colgroup><col width="150" align="left"/><col width="150" align="left"/><col width="80" align="left"/><col/></colgroup><thead><tr><th align="left">객체 타입 유형</th><th align="left">파라미터 이름</th><th align="left">타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">모든 객체 (SNDG)</td><td align="left">PRETTY</td><td align="left">Boolean</td><td>TRUE이면 DDL 추출 시 들여쓰기와 줄바꿈이 추가된다. (기본값 :
+                    TRUE)</td></tr><tr><td align="left">모든 객체 (SNDG)</td><td align="left">SQLTERMINATOR</td><td align="left">Boolean</td><td>TRUE이면 DDL 추출 시 종결부호(;) 포함한다. (기본값 : FALSE)</td></tr><tr><td align="left">TABLE</td><td align="left">CONSTRAINTS</td><td align="left">Boolean</td><td>TRUE이면 TABLE 추출 시 참조 무결성 제약조건을 제외한 모든 제약조건 포함한다.
+                    (기본값 : TRUE)</td></tr><tr><td align="left">TABLE</td><td align="left">REF_CONSTRAINTS</td><td align="left">Boolean</td><td><p>TRUE이면 TABLE 추출 시 참조 무결성 제약조건을
+                    포함한다.</p><p>(기본값 : TRUE)</p></td></tr><tr><td align="left">TABLE</td><td align="left">CONSTRAINTS_AS_ALTER</td><td align="left">Boolean</td><td><p>TRUE이면 TABLE 추출 시 제약조건을 CREATE TABLE 구문에
+                    포함시키지 않고 별도의 ALTER TABLE 구문으로 제공한다.</p><p>FALSE이면
+                    TABLE 추출 시 제약조건을 CREATE TABLE 구문에 포함시킨다. TRUE 설정을 위해선
+                    CONSTRAINTS 파라미터가 TRUE로 설정되어 있어야 한다.</p><p>(기본값 :
+                    FALSE)</p></td></tr><tr><td align="left">TABLE</td><td align="left">TABLE_COMPRESSION_CLAUSE</td><td align="left">Varchar2</td><td><p>TABLE 추출 시 compression clause를 지정할 수
+                    있다.</p><p>NONE 설정 시 compression clause를 생략한다(소속
+                    테이블스페이스의 설정에 따름).</p></td></tr><tr><td align="left"><p>INDEX</p><p>CONSTRAINT</p><p>TABLE</p><p>TABLESPACE</p></td><td align="left">SEGMENT_ATTRIBUTES</td><td align="left">Boolean</td><td><p>TRUE이면 DDL 추출 시 segment attribute clause를
+                    포함시킨다.</p><p>(기본값 : TRUE)</p></td></tr><tr><td align="left"><p>INDEX</p><p>CONSTRAINT</p><p>TABLE</p></td><td align="left">STORAGE</td><td align="left">Boolean</td><td><p>TRUE이면 DDL 추출 시 storage clause를
+                    포함시킨다.</p><p>SEGMENT_ATTRIBUTES 파라미터가 FALSE이면 해당
+                    파라미터는 무시된다. (기본값 : TRUE)</p></td></tr><tr><td align="left"><p>INDEX</p><p>CONSTRAINT</p><p>TABLE</p></td><td align="left">TABLESPACE</td><td align="left">Boolean</td><td><p>TRUE이면 DDL 추출 시 tablespace clause를
+                    포함시킨다.</p><p>SEGMENT_ATTRIBUTES 파라미터가 FALSE이면 해당
+                    파라미터는 무시된다. (기본값 : TRUE)</p></td></tr></tbody></table>
+            </div>
+
+          <p/>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGVAL</td><td>transform handle이 NULL이거나 invalid</td></tr><tr><td align="left">INVALID_OPERATION</td><td>FETCH_DDL, FETCH_XML 수행 후에는 호출할 수 없음</td></tr><tr><td align="left">INCONSISTENT_ARGS</td><td>handle 생성 시 입력된 object_type 파라미터와 대응하지 않는 파라미터를 설정하려
+                  함</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SQL&gt; exec dbms_metadata.set_transform_param(dbms_metadata.session_transform,
+'SQLTERMINATOR',true);
+
+PSM completed.</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_lock.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_monitor.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제19장 DBMS_LOCK </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제21장 DBMS_MONITOR</td></tr></table></div><div xmlns="" align="center"/></body></html>
