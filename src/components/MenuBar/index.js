@@ -72,7 +72,7 @@ const MenuBar = observer(() => {
   };
 
   const handleNewProjectButtonClick = () => {
-    window.open("http://OhYeHwan.github.io/a-call-studio", "_blank");
+    window.open("/", "_blank");
   };
 
   return (
