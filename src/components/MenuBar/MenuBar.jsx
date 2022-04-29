@@ -55,7 +55,7 @@ const MenuBar = observer(() => {
   };
 
   const handleNewProjectButtonClick = () => {
-    window.open("/", "_blank");
+    window.open("/a-call-studio/", "_blank");
   };
 
   return (
