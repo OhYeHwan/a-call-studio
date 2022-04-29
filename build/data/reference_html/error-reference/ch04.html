@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제4장 4000 ~ 4999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch03.html" title="제3장 3000 ~ 3999"/><link rel="next" href="ch05.html" title="제5장 5000 ~ 5999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제4장 4000 ~ 4999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch05.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e4552"/>제4장 4000 ~ 4999</h2></div></div></div>
+  
+
+  <h2><a id="d5e4554"/>4001: Invalid DBA found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid DBA (Database Administrator) has been entered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter valid DBA.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4567"/>4002: Invalid row number.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid row number was entered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a valid row number.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4580"/>4003: Invalid serialized long locator discovered.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid serialized long locator was entered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a valid serialized long locator.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4593"/>4004: Duplicate unique key found during index fast build.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A duplicate key exists in the table; the index cannot be made.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicate key or make a non-unique index.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4606"/>4005: Referential constraint violation: foreign key exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A foreign key exists with the same value; the primary key cannot be deleted.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the foreign key and then delete the primary key.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4619"/>4006: Referential constraint violation: primary key not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A foreign key cannot be inserted; the primary key does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter the primary key and then insert the foreign key.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4632"/>4007: Unable to find LONG cursor.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>In order to use the LONG function, an open cursor is necessary.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Call the LONG function before closing the cursor.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4645"/>4008: Duplicate unique key found during multi insert.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot insert the entered key into the index, as the key is a duplicate.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the duplicate key.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4658"/>4009: LOB snapshot too old</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The LOB value for CR was overwritten by another tx.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the cause of the failure and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4671"/>4010: LOB information requested by a client is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>LOB directory information is no longer valid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Because the directory of the table in which LOB exists is changed, the LOB locator cannot be used for the access.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4684"/>4011: Data being inserted into an index-organized table via mutli insert must be sorted.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The data being inserted into the index-organized table is not sorted.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Sort data before using mutli insert to insert rows into an index-organized table.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4697"/>4012: unsupported operation on multi-column compressed tables</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>unsupported update/delete operation on multi-column compressed tables</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>uncompress tables before update/delete operation</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4710"/>4013: Level of the index has reached maximum depth allowed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The index has deficient nodes and the shape of the index is skewed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Index reorganization is required.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4723"/>4014: Directory object was not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Directory object could not be found.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the directory name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4736"/>4015: File path is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>File path is too long.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the directory name and the file name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4749"/>4016: Can't open empty file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The file to open is empty.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4762"/>4017: Can't open the specified binary file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Can't open the specified binary file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4775"/>4018: Can't get the length of the specified binary file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Can't get the length of the specified binary file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4788"/>4019: Failed to lseek because of the invaild offset</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to lseek because of the invaild offset</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4801"/>4020: Failed to read the specified binary file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to read the specified binary file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4814"/>4021: Failed to open the binary file</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified binary file is not openend.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4827"/>4022: Specified binary file does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Specified binary file does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4840"/>4027: Acess to the directory object was denied.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Acess to the directory object was denied.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the directory object and modify the permission.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4853"/>4028: Stored data in long type column is too long</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td> </td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td> </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4866"/>4029: Shared pool memory space for a sort segment extent list cannot be allocated.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Insufficient shared pool memory remaining.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>To increase the shared memory space, specify a larger value for the TOTAL_SHM_SIZE parameter.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch05.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제3장 3000 ~ 3999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제5장 5000 ~ 5999</td></tr></table></div><div xmlns="" align="center"/></body></html>

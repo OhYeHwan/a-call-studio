@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제19장 21000 ~ 21999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch18.html" title="제18장 19000 ~ 19999"/><link rel="next" href="ch20.html" title="제20장 22000 ~ 22999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제19장 21000 ~ 21999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch18.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch20.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e29777"/>제19장 21000 ~ 21999</h2></div></div></div>
+  
+
+  <h2><a id="d5e29779"/>21001: Unable to start transaction.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot start the transaction.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the cause of the failure and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29792"/>21002: No more undo space available.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Insufficient space remains in the undo tablespace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Free up space in the tablespace and specify autoextend in the datafile.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29805"/>21003: Snapshot is too old.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The snapshot is too old to read.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the cause of the failure and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29818"/>21004: No more extent available in tablespace '%1$s'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unable to create an additional extent in this table.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Free up space in the tablespace and specify autoextend in the datafile.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29831"/>21005: Unable to initialize datafile %1$s ('%2$d' in tablespace '%3$s').</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot initialize the datafile.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the properties of the datafile.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29844"/>21006: Unable to extend datafile '%1$d' in tablespace '%2$s'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot extend the datafile.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Adjust the datafile so that it can be extended.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29857"/>21007: Unable to shrink datafile '%1$d' in tablespace '%2$s'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot shrink the datafile.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove segments occupying the datafile and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29870"/>21008: Savepoint '%1$s' was not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified savepoint does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid savepoint.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29883"/>21009: No tempfile was found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>No file exists in the temporary tablespace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Add files in the temporary tablespace and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29896"/>21010: Tablespace %1$s was not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified tablespace does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid tablespace.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29909"/>21011: Seqno overflow: %1$d undo segment.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot continue to increase the sequence numbers of undo segments. The transaction is too long.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Raise the uniform size of the undo tablespace, or use the AUTOALLOCATE option.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29922"/>21012: Unable to serialize access for this transaction.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to access the modified data after the transactions began.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The transaction is not accessible.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29935"/>21013: Undo segment was not found in the UNDO tablespace.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The undo segment does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid undo segment.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29948"/>21014: No space available in SYSTEM tablespace.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot extend the undo segment of SYSTEM tablespace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the size of the SYSTEM tablespace.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29961"/>21015: Unable to create a system undo segment.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unable to create an undo segment in the SYSTEM tablespace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the cause of the failure and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29974"/>21016: Insufficient processes (%1$d) for transaction recovery (at least %2$d needed).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot recover non-committed transactions. The number of processes is insufficient.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the number of working processes and threads.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e29987"/>21017: Unable to bring undo segment (#%1$d) on/offline: %2$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot bring the undo segment online or offline.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid segment.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30000"/>21018: Undo segment was not found: '%1$d'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified undo segment does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid segment.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30013"/>21019: Lock held by in-doubt distributed transaction.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Lock is held by an in-doubt transaction.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Fix the in-doubt transaction and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30026"/>21020: Unable to specify undo tablespace %1$s as default undo tablespace.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified undo tablespace cannot be used as the default undo tablespace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Ensure that the specified tablespace is an undo tablespace and is not dropped or offline.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30039"/>21021: Unable to use tablespace %1$d.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot use the specified temporary tablespace because it was dropped or currently being dropped.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify another temporary tablespace.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30052"/>21022: No prepared transaction found with transaction ID %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot find a prepared transaction with the requested transaction ID.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid ID.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30065"/>21023: Unable to execute specified operation during TX recovery.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot execute the operation because transaction is not completely recovered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try again after the transaction recovery is complete.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30078"/>21024: Unable to begin new transaction in current server mode.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Tasks cannot be performed in the current server mode.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Start the server in NORMAL mode and then execute the task.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30091"/>21025: Unable to extend segment: maximum number of extensions reached.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of extensions has reached the maximum limit specified in the segment.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Raise the value of the MAXEXTENTS property of the segment.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30104"/>21026: Sequence of undo segment %1$d has limit of %2$d.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The undo segment does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the cause of the failure and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30117"/>21027: Unable to use temp tablespace in current server mode.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot use a temporary tablespace in the current server mode.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Start the server in NORMAL mode.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30130"/>21028: Unable to bring minimum number of undo segments online.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of online undo segments exceeded the maximum limit.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the value of _USGMT_ONLINE_MAX parameter, or decrease the value of _USGMT_ONLINE_MIN parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30143"/>21029: Invalid specification for UNDO_TABLESPACE parameter.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The UNDO_TABLESPACE parameter is specified incorrectly.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid value in the UNDO_TABLESPACE parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30156"/>21030: DML operation is not permitted.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>DML operation is not permitted.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The transaction has been opened in read-only mode. Commit or roll back before trying again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30169"/>21031: Cannot allocate ITL for PE transaction.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to allocate ITL for PE transaction.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30182"/>21032: Failed to perform two-phase commit for the massive cluster system.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed in the slave node. The corresponding slave tx has failed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the reason and whether the slave node is alive. Try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30195"/>21033: Cannot access a transaction (%1$d.%2$d.%3$d).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot access a transaction (%1$d.%2$d.%3$d).</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Commit or roll back the transaction and then try again. Or make the status of the corresponding offline tablespace online.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30208"/>21034: There is no snapshot that corresponds to the specified time.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There is no value that corresponds to the specified time in the mapping table.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the value of UNDO_RETENTION to store more snapshots.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30221"/>21038: Unable to drop the datafile %1$s ('%2$s' in tablespace '%3$s').</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unable to drop the datafile.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the properties of the datafile.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30234"/>21039: User '%1$s' cannot be allocated an additional %2$d blocks within the '%3$s' tablespace.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Due to the quota configuration, additional blocks cannot be allocated within the tablespace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the quota configuration.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30247"/>21040: Unable to execute specified operation during in-doubt TX recovery.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot execute the operation because in-doubt transaction is not completely recovered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Fix the in-doubt transaction and then try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30260"/>21042: Unable to begin new transaction in read only server mode.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Tasks cannot be performed in the current server mode.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Start the server in READ WRITE mode and then execute the task.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30273"/>21043: No such temprary file exists in the temporary tablespace.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>No such temprary file exists in the temporary tablespace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the file name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30286"/>21044: The TEMP_TS_CNT_MAX is less than the number of existing temporary tablespaces.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Retry the operation using a valid TEMP_TS_CNT_MAX value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td> </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30299"/>21045: Unable to bring minimum number of undo segments online.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of online undo segments exceeded the maximum limit.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the value of USGMT_ONLINE_MAX parameter, or decrease the value of USGMT_ONLINE_MIN parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e30312"/>21046: The snapshot is too old to be used for flashback query.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Since the snapshot is too old, undo log for it is no longer available.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the value of _FLASHBACK_QUERY_SNAPSHOT_LIMIT.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch18.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch20.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제18장 19000 ~ 19999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제20장 22000 ~ 22999</td></tr></table></div><div xmlns="" align="center"/></body></html>

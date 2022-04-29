@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제7장 SQL 문장의 실행</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 안내서"/><link rel="prev" href="chapter_package.html" title="제6장 패키지"/><link rel="next" href="chapter_error.html" title="제8장 에러 처리"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제7장 SQL 문장의 실행</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_package.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_error.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_sql_execution"/>제7장 SQL 문장의 실행</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_sql_execution.html#d5e3709">7.1. DCL</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_sql_execution.html#d5e3758">7.1.1. COMMIT</a></span></dt><dt><span class="section"><a href="chapter_sql_execution.html#d5e3777">7.1.2. ROLLBACK</a></span></dt><dt><span class="section"><a href="chapter_sql_execution.html#d5e3796">7.1.3. SAVEPOINT</a></span></dt><dt><span class="section"><a href="chapter_sql_execution.html#d5e3831">7.1.4. 자율 트랜잭션</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_sql_execution.html#d5e3875">7.2. Dynamic SQL</a></span></dt><dt><span class="section"><a href="chapter_sql_execution.html#sect_cursor">7.3. 커서</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_sql_execution.html#d5e3901">7.3.1. 묵시적 커서</a></span></dt><dt><span class="section"><a href="chapter_sql_execution.html#sect_explicit_cursor">7.3.2. 명시적 커서</a></span></dt><dt><span class="section"><a href="chapter_sql_execution.html#sect_cursor_var">7.3.3. 커서 변수</a></span></dt><dt><span class="section"><a href="chapter_sql_execution.html#d5e4108">7.3.4. 커서 속성</a></span></dt><dt><span class="section"><a href="chapter_sql_execution.html#sect_sys_refcursor">7.3.5. SYS_REFCURSOR</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>tbPSM</span> 프로그램에서 SQL 문장을 실행하는 방법을 설명한다.</p>
+
+  <p><span>tbPSM</span>은 SQL 문장의 범주 중에서 데이터 정의어(Data Definition
+  Language, 이하 DDL)<a id="d5e3705" class="indexterm"/>와 데이터 조작어(Data Manipulation Language, 이하 DML)<a id="d5e3707" class="indexterm"/>, 데이터 제어어(Data Control Language, 이하 DCL)에 속한 트랜잭션 제어의 일부를 프로그램
+  내부에서 실행할 수 있도록 지원한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3709"/>7.1. DCL<a id="d5e3711" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>트랜잭션은 데이터베이스를 조회하거나 갱신 또는 조작 등을 하는 처리의 기본 단위이다. 즉, SQL 문장의 처리가 성공하거나
+    실패하는 일련의 과정을 말한다. 트랜잭션은 RDBMS의 표준으로써, 일관되지 않은 데이터가 생성되는 것을 방지한다.</p>
+
+    <p>트랜잭션은 원자성(Atomic), 일관성(Consistent), 고립성(Isolated), 영속성(Durable) 등의
+    특성에 의해 데이터베이스 실행이 보장된다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>트랜잭션은 다음과 같은 특징이 있다.<a id="d5e3717" class="indexterm"/></p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>트랜잭션은 COMMIT이나 ROLLBACK 문으로 끝난다.</p>
+
+          <p><span>tbPSM</span> 프로그램은 사용자의 필요에 따라 실행 코드부에는 COMMIT
+          문을 포함시키고, 에러 처리부에는 ROLLBACK 문을 포함시킨다. 특히 에러 처리부에서는 에러 처리뿐만 아니라 현재
+          트랜잭션이 갱신한 내용도 취소할 수 있다.</p>
+
+          <p>다음은 COMMIT<a id="d5e3726" class="indexterm"/>, ROLLBACK 문의 예이다.<a id="d5e3728" class="indexterm"/></p>
+
+          <pre class="programlisting">COMMIT;
+
+ROLLBACK WORK RELEASE;</pre>
+        </li><li>
+          <p>ROLLBACK 문을 이용하여 현재 트랜잭션이 갱신한 내용의 일부만을 취소할 수 있다. 이를 위해
+          저장점(savepoint)을 미리 설정해야 한다.<a id="d5e3733" class="indexterm"/></p>
+
+          <p>다음은 SAVEPOINT 문의 예이다. SAVEPOINT 문은 ROLLBACK 문에 반드시 포함시켜야
+          한다.<a id="d5e3736" class="indexterm"/></p>
+
+          <pre class="programlisting">SAVEPOINT sp1;
+...
+ROLLBACK TO SAVEPOINT sp1;</pre>
+        </li><li>
+          <p>트랜잭션에 고립성의 수준을 설정할 수 있다. 고립성은 트랜잭션의 특성 중 하나로 임의의 트랜잭션이 동시에
+          실행되는 다른 트랜잭션에 영향을 주어서는 안 된다는 것이다.<a id="d5e3741" class="indexterm"/></p>
+
+          <p>다음은 현재 트랜잭션에 고립성의 수준을 설정하고 읽기 작업만을 수행하도록 하는 예이다.</p>
+
+          <pre class="programlisting">SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;<em class="lineannotation"><span class="lineannotation">
+... 고립성의 수준(직렬화)을 설정한다. ....</span></em>
+
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;<em class="lineannotation"><span class="lineannotation">
+... 읽기 작업만을 수행한다. ...</span></em></pre>
+        </li><li>
+          <p>트랜잭션에 잠금을 설정할 수 있다.<a id="d5e3749" class="indexterm"/> 갱신 또는 삭제를 하기 전에 질의 결과의 컬럼에 잠금을 설정하여, 다른 트랜잭션이 액세스하지
+          못하도록 막으려면 SELECT FOR UPDATE 문을 사용해야 한다.<a id="d5e3751" class="indexterm"/></p>
+
+          <p>다음은 테이블 EMP의 DEPNO 컬럼에 잠금을 설정하는 예이다.</p>
+
+          <pre class="programlisting">SELECT * FROM EMP WHERE DEPTNO = deptno FOR UPDATE;</pre>
+
+          <p>만약 질의가 두 개의 테이블에 조인을 수행하는 데 이중 하나의 테이블에만 잠금을 설정하고 싶다면 FOR
+          UPDATE OF 절을 사용해야 한다. 사용하는 방법은 FOR UPDATE OF 절에 잠금 설정을 원하는 테이블의 컬럼
+          이름을 포함하면 된다.</p>
+
+          <p>다음은 EMP, DEPT 테이블 중에서 EMP 테이블의 SALARY 컬럼에만 잠금을 설정하는
+          예이다.</p>
+
+          <pre class="programlisting">SELECT ENAME, SALARY, DNAME FROM EMP E, DEPT D 
+WHERE E.DEPTNO = D.DEPTNO AND E.DEPTNO = deptno FOR UPDATE OF SALARY;</pre>
+        </li></ul></div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3758"/>7.1.1. COMMIT<a id="d5e3760" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>COMMIT 문을 사용하면 트랜잭션이 끝남과 동시에 해당 트랜잭션에서 수행된 모든 작업이 데이터베이스에 영구히
+      반영된다. 또한 다른 세션이 해당 트랜잭션에 의해 수행된 내용을 볼 수 있으며, 트랜잭션에 설정된 잠금이 해제된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>COMMIT 문을 선언하는 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">COMMIT [task];</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">task</td><td>SQL 문장의 가독성을 높이기 위해 추가하는 옵션이다.</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3777"/>7.1.2. ROLLBACK<a id="d5e3779" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>ROLLBACK 문을 사용하면 트랜잭션이 끝남과 동시에 해당 트랜잭션이 수행한 모든 작업은 취소되며, 트랜잭션이 가지고
+      있는 잠금을 해제할 수 있다. 세션이 COMMIT 문이나 ROLLBACK 문을 사용하여 현재 트랜잭션을 끝내지 않고 데이터베이스
+      연결을 끊는다면, 트랜잭션은 시스템에 의해 자동으로 롤백된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>ROLLBACK 문을 선언하는 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">ROLLBACK [task];</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">옵션</th><th>설명</th></tr></thead><tbody><tr><td align="left">task</td><td>SQL 문장의 가독성을 높이기 위해 추가하는 옵션이다.</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3796"/>7.1.3. SAVEPOINT<a id="d5e3798" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>일반적으로 ROLLBACK 문은 트랜잭션의 전체를 취소한다. 그러나 SAVEPOINT 문을 사용하면 트랜잭션의 일부만을
+      취소할 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SAVEPOINT 문을 선언하는 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">SAVEPOINT savepoint_name;</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">savepoint_name</td><td><p>저장점의 이름으로 <span>tbPSM</span>의 식별자이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>트랜잭션 전체에서 사용되므로 선언부에 선언하지 않는다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>ROLLBACK 문에서 사용되며 설정된 저장점 이후의 내용을 모두 취소할 수
+                    있다.</p>
+                  </li></ul></div></td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>저장점이 정의되면, 다음과 같은 문법을 통해 정의된 저장점까지 롤백할 수 있다.</p>
+
+      <pre class="programlisting">ROLLBACK [task] TO SAVEPOINT savepoint_name;</pre>
+
+      <p><span><strong class="guibutton">ROLLBACK TO SAVEPOINT</strong></span> 문을 사용하면 저장점 이후로 수행된
+      모든 작업을 롤백할 수 있다. ROLLBACK TO SAVEPOINT 문이 실행된 이후에도 저장점은 유지되므로 동일한 저장점으로
+      다시 롤백할 수 있다. 이때 저장점 이후의 SQL 문장이 가지고 있던 잠금과 자원은 모두 반환된다. 그러나 ROLLBACK TO
+      SAVEPOINT 문을 사용해도 트랜잭션은 끝나지 않는다. <a id="d5e3827" class="indexterm"/></p>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3831"/>7.1.4. 자율 트랜잭션<a id="d5e3833" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">자율 트랜잭션</strong></span>(Autonomous Transaction)이란 기존에 이미
+      존재하는 트랜잭션과는 완전히 다른 독립적인 트랜잭션이다. 자율 트랜잭션에 의해 만들어진 내용은 기존의 트랜잭션에 전혀 영향을
+      주지도 받지도 않기 때문에 자율 트랜잭션 내에서 롤백을 수행하더라도 기존 트랜잭션과는 관계없다.</p>
+
+      <p>이러한 자율 트랜잭션은 현재 트랜잭션이 수행되는 중간에 독립적으로 작업하고자 할 때 유용하며 주로 서브 프로그램으로
+      만들어 놓고, <span>tbPSM</span> 프로그램을 수행하는 중간에 그 서브 프로그램을 호출함으로써 독립적인
+      트랜잭션 작업을 수행하게 된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>자율 트랜잭션을 선언할 수 있는 부분은 한정적이다. 따라서 다음과 같은 위치에서만 선언할 수 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>이름 없는 블록(Anonymous block)의 중첩되지 않은 최외곽 블록</p>
+        </li><li>
+          <p>독립적인 서브 프로그램과 로컬 서브 프로그램</p>
+        </li><li>
+          <p>패키지 서브 프로그램</p>
+        </li><li>
+          <p>트리거</p>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>자율 트랜잭션을 선언하는 방법은 다음과 같다.<a id="d5e3852" class="indexterm"/></p>
+
+      <pre class="programlisting">PRAGMA AUTONOMOUS_TRANSACTION;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>자율 트랜잭션은 아래와 같이 선언부에 선언된다.</p>
+
+      <pre class="programlisting">DECLARE
+    PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+    INSERT INTO emp VALUES (1, 'Peter');
+    ...
+END;</pre>
+
+      <p>자율 트랜잭션도 일반적인 트랜잭션과 마찬가지로 DCL을 사용하여 제어할 수 있다. 예를 들면 다음과 같다.</p>
+
+      <pre class="programlisting">DECLARE
+    PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+    INSERT INTO emp VALUES (1, 'Peter');
+    update_dept(1, 'marketing');
+    COMMIT;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+    ROLLBACK;
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>자율 트랜잭션을 사용할 때 다음과 같은 경우에 주의해야 한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>기존 트랜잭션이 사용하고 있는 자원(예: LOCK 등)에 접근하려고 할 때 교착 상태(deadlock)가
+          발생한다.</p>
+        </li><li>
+          <p>자율 트랜잭션 내부에서 발생한 예외 상황이 처리되지 않았을 때 그 동안 수행된 내용이 롤백된다.</p>
+        </li><li>
+          <p>커밋이나 롤백을 하지 않은 채로 자율 트랜잭션을 종료할 때 예외 상황이 발생한다.</p>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 트리거에서 자율 트랜잭션을 사용한 예이다. 일반적인 트리거와는 달리 자율 트랜잭션을 사용하면
+      <span><strong class="guibutton">EXECUTE IMMEDIATE 절</strong></span>을 사용할 수 있다.<a id="d5e3872" class="indexterm"/></p>
+
+      <pre class="programlisting">CREATE TRIGGER multiply_trg
+AFTER INSERT ON calc
+FOR EACH ROW
+DECLARE
+    PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+    INSERT INTO result VALUES (:new.c1 * :new.c2);
+    EXECUTE IMMEDIATE 'DROP TABLE tmp_result';
+END;</pre>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e3875"/>7.2. Dynamic SQL<a id="d5e3877" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>일반적으로 <span>tbPSM</span>에서는 DDL이나 GRANT와 같은 DCL, ALTER SESSION과 같은
+    세션 관리 제어 문장을 사용할 수 없다. 하지만 이를 가능하게 해 주는 것이 <span><strong class="guibutton">Dynamic
+    SQL</strong></span>이다.</p>
+
+    <p>Dynamic SQL은 <span><strong class="guibutton">EXECUTE IMMEDIATE 절</strong></span>에서 사용할 수
+    있다.<a id="d5e3884" class="indexterm"/></p>
+
+    <pre class="programlisting">EXECUTE IMMEDIATE sql_stmt 
+    [INTO id_list USING id_list RETURNING INTO id_list];</pre>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 Dynamic SQL를 사용한 예이다.</p>
+
+    <pre class="programlisting">DECLARE
+    sql_stmt  VARCHAR2(2000);
+    emp_id    NUMBER := 1;
+    emp_name  VARCHAR2(10) := 'John';
+BEGIN
+    sql_stmt := 'INSERT INTO emp VALUES (:1, :2)';
+    EXECUTE IMMEDIATE sql_stmt USING emp_id, emp_name;
+    sql_stmt := 'SELECT name FROM emp WHERE id = :id';
+    EXECUTE IMMEDIATE sql_stmt INTO emp_name USING emp_id;
+    EXECUTE IMMEDIATE 'CREATE TABLE dept (id NUMBER)';
+END;</pre>
+
+    <div class="caution" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">주의</h3>
+      <p>일반적으로 SQL 문장을 작성할 때에는 세미콜론(;)이 필요 없지만, <span>tbPSM</span>에서 Dynamic SQL를 사용할 때에는 반드시 세미콜론이 있어야
+      한다.</p>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_cursor"/>7.3. 커서<a id="d5e3895" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">커서</strong></span>(Cursor)란 <span>tbPSM</span>에서 SQL을 수행하기 위해 하나의 문장마다 사용하는 내부 구조를
+    말한다.</p>
+
+    <p>일반적으로 커서에는 묵시적 커서와 명시적 커서, 커서 변수가 있다. 또한 %ISOPEN, %FOUND, %NOTFOUND,
+    %ROWCOUNT의 특별한 속성을 제공한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3901"/>7.3.1. 묵시적 커서<a id="d5e3903" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">묵시적 커서</strong></span>(Implicit cursor)란 INSERT, UPDATE,
+      DELETE 문장과 SELECT INTO를 비롯한 SQL 문장을 실행할 때 <span>tbPSM</span>에서 내부적으로 사용하는 커서를 말한다. 하나의 SQL 문장을 수행할
+      때마다 이 커서가 열리고 닫힌다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e3909"/>DML<a id="d5e3910" class="indexterm"/><a id="d5e3913" class="indexterm"/></h4>
+
+      <p><span>tbPSM</span>에서는 제약 없이 DML을 사용할 수 있다.</p>
+
+      <pre class="programlisting">BEGIN
+    INSERT INTO emp VALUES (1, 'Susan');
+    UPDATE emp SET name = 'Peter' WHERE id = 1;
+    DELETE FROM emp WHERE id = 1;
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e3919"/>QUERY<a id="d5e3920" class="indexterm"/><a id="d5e3923" class="indexterm"/></h4>
+
+      <p><span>tbPSM</span>에서는 SELECT한 SQL 문장의 결과를 변수로 저장할 수 있다.
+      그러나 일반적인 SELECT INTO를 사용하는 경우 아래 예와 같이 한 번에 한 개의 컬럼 밖에 얻어오지 못한다.</p>
+
+      <pre class="programlisting">DECLARE
+    name VARCHAR2(20);
+BEGIN
+    SELECT name INTO name FROM emp WHERE id = 2;
+END;</pre>
+
+      <p>결과 컬럼이 두 개 이상일 경우에는 TOO_MANY_ROWS 예외 상황이 발생하고, 이와는 반대로 결과 컬럼이 없을
+      경우에는 NO_DATA_FOUND 예외 상황이 발생한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p><span>tbPSM</span>에서는 이러한 문제를 해결하기 위해 결과 컬럼이 여러 개인 경우에도
+      SQL 문장이 실행될 수 있는 기능을 제공한다. 이 기능을 <span><strong class="guibutton">커서
+      반복문</strong></span>(CURSOR_FOR_LOOP)이라고 한다.<a id="d5e3933" class="indexterm"/></p>
+
+      <p>다음은 커서 반복문의 예이다.</p>
+
+      <pre class="programlisting">BEGIN
+    FOR result IN (SELECT * FROM emp) LOOP
+        DBMS_OUTPUT.PUT_LINE(result.id || '번 직원=' || result.name);
+    END LOOP;
+END;</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_explicit_cursor"/>7.3.2. 명시적 커서<a id="d5e3939" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">명시적 커서</strong></span>(Explicit cursor)란 사용자가 <span>tbPSM</span> 프로그램 내에서 직접 선언한 커서를 말한다. 이 커서는 전적으로
+      사용자에 의해 OPEN, FETCH, CLOSE가 이루어지며, <span>tbPSM</span>은 관여하지 않는다.</p>
+
+      <p>명시적 커서는 일반적인 <span>tbPSM</span>의 변수와 달리 대입할 수 없고, 선택적으로 파라미터를 가질 수 있다.
+      이 파라미터는 이후에 실행되는 SQL에서 사용된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>명시적 커서를 선언하는 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">CURSOR cursor_name IS SELECT ...;
+CURSOR cursor_name (param1 TYPE [DEFAULT VALUE], ...) IS SELECT ...;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e3951"/>OPEN<a id="d5e3952" class="indexterm"/><a id="d5e3954" class="indexterm"/></h4>
+
+      <p>명시적 커서를 열기 위해서는 <span><strong class="guibutton">OPEN 문</strong></span>을 사용해야 한다.</p>
+
+      <p>사용 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">DECLARE
+    CURSOR c1 IS SELECT * FROM emp;
+BEGIN
+    OPEN c1;
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e3962"/>FETCH<a id="d5e3963" class="indexterm"/><a id="d5e3965" class="indexterm"/></h4>
+
+      <p>명시적 커서를 Fetch하는 방법은 <span><strong class="guibutton">FETCH INTO 문</strong></span>을 사용하며 한 번에
+      하나의 로우만 받아올 수 있다.</p>
+
+      <p>사용 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">DECLARE
+    emp_rec emp%ROWTYPE;
+    CURSOR c1 IS SELECT * FROM emp;
+BEGIN
+    OPEN c1;
+    FETCH c1 INTO emp_rec;
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      
+
+      <h4><a id="d5e3973"/>CLOSE<a id="d5e3974" class="indexterm"/><a id="d5e3976" class="indexterm"/></h4>
+
+      <p>명시적 커서를 닫기 위해서는 <span><strong class="guibutton">CLOSE 문</strong></span>을 사용한다. 만약 이미 닫혔거나
+      열리지 않은 커서에 대해 CLOSE를 수행한다면, <span><strong class="guibutton">INVALID_CURSOR</strong></span> 예외 상황이
+      발생한다.<a id="d5e3982" class="indexterm"/></p>
+
+      <pre class="programlisting">DECLARE
+    emp_rec emp%ROWTYPE;
+    CURSOR c1 IS SELECT * FROM emp;
+BEGIN
+    OPEN c1;
+    FETCH c1 INTO emp_rec;
+    CLOSE c1;
+END;
+</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e3986"/>커서 반복문의 사용<a id="d5e3987" class="indexterm"/><a id="d5e3989" class="indexterm"/></h4>
+
+      <p>명시적 커서도 커서 반복문을 사용할 수 있다.</p>
+
+      <p>사용 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">DECLARE
+    CURSOR c1 IS SELECT * FROM emp;
+BEGIN
+    FOR result IN c1 LOOP
+        DBMS_OUTPUT.PUT_LINE(result.id || '번 직원=' || result.name);
+    END LOOP;
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e3996"/>패키지에서의 정의</h4>
+
+      <p>패키지에서는 선언부와 구현부로 나누어 커서를 정의한다.</p>
+
+      <p>사용 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">CREATE OR REPLACE PACKAGE pkg
+IS
+    TYPE rec IS record (a number, b varchar2(100), c date);
+    CURSOR c1 RETURN rec;
+END;
+/
+CREATE OR REPLACE PACKAGE BODY pkg
+IS
+    CURSOR c1 RETURN rec IS select 1, '<span>tibero</span>', sysdate from dual;
+END;
+/
+DECLARE
+    a NUMBER;
+    b VARCHAR2(100);
+    c DATE;
+BEGIN
+    OPEN pkg.c1; 
+    FETCH pkg.c1 INTO a, b, c;
+    DBMS_OUTPUT.PUT_LINE(a||','||b||','||c);
+    CLOSE pkg.c1;
+END;
+/</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 명시적 커서의 상태에 따른 커서 속성 값이다.<a id="d5e4003" class="indexterm"/></p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>상태</th><th>%ISOPEN</th><th>%FOUND</th><th>%NOTFOUND</th><th>%ROWCOUNT</th></tr></thead><tbody><tr><td>Before OPEN</td><td>false</td><td>INVALID_CURSOR</td><td>INVALID_CURSOR</td><td>INVALID_CURSOR</td></tr><tr><td>After OPEN</td><td>true</td><td>NULL</td><td>NULL</td><td>0</td></tr><tr><td>After first FETCH</td><td>true</td><td>true</td><td>false</td><td>1</td></tr><tr><td>After next FETCH</td><td>true</td><td>true</td><td>false</td><td>임의의 값</td></tr><tr><td>After last FETCH</td><td>true</td><td>false</td><td>true</td><td>임의의 값</td></tr><tr><td>After CLOSE</td><td>false</td><td>INVALID_CURSOR</td><td>INVALID_CURSOR</td><td>INVALID_CURSOR</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_cursor_var"/>7.3.3. 커서 변수<a id="d5e4053" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">커서 변수</strong></span>(Cursor variable)란 특정 SQL 문장에만 해당되지
+      않고, 커서를 열 때 주어진 SQL 문장에 따라 자유롭게 변경하여 사용할 수 있으며, 일반적인 변수처럼 서브 프로그램의 파라미터의
+      반환값으로 사용되는 커서를 말한다. 커서 변수를 사용하면 많은 양의 데이터를 주고 받는 대신 포인터만 전달하므로 프로그램의 성능을
+      개선할 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>커서 변수를 선언하는 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">TYPE csr_type_name IS REF CURSOR [RETURN type_name];<span><strong class="guibutton">
+
+csr_var_name</strong></span> csr_type_name;</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">csr_type_name</td><td>REF CURSOR 타입의 이름이다.</td></tr><tr><td align="left">[RETURN type_name]</td><td><p>선택적으로 사용된다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>RETURN 절이 있는 경우에는 <span><strong class="guibutton">타입의 안정성을 갖는
+                    커서</strong></span>가 생성된다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>type_name 즉 질의의 반환 타입은 RETURN 절에서 정한 타입과 호환되어야
+                    한다.</p>
+                  </li></ul></div></td></tr><tr><td align="left">csr_var_name</td><td><p>커서 변수의 이름이다.</p><p>커서 변수를 선언할 때는 먼저 REF
+              CURSOR 타입을 선언한 후에 이 타입으로 변수를 선언한다.</p></td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 커서 변수를 선언한 예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    TYPE ref_csr IS REF CURSOR;
+    c1 ref_csr;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>선언된 커서 변수를 열기 위해서는 다음과 같이 사용해야 한다.</p>
+
+      <pre class="programlisting">OPEN csr_var_name FOR sql_query;</pre>
+
+      <p>다음은 선언한 커서 변수를 여는 예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    TYPE ref_csr IS REF CURSOR;
+    c1 ref_csr;
+BEGIN
+    OPEN c1 FOR SELECT * FROM emp;
+    OPEN c1 FOR SELECT part FROM dept;</pre>
+
+      <p>커서 변수를 사용할 때 커서의 FETCH와 CLOSE의 사용 방법은 <a href="chapter_sql_execution.html#sect_explicit_cursor" title="7.3.2. 명시적 커서">“7.3.2. 명시적 커서”</a>와 같다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>커서 변수는 다음과 같은 제약조건이 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>커서 변수는 NULL 허용 여부 검사나 등호 또는 부등호 비교를 할 수 없다.</p>
+        </li><li>
+          <p>커서 변수에는 NULL을 대입할 수 없다.</p>
+        </li><li>
+          <p>커서 변수는 테이블(nested table)이나 배열(varray)의 요소가 될 수 없다.</p>
+        </li><li>
+          <p>커서 변수는 커서 반복문에서 사용될 수 없다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4108"/>7.3.4. 커서 속성</h3></div></div></div>
+      
+
+      <p><span>tbPSM</span>은 하나의 SQL 문장을 수행하고 그 결과를 속성으로 저장하여 사용자에게
+      확인할 수 있도록 4가지의 특별한 커서 속성(Cursor attribute)을 제공한다.<a id="d5e4112" class="indexterm"/></p>
+
+      <p>커서 속성은 묵시적 커서, 명시적 커서에 따라 그 사용 방법이 다르다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>묵시적 커서</p>
+
+          <pre class="programlisting">SQL%{ISOPEN | FOUND | NOTFOUND | ROWCOUNT}</pre>
+        </li><li>
+          <p>명시적 커서</p>
+
+          <pre class="programlisting">cursor_name%{ISOPEN | FOUND | NOTFOUND | ROWCOUNT}</pre>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <p/>
+
+      <h4><a id="d5e4124"/>%ISOPEN<a id="d5e4125" class="indexterm"/><a id="d5e4127" class="indexterm"/></h4>
+
+      <p>%ISOPEN은 커서가 OPEN되었는지 여부를 반환하는 커서 속성이다. 묵시적 커서의 경우 SQL 문장을 수행하고 나서
+      항상 닫히므로 무조건 FALSE이다. 반면에 명시적 커서의 경우 사용자가 CLOSE를 했는지의 여부에 따라 반환값이
+      달라진다.</p>
+
+      <pre class="programlisting">BEGIN
+    INSERT INTO emp VALUES (1, 'Susan');
+    IF SQL%ISOPEN = FALSE THEN
+        DBMS_OUTPUT.PUT_LINE('묵시적 커서는 항상 자동으로 닫힌다.');
+    END IF;
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e4133"/>%FOUND, %NOTFOUND<a id="d5e4134" class="indexterm"/><a id="d5e4136" class="indexterm"/><a id="d5e4138" class="indexterm"/><a id="d5e4141" class="indexterm"/></h4>
+
+      <p>%FOUND와 %NOTFOUND는 INSERT, UPDATE, DELETE에 의해 영향을 받은 로우가 있는지 없는지,
+      SELECT INTO에 의한 결과 로우가 있는지 없는지를 반환하는 커서 속성이다.</p>
+
+      <pre class="programlisting">BEGIN
+    UPDATE emp SET name = 'John' WHERE id = 1;
+    IF SQL%NOTFOUND THEN
+        DBMS_OUTPUT.PUT_LINE('1번 직원은 존재하지 않는다.');
+    END IF;
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e4147"/>%ROWCOUNT<a id="d5e4148" class="indexterm"/><a id="d5e4150" class="indexterm"/></h4>
+
+      <p>%ROWCOUNT는 INSERT, UPDATE, DELETE에 의해 영향을 받은 로우의 개수나 SELECT INTO의
+      결과 로우의 개수를 반환하는 커서 속성이다.</p>
+
+      <pre class="programlisting">BEGIN
+    DELETE FROM emp WHERE id = 1;
+    IF SQL%FOUND THEN
+        DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT || '로우가 삭제되었으므로 존재하지 않는다.');
+    END IF;
+END;</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_sys_refcursor"/>7.3.5. SYS_REFCURSOR<a id="d5e4157" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">SYS_REFCURSOR</strong></span>는 커서 변수를 사용할 때 사용자의 편의를 위해 표준
+      패키지에서 SYS_REFCURSOR라는 타입을 제공하고 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SYS_REFCURSOR는 전역 타입이므로, 사용자가 별도로 약한 타입의 참조 커서 타입을 선언하지 않아도 바로 사용할
+      수 있다.</p>
+
+      <pre class="programlisting">DECLARE
+  cx SYS_REFCURSOR;
+BEGIN
+  ...
+END;
+/</pre>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_package.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_error.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제6장 패키지 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제8장 에러 처리</td></tr></table></div><div xmlns="" align="center"/></body></html>

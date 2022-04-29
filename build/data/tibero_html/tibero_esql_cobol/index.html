@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Tibero tbESQL/COBOL 안내서</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbESQL/COBOL 안내서"/><link rel="next" href="about.html" title="안내서에 대하여"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">
+    <span xmlns="http://www.w3.org/1999/xhtml">Tibero</span>
+
+     <span xmlns="http://www.w3.org/1999/xhtml">tbESQL</span>/COBOL 안내서
+  </td></tr><tr><td width="20%" align="left"> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="about.html">다음</a></td></tr></table><hr/></div><div class="book" lang="ko-KR"><div class="titlepage"><div><p xmlns=""><h1><b>
+    Tibero
+
+     tbESQL/COBOL 안내서
+  </b> </h1></p><p xmlns=""><h3>Tibero 7</h3></p><br xmlns=""/><div><p class="copyright">저작권 ©  <span>2022 TmaxData</span> Co., Ltd. All Rights Reserved.</p></div><div><div class="legalnotice"><a id="d5e15"/>
+    <p class="legalnotice-title"><b>Website</b></p>
+
+    <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.tmaxdata.com" target="_top">http://www.tmaxdata.com</a>
+  </div></div><div><div class="legalnotice"><a id="d5e18"/>
+    <p class="legalnotice-title"><b>기술서비스센터</b></p>
+
+    <p>Tel : +82-1544-8629</p>
+
+    <p>E-Mail : <code class="email"><a href="mailto:info@tmax.co.kr">info@tmax.co.kr</a></code></p>
+  </div></div><div><div class="legalnotice"><a id="d5e23"/>
+    <p class="legalnotice-title"><b>Restricted Rights Legend</b></p>
+
+    <p>All <span>TmaxData</span> Software (<span>Tibero</span>®) and documents are protected by copyright laws and
+    international convention. <span>TmaxData</span> software and documents are made
+    available under the terms of the <span>TmaxData</span> License Agreement and this document may
+    only be distributed or copied in accordance with the terms of this
+    agreement. No part of this document may be transmitted, copied, deployed,
+    or reproduced in any form or by any means, electronic, mechanical, or
+    optical, without the prior written consent of <span>TmaxData</span> Co., Ltd. Nothing in this software
+    document and agreement constitutes a transfer of intellectual property
+    rights regardless of whether or not such rights are registered) or any
+    rights to <span>TmaxData</span> trademarks, logos, or any other brand
+    features.</p>
+
+    <p/>
+
+    <p/>
+
+    <p>This document is for information purposes only. The company assumes
+    no direct or indirect responsibilities for the contents of this document,
+    and does not guarantee that the information contained in this document
+    satisfies certain legal or commercial conditions. The information
+    contained in this document is subject to change without prior notice due
+    to product upgrades or updates. The company assumes no liability for any
+    errors in this document.</p>
+
+    <p/>
+
+    <p>이 소프트웨어(<span>Tibero</span>®) 사용설명서의 내용과 프로그램은 저작권법과 국제 조약에 의해서
+    보호받고 있습니다. 사용설명서의 내용과 여기에 설명된 프로그램은 <span>TmaxData</span> Co., Ltd.와의 사용권 계약 하에서만 사용이 가능하며,
+    사용설명서는 사용권 계약의 범위 내에서만 배포 또는 복제할 수 있습니다. 이 사용설명서의 전부 또는 일부분을 <span>TmaxData</span>의 사전 서면 동의 없이 전자, 기계, 녹음 등의 수단을 사용하여 전송,
+    복제, 배포, 2차적 저작물작성 등의 행위를 하여서는 안 됩니다.</p>
+
+    <p/>
+
+    <p>이 소프트웨어 사용설명서와 프로그램의 사용권 계약은 어떠한 경우에도 사용설명서 및 프로그램과 관련된 지적재산권(등록 여부를
+    불문)을 양도하는 것으로 해석되지 아니하며, 브랜드나 로고, 상표 등을 사용할 권한을 부여하지 않습니다. 사용설명서는 오로지 정보의
+    제공만을 목적으로 하고, 이로 인한 계약상의 직접적 또는 간접적 책임을 지지 아니하며, 사용설명서 상의 내용은 법적 또는 상업적인
+    특정한 조건을 만족시키는 것을 보장하지는 않습니다. 사용설명서의 내용은 제품의 업그레이드나 수정에 따라 그 내용이 예고 없이 변경될
+    수 있으며, 내용상의 오류가 없음을 보장하지 아니합니다.</p>
+
+    <p/>
+
+    <p/>
+  </div></div><div><div class="legalnotice"><a id="d5e44"/>
+    <p class="legalnotice-title"><b>Trademarks</b></p>
+
+    <p><span>Tibero</span>® is a registered trademark of
+    <span>TmaxData</span> Co., Ltd. Other products, titles or
+    services may be registered trademarks of their respective
+    companies.</p>
+
+    <p><span>Tibero</span>®는 <span>TmaxData</span> Co., Ltd.의 등록 상표입니다. 기타 모든 제품들과 회사 이름은
+    각각 해당 소유주의 상표로서 참조용으로만 사용됩니다.</p>
+  </div></div><div><div class="legalnotice"><a id="d5e52"/>
+    <p class="legalnotice-title"><b>Open Source Software Notice</b></p>
+
+    <p>Some modules or files of this product are subject to the terms of
+    the following licenses. : OpenSSL, RSA Data Security, Inc., Apache
+    Foundation, Jean-loup Gailly and Mark Adler, Paul Hsieh's hash</p>
+
+    <p>Detailed Information related to the license can be found in the
+    following directory : ${INSTALL_PATH}/license/oss_licenses</p>
+
+    <p>본 제품의 일부 파일 또는 모듈은 다음의 라이선스를 준수합니다. : OpenSSL, RSA Data Security,
+    Inc., Apache Foundation, Jean-loup Gailly and Mark Adler, Paul Hsieh's
+    hash</p>
+
+    <p>관련 상세한 정보는 제품의 다음의 디렉터리에 기재된 사항을 참고해 주십시오. :
+    ${INSTALL_PATH}/license/oss_licenses</p>
+  </div></div><p xmlns=""><b>안내서 정보</b></p><p xmlns="">안내서 제목: 
+    Tibero
+
+     tbESQL/COBOL 안내서
+   </p><p xmlns="">발행일: 2022-02-22</p><p xmlns="">소프트웨어 버전: Tibero 7(FixSet01)</p><p xmlns="">안내서 버전: v2.1.1</p></div><hr/></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="preface"><a href="about.html">안내서에 대하여</a></span></dt><dt><span class="chapter"><a href="chapter_introduce.html">1. <span>tbESQL</span>/COBOL 소개</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_introduce.html#d5e397">1.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_introduce.html#sect_component">1.2. 구성요소</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_introduce.html#d5e424">1.2.1. <span>tbESQL</span>/COBOL 문장</a></span></dt><dt><span class="section"><a href="chapter_introduce.html#d5e460">1.2.2. 프로그램 변수</a></span></dt><dt><span class="section"><a href="chapter_introduce.html#d5e546">1.2.3. 구조체 및 배열 변수</a></span></dt><dt><span class="section"><a href="chapter_introduce.html#d5e573">1.2.4. 커서</a></span></dt><dt><span class="section"><a href="chapter_introduce.html#d5e595">1.2.5. 프리컴파일러</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="ch02.html">2. 데이터 타입</a></span></dt><dd><dl><dt><span class="section"><a href="ch02.html#d5e646">2.1. 개요</a></span></dt><dt><span class="section"><a href="ch02.html#sect_tibero_datatype">2.2. <span>Tibero</span> 데이터 타입</a></span></dt><dt><span class="section"><a href="ch02.html#sect_tbcobol_datatype">2.3. <span>tbESQL</span>/COBOL 데이터 타입</a></span></dt><dd><dl><dt><span class="section"><a href="ch02.html#sect_datatype_corre">2.3.1. 데이터 타입 대응</a></span></dt><dt><span class="section"><a href="ch02.html#sect_datatype_convert">2.3.2. 데이터 타입 변환</a></span></dt><dt><span class="section"><a href="ch02.html#d5e1021">2.3.3. 데이터 변수 사용</a></span></dt><dt><span class="section"><a href="ch02.html#d5e1053">2.3.4. ROWID</a></span></dt><dt><span class="section"><a href="ch02.html#sect_varchar">2.3.5. VARCHAR</a></span></dt><dt><span class="section"><a href="ch02.html#sect_struct">2.3.6. 구조체</a></span></dt><dt><span class="section"><a href="ch02.html#d5e1188">2.3.7. 지시자</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="ch03.html">3. 기본 프로그래밍</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d5e1305">3.1. 개요</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d5e1310">3.1.1. <span>tbESQL</span>/COBOL 프로그램 문법</a></span></dt><dt><span class="section"><a href="ch03.html#d5e1371">3.1.2. 프로그램 실행 과정</a></span></dt><dt><span class="section"><a href="ch03.html#d5e1457">3.1.3. 런타임 에러 처리</a></span></dt></dl></dd><dt><span class="section"><a href="ch03.html#d5e1494">3.2. 프로그램 구조</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#sect_variable_declear">3.2.1. 변수 선언</a></span></dt><dt><span class="section"><a href="ch03.html#sect_init">3.2.2. 초기화</a></span></dt><dt><span class="section"><a href="ch03.html#sect_database_work">3.2.3. 데이터베이스 작업</a></span></dt><dt><span class="section"><a href="ch03.html#sect_rollback_and_commit">3.2.4. 종료화</a></span></dt><dt><span class="section"><a href="ch03.html#sect_error">3.2.5. 에러 처리</a></span></dt></dl></dd><dt><span class="section"><a href="ch03.html#d5e1570">3.3. <span>tbESQL</span>/COBOL 문장 실행</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d5e1576">3.3.1. SELECT</a></span></dt><dt><span class="section"><a href="ch03.html#d5e1644">3.3.2. INSERT</a></span></dt><dt><span class="section"><a href="ch03.html#d5e1665">3.3.3. UPDATE</a></span></dt><dt><span class="section"><a href="ch03.html#d5e1685">3.3.4. DELETE</a></span></dt></dl></dd><dt><span class="section"><a href="ch03.html#sect_cursor">3.4. 커서</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d5e1706">3.4.1. 사용 방법</a></span></dt><dt><span class="section"><a href="ch03.html#d5e1757">3.4.2. CURRENT OF 절</a></span></dt><dt><span class="section"><a href="ch03.html#d5e1779">3.4.3. 사용 예제</a></span></dt></dl></dd><dt><span class="section"><a href="ch03.html#sect_scrollable_cursor">3.5. 스크롤 가능 커서</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d5e1812">3.5.1. 사용 방법</a></span></dt><dt><span class="section"><a href="ch03.html#d5e1892">3.5.2. 사용 예제</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="chapter_array_variable.html">4. 배열 변수</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_array_variable.html#d5e1908">4.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_array_variable.html#d5e1952">4.2. 배열 변수 선언</a></span></dt><dt><span class="section"><a href="chapter_array_variable.html#d5e1959">4.3. 입/출력 배열 변수</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_array_variable.html#d5e1964">4.3.1. SELECT</a></span></dt><dt><span class="section"><a href="chapter_array_variable.html#d5e2107">4.3.2. INSERT</a></span></dt><dt><span class="section"><a href="chapter_array_variable.html#d5e2138">4.3.3. UPDATE</a></span></dt><dt><span class="section"><a href="chapter_array_variable.html#d5e2165">4.3.4. DELETE</a></span></dt><dt><span class="section"><a href="chapter_array_variable.html#d5e2191">4.3.5. FOR 절</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_array_variable.html#d5e2228">4.4. 구조체 배열 변수</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_array_variable.html#d5e2238">4.4.1. 구조체 배열 변수의 선언</a></span></dt><dt><span class="section"><a href="chapter_array_variable.html#d5e2260">4.4.2. 사용 방법</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="chapter_reference.html">5. <span>tbESQL</span>/COBOL 문장</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_reference.html#d5e2274">5.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_reference.html#d5e2303">5.2. <span>tbESQL</span>/COBOL 문장 문법</a></span></dt><dt><span class="section"><a href="chapter_reference.html#d5e2374">5.3. <span>tbESQL</span>/COBOL 문장 공통 문법</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_reference.html#sect_at_clause">5.3.1. AT 절</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_for_clause">5.3.2. FOR 절</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_descriptor_name">5.3.3. DESCRIPTOR 이름</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_reference.html#d5e2562">5.4. <span>tbESQL</span>/COBOL 문장 목록</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_reference.html#sect_ALLOCDESC">5.4.1. ALLOCATE DESCRIPTOR</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_CLOSE">5.4.2. CLOSE</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_COMMIT">5.4.3. COMMIT</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_CONNECT">5.4.4. CONNECT</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_DEALLOC_DESC">5.4.5. DEALLOCATE DESCRIPTOR</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_DECL_CSR">5.4.6. DECLARE CURSOR</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_DECL_DB">5.4.7. DECLARE DATABASE</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_DELETE">5.4.8. DELETE</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_DESCRIBE">5.4.9. DESCRIBE</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_DESCRIBE_DESC">5.4.10. DESCRIBE DESCRIPTOR</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_EXECUTE">5.4.11. EXECUTE</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_EXECUTE_DESC">5.4.12. EXECUTE DESCRIPTOR</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_EXEC_IMME">5.4.13. EXECUTE IMMEDIATE</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_FETCH">5.4.14. FETCH</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_FETCH_DESC">5.4.15. FETCH DESCRIPTOR</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_GET_DESC">5.4.16. GET DESCRIPTOR</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_INSERT">5.4.17. INSERT</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_OPEN">5.4.18. OPEN</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_PREPARE">5.4.19. PREPARE</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_ROLLBACK">5.4.20. ROLLBACK</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_SAVEPOINT">5.4.21. SAVEPOINT</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_SELECT">5.4.22. SELECT</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_SET_DESC">5.4.23. SET DESCRIPTOR</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_UPDATE">5.4.24. UPDATE</a></span></dt><dt><span class="section"><a href="chapter_reference.html#sect_WHENEVER">5.4.25. WHENEVER</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="chapter_precompiler_option.html">6. <span>tbESQL</span>/COBOL 프리컴파일러 옵션</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_precompiler_option.html#d5e4492">6.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#d5e4535">6.2. <span>tbESQL</span>/COBOL 프리컴파일러 옵션 지정</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_precompiler_option.html#sect_config_file">6.2.1. 환경설정 파일</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_command_prompt">6.2.2. 명령 프롬프트</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_program_inner">6.2.3. 프로그램 내부</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_precompiler_option.html#d5e4609">6.3. <span>tbESQL</span>/COBOL 프리컴파일러 옵션 목록</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_precompiler_option.html#sect_CLOSE_ON_COMMIT">6.3.1. CLOSE_ON_COMMIT</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_CODE">6.3.2. CODE</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_COLUMNS">6.3.3. COLUMNS</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_COMP5">6.3.4. COMP5</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_CONFIG">6.3.5. CONFIG</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_DB2_SYNTAX">6.3.6. DB2_SYNTAX</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_DECLARE_SECTION">6.3.7. DECLARE_SECTION</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_DYNAMIC">6.3.8. DYNAMIC</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_END_OF_FETCH">6.3.9. END_OF_FETCH</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_ERROR_CODE">6.3.10. ERROR_CODE</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_HOLD_CURSOR">6.3.11. HOLD_CURSOR</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_INAME">6.3.12. INAME</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_INCLUDE">6.3.13. INCLUDE</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_INSERT_NO_DATA_ERROR">6.3.14. INSERT_NO_DATA_ERROR</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_MODE">6.3.15. MODE</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_ONAME">6.3.16. ONAME</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_ORACA">6.3.17. ORACA</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_PARSE">6.3.18. PARSE</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_PIC9_WITH_SIGN">6.3.19. PIC9_WITH_SIGN</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#ssec_PICX">6.3.20. PICX</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_PREFETCH">6.3.21. PREFETCH</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_RELEASE_CURSOR">6.3.22. RELEASE_CURSOR</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_RESERVED_WORD_COL">6.3.23. RESERVED_WORD_COL</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_RESERVED_WORD_CURSOR">6.3.24. RESERVED_WORD_CURSOR</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_RUNTIME_MODE">6.3.25. RUNTIME_MODE</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_SELECT_ERROR">6.3.26. SELECT_ERROR</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_SQLCHECK">6.3.27. SQLCHECK</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_STMT_CACHE">6.3.28. STMT_CACHE</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_SYS_INCLUDE">6.3.29. SYS_INCLUDE</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_THREADS">6.3.30. THREADS</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_TYPE_CODE">6.3.31. TYPE_CODE</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_UNSAFE_NULL">6.3.32. UNSAFE_NULL</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_USERID">6.3.33. USERID</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_VARCHAR">6.3.34. VARCHAR</a></span></dt><dt><span class="section"><a href="chapter_precompiler_option.html#sect_WORDSIZE">6.3.35. WORDSIZE</a></span></dt></dl></dd></dl></dd><dt><span class="index"><a href="idx.html">색인</a></span></dt></dl></div><div class="list-of-figures"><p><b>그림 목차</b></p><dl><dt xmlns="">[그림 1.1] <a href="chapter_introduce.html#figure_tbcesql_program_compile"><span xmlns="http://www.w3.org/1999/xhtml">tbESQL</span>/COBOL 프로그램 컴파일 과정</a></dt><dt xmlns="">[그림 2.1] <a href="ch02.html#d5e1063">ROWID 구성</a></dt><dt xmlns="">[그림 3.1] <a href="ch03.html#figure_tbcesql_program_compile_link"><span xmlns="http://www.w3.org/1999/xhtml">tbESQL</span>/COBOL 프로그램 실행 과정</a></dt><dt xmlns="">[그림 5.1] <a href="chapter_reference.html#figure_tbesqlref"><span xmlns="http://www.w3.org/1999/xhtml">tbESQL</span>/COBOL 문장 문법</a></dt></dl></div><div class="list-of-examples"><p><b>예 목차</b></p><dl><dt xmlns="">[예 1.1] <a href="chapter_introduce.html#ex_tbesqlc_up"><span xmlns="http://www.w3.org/1999/xhtml">tbESQL</span>/COBOL에서의 UPDATE 문장</a></dt><dt xmlns="">[예 1.2] <a href="chapter_introduce.html#ex_tbesqlcvar"><span xmlns="http://www.w3.org/1999/xhtml">tbESQL</span>/COBOL에서의 프로그램 변수의 선언</a></dt><dt xmlns="">[예 1.3] <a href="chapter_introduce.html#ex_io_var">입/출력 변수의 사용</a></dt><dt xmlns="">[예 2.1] <a href="ch02.html#ex_datatype">데이터 타입의 변환</a></dt><dt xmlns="">[예 2.2] <a href="ch02.html#ex_to_char">TO_CHAR 함수를 이용한 데이터 타입 변환</a></dt><dt xmlns="">[예 2.3] <a href="ch02.html#ex_rowid">ROWID 타입의 사용</a></dt><dt xmlns="">[예 2.4] <a href="ch02.html#ex_dec_varchar">VARCHAR 타입 변수 선언</a></dt><dt xmlns="">[예 2.5] <a href="ch02.html#ex_struct_varchar">VARCHAR 타입이 변환된 구조체</a></dt><dt xmlns="">[예 2.6] <a href="ch02.html#d5e1113">VARCHAR 변수의 일관성</a></dt><dt xmlns="">[예 2.7] <a href="ch02.html#ex_indicator_out">출력 변수와 지시자 변수</a></dt><dt xmlns="">[예 2.8] <a href="ch02.html#ex_indicator_in">입력 변수와 지시자 변수</a></dt><dt xmlns="">[예 3.1] <a href="ch03.html#ex_tbpc">emp.<span xmlns="http://www.w3.org/1999/xhtml">tb</span>co 프로그램의 프리컴파일</a></dt><dt xmlns="">[예 3.2] <a href="ch03.html#d5e1415">프리컴파일러 옵션을 사용한 COPY 또는 SQLCA ESQL INCLUDE 파일의 경로 지정</a></dt><dt xmlns="">[예 3.3] <a href="ch03.html#d5e1434">컴파일과 링크 과정</a></dt><dt xmlns="">[예 3.4] <a href="ch03.html#d5e1532"><code xmlns="http://www.w3.org/1999/xhtml" class="function"><span>tbesql</span>_error</code>함수 호출</a></dt><dt xmlns="">[예 3.5] <a href="ch03.html#d5e1543">입력 변수를 이용해 데이터베이스에 접속</a></dt><dt xmlns="">[예 3.6] <a href="ch03.html#ex_declare_cursor">커서의 선언</a></dt><dt xmlns="">[예 3.7] <a href="ch03.html#d5e1726">OPEN의 실행</a></dt><dt xmlns="">[예 3.8] <a href="ch03.html#d5e1735">FETCH의 실행</a></dt><dt xmlns="">[예 3.9] <a href="ch03.html#d5e1744">WHENEVER 문장의 사용</a></dt><dt xmlns="">[예 3.10] <a href="ch03.html#d5e1754">CLOSE의 사용</a></dt><dt xmlns="">[예 3.11] <a href="ch03.html#ex_using_cursor">커서의 사용</a></dt><dt xmlns="">[예 4.1] <a href="chapter_array_variable.html#ex_array_select">SELECT 문장에서의 배열 변수의 사용</a></dt><dt xmlns="">[예 4.2] <a href="chapter_array_variable.html#d5e2036">SQLERRD(3) IN SQLCA를 활용한 루프의 중단</a></dt><dt xmlns="">[예 4.3] <a href="chapter_array_variable.html#ex_insert_array">INSERT 문장의 배열 변수</a></dt><dt xmlns="">[예 4.4] <a href="chapter_array_variable.html#ex_array_update">UPDATE 문장의 배열 변수</a></dt><dt xmlns="">[예 4.5] <a href="chapter_array_variable.html#ex_array_delete">DELETE 문장의 배열 변수</a></dt><dt xmlns="">[예 6.1] <a href="chapter_precompiler_option.html#ex_precompile"><span xmlns="http://www.w3.org/1999/xhtml">tbESQL</span>/COBOL 프리컴파일 실행</a></dt><dt xmlns="">[예 6.2] <a href="chapter_precompiler_option.html#ex_precompile"><span xmlns="http://www.w3.org/1999/xhtml">tbESQL</span>/COBOL 프리컴파일러의 옵션을 사용한 프리컴파일 실행</a></dt></dl></div>
+  
+
+  
+
+  
+ 
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="about.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"> </td><td width="40%" align="right" valign="top"> 안내서에 대하여</td></tr></table></div><div xmlns="" align="center"><p xmlns="http://www.w3.org/1999/xhtml" class="copyright">저작권 ©  <span>2022 TmaxData</span> Co., Ltd. All Rights Reserved.</p></div></body></html>

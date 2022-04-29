@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제5장 5000 ~ 5999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch04.html" title="제4장 4000 ~ 4999"/><link rel="next" href="ch06.html" title="제6장 6000 ~ 6999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제5장 5000 ~ 5999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch06.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e4879"/>제5장 5000 ~ 5999</h2></div></div></div>
+  
+
+  <h2><a id="d5e4881"/>5001: Datetime/interval precision is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The values of DATETIME and INTERVAL do not match with the specified precision.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Correct the specified precision and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4894"/>5002: Invalid data type for this operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid data type was entered for an operation or function.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the entered data type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4907"/>5003: Invalid TIME value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid TIME value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check each field of TIME.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4920"/>5004: Invalid TIMESTAMP value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid TIMESTAMP value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check each field of TIMESTAMP.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4933"/>5005: Invalid DATE value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid DATE value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check each field of DATE.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4946"/>5006: Invalid DATETIME unit type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid unit type for the entered DATETIME type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the entered unit type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4959"/>5007: Invalid string length.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid format string or input string length.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if format string or input string is null or less than than 0.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4972"/>5008: Invalid precision specified for fractions of a second.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The precision specified for fraction of a second in TIMESTAMP and TIME is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check whether the precision is between 0 and 9.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4985"/>5009: Input string is too short for DATE format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The input string to be converted into the specified format string is incomplete.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Lengthen the input string to match the given format string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e4998"/>5010: Format ends before the entire input string is converted.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Additional unconverted data exists in the input string after conversion.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the definition of the DATETIME format code and correct the input string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5011"/>5011: Invalid DATE format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid format code for DATE type is entered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the DATE format code used is valid.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5024"/>5012: Invalid TIME format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid format code for TIME/TIMESTAMP type is entered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the TIME/TIMESTAMP format code used is valid.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5037"/>5013: Specified format code cannot be used as input format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The given format code cannot be used as input format.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the invalid format code from format string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5050"/>5014: Specified format code is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unable to verify the specified format code.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the invalid format code from format string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5063"/>5015: Duplicated YEAR format exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A YEAR format code has already been provided.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicate YEAR format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5076"/>5016: Duplicated MONTH format exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A MONTH format code has already been provided.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicate MONTH format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5089"/>5017: Duplicated DAY format exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A DAY format code has already been provided.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicate DAY format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5102"/>5018: Duplicated HOUR format exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An HOUR format code has already been provided.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicate HOUR format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5115"/>5019: Duplicated MINUTE format exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A MINUTE format code has already been provided.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicate MINUTE format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5128"/>5020: Duplicated SECOND format exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A SECOND format code has already been provided.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicate SECOND format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5141"/>5021: Duplicated fractions of a second format exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Fractions of a second format code has already been provided.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicate fractions of a second format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5154"/>5022: Duplicated AD/BC format exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An AD/BC format code has already been provided.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicate AD/BC format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5167"/>5023: Duplicated AM/PM format exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An AM/PM format code has already been provided.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicate AM/PM format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5180"/>5024: Month conflicts with Julian date.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>DDD format code and month-related format code cannot be used together.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the month-related format code to use the DDD format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5193"/>5025: Day of the month conflicts with Julian date.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>DDD format code and date-related format code cannot be used together.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the date-related format code to use the DDD format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5206"/>5026: Hour of the day conflicts with seconds in the day.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>SSSSS format code and hour-related format code cannot be used together.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the hour-related format code to use the SSSSS format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5219"/>5027: Minutes of the hour conflicts with seconds in the day.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>SSSSS format code and minute-related format code cannot be used together.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the minute-related format code to use the SSSSS format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5232"/>5028: Seconds of the minute conflicts with seconds in the day.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>SSSSS format code and second-related format code cannot be used together.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the second-related format code to use the SSSSS format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5245"/>5029: Invalid year value: must be a non-zero integer between -4713 and +9999.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for the year.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a non-zero integer value between -4713 and +9999.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5258"/>5030: Invalid month value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for the month.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input an integer value between 1 and 12.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5271"/>5031: Invalid month name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for the month name.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid month name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5284"/>5032: Invalid day value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for the day name.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid day name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5297"/>5033: Invalid hour value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for the hour.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input an integer value between 0 and 23.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5310"/>5034: Invalid minute value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for the minutes.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input an integer value between 0 and 59.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5323"/>5035: Invalid second value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for the seconds.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input an integer value between 0 and 60.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5336"/>5036: Invalid fractions of a second value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for the fractions of a second.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input an integer value between 0 and 999999999.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5349"/>5037: Invalid AD/BC value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for AD/BC.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid value for AD/BC.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5362"/>5038: Invalid AM/PM value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for AM/PM.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid value for AM/PM.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5375"/>5039: Signed year cannot be used with AD/BC.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The signed year format cannot be used with the AD/BC format.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete one of the two formats to make a valid format string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5388"/>5040: HH24 cannot be used with AM/PM.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The HH24 format cannot be used with the AM/PM format simultaneously.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete one of the two formats to make a valid format string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5401"/>5041: Invalid precision specified for fractions of a second.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The precision for fractions of a second in TIMESTAMP and TIME is invalid in the format string.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the precision is between 0 and 9.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5414"/>5042: Invalid decimal input.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for decimal.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid decimal number ('.').</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5427"/>5043: Invalid seconds of the day input.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value was entered in SSSSS format.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input an integer value between 0 and 86400.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5440"/>5044: Insufficient space in string buffer for DATETIME type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The buffer is not large enough to convert the DATETIME type to a string.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the buffer size.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5453"/>5045: Only TIME format can be omitted.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>All format codes except hour/minute/second/fraction of a second are omitted from the input string.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input valid values for the format codes or delete the formats.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5466"/>5046: Day of the year must be between 1 and 365 (366 for leap year).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for a day of the year</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input an integer value between 1 and 366.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5479"/>5047: Invalid day name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for a day of the week</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid value for a day of the week.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5492"/>5048: Too many truncation format specifiers.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>More than one truncate format code is set.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input only one format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5505"/>5049: Too many round-up format specifiers.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>More than one round-up format code is set.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input only one format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5518"/>5050: Invalid use of the escape character.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid use of the escape character.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the search pattern string of LIKE function.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5531"/>5051: Invalid hexadecimal number.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The given character is not a valid hexadecimal number.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the character to be converted to hexadecimal number.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5544"/>5052: Invalid string sequence.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The character is not included in the given character set.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the input string and character set.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5557"/>5053: Invalid Unicode.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid Unicode.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the input string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5570"/>5054: Not implemented.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unsupported format string.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the input format string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5583"/>5055: Invalid type of UNIT used for INTERVAL.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid UNIT type for the INTERVAL type that was entered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the UNIT type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5596"/>5056: Invalid input string for INTERVAL.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred while converting the input string to INTERVAL type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the input string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5609"/>5057: Invalid input precision for interval.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid leading precision value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the leading precision value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5622"/>5058: Invalid precision value for fractions of a second.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid precision value for fractions of a second.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid precision value for fractions of a second.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5635"/>5059: Invalid INTERVAL format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unsupported interval format string.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the input format string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5648"/>5060: Month value is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Value of months in YEAR-TO-MONTH INTERVAL type is out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid month value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5661"/>5061: Hour value is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Value of hour in DAY-TO-SECOND INTERVAL type is out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid hour value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5674"/>5062: Minutes value is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Value of minutes in DAY-TO-SECOND INTERVAL type is out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid minutes value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5687"/>5063: Seconds value is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Value of seconds in DAY-TO-SECOND INTERVAL type is out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid seconds value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5700"/>5064: INTERVAL exceeds given precision value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The INTERVAL value does not match the given precision value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Correct the values and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5713"/>5065: Divide by zero error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The INTERVAL type was divided by 0.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the expression to remove the error.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5726"/>5066: Insufficient space in buffer for conversion.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The buffer is not large enough to convert the INTERVAL type into string.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the buffer size.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5739"/>5067: Output was altered or truncated to fit into buffer, resulting in a possible loss of precision.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The buffer is not large enough to contain the results of the converted string.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the buffer size.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5752"/>5068: Overflow error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Overflow occurred as a result of an operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Decrease the value of an operand.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5765"/>5069: Underflow error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Underflow occurred as a result of an operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the value of an operand.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5778"/>5070: Divide by zero error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The NUMBER type was divided by 0.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the expression to remove the error.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5791"/>5071: NUMBER exceeds given precision.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The NUMBER value does not match the given precision value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Correct the values and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5804"/>5072: Failure converting NUMBER to or from a native type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred while converting the NUMBER value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check that the value is within the appropriate range.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5817"/>5073: Invalid NUMBER provided for the operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid NUMBER value was entered for the operation or function.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Change the value and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5830"/>5074: Given string does not represent a number in proper format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The given string does not represent a proper number.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the type of string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5843"/>5075: Invalid format string.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid format string.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Correct the format string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5856"/>5076: NUMBER is not printable in this format. Numbers were filled in output buffer.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The NUMBER value does not match the given format.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the NUMBER value or format string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5869"/>5077: NUMBER precision is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The precision of the NUMBER type is out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a precision value for the NUMBER type between 1 and 38.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5882"/>5078: NUMBER scale is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The scale of the NUMBER type is out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a scale value for the NUMBER type between -125 and +130.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5895"/>5079: Data type length is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The length is out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the length to the one that is defined for each type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5908"/>5080: Invalid ROWID.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid ROWID</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Choose a valid ROWID.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5921"/>5081: Invalid ROWID segment info.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid ROWID segment information.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input valid segment information for the ROWID.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5934"/>5082: Invalid ROWID file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid ROWID file information.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input valid file information for the ROWID.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5947"/>5083: Invalid ROWID block.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid ROWID block information.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input valid block information for the ROWID.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5960"/>5084: Invalid ROWID row.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid ROWID row information.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input valid row information for the ROWID.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5973"/>5085: Invalid IP string.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid IP string.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the input IP string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5986"/>5086: String buffer is too small for string conversion or copy.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The string buffer is too small to handle the task.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the size of the input string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e5999"/>5087: The date value is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The date value of the YEAR-TO-MONTH INTERVAL type is out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid date value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6012"/>5088: Numeric digits are not matched.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of digits of a given number and the length of the datetime format are not matched.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use the same number of digits as the length of the datetime format.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6025"/>5089: Punctuation characters are not matched.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The character of a given punctuation mark does not match the character of the datetime format.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use the same character as that of the datetime format.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6038"/>5090: Not a numeric value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot use a character for numeric data.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use numeric data.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6051"/>5091: Invalid timezone format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid timezone format is used for the TIMESTAMP type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid timezone format.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6064"/>5092: Duplicate TZH format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TZH format code already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicated timezone (hour) format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6077"/>5093: Duplicate TZM format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TZM format code already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicated timezone (minute) format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6090"/>5094: Duplicate TZR format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TZR format code already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicated timezone (region) format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6103"/>5095: Duplicate TZD format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The TZD format code already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicated timezone (abbreviation) format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6116"/>5096: TZR/TZD format conflicts with TZH/TZM format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>timezone region format cannot be used with timezone time format.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the region format.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6129"/>5097: TZH/TZM format conflicts with TZR/TZD format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>timezone time format cannot be used with timezone region format.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the time format.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6142"/>5098: Invalid hour value of UTC offset.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The hour value of UTC offset must be between -12 and 14.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid hour value of UTC offset.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6155"/>5099: Invalid minute value of UTC offset.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The minute value of UTC offset must be between 0 and 59.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid minute value of UTC offset.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6168"/>5100: Invalid second value of UTC offset.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The second value of UTC offset must be between 0 and 59.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid second value of UTC offset.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6181"/>5101: Invalid hour value of daylight saving time.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The hour value of daylight saving time must be between 0 and 24.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid hour value of daylight saving time.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6194"/>5102: Invalid minute value of daylight saving time.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The minute value of daylight saving time must be between 0 and 59.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid minute value of daylight saving time.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6207"/>5103: Invalid timezone offset.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The timezone offset value must be in the format of '[+ -]hh:mm'.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid timezone offset.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6220"/>5104: Invalid timezone region value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The timezone region value is invalid or unsupported.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid timezone region value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6233"/>5105: Invalid timezone index '%1$d'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The timezone index value is not supported.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6246"/>5106: Invalid timezone hour value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The timezone hour value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid timezone hour value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6259"/>5107: Invalid timezone minute value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The timezone minute value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid timezone minute value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6272"/>5108: Invalid timezone region value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The timezone region value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid timezone region value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6285"/>5109: Invalid timezone abbreviation value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The timezone abbreviation value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that you have entered a valid timezone abbreviation value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6298"/>5110: Invalid date/time period according to the daylight saving time rule.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The date/time period is invalid according to the daylight saving time rule.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the daylight saving time rule.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6311"/>5111: NUMBER exceeds given precision. (n:%1$s, p:%2$d, s:%3$d)</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The NUMBER value does not match the given precision value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Correct the values and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6324"/>5112: Duplicated '%1$s' format exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A format code has already been provided.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the duplicated format code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6337"/>5113: Invalid %1$s value '%2$s'. (%3$s)</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for the %1$s.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid value for %1$s.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6350"/>5114: Invalid %1$s value '%2$d': must be an integer between %3$d and %4$d.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value specified for the %1$s.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input a valid value for %1$s.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6363"/>5115: Cannot find the timezone file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The timezone file does not exist, or you don't have permission to read the file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the timezone file.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6376"/>5116: NULL object instance access violation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to access the attributes of an object instance whose value is null.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check that the value of the object instance is not null.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6389"/>5117: Invalid user-defined type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified user-defined type does not exist or has been altered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if the user-defined type has been altered on the server.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6402"/>5118: FLOAT precision is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The precision of the FLOAT type is out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a precision value for the FLOAT type between 1 and 120.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e6415"/>5119: Invalid number type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid number type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the type.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch06.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제4장 4000 ~ 4999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제6장 6000 ~ 6999</td></tr></table></div><div xmlns="" align="center"/></body></html>

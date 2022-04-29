@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제17장 Tibero Performance Repository</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 관리자 안내서"/><link rel="up" href="index.html" title="Tibero 관리자 안내서"/><link rel="prev" href="chapter_parallel.html" title="제16장 Parallel Execution"/><link rel="next" href="chapter_recovery_catalog.html" title="제18장 Tibero Recovery Catalog"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제17장 <span xmlns="http://www.w3.org/1999/xhtml">Tibero</span> Performance Repository</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_parallel.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_recovery_catalog.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_apm"/>제17장 <span>Tibero</span> Performance Repository</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_apm.html#d5e13440">17.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_apm.html#d5e13456">17.2. TPR 사용법</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_apm.html#d5e13458">17.2.1. tip 설정</a></span></dt><dt><span class="section"><a href="chapter_apm.html#d5e13508">17.2.2. 관련 테이블과 뷰</a></span></dt><dt><span class="section"><a href="chapter_apm.html#d5e13627">17.2.3. 수동 스냅샷 생성 기능</a></span></dt><dt><span class="section"><a href="chapter_apm.html#d5e13631">17.2.4. 리포트 작성 기능</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>Tibero</span>의 성능 진단을 위해서 제공되는 <span>Tibero</span>
+  Performance Repository에 대해서 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e13440"/>17.1. 개요</h2></div></div></div>
+    
+
+    <p><span>Tibero</span> DBMS는 DBA가 성능 문제를 진단하는데 도움을 주기 위해 다양한
+    종류의 통계를 제공하고 있다. <span><strong class="guibutton"><span>Tibero</span> Performance Repository(이하
+    TPR)</strong></span>은 이러한 통계 정보를 주기적으로 자동 수집하여 DBA가 이를 위한 작업을 따로 할 필요가 없어졌고
+    수집한 통계 자료에 대한 자체적인 분석 리포트 출력 기능을 제공하여 시스템 부하 분석에 도움을 줄 수 있는 기능이다.</p>
+
+    <p>TPR은 다음의 주요 기능를 수행한다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>스냅샷 저장 기능</p>
+
+        <p>스냅샷 저장 기능은 _vt_jcntstat, v$system_event, v$sqlstats, v$sgastat 등
+        <span>Tibero</span>의 각종 성능 통계 정보를 주기적(보통 1시간)으로 테이블에
+        저장하여 둔다. 이렇게 저장된 정보를 스냅샷이라 부른다. 이렇게 저장해 놓은 스냅샷 정보를 이용하여 성능 분석 리포트를 만드는
+        기능을 제공한다. DBA는 특정 구간을 지정하여 리포트를 생성하고 이를 이용해 DB의 성능 문제를 진단할 수
+        있다.</p>
+      </li><li>
+        <p>세션 상태 저장 기능</p>
+
+        <p>세션 상태 저장 기능은 1초에 한번씩 현재 RUNNING 상태인 세션들의 ID와 대기 중인 이벤트 정보를 메모리에
+        저장해 둔다. 이렇게 저장해 놓은 정보는 v$active_session_history 뷰로 조회할 수 있다. 이 뷰를 이용해
+        DB의 성능 문제를 보다 세밀하게 진단할 수 있다. 단, 현재 세션 상태 저장 기능은 부하 상황에 취약할 수 있으므로 환경에
+        따라 주기를 더 늘리기를 권장한다.</p>
+      </li></ul></div>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e13456"/>17.2. TPR 사용법</h2></div></div></div>
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e13458"/>17.2.1. tip 설정</h3></div></div></div>
+      
+
+      <p>스냅샷 저장 기능을 사용하려면 tip 파일에 'TIBERO_PERFORMANCE_REPOSITORY=Y'로 설정하고,
+      세션 상태 저장 기능을 사용하려면 'ACTIVE_SESSION_HISTORY=Y'로 설정하면 된다. 대부분의 경우 이 정도면
+      충분하다. 이때 TOTAL_SHM_SIZE는 2GB 초과값으로 설정해야 한다.</p>
+
+      <p>그 밖의 설정을 하기 위해서는 다음과 같은 파라미터를 조절한다.</p>
+
+      <p/>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="200" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">TIBERO_PERFORMANCE_REPOSITORY</td><td>'Y'로 설정하면 스냅샷 저장 기능 활성화한다. (기본값: Y)</td></tr><tr><td align="left">TPR_SNAPSHOT_SAMPLING_INTERVAL</td><td>스냅샷을 추출하는 주기를 설정한다. (기본값: 60, 단위: 분)</td></tr><tr><td align="left">TPR_SNAPSHOT_RETENTION</td><td>스냅샷을 최대 저장할 기간을 설정한다. (기본값: 7, 단위: 일)</td></tr><tr><td align="left">TPR_SNAPSHOT_TOP_SQL_CNT</td><td>리포트에 출력할 상위 SQL 개수를 설정한다. (기본값: 5, 단위: 개)</td></tr><tr><td align="left">TPR_SEGMENT_STATISTICS</td><td>'Y'로 설정하면 TPR에서 Segment별 Stat 수집 기능을 활성화한다. (기본값:
+              N)</td></tr><tr><td align="left">TPR_SNAPSHOT_TOP_SEGMENT_CNT</td><td><p>리포트에 출력할 상위 Segment 개수를 설정한다. </p><p>(기본값: 5,
+              단위: 개)</p></td></tr><tr><td align="left">TPR_METRIC</td><td>'Y'로 설정하면 TPR METRIC 기능을 활성화한다. (기본값: N)</td></tr><tr><td align="left">TPR_AGGREGATION</td><td><p>'Y'로 설정하면 TPR AGGREGATION 기능을 활성화한다.
+              </p><p>(기본값: N)</p></td></tr><tr><td align="left">ACTIVE_SESSION_HISTORY</td><td>'Y'로 설정하면 세션 상태 저장 기능 활성화한다. (기본값: N)</td></tr><tr><td align="left">_ACTIVE_SESSION_HISTORY_SAMPLING_INTERVAL</td><td>세션 상태 저장 주기를 설정한다. (기본값: 1, 단위: 초)</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e13508"/>17.2.2. 관련 테이블과 뷰</h3></div></div></div>
+      
+
+      <p>저장한 스냅샷과 세션 상태는 관련 테이블과 뷰를 통해 확인할 수 있다. 7일이 지난 스냅샷과 세션 상태는 테이블에서
+      삭제된다.</p>
+
+      <p/>
+
+      <p/>
+
+      <div class="itemizedlist"><ul type="disc"><li>
+          <p>스냅샷 저장 기능</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">테이블</th><th>설명</th></tr></thead><tbody><tr><td align="left">_TPR_SNAPSHOT</td><td>저장된 스냅샷의 ID와 시간에 관한 정보를 관리한다.</td></tr><tr><td align="left">_TPR_BASELINE</td><td>등록된 Baseline의 정보를 관리한다.</td></tr><tr><td align="left">_TPR_ACTIVE_SESSION_HISTORY</td><td>저장된 ASH Sample 정보를 관리한다.</td></tr><tr><td align="left">_TPR_METRIC</td><td>저장된 TPR Metric 정보를 관리한다.</td></tr><tr><td align="left">_TPR_JCNTSTAT</td><td>_VT_JCNTSTAT 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_SQLSTATS</td><td>V$SQLSTATS 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_SQL_PLAN</td><td>V$SQL_PLAN 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_SQL_PLAN_STAT</td><td>V$SQL_PLAN_STATISTICS 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_LATCH</td><td>V$LATCH 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_SYSTEM_EVENT</td><td>V$SYSTEM_EVENT 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_WAITSTAT</td><td>V$WAITSTAT 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_SGASTAT</td><td>V$SGASTAT 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_PGASTAT</td><td>V$PGASTAT 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_LIBRARYCACHE</td><td>V$LIBRARYCACHE 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_SQLTEXT</td><td>V$SQLTEXT 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_FILESTAT</td><td>V$FILESTAT 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_SEGMENTSTAT</td><td>V$SEGMENT_STATISTICS 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_TEMPSEG_OP_USAGE</td><td>V$TEMPSEG_OP_USAGE 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_PROCESS</td><td>V$PROCESS 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_SESSION</td><td>V$SESSION 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_WAITER_SESSION</td><td>V$WAITER_SESSION 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_UNDOSTAT</td><td>V$UNDOSTAT 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_OSSTAT2</td><td>V$OSSTAT2 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_SQLWA_HIST</td><td>V$SQLWA_HIST 뷰의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_MODIFIED_PARAM</td><td>_VT_PARAMETER 테이블의 스냅샷 정보를 관리한다.</td></tr><tr><td align="left">_TPR_MISC</td><td>세션 수와 같은 기타 정보의 스냅샷 정보를 관리한다.</td></tr></tbody></table>
+          </div>
+
+          <p>다음은 저장된 스냅샷의 ID와 시간에 관한 정보를 관리하는 '_TPR_SNAPSHOT' 테이블
+          정보이다.</p>
+
+          <pre class="programlisting">TABLE '_TPR_SNAPSHOT'
+-------------------------------------------------------------
+COLUMN_NAME                       TYPE             CONSTRAINT
+--------------------------------- ---------------- ----------
+SNAP_ID                           NUMBER
+THREAD#                           NUMBER
+INSTANCE_NUMBER                   NUMBER
+BEGIN_INTERVAL_TIME               DATE
+END_INTERVAL_TIME                 DATE
+SNAP_GID                          NUMBER</pre>
+        </li></ul></div>
+
+      <div class="itemizedlist"><ul type="disc"><li>
+          <p>세션 상태 저장 기능</p>
+
+          <p>세션 상태 저장 주기에 활동 중인 세션들의 정보를 저장한다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">테이블</th><th>설명</th></tr></thead><tbody><tr><td align="left">_TPR_ACTIVE_SESSION_HISTORY</td><td>활동 중인 세션 상태 정보를 관리한다.</td></tr><tr><td align="left">V$ACTIVE_SESSION_HISTORY</td><td>최근 1시간 동안의 세션 상태 정보를 관리한다.</td></tr></tbody></table>
+          </div>
+
+          <p>다음은 최근 1시간 동안의 세션 상태 정보를 관리하는 'V$ACTIVE_SESSION_HISTORY' 테이블
+          정보이다.</p>
+
+          <pre class="programlisting">VIEW 'V$ACTIVE_SESSION_HISTORY'
+----------------------------------------------------------
+COLUMN_NAME                     TYPE           CONSTRAINT              
+------------------------------- -------------- -----------
+SAMPLE_ID                       NUMBER
+THREAD#                         NUMBER
+SAMPLE_TIME                     DATE
+SID                             NUMBER
+SESS_SERIAL_NO                  NUMBER
+USER_NO                         NUMBER
+WAIT_EVENT                      NUMBER
+TIME_WAITED                     NUMBER
+SQL_ID                          VARCHAR(13)
+SQL_CHILD_NUMBER                NUMBER
+CURR_HASHVAL                    NUMBER
+MODULE_NAME                     VARCHAR(64)
+ACTION_NAME                     VARCHAR(64)
+CLIENT_INFO_NAME                VARCHAR(64)
+PROG_NAME                       VARCHAR(30)
+SQL_EXEC_START                  DATE
+SQL_EXEC_ID                     NUMBER
+SQL_PLAN_LINE_ID                NUMBER
+ID1                             NUMBER
+ID2                             NUMBER
+WE_SEQ                          NUMBER
+USGMT_ID                        NUMBER
+SLOTNO                          NUMBER
+WRAPNO                          NUMBER
+PORT                            NUMBER
+DELTA_TIME                      NUMBER
+DELTA_PHY_READ_BLKS             NUMBER
+DELTA_PHY_WRITE_BLKS            NUMBER
+DELTA_LOG_READ_BLKS             NUMBER
+PGA_SIZE                        NUMBER
+WAIT_OBJ_ID                     NUMBER
+WAIT_FILE_NO                    NUMBER
+WAIT_BLOCK_NO                   NUMBER
+WAIT_ROW_NO                     NUMBER</pre>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e13627"/>17.2.3. 수동 스냅샷 생성 기능</h3></div></div></div>
+      
+
+      <p>TPR을 설정하면 정해진 주기에 자동으로 스냅샷이 생성되지만 원하는 경우 현재 시점의 스냅샷을 남길 수
+      있다.</p>
+
+      <pre class="programlisting">SQL&gt; exec dbms_tpr.create_snapshot();</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e13631"/>17.2.4. 리포트 작성 기능</h3></div></div></div>
+      
+
+      <p>저장된 스냅샷과 세션 상태는 테이블과 뷰를 통해 직접 이용할 수도 있지만 보통은 이를 이용해 성능 분석 리포트를 만들게
+      된다. 현재 저장된 스냅샷 정보를 분석해 성능 분석 리포트를 만드는 기능은 구현되어 있다. 그러나 저장된 세션 상태 정보를 분석해
+      성능 분석 리포트를 만드는 기능은 구현되어 있지 않다.</p>
+
+      <p/>
+
+      <p/>
+
+      <h4><a id="d5e13637"/>스냅샷을 이용한 성능 분석 리포트 작성</h4>
+
+      <p>_TPR_SNAPSHOT 테이블을 조회하여 원하는 기간에 대한 시작, 종료 시각을 확인한다.</p>
+
+      <p>다음은 원하는 기간의 시작과 종료 시점을 각각 begin_date, end_date라고 설정한 경우 <span>tbsql</span>에서 다음과 같이 입력하여 성능 분석 리포트를 작성하는 예이다.
+      _TPR_SNAPSHOT 테이블의 BEGIN_INTERVAL_TIME이 begin_date과 end_date 사이에 포함되는 모든
+      스냅샷들이 리포트로 출력된다.</p>
+
+      <pre class="programlisting">/* exec dbms_tpr.report_text(begin_date, end_date) */</pre>
+
+      <pre class="programlisting">SQL&gt; exec dbms_tpr.report_text('2013-01-01 13:00:00', '2013-01-01 14:59:00');</pre>
+
+      <p>성능 분석 리포트는 다음의 경로에 파일로 생성된다.</p>
+
+      <pre class="programlisting">$<span>TB_HOME</span>/instance/$<span>TB_SID</span>/tpr_report.{mthr_pid}.{current_time}</pre>
+
+      <p/>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e13651"/>성능 분석 항목</h4>
+
+      <p>다음은 성능 분석 항목에 대한 설명이다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>Overview Part</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>System Overview</p>
+
+              <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                  <p>CPU Usage</p>
+                </li><li>
+                  <p>Memory Usage</p>
+                </li></ul></div>
+            </li><li>
+              <p>Workload Overview</p>
+
+              <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                  <p>Workload Summary</p>
+                </li><li>
+                  <p>Workload Stats</p>
+                </li></ul></div>
+            </li><li>
+              <p>Instance Overview</p>
+
+              <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                  <p>Instance Efficiency</p>
+                </li><li>
+                  <p>TAC Statistics Overview (Cluster Cache Activity,
+                  Cluster Buffer Cache, Cluster Cache and Wait Lock
+                  Statistics)</p>
+                </li><li>
+                  <p>Top 5 Wait Events by Wait Time</p>
+                </li><li>
+                  <p>I/O Overview</p>
+                </li></ul></div>
+            </li><li>
+              <p>SQL Overview</p>
+
+              <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                  <p>PGA Work Area Statistics</p>
+                </li><li>
+                  <p>Top 3 SQL Ordered by Elapsed Time</p>
+                </li><li>
+                  <p>Top 3 SQL Ordered by Executions</p>
+                </li><li>
+                  <p>Top 3 SQL Ordered by Gets</p>
+                </li></ul></div>
+            </li></ul></div>
+        </li><li>
+          <p>Detail Part</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>System Detail</p>
+
+              <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                  <p>OS Statistics</p>
+                </li><li>
+                  <p>Shared Pool Statistics</p>
+                </li><li>
+                  <p>Physical Plan Cache Statistics</p>
+                </li><li>
+                  <p>Data Dictionary Cache Statistics</p>
+                </li><li>
+                  <p>PGA Statistics</p>
+                </li></ul></div>
+            </li><li>
+              <p>Workload Detail</p>
+
+              <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                  <p>Workload Stats (Time-based)</p>
+                </li><li>
+                  <p>Workload Stats (Number-based)</p>
+                </li><li>
+                  <p>Workload Stats (Size-based)</p>
+                </li></ul></div>
+            </li><li>
+              <p>Instance Detail</p>
+
+              <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                  <p>Buffer Cache Statistics</p>
+                </li><li>
+                  <p>Wait Event Summary (by Class)</p>
+                </li><li>
+                  <p>Wait Events by Wait Time</p>
+                </li><li>
+                  <p>Session Status with Wait Event</p>
+                </li><li>
+                  <p>Blocking Session Status with Wait Event</p>
+                </li><li>
+                  <p>Wlock Statistics</p>
+                </li><li>
+                  <p>Spinlock(Latch) Statistics</p>
+                </li><li>
+                  <p>Spinlock(Latch) Sleep Statistics</p>
+                </li><li>
+                  <p>Tablespace I/O Statistics</p>
+                </li><li>
+                  <p>File I/O Statistics</p>
+                </li><li>
+                  <p>Temp Segment Usage Statistics</p>
+                </li><li>
+                  <p>Segments Ordered by Physical Reads
+                  ("TPR_SEGMENT_STATISTICS=Y"로 설정할 경우)</p>
+                </li><li>
+                  <p>Segments Ordered by Logical Reads
+                  ("TPR_SEGMENT_STATISTICS=Y"로 설정할 경우)</p>
+                </li><li>
+                  <p>Segments Ordered by ITL Waits
+                  ("TPR_SEGMENT_STATISTICS=Y"로 설정할 경우)</p>
+                </li><li>
+                  <p>Segments Ordered by Buffer Busy Waits
+                  ("TPR_SEGMENT_STATISTICS=Y"로 설정할 경우)</p>
+                </li><li>
+                  <p>Segments Ordered by Row Lock Waits
+                  ("TPR_SEGMENT_STATISTICS=Y"로 설정할 경우)</p>
+                </li><li>
+                  <p>Undo Statistics</p>
+                </li><li>
+                  <p>Wait Statistics ("_DB_BLOCK_PIN_WAIT_USE_STAT=Y"로 설정할
+                  경우)</p>
+                </li></ul></div>
+            </li><li>
+              <p>SQL Detail</p>
+
+              <div class="itemizedlist"><ul type="square" compact="compact"><li>
+                  <p>PGA Summary</p>
+                </li><li>
+                  <p>PGA Work Area Histogram</p>
+                </li><li>
+                  <p>SQL Ordered by Elapsed Time (with Physical
+                  Plan)</p>
+                </li><li>
+                  <p>SQL Ordered by Elapsed Time/Execution (with Physical
+                  Plan)</p>
+                </li><li>
+                  <p>SQL Ordered by Executions (with Physical Plan)</p>
+                </li><li>
+                  <p>SQL Ordered by Gets (with Physical Plan)</p>
+                </li><li>
+                  <p>SQL Ordered by Reads (with Physical Plan)</p>
+                </li><li>
+                  <p>SQL Ordered by Extra I/O (with Physical Plan)</p>
+                </li><li>
+                  <p>SQL Ordered by CPU (with Physical Plan)</p>
+                </li></ul></div>
+            </li></ul></div>
+        </li><li>
+          <p>Etc</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p><span>Tibero</span> Init. Parameters(.tip)</p>
+            </li><li>
+              <p>Modified Parameters</p>
+            </li></ul></div>
+        </li></ul></div>
+
+      <p/>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_parallel.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_recovery_catalog.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제16장 Parallel Execution </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제18장 <span>Tibero</span> Recovery Catalog</td></tr></table></div><div xmlns="" align="center"/></body></html>

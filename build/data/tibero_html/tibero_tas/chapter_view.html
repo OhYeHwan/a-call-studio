@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제4장 TAS 정보 조회</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero Active Storage 관리자 안내서"/><link rel="up" href="index.html" title="Tibero Active Storage 관리자 안내서"/><link rel="prev" href="chapter_admin_diskspace.html" title="제3장 TAS 디스크 스페이스 관리"/><link rel="next" href="chapter_backup.html" title="제5장 백업과 복구"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제4장 <span xmlns="http://www.w3.org/1999/xhtml">TAS</span> 정보 조회</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_admin_diskspace.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_backup.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_view"/>제4장 <span>TAS</span> 정보 조회</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_view.html#d5e1299">4.1. <span>TAS</span> 디스크 스페이스 정보 관련 뷰</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_view.html#sect_V_AS_ALIAS">4.1.1. V$AS_ALIAS</a></span></dt><dt><span class="section"><a href="chapter_view.html#sect_V_AS_DISK">4.1.2. V$AS_DISK</a></span></dt><dt><span class="section"><a href="chapter_view.html#sect_V_AS_DISKSPACE">4.1.3. V$AS_DISKSPACE</a></span></dt><dt><span class="section"><a href="chapter_view.html#sect_V_AS_OPERATION">4.1.4. V$AS_OPERATION</a></span></dt><dt><span class="section"><a href="chapter_view.html#sect_V_AS_EXTENT_MAP">4.1.5. V$AS_EXTENT_MAP</a></span></dt><dt><span class="section"><a href="chapter_view.html#sect_V_AS_FILE">4.1.6. V$AS_FILE</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 동적 뷰를 사용해서 <span>TAS</span> 정보를 조회하는 방법에 대해 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1299"/>4.1. <span>TAS</span> 디스크 스페이스 정보 관련 뷰<a id="d5e1302" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span>TAS</span> 디스크 스페이스 정보를 보기위해 다음의 뷰들을 사용할 수 있다.</p>
+
+    <p>해당 뷰들은 <span>TAS</span> 인스턴스에서만 조회할 수 있다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="175" align="left"/><col/></colgroup><thead><tr><th align="left">뷰</th><th>설명</th></tr></thead><tbody><tr><td align="left"><a href="chapter_view.html#sect_V_AS_ALIAS" title="4.1.1. V$AS_ALIAS">V$AS_ALIAS</a><a id="d5e1320" class="indexterm"/></td><td><span>TAS</span> 인스턴스가 마운트한 모든 디스크 스페이스에 있는 모든
+            별칭이다.</td></tr><tr><td align="left"><a href="chapter_view.html#sect_V_AS_DISK" title="4.1.2. V$AS_DISK">V$AS_DISK</a><a id="d5e1329" class="indexterm"/></td><td><span>TAS</span> 인스턴스가 발견한 모든 디스크이다.</td></tr><tr><td align="left"><a href="chapter_view.html#sect_V_AS_DISKSPACE" title="4.1.3. V$AS_DISKSPACE">V$AS_DISKSPACE</a><a id="d5e1338" class="indexterm"/></td><td><span>TAS</span> 인스턴스가 발견한 모든 디스크 스페이스이다.</td></tr><tr><td align="left"><a href="chapter_view.html#sect_V_AS_OPERATION" title="4.1.4. V$AS_OPERATION">V$AS_OPERATION</a><a id="d5e1347" class="indexterm"/></td><td><span>TAS</span>가 진행 중인 모든 작업을 보여준다.</td></tr><tr><td align="left"><a href="chapter_view.html#sect_V_AS_EXTENT_MAP" title="4.1.5. V$AS_EXTENT_MAP">V$AS_EXTENT_MAP</a><a id="d5e1356" class="indexterm"/></td><td><span>TAS</span> 인스턴스가 관리하고 있는 모든 익스텐트들의 물리적인 위치 정보를
+            담고 있다.</td></tr><tr><td align="left"><a href="chapter_view.html#sect_V_AS_FILE" title="4.1.6. V$AS_FILE">V$AS_FILE</a><a id="d5e1365" class="indexterm"/></td><td><span>TAS</span> 인스턴스가 마운트한 모든 디스크 스페이스에 있는 모든
+            파일이다.</td></tr></tbody></table>
+    </div>
+
+    <p>V$AS_* 뷰들을 조회할 때 디스크 스페이스 번호가 이전과 동일하지 않을 수 있다. 이는 디스크 스페이스를 마운트할 때
+    디스크 스페이스 번호를 부여하기 때문이다.</p>
+
+    <p/>
+
+    <p/>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_V_AS_ALIAS"/>4.1.1. V$AS_ALIAS<a id="d5e1376" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">V$AS_ALIAS</strong></span> 뷰는 <span>TAS</span>
+      인스턴스가 마운트한 모든 디스크 스페이스에 있는 모든 별칭을 보여준다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="150" align="left"/><col width="125" align="left"/><col/></colgroup><thead><tr><th align="left">컬럼</th><th align="left">데이터 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">NAME</td><td align="left">VARCHAR(48)</td><td>별칭이다.</td></tr><tr><td align="left">DISKSPACE_NUMBER</td><td align="left">NUMBER</td><td>별칭이 속한 디스크 스페이스 번호이다.</td></tr><tr><td align="left">FILE_NUMBER</td><td align="left">NUMBER</td><td>별칭에 해당하는 파일 번호이다.</td></tr><tr><td align="left">FILE_INCARNATION</td><td align="left">NUMBER</td><td>별칭에 해당하는 파일의 인카네이션 번호이다.</td></tr><tr><td align="left">ALIAS_INCARNATION</td><td align="left">NUMBER</td><td>별칭의 인카네이션 번호이다.</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_V_AS_DISK"/>4.1.2. V$AS_DISK<a id="d5e1415" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">V$AS_DISK</strong></span> 뷰는 <span>TAS</span>
+      인스턴스가 발견한 모든 디스크를 보여준다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="150" align="left"/><col width="125" align="left"/><col/></colgroup><thead><tr><th align="left">컬럼</th><th align="left">데이터 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">DISKSPACE_NUMBER</td><td align="left">NUMBER</td><td>디스크가 속한 디스크 스페이스 번호이다.</td></tr><tr><td align="left">DISK_NUMBER</td><td align="left">NUMBER</td><td>디스크 스페이스 내에서의 디스크 번호이다.</td></tr><tr><td align="left">STATE</td><td align="left">VARCHAR(16)</td><td><p>디스크의 상태를 나타낸다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>ONLINE : 디스크가 사용 중이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>NOT_USED : 디스크 스페이스에 사용되지 않는 디스크를 나타낸다. 이 경우 디스크
+                    스페이스 번호를 255로 표시한다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>PREPARE_ADD : 디스크가 추가될 예정이다. 리밸런싱이 시작되기 전까지 실제로 디스크가
+                    사용되지 않는다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>PREPARE_DROP : 디스크가 제거될 예정이다. 리밸런싱이 완료되기 전까지는 ONLINE
+                    상태와 마찬가지로 디스크가 사용된다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>PREPARE_FORCE : 디스크가 제거될 예정이다. 리밸런싱 중에 실제로 디스크를 사용하지
+                    않는다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>PREPARE_RESIZE : 디스크의 크기가 변경될 예정이다. 리밸런싱 중에는 ONLINE
+                    상태와 마찬가지로 디스크가 사용된다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>ADDING : 리밸런싱을 통해 디스크가 추가되고 있는 중이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>DROPPING : 리밸런싱을 통해 디스크가 제거되고 있는 중이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>FORCING : 리밸런싱을 통해 디스크가 제거되고 있는 중이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>RESIZING : 리밸런싱을 통해 디스크의 크기가 변경되고 있는 중이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>SYNC : 일시적인 디스크 장애로 인해 반영되지 못한 변경사항을 최신의 상태로 동기화하는
+                    중이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>FAIL : 디스크에 장애가 발생했거나 디스크를 강제로 오프라인 시킨 상태이다.</p>
+                  </li></ul></div></td></tr><tr><td align="left">OS_MB</td><td align="left">NUMBER</td><td>OS가 인식하는 디스크 크기이다.</td></tr><tr><td align="left">TOTAL_MB</td><td align="left">NUMBER</td><td>디스크 크기이다.</td></tr><tr><td align="left">FREE_MB</td><td align="left">NUMBER</td><td>디스크에 남은 공간이다.</td></tr><tr><td align="left">NAME</td><td align="left">VARCHAR(48)</td><td>디스크 이름이다.</td></tr><tr><td align="left">FAILGROUP</td><td align="left">VARCHAR(48)</td><td>디스크가 속한 실패 그룹 이름이다.</td></tr><tr><td align="left">PATH</td><td align="left">VARCHAR(256)</td><td>디스크 경로이다.</td></tr><tr><td align="left">CREATE_DATE</td><td align="left">DATE</td><td>디스크가 디스크 스페이스에 추가된 날짜이다.</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_V_AS_DISKSPACE"/>4.1.3. V$AS_DISKSPACE<a id="d5e1501" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>V$AS_DISKSPACE 뷰는 <span>TAS</span> 인스턴스가 발견한 모든 디스크 스페이스를 보여준다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="150" align="left"/><col width="125" align="left"/><col/></colgroup><thead><tr><th align="left">컬럼</th><th align="left">데이터 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">DISKSPACE_NUMBER</td><td align="left">NUMBER</td><td>디스크 스페이스에 부여한 번호이다.</td></tr><tr><td align="left">NAME</td><td align="left">VARCHAR(48)</td><td>디스크 스페이스 이름이다.</td></tr><tr><td align="left">SECTOR_SIZE</td><td align="left">NUMBER</td><td>물리적 블록 크기이다. (단위: Byte)</td></tr><tr><td align="left">BLOCK_SIZE</td><td align="left">NUMBER</td><td><span>TAS</span> 메타 데이터 블록 크기이다. (단위:
+              Byte)</td></tr><tr><td align="left">ALLOCATION_UNIT_SIZE</td><td align="left">NUMBER</td><td>할당 단위 크기이다. (단위: Byte)</td></tr><tr><td align="left">STATE</td><td align="left">VARCHAR(16)</td><td><p><span>TAS</span> 인스턴스에서 디스크 스페이스
+              상태이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>MOUNTING : 디스크 스페이스를 마운트하는 중이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>CREATING : 디스크 스페이스를 생성하는 중이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>MOUNT : 디스크 스페이스가 마운트된 상태이다.</p>
+                  </li></ul></div></td></tr><tr><td align="left">TYPE</td><td align="left">VARCHAR(8)</td><td><p>디스크 스페이스의 중복 레벨이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>EXTERNAL : 디스크 스페이스의 사용자 파일을 중복 저장하지 않는다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>NORMAL : 디스크 스페이스의 사용자 파일을 최소 두 개 이상의 FAILGROUP에 중복
+                    저장한다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>HIGH : 디스크 스페이스의 사용자 파일을 최소 세 개 이상의 FAILGROUP에 중복
+                    저장한다.</p>
+                  </li></ul></div></td></tr><tr><td align="left">TOTAL_MB</td><td align="left">NUMBER</td><td>디스크 스페이스 크기이다.</td></tr><tr><td align="left">FREE_MB</td><td align="left">NUMBER</td><td>디스크 스페이스에 남은 공간이다.</td></tr><tr><td align="left">REQUIRED_MIRROR_FREE_MB</td><td align="left">NUMBER</td><td>디스크 장애 상황을 대비해 필요한 여분의 용량이다.</td></tr><tr><td align="left">USABLE_FILE_MB</td><td align="left">NUMBER</td><td>미러링을 고려했을 때 디스크 스페이스의 사용 가능 용량이다.</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_V_AS_OPERATION"/>4.1.4. V$AS_OPERATION<a id="d5e1582" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">V$AS_OPERATION</strong></span> 뷰는 <span>TAS</span>
+      인스턴스가 마운트한 모든 디스크 스페이스에 진행 중인 모든 작업을 보여준다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="150" align="left"/><col width="125" align="left"/><col/></colgroup><thead><tr><th align="left">컬럼</th><th align="left">데이터 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">DISKSPACE_NUMBER</td><td align="left">NUMBER</td><td>파일이 속한 디스크 스페이스 번호이다.</td></tr><tr><td align="left">OPERATION</td><td align="left">VARCHAR(16)</td><td><p>현재 진행 중인 작업의 종류이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>REBALANCE : 리밸런스 중이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>SYNC : fail이었던 디스크를 sync 중이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>SCRUB : file scrub 중이다.</p>
+                  </li></ul></div></td></tr><tr><td align="left">STATE</td><td align="left">VARCHAR(8)</td><td>작업의 현재 상태이다. 진행 중인 작업만 보여주므로 RUN 상태이다.</td></tr><tr><td align="left">POWER</td><td align="left">NUMBER</td><td>현재 별도로 operation의 power를 설정하는 기능은 미지원 상태이다. 기본값으로 10이
+              나타난다.</td></tr><tr><td align="left">JOB_DONE</td><td align="left">NUMBER</td><td>작업 완료된 extent 개수이다.</td></tr><tr><td align="left">JOB_REMAIN</td><td align="left">NUMBER</td><td>앞으로 작업해야 하는 남아있는 extent 개수이다.</td></tr><tr><td align="left">JOB_TOTAL</td><td align="left">NUMBER</td><td>작업의 전체 extent 개수이다.</td></tr><tr><td align="left">EST_SPEED</td><td align="left">NUMBER</td><td>작업의 예상 속도이다. (단위: extent/s)</td></tr><tr><td align="left">EST_REMAIN_TIME</td><td align="left">VARCHAR(32)</td><td>작업의 예상 남은 시간이다. (단위: s)</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p/>
+
+      <p>다음은 V$AS_OPERATION으로 디스크 스페이스 ds0에서 진행 중인 rebalance 작업을 조회하는
+      예제이다.</p>
+
+      <div class="example"><a id="ex_DPV_operation"/><p class="title"><b>[예 4.1] 진행 중인 작업 보기</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; <span><strong class="guibutton">SELECT diskspace_number, operation, job_remain, est_remain_time
+        FROM V$AS_OPERATION;</strong></span>
+
+DISKSPACE_NUMBER OPERATION        JOB_REMAIN EST_REMAIN_TIME
+---------------- ---------------- ---------- --------------------------------
+               0 REBALANCE                72                        30.6
+
+1 row selected.</pre>
+      </div></div><br class="example-break"/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_V_AS_EXTENT_MAP"/>4.1.5. V$AS_EXTENT_MAP<a id="d5e1651" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">V$AS_EXTENT_MAP</strong></span> 뷰는 <span>TAS</span>
+      인스턴스가 관리하고 있는 모든 익스텐트들의 물리적인 위치 정보를 담고 있다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="150" align="left"/><col width="125" align="left"/><col/></colgroup><thead><tr><th align="left">컬럼</th><th align="left">데이터 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">DISKSPACE_NUMBER</td><td align="left">NUMBER</td><td>파일이 속한 디스크 스페이스 번호이다.</td></tr><tr><td align="left">FILE_NUMBER</td><td align="left">NUMBER</td><td>디스크 스페이스 내에서의 파일 번호이다.</td></tr><tr><td align="left">EXTENT_NUMBER</td><td align="left">NUMBER</td><td>파일의 익스텐트 번호이다.</td></tr><tr><td align="left">REDUN_NUMBER</td><td align="left">NUMBER</td><td>익스텐트의 중복 저장 번호이다.</td></tr><tr><td align="left">EXTENT_SIZE</td><td align="left">NUMBER</td><td>익스텐트의 크기이다. (단위: AU)</td></tr><tr><td align="left">DISK_NUMBER</td><td align="left">NUMBER</td><td>익스텐트가 저장된 디스크 번호이다.</td></tr><tr><td align="left">AU_NUMBER</td><td align="left">NUMBER</td><td>익스텐트가 저장된 디스크에서 해당 익스텐트가 저장된 AU 위치이다.</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_V_AS_FILE"/>4.1.6. V$AS_FILE<a id="d5e1699" class="indexterm"/></h3></div></div></div>
+      
+
+      <p><span><strong class="guibutton">V$AS_FILE</strong></span> 뷰는 <span>TAS</span>
+      인스턴스가 마운트한 모든 디스크 스페이스에 있는 모든 파일을 보여준다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="150" align="left"/><col width="125" align="left"/><col/></colgroup><thead><tr><th align="left">컬럼</th><th align="left">데이터 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">DISKSPACE_NUMBER</td><td align="left">NUMBER</td><td>파일이 속한 디스크 스페이스 번호이다.</td></tr><tr><td align="left">FILE_NUMBER</td><td align="left">NUMBER</td><td>디스크 스페이스 내에서의 파일 번호이다.</td></tr><tr><td align="left">INCARNATION</td><td align="left">NUMBER</td><td>파일의 인카네이션 번호이다.</td></tr><tr><td align="left">BLOCK_SIZE</td><td align="left">NUMBER</td><td>파일의 블록 크기이다. (단위: Byte)</td></tr><tr><td align="left">BYTES</td><td align="left">NUMBER</td><td>파일의 byte 수이다.</td></tr><tr><td align="left">TYPE</td><td align="left">VARCHAR(8)</td><td><p>파일 타입이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>DATA : 일반 데이터 파일이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>CTRL : 컨트롤 파일이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>CM : CM 파일이다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>REDO : REDO 로그 파일이다.</p>
+                  </li></ul></div></td></tr><tr><td align="left">REDUNDANCY</td><td align="left">VARCHAR(8)</td><td><p>파일의 중복 레벨이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>EXTERNAL : 파일을 중복 저장하지 않는다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>NORMAL : 파일을 최소 두 개 이상의 FAILGROUP에 중복 저장한다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>HIGH : 파일을 최소 세 개 이상의 FAILGROUP에 중복 저장한다.</p>
+                  </li></ul></div></td></tr><tr><td align="left">STRIPED</td><td align="left">VARCHAR(8)</td><td><p>스트라이핑 타입이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>COARSE : 파일이 AU 크기로 스트라이핑되어 저장된다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>FINE : 파일이 AU 크기의 8분의 1 크기로 스트라이핑되어 저장된다.</p>
+                  </li></ul></div></td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p/>
+
+      <p>다음은 V$AS_ALIAS와 V$AS_DISK에서 모든 디스크 스페이스에 있는 모든 파일의 별칭, 번호, 그리고 크기를
+      조회하는 예제이다.</p>
+
+      <div class="example"><a id="ex_DPV_file_alias"/><p class="title"><b>[예 4.2] 파일과 별칭 같이 보기</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; <span><strong class="guibutton">SELECT name, a.file_number, bytes
+        FROM V$AS_ALIAS a, V$AS_FILE f
+     WHERE a.file_number = f.file_number
+       AND a.diskspace_number = f.diskspace_number;</strong></span>
+
+NAME                                             FILE_NUMBER      BYTES
+------------------------------------------------ ----------- ----------
+c1.ctl                                                   256    3145728
+log001.log                                               257   52428800
+log002.log                                               258   52428800
+log003.log                                               259   52428800
+system001.dtf                                            266   52428800
+undo001.dtf                                              267   85983232
+temp001.dtf                                              268    2097152
+usr001.dtf                                               269    2097152
+
+8 rows selected.</pre>
+      </div></div><br class="example-break"/>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_admin_diskspace.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_backup.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제3장 <span>TAS</span> 디스크 스페이스 관리 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제5장 백업과 복구</td></tr></table></div><div xmlns="" align="center"/></body></html>

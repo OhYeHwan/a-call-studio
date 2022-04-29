@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제64장 UTL_COMPRESS</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_text_ddl.html" title="제63장 TEXT_DDL"/><link rel="next" href="chap_utl_encode.html" title="제65장 UTL_ENCODE"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제64장 UTL_COMPRESS</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_text_ddl.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_utl_encode.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_utl_compress"/>제64장 UTL_COMPRESS</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_utl_compress.html#d5e30445">64.1. 개요</a></span></dt><dt><span class="section"><a href="chap_utl_compress.html#d5e30452">64.2. 함수</a></span></dt><dd><dl><dt><span class="section"><a href="chap_utl_compress.html#UTL_COMPRESS_LZ_COMPRESS">64.2.1. LZ_COMPRESS</a></span></dt><dt><span class="section"><a href="chap_utl_compress.html#UTL_COMPRESS_LZ_UNCOMPRESS">64.2.2. LZ_UNCOMPRESS</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 UTL_COMPRESS 패키지의 기본 개념과 패키지 내의 함수를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e30445"/>64.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">UTL_COMPRESS</strong></span><a id="d5e30449" class="indexterm"/>은 BLOB이나 RAW데이터에 대해서 압축된 결과 혹은 압축 해제된 결과를 동일 타입으로 반환하는
+    패키지이다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e30452"/>64.2. 함수</h2></div></div></div>
+    
+
+    <p>본 절에서는 UTL_COMPRESS 패키지에서 제공하는 함수를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="UTL_COMPRESS_LZ_COMPRESS"/>64.2.1. LZ_COMPRESS<a id="d5e30457" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터를 압축하여 반환하는 함수이다. BLOB 타입을 입력으로 받으면 BLOB 타입을, RAW 타입을 입력으로 받으면
+      RAW 타입을 반환한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>LZ_COMPRESS 함수<a id="d5e30463" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>BLOB인 경우 </p><pre class="programlisting">UTL_COMPRESS.LZ_COMPRESS 
+(
+    src     IN BLOB,
+    quality IN BINARY_INTEGER DEFAULT 6
+) 
+RETURN BLOB;</pre>
+            </li><li>
+              <p>RAW인 경우 </p><pre class="programlisting">UTL_COMPRESS.LZ_COMPRESS 
+(
+    src     IN RAW,
+    quality IN BINARY_INTEGER DEFAULT 6
+)
+RETURN RAW;</pre>
+            </li></ul></div>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">src</td><td>CLOB이나 RAW 타입의 압축할 데이터이다.</td></tr><tr><td align="left">quality</td><td>압축률을 나타낸다. 1부터 9까지 설정할 수 있으며 숫자가 커질수록 압축률이 좋아진다.
+                  (기본값: 6)</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">DECLARE
+    data RAW(500);
+BEGIN    
+    data := UTL_COMPRESS.LZ_COMPRESS('A1B2C3D4E5F6', 6);
+
+    DBMS_OUTPUT.PUT_LINE(data);
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="UTL_COMPRESS_LZ_UNCOMPRESS"/>64.2.2. LZ_UNCOMPRESS<a id="d5e30496" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>압축된 데이터를 압축 해제하여 반환하는 함수이다. BLOB 타입을 입력으로 받으면 BLOB 타입을, RAW 타입을
+      입력으로 받으면 RAW 타입을 반환한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>LZ_UNCOMPRESS 함수<a id="d5e30502" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>BLOB인 경우</p>
+
+              <pre class="programlisting">UTL_COMPRESS.LZ_UNCOMPRESS 
+(
+    src     IN BLOB
+) 
+RETURN BLOB;</pre>
+            </li><li>
+              <p>RAW인 경우</p>
+
+              <pre class="programlisting">UTL_COMPRESS.LZ_UNCOMPRESS 
+(
+    src     IN RAW
+)
+RETURN RAW;</pre>
+            </li></ul></div>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">src</td><td>CLOB이나 RAW 타입의 압축을 풀 데이터이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p><pre class="programlisting">DECLARE
+    comp_data RAW(500);
+    real_data RAW(500);
+BEGIN    
+    comp_data := UTL_COMPRESS.LZ_COMPRESS('A1B2C3D4E5F6', 6);
+    real_data := UTL_COMPRESS.LZ_UNCOMPRESS(comp_data);
+
+    DBMS_OUTPUT.PUT_LINE(real_data);    
+END;
+/</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_text_ddl.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_utl_encode.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제63장 TEXT_DDL </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제65장 UTL_ENCODE</td></tr></table></div><div xmlns="" align="center"/></body></html>

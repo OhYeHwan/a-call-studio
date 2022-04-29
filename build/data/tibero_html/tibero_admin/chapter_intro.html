@@ -1,0 +1,1803 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta
+      xmlns=""
+      http-equiv="Content-Type"
+      content="text/html; charset=utf-8"
+    />
+    <title>제1장 Tibero 소개</title>
+    <link rel="stylesheet" href="../stylesheet.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Tibero 관리자 안내서" />
+    <link rel="up" href="index.html" title="Tibero 관리자 안내서" />
+    <link rel="prev" href="about.html" title="안내서에 대하여" />
+    <link rel="next" href="chapter_01.html" title="제2장 관리의 기본" />
+  </head>
+  <body>
+    <div xmlns="" class="navheader">
+      <table width="100%" summary="Navigation header">
+        <tr>
+          <td class="navbar-title" colspan="3" align="center">
+            제1장 <span xmlns="http://www.w3.org/1999/xhtml">Tibero</span> 소개
+          </td>
+        </tr>
+        <tr>
+          <td width="20%" align="left">
+            <a accesskey="p" href="about.html">이전</a> 
+          </td>
+          <td class="navbar-title" width="60%" align="center"> </td>
+          <td width="20%" align="right">
+             <a accesskey="n" href="chapter_01.html">다음</a>
+          </td>
+        </tr>
+      </table>
+      <hr />
+    </div>
+    <div class="chapter" lang="ko">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title">
+              <a id="chapter_intro" />제1장 <span>Tibero</span> 소개
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div class="toc">
+        <p><b>내용 목차</b></p>
+        <dl>
+          <dt>
+            <span class="section"
+              ><a href="chapter_intro.html#d5e463">1.1. 개요</a></span
+            >
+          </dt>
+          <dt>
+            <span class="section"
+              ><a href="chapter_intro.html#d5e475">1.2. 주요 기능</a></span
+            >
+          </dt>
+          <dt>
+            <span class="section"
+              ><a href="chapter_intro.html#sect_dbms_func"
+                >1.3. 데이터베이스로서의 기본 기능</a
+              ></span
+            >
+          </dt>
+          <dt>
+            <span class="section"
+              ><a href="chapter_intro.html#sect_row_level_lock"
+                >1.4. Row level locking</a
+              ></span
+            >
+          </dt>
+          <dt>
+            <span class="section"
+              ><a href="chapter_intro.html#sect_arch_proc"
+                >1.5. 프로세스 구조</a
+              ></span
+            >
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="section"
+                  ><a href="chapter_intro.html#sect_lsnr"
+                    >1.5.1. 리스너</a
+                  ></span
+                >
+              </dt>
+              <dt>
+                <span class="section"
+                  ><a href="chapter_intro.html#sect_wp"
+                    >1.5.2. 워커 프로세스</a
+                  ></span
+                >
+              </dt>
+              <dt>
+                <span class="section"
+                  ><a href="chapter_intro.html#sect_bp"
+                    >1.5.3. 백그라운드 프로세스</a
+                  ></span
+                >
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="section"
+              ><a href="chapter_intro.html#d5e823">1.6. 디렉터리 구조</a></span
+            >
+          </dt>
+        </dl>
+      </div>
+
+      <p>
+        본 장에서는 <span>Tibero</span>의 주요 기능과 프로세스 구조, 디렉터리
+        구조를 간단히 소개한다.
+      </p>
+
+      <div class="section" lang="ko">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">
+                <a id="d5e463" />1.1. 개요
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          현재 기업의 비즈니스는 폭발적인 데이터의 증가와 다양한 환경 및
+          플랫폼의 등장으로 빠르게 확장되고 있다. 새로운 비즈니스 환경이
+          도래함에 따라 보다 더 효율적이고 유연한 데이터 서비스와 정보의 처리,
+          데이터 관리 기능이 필요하게 되었다.
+        </p>
+
+        <p>
+          <span
+            ><strong class="guibutton"><span>Tibero</span></strong></span
+          >는 이러한 변화에 맞춰 기업 비즈니스 구현의 기반이 되는 데이터베이스
+          인프라 구성을 지원하며 고성능, 고가용성 및 확장성의 문제를 해결하는
+          엔터프라이즈 데이터베이스 관리 시스템이다.
+        </p>
+
+        <p>
+          기존 DB의 단점을 보완하기 위해 <span>Tibero</span>는 독자적인
+          <span>Tibero</span> Thread Architecture를 채택하고 구현하였다. 한정된
+          서버 프로세스의 CPU 및 메모리 등의 시스템 리소스를 효율적으로
+          사용하면서 뛰어난 성능과 안정성 및 확장성을 보장하고 편리한 개발
+          환경과 관리 기능을 제공한다. <span>Tibero</span>는 초기 설계부터
+          대규모 사용자, 대용량 데이터, 강화된 안정성, 향상된 호환성 측면 등에서
+          다른 DBMS와 차별화를 고려하여 개발되었다.
+        </p>
+
+        <p>
+          <span>Tibero</span>는 이처럼 기업이 원하는 최적의 데이터베이스 환경을
+          제공하는 대표적인 DB이다.
+        </p>
+      </div>
+
+      <div class="section" lang="ko">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">
+                <a id="d5e475" />1.2. 주요 기능
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          대용량의 데이터를 관리하고 안정적인 비즈니스의 연속성을 보장하는
+          데이터 관리 솔루션인 <span>Tibero</span>는 DB 환경에서 요구되는 주요
+          기능<a id="d5e479" class="indexterm" />을 다음과 같이 갖추고 있다.
+        </p>
+
+        <div class="itemizedlist">
+          <ul type="disc" compact="compact">
+            <li>
+              <p>
+                <span
+                  ><strong class="guibutton"
+                    >분산 데이터베이스 링크</strong
+                  ></span
+                >(Distributed Database Link)<a id="d5e486" class="indexterm" />
+              </p>
+
+              <p>
+                데이터베이스 인스턴스별로 각각 서로 다른 데이터를 저장하는
+                기능이다. 이 기능을 통해 원격 데이터베이스에 저장된 데이터를
+                네트워크를 통해 읽기 및 쓰기를 수행할 수 있다. 또한 이 기능은
+                다양한 벤더의 DB 제품을 연결하여 읽기 및 쓰기를 수행할 수 있다.
+              </p>
+            </li>
+            <li>
+              <p>
+                <span><strong class="guibutton">데이터 이중화</strong></span
+                >(Data Replication)<a id="d5e492" class="indexterm" />
+              </p>
+
+              <p>
+                현재 운영 중인 데이터베이스에서 변경된 모든 내용을 Standby DB로
+                복제하는 기능이다. 즉, 네트워크를 통해서 변경 로그(Change log)만
+                전송하면 Standby DB에서 데이터에 적용하는 방식이다.
+              </p>
+            </li>
+            <li>
+              <p>
+                <span
+                  ><strong class="guibutton"
+                    >데이터베이스 클러스터</strong
+                  ></span
+                >(Database Cluster)<a id="d5e498" class="indexterm" />
+              </p>
+
+              <p>
+                기업용 DB의 최대 이슈인 고가용성과 고성능을 모두 해결하는
+                기능이다. <span>Tibero</span>는 고가용성과 고성능을 보장하기
+                위해
+                <span
+                  ><strong class="guibutton"
+                    ><span>Tibero</span> Active Cluster</strong
+                  ></span
+                >
+                기술을 보유하고 있다.<a id="d5e504" class="indexterm" />
+              </p>
+
+              <p>
+                이 기술로 인해 여러 개의 데이터베이스 인스턴스가 공유 디스크를
+                이용하여 동일한 데이터베이스를 공유할 수 있다. 이때 각
+                데이터베이스 인스턴스는 내부의 데이터베이스 캐시(Database cache)
+                사이의 일관성을 유지하는 기술이 매우 중요하다. 따라서 이러한
+                기술도 <span>Tibero</span> Active Cluster에 포함하여 제공하고
+                있다. 보다 자세한 내용은 "Tibero 관리자 안내서"의 "제10장 Tibero
+                Active Cluster"를 참고한다.
+              </p>
+            </li>
+            <li>
+              <p>
+                <span><strong class="guibutton">병렬 쿼리 처리</strong></span
+                >(Parallel Query Processing)<a id="d5e512" class="indexterm" />
+              </p>
+
+              <p>
+                기업의 데이터 크기는 계속적으로 증가하고 있다. 대용량 데이터를
+                처리하기 위해 서버의 리소스를 최대한 활용할 수 있는 병렬 처리
+                기술이 필수적으로 요구되고 있다.
+              </p>
+
+              <p>
+                <span>Tibero</span>는 이러한 요구사항에 맞추어 온라인 트랜잭션
+                처리(On-Line Transaction Processing, 이하 OLTP) 환경에 최적화된
+                기능을 제공할 뿐만 아니라 OLAP(On-Line Analytical Processing)
+                환경에 최적화된 SQL 병렬 처리 기능을 제공하고 있다. 이로 인해
+                쿼리는 빠른 응답 속도로 수행되며 기업의 빠른 의사 결정을 돕는다.
+              </p>
+            </li>
+            <li>
+              <p>
+                <span><strong class="guibutton">쿼리 최적화기</strong></span
+                >(Optimizer)<a id="d5e520" class="indexterm" />
+              </p>
+
+              <p>
+                쿼리 최적화기는 스키마 객체의 통계 정도를 바탕으로 다양한 데이터
+                처리 경로들을 고려하여 어떤 실행 계획이 가장 효율적인지를
+                결정한다.
+              </p>
+
+              <p>
+                쿼리 최적화기는 논리적으로 다음과 같은 단계를 통해 수행된다.
+              </p>
+
+              <div class="orderedlist">
+                <ol type="1" compact="compact">
+                  <li>
+                    <p>
+                      주어진 SQL 문을 처리하는 다양한 실행 계획들을 만들어 낸다.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      데이터의 분산도에 대한 통계 정보와 테이블, 인덱스, 파티션
+                      등의 특징을 고려하여 각각의 실행 계획의 비용을 계산한다.
+                      여기서 비용이란 특정 실행 계획을 수행하는 데 필요한 상대
+                      시간을 나타내고, 최적화기는 I/O, CPU, 메모리 등의 컴퓨터
+                      자원을 고려하여 그 비용을 계산해 낸다.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      실행 계획들의 비용을 비교하여 가장 비용이 작은 계획을
+                      선택한다.
+                    </p>
+                  </li>
+                </ol>
+              </div>
+
+              <div class="literallayout"><p /></div>
+
+              <p>쿼리 최적화기의 주요 기능은 다음과 같다.</p>
+
+              <div class="itemizedlist">
+                <ul type="circle" compact="compact">
+                  <li>
+                    <p>
+                      <span
+                        ><strong class="guibutton">최적화 목표</strong></span
+                      >
+                    </p>
+
+                    <p>
+                      사용자는 최적화기의 최종 목표를 바꿀 수도 있는데 다음의 두
+                      가지 목표를 선택할 수 있다.
+                    </p>
+
+                    <div class="informaltable">
+                      <table border="1">
+                        <colgroup>
+                          <col width="100" align="left" />
+                          <col />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th align="left">구분</th>
+                            <th>설명</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td align="left">전체 처리 시간</td>
+                            <td>
+                              ALL_ROWS 힌트를 사용하면 최적화기는 마지막 row까지
+                              얻어내는 시간을 최대한 단축하도록 최적화한다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">최초 반응 시간</td>
+                            <td>
+                              FIRST_ROWS 힌트를 사용하면 최적화기는 첫 번째
+                              row를 얻어내는 시간을 최대한 단축하도록
+                              최적화한다.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </li>
+                  <li>
+                    <p>
+                      <span><strong class="guibutton">질의 변형</strong></span>
+                    </p>
+
+                    <p>
+                      질의의 형태를 바꿔서 더 좋은 실행 계획을 만들 수 있도록
+                      한다. 질의 변형의 예에는 뷰 병합, 부질의 언네스트, 실체화
+                      뷰의 사용 등이 있다.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <span
+                        ><strong class="guibutton"
+                          >데이터 접근 경로 결정</strong
+                        ></span
+                      >
+                    </p>
+
+                    <p>
+                      데이터를 데이터베이스로부터 꺼내오는 작업은 전체 테이블
+                      스캔, 인덱스 스캔, rowid 스캔 등의 다양한 방법을 통해서
+                      수행될 수 있다. 각 방법마다 필요한 데이터의 양이나
+                      필터링의 형태 등에 따라 장단점이 있어서 질의에 따라 최적의
+                      접근 방식이 다르다.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <span
+                        ><strong class="guibutton"
+                          >조인 처리 방식 결정</strong
+                        ></span
+                      >
+                    </p>
+
+                    <p>
+                      여러 테이블에서 데이터를 꺼내오게 되는 조인의 경우
+                      최적화기는 조인의 순서와 방법을 결정해야 한다. 여러 테이블
+                      간의 조인일 때 어떤 테이블을 먼저 조인할지에 대한 순서와
+                      각각의 조인에 있어서 중첩 루프 조인, 합병 조인, 해시 조인
+                      등의 다양한 방법 중 어떤 것을 사용할지가 실행 속도에 큰
+                      영향을 미치게 된다.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <span><strong class="guibutton">비용 추정</strong></span>
+                    </p>
+
+                    <p>
+                      각각의 실행 계획에 대해 비용을 추정한다. 비용 추정을
+                      위해서 필요한 predicate의 선택도나 각 실행 단계에서
+                      데이터의 row 수 등을 통계 정보를 사용해서 추정하고 이를
+                      바탕으로 각 단계에서의 비용을 추정한다.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section" lang="ko">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">
+                <a id="sect_dbms_func" />1.3. 데이터베이스로서의 기본 기능
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          <span>Tibero</span>는 데이터베이스의 영속성과 일관성을 유지하기 위하여
+          SQL 문장의 묶음인 트랜잭션을 다음의 4가지 성질을 통해 보장한다.
+        </p>
+
+        <div class="itemizedlist">
+          <ul type="disc" compact="compact">
+            <li>
+              <p>Atomicity</p>
+
+              <p>
+                All-or-nothing. 즉, 트랜잭션이 행한 모든 일이 적용되던가 아니면
+                모두 적용되지 않아야 함을 의미한다. <span>Tibero</span>에서는
+                이를 위하여 undo 데이터를 사용한다.
+              </p>
+            </li>
+            <li>
+              <p>Consistency</p>
+
+              <p>
+                트랜잭션이 데이터베이스의 Consistency를 깨뜨리는 일은 여러
+                방면에서 생겨날 수 있다. 간단한 예는 테이블과 인덱스 간에 서로
+                다른 내용을 담고 있어서 Consistency가 깨지는 것이다. 이를 막기
+                위해 <span>Tibero</span>에서는 트랜잭션이 적용한 일들 중 일부만
+                자신이나 남에게 적용되는 것을 막고 있다. 즉, 테이블만 수정했고
+                아직 인덱스를 수정하지 않은 상태라고 해도 다른 트랜잭션에서는
+                이를 예전 모습으로 돌려 보아서 테이블과 인덱스가 항상
+                Consistency가 맞는 형태로 보이게 된다.
+              </p>
+            </li>
+            <li>
+              <p>Isolation</p>
+
+              <p>
+                트랜잭션은 혼자만 돌고 있는 것처럼 보이게 된다. 물론 다른
+                트랜잭션이 수정한 데이터에 접근할 때는 이를 기다릴 수는 있지만
+                다른 트랜잭션이 수정 중이므로 접근할 수 없다고 에러가 나지는
+                않는다. 이를 위해 <span>Tibero</span>에서는 Multi version
+                concurrency control 기법과 row-level locking 기법을 사용한다.
+              </p>
+
+              <p>
+                데이터를 참조하는 경우에는 MVCC 기법을 이용하여 다른 트랜잭션과
+                무관하게 참조 가능하며, 데이터를 수정할 때도 row level의
+                fine-grained lock control을 통하여 최소한의 충돌만을 일으키고
+                같은 데이터에 접근한다고 해도 단지 기다림으로써 이를 해결한다.
+              </p>
+            </li>
+            <li>
+              <p>Durability</p>
+
+              <p>
+                <span>Tibero</span>에서는 이를 위하여 Redo 로그와 write-ahead
+                logging 기법을 사용한다.
+              </p>
+
+              <p>
+                트랜잭션이 커밋할 때에 해당 Redo 로그가 디스크에 기록되어
+                트랜잭션의 영속성을 보장해 준다. 또한 블록이 디스크에 내려가기
+                전에 항상 Redo 로그가 먼저 내려가서 데이터베이스 전체가 일관성을
+                지니게 한다.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section" lang="ko">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">
+                <a id="sect_row_level_lock" />1.4. Row level locking<a
+                  id="d5e593"
+                  class="indexterm"
+                />
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          <span>Tibero</span>는 fine-grained lock control을 보장해 주기 위하여
+          row level locking을 사용한다. 즉, 데이터 최소 단위인 Row 단위의
+          locking을 통하여 최대한의 concurrency를 보장해 준다. 많은 Row들을
+          수정한다고 해도 테이블에 lock이 걸려서 concurrent한 DML이 수행되지
+          못하는 상황은 발생하지 않는다. 이러한 기법을 통해 OLTP 환경에서 더욱
+          강력한 성능을 발휘하고 있다.
+        </p>
+      </div>
+
+      <div class="section" lang="ko">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">
+                <a id="sect_arch_proc" />1.5. 프로세스 구조
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          <span>Tibero</span>는 대규모 사용자 접속을 수용하는 다중 프로세스 및
+          다중 스레드 기반의 아키텍처를 갖추고 있다.
+        </p>
+
+        <p>
+          다음은 <span>Tibero</span>의 프로세스 구조를 나타내는 그림이다.<a
+            id="d5e603"
+            class="indexterm"
+          />
+        </p>
+
+        <div class="figure">
+          <a id="fig_arch_proc" />
+          <p class="title">
+            <b>[그림 1.1] <span>Tibero</span> 프로세스 구조</b>
+          </p>
+          <div class="figure-contents">
+            <div xmlns="" class="mediaobject" align="left">
+              <table
+                border="0"
+                summary="manufactured viewport for HTML img"
+                cellspacing="0"
+                cellpadding="0"
+                width="700"
+              >
+                <tr>
+                  <td align="left">
+                    <img
+                      src="resources/tibero-arch.png"
+                      align="top"
+                      width="700"
+                      alt="Tibero 프로세스 구조"
+                    />
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <br class="figure-break" />
+
+        <p><span>Tibero</span>의 프로세스는 크게 3가지로 구성된다.</p>
+
+        <div class="itemizedlist">
+          <ul type="disc" compact="compact">
+            <li>
+              <p>리스너(Listener)</p>
+            </li>
+            <li>
+              <p>워커 프로세스(Worker Process 또는 Foreground Process)</p>
+            </li>
+            <li>
+              <p>백그라운드 프로세스(Background Process)</p>
+            </li>
+          </ul>
+        </div>
+
+        <p />
+
+        <p />
+
+        <div class="section" lang="ko">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">
+                  <a id="sect_lsnr" />1.5.1. 리스너<a
+                    id="d5e625"
+                    class="indexterm"
+                  /><a id="d5e627" class="indexterm" />
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            리스너(Listener)는 클라이언트의 새로운 접속 요청을 받아 이를 유휴한
+            워커 프로세스에 할당한다. 즉, 클라이언트와 워커 프로세스간의 중계
+            역할을 담당하며 이는 별도의 실행 파일인
+            <span
+              ><strong class="guibutton"><span>tblistener</span></strong></span
+            >를 사용하여 작업을 수행한다. <span>Tibero</span> 6부터 MONP에
+            의해서 생성되며 외부에서 강제 종료하더라도 다시 생성된다.
+          </p>
+
+          <p>
+            다음은
+            <a
+              href="chapter_intro.html#fig_arch_proc"
+              title="[그림 1.1] Tibero 프로세스 구조"
+              >[그림 1.1]</a
+            >를 기준으로 클라이언트의 새로운 접속 요청이 이루어지는 순서이다.
+          </p>
+
+          <div class="orderedlist">
+            <ol type="1" compact="compact">
+              <li>
+                <p>
+                  현재 유휴한 워커 스레드가 있는 워커 프로세스를 찾아서
+                  클라이언트의 접속 요청(①)을 한다.
+                </p>
+              </li>
+              <li>
+                <p>
+                  이때 File descriptor와 함께 할당되므로 클라이언트는 서버의
+                  내부 동작과 상관없이 마치 처음부터 워커 스레드에 접속한 것처럼
+                  동작하게 된다.<a id="d5e640" class="indexterm" />
+                </p>
+              </li>
+              <li>
+                <p>
+                  리스너의 요청을 받은 컨트롤 스레드(CTHR: control thread)는
+                  자기 자신에 속한 워커 스레드의 상태를 검사(②)하여 현재 유휴한
+                  워커 스레드에 클라이언트의 접속을 할당(③)한다.
+                </p>
+              </li>
+              <li>
+                <p>
+                  할당된 워커 스레드는 클라이언트와 인증 절차를 거친 후 세션을
+                  시작(④)한다.
+                </p>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="section" lang="ko">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">
+                  <a id="sect_wp" />1.5.2. 워커 프로세스<a
+                    id="d5e648"
+                    class="indexterm"
+                  /><a id="d5e650" class="indexterm" /><a
+                    id="d5e652"
+                    class="indexterm"
+                  />
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            워커 프로세스(Worker Process)는 클라이언트와 실제로 통신을 하며
+            사용자의 요구 사항을 처리하는 프로세스이다. 이 프로세스의 개수는
+            <code class="filename">WTHR_PROC_CNT</code> 초기화 파라미터로 조절할
+            수 있으며, 일단 <span>Tibero</span>가 기동된 뒤에는 변경할 수 없다.
+            따라서 시스템 환경을 고려하여 적절한 값을 설정해야 한다.
+          </p>
+
+          <p>
+            <span>Tibero</span> 6부터 워커 프로세스는 용도에 따라 두 그룹으로
+            나눌 수 있다. 포어그라운드 워커 프로세스(Foreground Worker
+            Process)는 리스너를 통해 들어온 온라인 요청을 처리하는 반면,
+            백그라운드 워커 프로세스(Background Worker Process)는 인터널
+            태스크(Internal Task)나 잡 스케줄러에 등록된 배치 작업을 수행한다.
+            그룹은 <code class="filename">MAX_BG_SESSION_COUNT</code> 초기화
+            파라미터로 조절할 수 있다.
+          </p>
+          <div class="note" style="margin-left: 0in; margin-right: 0in">
+            <h3 class="title">참고</h3>
+            <p>
+              초기화 파라미터에 대한 자세한 내용은 "<span>Tibero</span> 참조
+              안내서"를 참고한다.
+            </p>
+          </div>
+          <div class="literallayout"><p /></div>
+          <p>
+            <span>Tibero</span>는 효율적인 리소스의 활용을 위해
+            <span><strong class="guibutton">스레드</strong></span
+            >(Thread) 기반으로 작업을 수행한다. <span>Tibero</span>를 설치하면
+            기본적으로 하나의 워커 프로세스 안에는 1개의 컨트롤 스레드와 10개의
+            워커 스레드가 존재한다.
+          </p>
+
+          <p>
+            프로세스당 워커 스레드 개수는
+            <code class="filename">_WTHR_PER_PROC</code> 초기화 파라미터로
+            조절할 수 있으며, <code class="filename">WTHR_PROC_CNT</code>처럼
+            일단 <span>Tibero</span>가 기동된 뒤에는 변경할 수 없다. 따라서
+            시스템 환경을 고려하여 적절한 값을 설정해야 한다.
+            <a id="d5e671" class="indexterm" /><a
+              id="d5e673"
+              class="indexterm"
+            />
+          </p>
+
+          <p />
+
+          <p>
+            <code class="filename">WTHR_PROC_CNT</code>와
+            <code class="filename">_WTHR_PER_PROC</code> 초기화 파라미터 값을
+            직접 바꾸는 것보다는
+            <code class="filename">MAX_SESSION_COUNT</code> 초기화 파라미터를
+            통해 서버에서 제공하는 최대 세션 개수를 지정할 것을 권장한다.
+          </p>
+
+          <p>
+            <code class="filename">MAX_SESSION_COUNT</code> 값에 따라
+            <code class="filename">WTHR_PROC_CNT</code>와
+            <code class="filename">_WTHR_PER_PROC</code> 값이 자동으로 설정된다.
+            만약 <code class="filename">WTHR_PROC_CNT</code>와
+            <code class="filename">_WTHR_PER_PROC</code>를 직접 설정할 경우
+            <code class="filename">WTHR_PROC_CNT</code> *
+            <code class="filename">_WTHR_PER_PROC</code> 값이
+            <code class="filename">MAX_SESSION_COUNT</code> 값과 같게 두 값을
+            설정해야 한다.
+          </p>
+
+          <p>
+            <code class="filename">MAX_BG_SESSION_COUNT</code> 값은
+            <code class="filename">MAX_SESSION_COUNT</code> 보다 작은 값을
+            설정해야하며 <code class="filename">_WTHR_PER_PROC</code> 값의
+            배수가 되어야 한다.
+          </p>
+
+          <p />
+
+          <p />
+
+          <div class="literallayout"><p /></div>
+
+          <p>
+            워커 프로세스는 컨트롤 스레드와 워커 스레드를 통해 작업을 수행한다.
+          </p>
+
+          <div class="itemizedlist">
+            <ul type="disc">
+              <li>
+                <p>
+                  <span><strong class="guibutton">컨트롤 스레드</strong></span
+                  ><a id="d5e701" class="indexterm" /><a
+                    id="d5e703"
+                    class="indexterm"
+                  />
+                </p>
+
+                <p>
+                  워커 프로세스마다 하나씩 존재하며 다음과 같은 역할을 담당한다.
+                </p>
+
+                <div class="itemizedlist">
+                  <ul type="circle" compact="compact">
+                    <li>
+                      <p>
+                        <span>Tibero</span>가 기동될 때 초기화 파라미터에 설정된
+                        수만큼 워커 스레드를 생성한다.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        클라이언트의 새로운 접속 요청이 오면 현재 유휴한 워커
+                        스레드에 클라이언트의 접속을 할당한다.
+                      </p>
+                    </li>
+                    <li>
+                      <p>시그널 처리를 담당한다.</p>
+                    </li>
+                    <li>
+                      <p>
+                        <span>Tibero</span> 6부터 I/O multiplexing을 지원하며
+                        필요한 경우 워커 스레드 대신 메시지를 보내거나 받는
+                        역할을 수행한다.
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <p>
+                  <span><strong class="guibutton">워커 스레드</strong></span
+                  ><a id="d5e720" class="indexterm" /><a
+                    id="d5e722"
+                    class="indexterm"
+                  />
+                </p>
+
+                <p>
+                  워커 스레드는 클라이언트와 1:1로 통신하며, 클라이언트가 보내는
+                  메시지를 받아 처리하고, 그 결과를 돌려준다. 주로 SQL 파싱,
+                  최적화 수행 등 DBMS가 하는 작업 대부분이 워커 프로세스에서
+                  일어난다.
+                </p>
+
+                <p>
+                  그리고 워커 스레드는 하나의 클라이언트와 접속하므로
+                  <span>Tibero</span>에 동시 접속이 가능한 클라이언트 수는
+                  <code class="filename">WTHR_PROC_CNT</code> *
+                  <code class="filename">_WTHR_PER_PROC</code>이다.
+                  <span>Tibero</span>는 세션 멀티플렉싱(Session multiplexing)을
+                  지원하지 않으므로 하나의 클라이언트 접속은 곧 하나의 세션과
+                  같다. 그러므로 최대 세션이 생성될 수 있는 개수는
+                  <code class="filename">WTHR_PROC_CNT</code> *
+                  <code class="filename">_WTHR_PER_PROC</code>를 연산한 값과
+                  같다.
+                </p>
+
+                <p>
+                  워커 스레드는 클라이언트와 접속이 끊긴다고 해도 없어지지
+                  않으며, <span>Tibero</span>가 기동될 때 생성된 이후부터 종료할
+                  때까지 계속 존재하게 된다. 이러한 구조에서는 클라이언트와
+                  접속을 빈번하게 발생시키더라도 매번 스레드를 생성하거나
+                  제거하지 않으므로 시스템의 성능을 높일 수 있다.
+                </p>
+
+                <p>
+                  반면 실제 클라이언트의 수가 적더라도 초기화 파라미터에 설정된
+                  개수만큼 스레드를 생성해야 하므로 운영체제의 리소스를 계속
+                  소모하는 단점은 있으나, 운영체제 대부분이 유휴한 스레드 하나를
+                  유지하는 데 드는 리소스는 매우 적으므로 시스템을 운영하는 데는
+                  별 무리가 없다.
+                </p>
+                <div
+                  class="caution"
+                  style="margin-left: 0in; margin-right: 0in"
+                >
+                  <h3 class="title">주의</h3>
+                  <p>
+                    많은 수의 워커 스레드가 동시에 작업을 수행하려고 할 때 심한
+                    경우 운영체제에 과도한 부하를 일으켜 시스템 성능이 크게
+                    저하될 수 있다. 그러므로 대규모 시스템을 구축할 경우에는
+                    <span>Tibero</span>와 클라이언트의 애플리케이션 프로그램
+                    사이에 미들웨어를 설치하여 3-Tier 구조로 시스템을 구축할
+                    것을 권장한다.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <p />
+        </div>
+
+        <div class="section" lang="ko">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">
+                  <a id="sect_bp" />1.5.3. 백그라운드 프로세스<a
+                    id="d5e741"
+                    class="indexterm"
+                  /><a id="d5e743" class="indexterm" />
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            백그라운드 프로세스(Background Process)는 클라이언트의 접속 요청을
+            직접 받지 않고 워커 스레드나 다른 백그라운드 프로세스가 요청할 때
+            또는 정해진 주기에 따라 동작하는 주로 시간이 오래 걸리는 디스크
+            작업을 담당하는 독립된 프로세스이다.
+          </p>
+
+          <p>백그라운드 프로세스에 속해 있는 프로세스는 다음과 같다.</p>
+
+          <div class="itemizedlist">
+            <ul type="disc" compact="compact">
+              <li>
+                <p>
+                  Monitor Process(MONP: 감시 프로세스)<a
+                    id="d5e751"
+                    class="indexterm"
+                  /><a id="d5e753" class="indexterm" /><a
+                    id="d5e755"
+                    class="indexterm"
+                  />
+                </p>
+
+                <p>
+                  <span>Tibero</span> 6부터 영문 약자가 스레드에서 프로세스로
+                  변경되었으며 실제로 하나의 독립된 프로세스이다.
+                  <span>Tibero</span>가 기동할 때 최초로 생성되며
+                  <span>Tibero</span>가 종료하면 맨 마지막에 프로세스를
+                  끝마친다.
+                </p>
+
+                <p>
+                  <span>Tibero</span>가 기동할 때 리스너를 포함한 다른
+                  프로세스를 생성하거나 주기적으로 각 프로세스의 상태를 점검하는
+                  역할을 담당한다. 또한 교착 상태(deadlock)도 검사한다.
+                </p>
+              </li>
+              <li>
+                <p>
+                  <span>Tibero</span> 매니저 프로세스(MGWP)<a
+                    id="d5e767"
+                    class="indexterm"
+                  /><a id="d5e770" class="indexterm" /><a
+                    id="d5e772"
+                    class="indexterm"
+                  />
+                </p>
+
+                <p>
+                  시스템을 관리하기 위한 용도의 프로세스이다. 관리자의 접속
+                  요청을 받아 이를 시스템 관리 용도로 예약된 워커 스레드에
+                  접속을 할당한다. 기본적으로 워커 프로세스와 동일한 역할을
+                  수행하지만 리스너를 거치지 않고 스페셜 포트를 통해 직접 접속을
+                  처리한다. SYS 계정만 접속이 허용된다.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Agent Process(AGNT: 에이전트 프로세스)<a
+                    id="d5e778"
+                    class="indexterm"
+                  /><a id="d5e780" class="indexterm" /><a
+                    id="d5e782"
+                    class="indexterm"
+                  />
+                </p>
+
+                <p>
+                  시스템 유지를 위해 주기적으로 처리해야 하는
+                  <span>Tibero</span> 내부의 작업을 담당한다.
+                </p>
+
+                <p>
+                  <span>Tibero</span> 4 SP1까지는 시퀀스 캐시(sequence cache)의
+                  값을 디스크에 저장하는 작업도 담당했으나,
+                  <span>Tibero</span> 5 이후로 각 워커 스레드가 담당하는 것으로
+                  변경되었다. 이전에는 SEQW라는 명칭을 사용했으나
+                  <span>Tibero</span> 6부터 AGNT로 명칭이 변경되었다. 시퀀스를
+                  사용하는 방법은 "Tibero 관리자 안내서"의 "4.7.1. 시퀀스 생성,
+                  변경, 제거"를 참고한다.
+                </p>
+
+                <p>
+                  <span>Tibero</span> 6부터 다중 스레드(Multi-threaded) 기반
+                  구조로 동작하며, 서로 다른 용도의 업무를 스레드별로 나누어
+                  수행한다.
+                </p>
+              </li>
+              <li>
+                <p>
+                  DataBase Wirte Process(DBWR: 데이터베이스 쓰기 프로세스)<a
+                    id="d5e795"
+                    class="indexterm"
+                  /><a id="d5e797" class="indexterm" /><a
+                    id="d5e799"
+                    class="indexterm"
+                  />
+                </p>
+
+                <p>
+                  데이터베이스에서 변경된 내용을 디스크에 기록하는 일과 연관된
+                  스레드들이 모여 있는 프로세스이다. 사용자가 변경한 블록을
+                  디스크에 주기적으로 기록하는 스레드, Redo 로그를 디스크에
+                  기록하는 스레드, 이 두 스레드를 통해 데이터베이스의 체크포인트
+                  과정을 관할하는 체크포인트 스레드 등이 이 프로세스에 포함되어
+                  있다.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Recovery Worker Process(RCWP: 리커버리 워커 프로세스)<a
+                    id="d5e805"
+                    class="indexterm"
+                  /><a id="d5e807" class="indexterm" /><a
+                    id="d5e809"
+                    class="indexterm"
+                  />
+                </p>
+
+                <p>
+                  리커버리와 백업을 담당하는 프로세스이다. 부팅과정에서 NOMOUNT
+                  이후의 부팅 단계를 올리는 역할을 수행하고 리커버리가 필요한
+                  상황인지 여부를 판단하여 필요할 경우 리두로그를 읽어서
+                  리커버리를 진행한다. tbrmgr을 이용하여 백업 작업을 하거나
+                  백업본을 이용하여 미디어 리커버리를 진행하는 경우에도 이
+                  프로세스에서 진행한다.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Parallel Execution Worker Process(PEWP: Parallel Execution
+                  워커 프로세스)<a id="d5e815" class="indexterm" /><a
+                    id="d5e817"
+                    class="indexterm"
+                  /><a id="d5e819" class="indexterm" />
+                </p>
+
+                <p>
+                  Parallel Execution Process(이하 PEP)는 PE 수행을 위해 도입된
+                  PE 전용 프로세스이다. PE SQL을 처리할 때에 locality를
+                  극대화하기 위해서 WTHR들을 하나의 PEP에서 할당한다. 또한
+                  일반적인 클라이언트 세션을 위한 WTHR과 분리되어 모니터링 및
+                  관리가 용이하다.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" lang="ko">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">
+                <a id="d5e823" />1.6. 디렉터리 구조
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <p><span>Tibero</span>가 설치되면 다음과 같은 디렉터리가 생성된다.</p>
+
+        <pre class="programlisting">
+$<span>TB_</span>HOME
+    +- bin
+    |   |
+    |   +- update
+    |
+    +- client
+    |   |
+    |   +- bin
+    |   +- config
+    |   +- include
+    |   +- lib
+    |   |   |
+    |   |   +- jar
+    |   |   +- php
+    |   +- ssl
+    |   |   |
+    |   |   +- misc
+    |   +- epa
+    |   |   |
+    |   |   +- java
+    |   |       |
+    |   |       +- config
+    |   |       +- lib
+    |   +- win32
+    |   |   |
+    |   |   +- bin
+    |   |   +- lib
+    |   +- win64
+    |       |
+    |       +- bin
+    |       +- lib
+    |
+    +- config
+    |
+    +- database
+    |   +- $<span>TB_</span>SID
+    |       |
+    |       +- java
+    |
+    +- instance
+    |   |
+    |   +- $<span>TB_</span>SID
+    |       |
+    |       +- audit
+    |       +- dump
+    |       |  |
+    |       |  +- act
+    |       |  +- diag
+    |       |  +- tracedump
+    |       +- log
+    |       |  +- dlog
+    |       |  +- ilog
+    |       |  +- lsnr
+    |       |  +- slog
+    |       |  +- sqltrace
+    |       +- path
+    |
+    +- lib
+    |
+    +- license
+    |  |
+    |  +- oss_licenses
+    |
+    +- nls
+    |  |
+    |  +- zoneinfo
+    |
+    +- scripts
+         |
+         +- pkg
+</pre
+        >
+
+        <p>
+          위의 디렉터리 구조에서 $<span>TB_</span>SID라고 보이는 부분은 각각의
+          시스템 환경에 맞는 서버의 SID로 바꿔서 읽어야 한다.
+        </p>
+
+        <div class="literallayout"><p /></div>
+
+        <p><span>Tibero</span>에서 사용하는 기본 디렉터리는 다음과 같다.</p>
+
+        <div class="variablelist">
+          <dl>
+            <dt>
+              <span class="term"
+                ><span><strong class="guibutton">bin</strong></span></span
+              >
+            </dt>
+            <dd>
+              <p>
+                <span>Tibero</span>의 실행 파일과 서버 관리를 위한 유틸리티가
+                위치한 디렉터리이다. 이 디렉터리에 속한 파일 중에서
+                <span>tbsvr</span><a id="d5e845" class="indexterm" />과
+                <span>tblistener</span><a id="d5e849" class="indexterm" />는
+                <span>Tibero</span>를 구성하는 실행 파일이며, <span>tbboot</span
+                ><a id="d5e854" class="indexterm" />와 <span>tbdown</span
+                ><a id="d5e858" class="indexterm" />은 각각
+                <span>Tibero</span>를 기동하고 종료하는 역할을 담당한다.
+                <span>tbsvr</span>과 <span>tblistener</span> 실행 파일은 반드시
+                <span>tbboot</span> 명령어를 이용하여 실행되어야 하며, 절대로
+                직접 실행해서는 안 된다.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"
+                ><span><strong class="guibutton">client</strong></span></span
+              >
+            </dt>
+            <dd>
+              <p>다음은 하위 디렉터리에 대한 설명이다.</p>
+
+              <div class="informaltable">
+                <table border="1">
+                  <colgroup>
+                    <col width="150" align="left" />
+                    <col />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th align="left">하위 디렉터리</th>
+                      <th>설명</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td align="left">bin</td>
+                      <td>
+                        <p>
+                          <span>Tibero</span>의 클라이언트 실행 파일이 있는
+                          디렉터리이다. 이 디렉터리에는 다음과 같은 유틸리티가
+                          있다.
+                        </p>
+                        <p />
+                        <div class="itemizedlist">
+                          <ul type="circle" compact="compact">
+                            <li style="list-style-type: circle">
+                              <p>
+                                <span>tb</span>SQL<a
+                                  id="d5e889"
+                                  class="indexterm"
+                                />
+                                : 기본적인 클라이언트 프로그램으로 사용자가 직접
+                                SQL 질의를 하고 그 결과를 확인할 수 있다.
+                              </p>
+                            </li>
+                            <li style="list-style-type: circle">
+                              <p>
+                                T-Up<a id="d5e894" class="indexterm" /> : 다른
+                                데이터베이스에서 <span>Tibero</span>로의 호환성
+                                평가와 마이그레이션을 지원한다.
+                              </p>
+                            </li>
+                            <li style="list-style-type: circle">
+                              <p>
+                                <span>tb</span>Export<a
+                                  id="d5e901"
+                                  class="indexterm"
+                                />
+                                : 논리적 백업이나 데이터베이스 간에 데이터
+                                이동을 위해 데이터베이스의 내용을 외부 파일로
+                                저장한다.
+                              </p>
+                            </li>
+                            <li style="list-style-type: circle">
+                              <p>
+                                <span>tb</span>Import<a
+                                  id="d5e907"
+                                  class="indexterm"
+                                />
+                                : 외부 파일에 저장된 내용을 데이터베이스로
+                                가져온다.
+                              </p>
+                            </li>
+                            <li style="list-style-type: circle">
+                              <p>
+                                <span>tb</span>Loader<a
+                                  id="d5e913"
+                                  class="indexterm"
+                                />
+                                : 대량의 데이터를 데이터베이스로 한꺼번에 읽어
+                                들인다.
+                              </p>
+                            </li>
+                            <li style="list-style-type: circle">
+                              <p>
+                                <span>tbpc</span
+                                ><a id="d5e919" class="indexterm" /> : C 언어로
+                                작성된 프로그램 안에서 내장 SQL(Embedded SQL)을
+                                사용하는 프로그램을 개발할 때 이를 C
+                                프로그램으로 변환한다. 이렇게 변환된 프로그램을
+                                C 컴파일러를 통해 컴파일할 수 있도록 도와주는
+                                역할도 담당한다.
+                              </p>
+                            </li>
+                          </ul>
+                        </div>
+                        <p>
+                          유틸리티에 대한 내용은 "<span>Tibero</span> 유틸리티
+                          안내서"를 참고한다. 단,
+                          <span
+                            ><strong class="guibutton"
+                              ><span>tbpc</span></strong
+                            ></span
+                          >
+                          유틸리티는 "<span>Tibero</span><span> tbESQL</span>/C
+                          안내서"를 참고한다.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left">config</td>
+                      <td>
+                        <span>Tibero</span>의 클라이언트 프로그램을 실행하기
+                        위한 설정 파일이 위치하는 디렉터리이다.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left">include</td>
+                      <td>
+                        <span>Tibero</span>의 클라이언트 프로그램을 작성할 때
+                        필요한 헤더 파일이 위치하는 디렉터리이다.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left">lib</td>
+                      <td>
+                        <span>Tibero</span>의 클라이언트 프로그램을 작성할 때
+                        필요한 라이브러리 파일이 위치하는 디렉터리이다. 자세한
+                        내용은 "<span>Tibero</span> 애플리케이션 개발자
+                        안내서"와 "<span>Tibero</span><span>tbESQL</span>/C
+                        안내서"를 참고한다.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left">ssl</td>
+                      <td>
+                        서버 보안을 위한 인증서와 개인 키를 저장하는
+                        디렉터리이다.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left">epa</td>
+                      <td>
+                        External Procedure와 관련된 설정 파일과 로그 파일이 있는
+                        디렉터리이다. 이에 대한 자세한 내용은 "<span
+                          >Tibero</span
+                        >
+                        External Procedure 안내서"를 참고한다.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left">win32</td>
+                      <td>
+                        32Bit Windows용 ODBC/OLE DB 드라이버가 위치하는
+                        디렉터리이다.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left">win64</td>
+                      <td>
+                        64Bit Windows용 ODBC/OLE DB 드라이버가 위치하는
+                        디렉터리이다.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p />
+            </dd>
+            <dt>
+              <span class="term"
+                ><span><strong class="guibutton">config</strong></span></span
+              >
+            </dt>
+            <dd>
+              <p>
+                <span>Tibero</span>의 환경설정 파일이 위치하는 디렉터리이다. 이
+                위치에 존재하는 $<span>TB_</span>SID.tip 파일이
+                <span>Tibero</span>의 환경설정을 결정한다.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"
+                ><span><strong class="guibutton">database</strong></span></span
+              >
+            </dt>
+            <dd>
+              <p>다음은 하위 디렉터리에 대한 설명이다.</p>
+
+              <div class="itemizedlist">
+                <ul type="circle" compact="compact">
+                  <li style="list-style-type: circle">
+                    <p>$<span>TB_</span>SID</p>
+
+                    <p>
+                      <span>Tibero</span>의 데이터베이스 정보를 별도로 설정하지
+                      않는 한 모든 데이터베이스 정보가 이 디렉터리와 그 하위
+                      디렉터리에 저장된다. 이 디렉터리에는 데이터 자체에 대한
+                      메타데이터(metadata)뿐만 아니라 다음과 같은 종류의 파일이
+                      있다.
+                    </p>
+
+                    <div class="informaltable">
+                      <table border="1">
+                        <colgroup>
+                          <col width="150" align="left" />
+                          <col />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th align="left">파일</th>
+                            <th>설명</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td align="left">
+                              컨트롤 파일<a id="d5e986" class="indexterm" />
+                            </td>
+                            <td>다른 모든 파일의 위치를 담고 있는 파일이다.</td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              데이터 파일<a id="d5e991" class="indexterm" />
+                            </td>
+                            <td>실제 데이터를 저장하고 있는 파일이다.</td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              로그 파일<a id="d5e996" class="indexterm" />
+                            </td>
+                            <td>
+                              데이터 복구를 위해 데이터에 대한 모든 변경 사항을
+                              저장하는 파일이다.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </li>
+                  <li style="list-style-type: circle">
+                    <p>$<span>TB_</span>SID/java</p>
+
+                    <p>
+                      JAVA_CLASS_PATH가 정의되지 않은 경우 Java EPA Class File이
+                      저장되는 디렉터리이다.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </dd>
+            <dt>
+              <span class="term"
+                ><span><strong class="guibutton">instance</strong></span></span
+              >
+            </dt>
+            <dd>
+              <p>다음은 하위 디렉터리에 대한 설명이다.</p>
+
+              <div class="itemizedlist">
+                <ul type="circle" compact="compact">
+                  <li style="list-style-type: circle">
+                    <p>$<span>TB_</span>SID/audit</p>
+
+                    <p>
+                      데이터베이스 사용자가 시스템 특권 또는 스키마 객체 특권을
+                      사용하는 것을 감시(AUDIT)한 내용을 기록한 파일이 저장되는
+                      디렉터리이다.
+                    </p>
+                  </li>
+                  <li style="list-style-type: circle">
+                    <p>$<span>TB_</span>SID/log</p>
+
+                    <p>
+                      <span>Tibero</span>의 시스템 로그 파일(slog)과 DBMS
+                      로그(dlog), Internal 로그(ilog), Listener 로그(lsnr),
+                      memlog 파일이 저장되는 디렉터리이다.
+                    </p>
+
+                    <div class="informaltable">
+                      <table border="1">
+                        <colgroup>
+                          <col width="170" align="left" />
+                          <col />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th align="left">파일</th>
+                            <th>설명</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td align="left">
+                              시스템 로그 파일(slog)<a
+                                id="d5e1028"
+                                class="indexterm"
+                              />
+                            </td>
+                            <td>
+                              디버깅을 위한 파일이다. 서버가 하는 중요한 일이
+                              기록되는 파일이며, 서버 성능이 저하되는 원인을
+                              찾거나 <span>Tibero</span> 자체의 버그를 해결하는
+                              데 사용될 수 있다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              DBMS 로그 파일(dlog)<a
+                                id="d5e1034"
+                                class="indexterm"
+                              />
+                            </td>
+                            <td>
+                              시스템 로그 파일에 기록되는 정보보다 좀 더 중요한
+                              정보가 기록되는 파일이며, 서버 기동 및 종류, DDL
+                              문장의 수행 등이 기록되는 파일이다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              Internal 로그 파일(ilog)<a
+                                id="d5e1039"
+                                class="indexterm"
+                              />
+                            </td>
+                            <td>
+                              스레드별로 설정된 이벤트에 대한 시스템 로그가
+                              기록되는 파일이며, Internal 로그를 보려면
+                              <span>tb</span>iv를 이용해야 한다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              Listener 로그 파일(lsnr)<a
+                                id="d5e1045"
+                                class="indexterm"
+                              />
+                            </td>
+                            <td>
+                              Listener의 디버깅을 위한 파일이다. 리스너에서
+                              일어난 중요한 일이 기록되는 파일이며, 리스너의
+                              버그를 해결하는 데 사용될 수 있다.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <p>
+                      시스템 로그 파일, DBMS 로그 파일, Internal 로그 파일,
+                      Listener 로그 파일은 데이터베이스를 사용할수록 계속
+                      누적되어 저장된다. 또한 전체 디렉터리의 최대 크기를 지정할
+                      수 있으며, <span>Tibero</span>는 그 지정된 크기를 넘어가지
+                      않도록 오래된 파일을 삭제한다.
+                    </p>
+
+                    <p>로그 파일을 설정하는 초기화 파라미터는 다음과 같다.</p>
+
+                    <div class="informaltable">
+                      <table border="1">
+                        <colgroup>
+                          <col width="210" align="left" />
+                          <col />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th align="left">초기화 파라미터</th>
+                            <th>설명</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td align="left">
+                              <code class="filename">DBMS_LOG_FILE_SIZE</code>
+                            </td>
+                            <td>DBMS 로그 파일 하나의 최대 크기를 설정한다.</td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              <code class="filename"
+                                >DBMS_LOG_TOTAL_SIZE_LIMIT</code
+                              >
+                            </td>
+                            <td>
+                              DBMS 로그 파일이 저장된 디렉터리의 최대 크기를
+                              설정한다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              <code class="filename">SLOG_FILE_SIZE</code>
+                            </td>
+                            <td>
+                              시스템 로그 파일 하나의 최대 크기를 설정한다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              <code class="filename"
+                                >SLOG_TOTAL_SIZE_LIMIT</code
+                              >
+                            </td>
+                            <td>
+                              시스템 로그 파일이 저장된 디렉터리의 최대 크기를
+                              설정한다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              <code class="filename">ILOG_FILE_SIZE</code>
+                            </td>
+                            <td>
+                              Internal 로그 파일 하나의 최대 크기를 설정한다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              <code class="filename"
+                                >ILOG_TOTAL_SIZE_LIMIT</code
+                              >
+                            </td>
+                            <td>
+                              Internal 로그 파일이 저장된 디렉터리의 최대 크기를
+                              설정한다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              <code class="filename">LSNR_LOG_FILE_SIZE</code>
+                            </td>
+                            <td>
+                              Listener 로그 파일 하나의 최대 크기를 설정한다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              <code class="filename"
+                                >LSNR_LOG_TOTAL_SIZE_LIMIT</code
+                              >
+                            </td>
+                            <td>
+                              Listener 로그 파일이 저장된 디렉터리의 최대 크기를
+                              설정한다.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </li>
+                  <li style="list-style-type: circle">
+                    <p>$<span>TB_</span>SID/dump</p>
+
+                    <p>
+                      <span>Tibero</span>의 DDL 또는 실행 중 에러에 의해
+                      발생하는 덤프 파일이 저장되는 디렉터리이다.<a
+                        id="d5e1096"
+                        class="indexterm"
+                      />
+                    </p>
+
+                    <div class="informaltable">
+                      <table border="1">
+                        <colgroup>
+                          <col width="130" align="left" />
+                          <col />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th align="left">하위 디렉터리</th>
+                            <th>설명</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td align="left">act</td>
+                            <td>
+                              스레드 액티비티 모니터에 의한 정보가 남는
+                              디렉터리이다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">diag</td>
+                            <td>
+                              TAC의 diag 기능을 사용하는 경우 로그 및 덤프가
+                              남는 디렉터리이다.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">tracedump</td>
+                            <td>
+                              SQL 수행 중 에러가 발생하는 경우 디버깅을 위해
+                              sql, psm 정보를 수집해서 남김, 이외에도 DDL dump
+                              명령을 통해 남긴 덤프가 남는 디렉터리이다.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </li>
+                  <li style="list-style-type: circle">
+                    <p>$<span>TB_</span>SID/path</p>
+
+                    <p>
+                      <span>Tibero</span>의 프로세스 간에 통신을 위한 소켓
+                      파일이 있는 디렉터리이다. <span>Tibero</span>가 운영 중일
+                      때 이 위치에 존재하는 파일을 읽거나 수정해서는 안 된다.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </dd>
+            <dt>
+              <span class="term"
+                ><span><strong class="guibutton">lib</strong></span></span
+              >
+            </dt>
+            <dd>
+              <p>
+                <span>Tibero</span> 서버에서 Spatial과 관련된 함수를 사용하기
+                위한 라이브러리 파일이 있는 디렉터리이다.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"
+                ><span><strong class="guibutton">license</strong></span></span
+              >
+            </dt>
+            <dd>
+              <p>
+                <span>Tibero</span>의 라이선스 파일(license.xml)이 있는
+                디렉터리이다. XML 형식이므로 일반 텍스트 편집기로도 라이선스의
+                내용을 확인할 수 있다.
+              </p>
+
+              <p>다음은 하위 디렉터리에 대한 설명이다.</p>
+
+              <div class="informaltable">
+                <table border="1">
+                  <colgroup>
+                    <col width="150" align="left" />
+                    <col />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th align="left">하위 디렉터리</th>
+                      <th>설명</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td align="left">oss_licenses</td>
+                      <td>
+                        반드시 준수해야 하는 오픈소스 라이선스의 대한 정보를
+                        확인할 수 있는 디렉터리이다.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </dd>
+            <dt>
+              <span class="term"
+                ><span><strong class="guibutton">nls</strong></span></span
+              >
+            </dt>
+            <dd>
+              <p>다음은 하위 디렉터리에 대한 설명이다.</p>
+
+              <div class="informaltable">
+                <table border="1">
+                  <colgroup>
+                    <col width="150" align="left" />
+                    <col />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th align="left">하위 디렉터리</th>
+                      <th>설명</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td align="left">zoneinfo</td>
+                      <td>
+                        <span>Tibero</span>에서 사용하는 시간대 파일이 있는
+                        디렉터리이다.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </dd>
+            <dt>
+              <span class="term"
+                ><span><strong class="guibutton">scripts</strong></span></span
+              >
+            </dt>
+            <dd>
+              <p>
+                <span>Tibero</span>의 데이터베이스를 생성할 때 사용하는 각종 SQL
+                문장이 있는 디렉터리이다. 또한 <span>Tibero</span>의 현재 상태를
+                보여주는 각종 뷰의 정의도 이 디렉터리에 있다.
+              </p>
+
+              <p>다음은 하위 디렉터리에 대한 설명이다.</p>
+
+              <div class="informaltable">
+                <table border="1">
+                  <colgroup>
+                    <col width="140" align="left" />
+                    <col />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th align="left">하위 디렉터리</th>
+                      <th>설명</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td align="left">pkg</td>
+                      <td>
+                        <span>Tibero</span>에서 사용하는 패키지의 생성문이
+                        저장되는 디렉터리이다.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </dd>
+          </dl>
+        </div>
+
+        <p />
+      </div>
+    </div>
+    <div class="navfooter">
+      <hr />
+      <table width="100%" summary="Navigation footer">
+        <tr>
+          <td width="40%" align="left">
+            <a accesskey="p" href="about.html">이전</a> 
+          </td>
+          <td width="20%" align="center"> </td>
+          <td width="40%" align="right">
+             <a accesskey="n" href="chapter_01.html">다음</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="40%" align="left" valign="top">안내서에 대하여 </td>
+          <td width="20%" align="center">
+            <a accesskey="h" href="index.html">처음으로</a>
+          </td>
+          <td width="40%" align="right" valign="top"> 제2장 관리의 기본</td>
+        </tr>
+      </table>
+    </div>
+    <div xmlns="" align="center" />
+  </body>
+</html>

@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제13장 Tibero Standby Cluster</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 관리자 안내서"/><link rel="up" href="index.html" title="Tibero 관리자 안내서"/><link rel="prev" href="chapter_07.html" title="제12장 분산 트랜잭션"/><link rel="next" href="chapter_cluster_manager.html" title="제14장 Tibero Cluster Manager"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제13장 <span xmlns="http://www.w3.org/1999/xhtml">Tibero</span> Standby Cluster</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_07.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_cluster_manager.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_standby_cluster"/>제13장 <span>Tibero</span> Standby Cluster</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_standby_cluster.html#d5e10216">13.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#d5e10246">13.2. 프로세스</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#d5e10272">13.3. 로그 전송 방식</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#sect_primary_config">13.4. Primary 설정 및 운용</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#sect_standby_config">13.5. Standby 설정 및 운용</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_standby_cluster.html#d5e10494">13.5.1. Standby의 read only 모드</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_standby_cluster.html#sect_tac_tsc">13.6. <span>TAC-TSC</span> 구성</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#d5e10579">13.7. 데이터베이스의 역할 전환</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_standby_cluster.html#sect_switchover">13.7.1. Switchover</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#d5e10601">13.7.2. Failover</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_standby_cluster.html#d5e10607">13.8. 클라이언트의 설정</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#d5e10622">13.9. <span>Tibero</span> Standby Cluster 정보 조회</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#sect_check_point">13.10. 제약 사항</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#sect_standby_additional_features">13.11. 유용한 추가 기능</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_standby_cluster.html#sect_standby_redo_log_group">13.11.1. Standby Redo Log Group</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#d5e10736">13.11.2. Snapshot Standby</a></span></dt><dt><span class="section"><a href="chapter_standby_cluster.html#d5e10790">13.11.3. Cascade <span>TSC</span></a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>Tibero</span> Standby Cluster의 구성요소와 동작 및 운영 방법을
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e10216"/>13.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton"><span>Tibero</span> Standby Cluster</strong></span>는 데이터베이스의
+    고가용성, 데이터의 보호, 재난 복구 등을 목적으로 제공하는 <span>Tibero</span>의 핵심 기능이다.<a id="d5e10222" class="indexterm"/></p>
+
+    <p><span>Tibero</span> Standby 서버는 물리적으로 독립된 장소에 원본 데이터베이스의
+    복사본을 트랜잭션 단위로 보관한다. 복사할 대상이 되는 원본 데이터베이스를 <span><strong class="guibutton">Primary
+    DB</strong></span>(이하 Primary)라 하고, 복사된 데이터가 저장되는 데이터베이스를 <span><strong class="guibutton">Standby
+    DB</strong></span>(이하 Standby)라고 한다.<a id="d5e10229" class="indexterm"/><a id="d5e10231" class="indexterm"/></p>
+
+    <p><span>Tibero</span> Standby Cluster의 원리는 Primary에서 생성된
+    Redo 로그를 배경 프로세스가 Standby로 전송하고, Standby는 Redo 로그를 이용해 Primary의 모든 변화를 똑같이
+    반영하는 것이다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 <span>Tibero</span> Standby Cluster가 어떻게 동작하는지를 나타내는
+    그림이다.</p>
+
+    <div class="figure"><a id="fig_standby_arch"/><p class="title"><b>[그림 13.1] <span>Tibero</span> Standby Cluster의 동작 구조</b></p><div class="figure-contents">
+      
+
+      <div xmlns="" class="mediaobject" align="left"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="600"><tr><td align="left"><img src="resources/tibero-standby.png" align="top" width="600" alt="Tibero Standby Cluster의 동작 구조"/></td></tr></table></div>
+    </div></div><br class="figure-break"/>
+
+    <p>데이터의 복사를 통해 Primary는 서비스가 요청한 데이터 처리에 실패했을 경우 Standby의 데이터를 활용해 해당
+    서비스를 신속히 재개할 수 있다. 또한 Primary의 서버만으로는 손상된 데이터를 복구를 할 수 없는 경우에도 쉽게 대처할 수
+    있다.</p>
+
+    <p>예를 들면 Primary의 서버의 디스크가 손상된 경우 Standby를 통해 손상된 데이터를 보호할 수 있다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e10246"/>13.2. 프로세스</h2></div></div></div>
+    
+
+    <p><span><span>Tibero</span> Standby Cluster의 프로세스는 다음과
+    같다.<a id="d5e10251" class="indexterm"/></span></p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>LNW(Log Network Writer)<a id="d5e10257" class="indexterm"/></p>
+
+        <p>Primary의 Redo 로그를 Standby로 전송하는 프로세스이다. 로그 전송 방식과 무관하게 로그를 보내는
+        것은 항상 LNW에서 이루어진다. Standby는 9개까지 설정이 가능하며, 각 Standby마다 LNW가 하나씩
+        실행된다.</p>
+      </li><li>
+        <p>LNR(Log Network Reader)<a id="d5e10262" class="indexterm"/></p>
+
+        <p>Standby에서 Primary로부터 받은 Redo 로그를 온라인 Redo 로그 파일에 기록하는
+        프로세스이다.</p>
+
+        <p>Standby는 MOUNT나 NORMAL이 아닌 RECOVERY 부트 모드로 동작하며 이때, log writer는
+        사용되지 않고, LNR이 LGWR의 역할을 대신한다. LNR은 RCWP 프로세스의 스레드 중 하나로 동작한다.</p>
+      </li><li>
+        <p>SMR(Standby Managed Recovery)<a id="d5e10268" class="indexterm"/></p>
+
+        <p>온라인 Redo 로그를 읽어 Standby에 적용하는 복구 과정을 수행하는 프로세스이다. SMR은 RCWP
+        프로세스의 스레드 중 하나로 동작한다.</p>
+      </li></ul></div>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e10272"/>13.3. 로그 전송 방식</h2></div></div></div>
+    
+
+    <p>Primary에서 Standby로 로그가 전송되는 방식은 다음과 같다.<a id="d5e10275" class="indexterm"/></p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">로그 전송 방식</th><th>설명</th></tr></thead><tbody><tr><td align="left">LGWR SYNC<a id="d5e10288" class="indexterm"/><a id="d5e10290" class="indexterm"/></td><td>LGWR가 Redo 로그를 디스크에 기록할 때 LNW를 통해 Standby에 Redo 로그를
+            전송한다.</td></tr><tr><td align="left">LGWR ASYNC<a id="d5e10297" class="indexterm"/><a id="d5e10299" class="indexterm"/></td><td>LNW가 직접 온라인 Redo 로그 파일을 읽어서 Standby로 보낸다.</td></tr><tr><td align="left">ARCH ASYNC<a id="d5e10306" class="indexterm"/><a id="d5e10308" class="indexterm"/></td><td>ARCH가 로그 순환을 할 때 아카이브 로그를 만든 후 LNW에게 알려주고, LNW는 아카이브 로그 파일을
+            읽어 Standby로 보낸다.</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_primary_config"/>13.4. Primary 설정 및 운용</h2></div></div></div>
+    
+
+    <p/>
+
+    <p>Primary DB의 동작 모드에는 다음과 같다.<a id="d5e10317" class="indexterm"/></p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">PROTECTION 모드<a id="d5e10329" class="indexterm"/><a id="d5e10331" class="indexterm"/></td><td><p>적어도 하나 이상의 LGWR SYNC를 포함해야 한다.</p><p>LGWR는 디스크에
+            기록하는 것 외에도 LGWR SYNC인 Standby 중 적어도 하나의 Standby로부터 성공했다는 응답을 받아야
+            진행할 수 있다. 모든 LGWR SYNC인 Standby가 실패한 경우 Primary도 같이 실패하고 더 이상 진행하지
+            않는다.</p></td></tr><tr><td align="left">AVAILABILITY 모드<a id="d5e10339" class="indexterm"/><a id="d5e10341" class="indexterm"/></td><td><p>적어도 하나 이상의 LGWR SYNC를 포함해야 한다.</p><p>모든 LGWR
+            SYNC인 Standby가 실패하면 Standby와의 동기화를 포기한다. 하지만 Primary는 계속
+            진행한다.</p></td></tr><tr><td align="left">PERFORMANCE 모드<a id="d5e10349" class="indexterm"/><a id="d5e10351" class="indexterm"/></td><td>로그 전송 방식에 제한이 없고 Standby의 실패와 무관하게 Primary는 계속
+            진행한다.</td></tr></tbody></table>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <p/>
+
+    <p>다음은 Standby로 연결할 데이터베이스의 정보와 각 Standby의 종류 그리고 동작 모드를 설정하는
+    방법이다.</p>
+
+    <p>&lt;&lt;$<span>TB_</span>SID.tip&gt;&gt;</p>
+
+    
+
+    <pre class="programlisting">LOG_REPLICATION_MODE   = {PROTECTION|AVAILABILITY|PERFORMANCE}
+LOG_REPLICATION_DEST_1 = "hostname_1:port_1 {LGWR SYNC|LGWR ASYNC|ARCH ASYNC}"
+LOG_REPLICATION_DEST_2 = "hostname_2:port_2 {LGWR SYNC|LGWR ASYNC|ARCH ASYNC}"
+...
+LOG_REPLICATION_DEST_N = "hostname_N:port_N {LGWR SYNC|LGWR ASYNC|ARCH ASYNC}"</pre>
+
+    <p>다음은 위 파일에서 설정한 각 초기화 파라미터에 대한 설명이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p><code class="filename">LOG_REPLICATION_MODE</code><a id="d5e10367" class="indexterm"/></p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>데이터를 보호하는 수준에 중점을 둘지 또는 성능을 최대화할지에 대한 전체적인 동작 모드를 설정한다. 한 번만
+            설정하면 된다.</p>
+          </li><li>
+            <p>LOG_REPLICATION_MODE 초기화 파라미터에 설정할 수 있는 항목은 다음과 같다.</p>
+
+            <div class="informaltable">
+              <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">PROTECTION</td><td>LGWR SYNC로 설정된 Standby가 하나도 없는 경우를 허용할 수 없는 항목이다. 이
+                    항목을 설정하면 서버를 기동할 때 초기화 에러가 발생한다. 이 에러를 해결하기 위해서는 모드에 따라
+                    Standby에 맞게 설정한 후 다시 서버를 기동해야 한다.</td></tr><tr><td align="left">AVAILABILITY</td><td>PROTECTION 항목과 마찬가지로 LGWR SYNC로 설정된 Standby가 하나도 없는
+                    경우를 허용할 수 없는 항목이다. 이 항목을 설정하면 서버를 기동할 때 초기화 에러가 발생한다. 이
+                    에러를 해결하기 위해서는 모드에 따라 Standby에 맞게 설정한 후 다시 서버를 기동해야
+                    한다.</td></tr><tr><td align="left">PERFORMANCE</td><td>Standby로 로그가 전송되는 방식에 제한이 없고 동기화를 보장하지 않으므로 시스템 성능을
+                    높이는 데 가장 유리한 항목이다.</td></tr></tbody></table>
+            </div>
+          </li></ul></div>
+      </li><li>
+        <p><code class="filename">LOG_REPLICATION_DEST_N</code><a id="d5e10396" class="indexterm"/></p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>각 Standby의 데이터베이스의 연결 정보(hostname:port)와 로그 전송 방식을 설정한다. 설정할
+            수 있는 최대 Standby의 개수(N)은 9이고, 필요한 만큼만 LOG_REPLICATION_DEST_1부터
+            설정한다.</p>
+          </li><li>
+            <p>연결 정보 중 포트 번호는 기본적으로 LISTENER_PORT+4 값으로 설정한다. 해당 값은 파라미터
+            설정을 통하여 변경할 수 있다.</p>
+          </li><li>
+            <p>LOG_REPLICATION_DEST_N 초기화 파라미터에 설정할 수 있는 항목은 다음과 같다.</p>
+
+            <div class="informaltable">
+              <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">LGWR SYNC</td><td><p>LGWR SYNC로 설정된 Standby는 Primary의 Redo 버퍼의 내용을
+                    전송받아 동작하므로 가장 빈번하게 Redo 로그를 전송한다. 따라서 데이터가 보호될 확률도 높다. 반면에
+                    Primary의 성능 저하가 심하므로 Standby를 Primary와 비슷한 수준으로 구축할 것을
+                    권장한다.</p><p>PERFORMANCE 모드와 같이 사용할 수 있는데 이러한 경우 데이터를
+                    보호하지 못하더라도 Primary는 계속 진행할 수 있다. 따라서 Standby가 느리면 온라인 Redo
+                    로그 파일이나 아카이브 로그 파일에서 Redo 로그를 읽어 전송할 수 있으므로 Primary를
+                    ARCHIVELOG 모드로 운영할 것을 권장한다.</p></td></tr><tr><td align="left">LGWR ASYNC</td><td><p>LGWR ASYNC로 설정된 Standby는 LGWR SYNC와 ARCH
+                    ASYNC의 중간 수준의 빈도로 Redo 로그를 전송한다. </p><p>기본적으로 온라인
+                    Redo 로그 파일을 읽어서 전송하지만 Standby가 따라오지 못하는 경우 아카이브 로그 파일에서 읽을
+                    수도 있으므로 Primary를 ARCHIVELOG 모드로 운영할 것을
+                    권장한다.</p></td></tr><tr><td align="left">ARCH ASYNC</td><td><p>ARCH ASYNC로 설정된 Standby가 하나 이상 존재하면 Primary는
+                    반드시 ARCHIVELOG 모드로 동작해야 한다. 그렇지 않으면 서버의 기동은 정상적으로 되지만 해당
+                    Standby는 아무런 동작도 하지 못하게 된다. 이 점을 주의해야 한다.</p><p>비록
+                    ARCH ASYNC인 Standby를 사용하지 않더라도 Standby 기능을 사용할 때에는
+                    Primary를 ARCHIVELOG 모드로 운영할 것을 권장한다.</p></td></tr></tbody></table>
+            </div>
+          </li></ul></div>
+      </li><li>
+        <p><code class="filename">LOG_REPLICATION_N_ENABLE</code><a id="d5e10433" class="indexterm"/></p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>Primary DB down 없이 동적으로 Standby를 추가할 수 있는 파라미터다. 아래와 같은 SQL
+            문을 이용하여 운영 중 Standby를 추가할 수 있다.</p>
+
+            <pre class="programlisting">sql&gt; alter system set LOG_REPLICATION_MODE={PROTECTION|AVAILABILITY|PERFORMANCE}
+sql&gt; alter system set LOG_REPLICATION_DEST_1 = "hostname_1:port_1 
+{LGWR SYNC|LGWR ASYNC|ARCH ASYNC}"
+sql&gt; alter system set LOG_REPLICATION_1_ENABLE=Y; (N으로 설정하면 동기화 모드 비활성화)</pre>
+          </li></ul></div>
+
+        <div class="caution" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">주의</h3>
+            <p>동적으로 추가하고자 하는 DEST의 Index는 반드시 순서를 지켜야 한다. 예를 들어 DEST_1 설정
+            없이 DEST_5를 설정하려고 할 경우 DDL이 실패한다.</p>
+          </div>
+
+        <p/>
+      </li></ul></div>
+
+    <p/>
+
+    <p>Primary를 NORMAL 모드로 기동하면 $<span>TB_</span>SID.tip 파일에 설정된 각 Standby와 연결이 이루어지고, 배경
+    프로세스에 의해 자동으로 <span><strong class="guibutton">데이터 이중화</strong></span>(Replication)가 이루어진다. 예를 들어
+    PROTECTION이나 AVAILABILITY 동작 모드로 기동하고 LGWR SYNC인 Standby가 모두 연결이 불가능한 상태라면
+    Primary도 운영이 불가능하므로 반드시 Standby를 먼저 기동해야 한다. 그 외의 경우에는 Standby를 나중에 기동하더라도
+    자동으로 연결되므로 운영이 가능하다.</p>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>Primary에서 데이터베이스를 생성하는 동안에는 $<span>TB_</span>SID.tip 파일에 있는 Standby 설정이 무시된다. 따라서
+      Primary에서 생성된 DB 파일을 DBA가 수동으로 Standby로 복사해야 한다.</p>
+    </div>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_standby_config"/>13.5. Standby 설정 및 운용</h2></div></div></div>
+    
+
+    <p>Standby를 운영하기 위해 필요한 설정 과정은 다음과 같다.</p>
+
+    <div class="orderedlist"><ol type="1" compact="compact"><li>
+        <p>Primary에서 백업한 DB 파일을 복사해서 Standby를 구성한다.</p>
+
+        <p>컨트롤 파일, 온라인 로그 파일, 패스워드 파일을 포함한 모든 데이터 파일을 복사한다. 패스워드 파일을 함께
+        복사하는 이유는 Primary가 Standby에 SYS 권한을 가지고 접속하므로 SYS의 패스워드가 서로 일치해야 하기
+        때문이다.</p>
+      </li><li>
+        <p>Standby의 $<span>TB_</span>SID.tip 파일을 열어 DB_NAME이 Primary와 같도록
+        수정한다.</p>
+      </li><li>
+        <p>$<span>TB_</span>SID.tip 파일에서 컨트롤 파일이 위치하는 디렉터리 경로가 1번에서
+        Primary 파일을 복사한 경로와 일치하는지 확인한다. 또한 <code class="filename">DB_BLOCK_SIZE</code>도
+        Primary에 설정된 것과 같아야 한다. 설정이 같으면 복사한 데이터 파일을 열 수 있다.</p>
+
+        <p>Primary의 백업을 가져다 놓은 Standby의 디렉터리의 경로가 원래와 달라진 경우에는 Standby의
+        $<span>TB_</span>SID.tip 파일에 다음과 같이 경로 변환을 위한 정보를 추가해야
+        한다.</p>
+
+        <div class="example"><a id="ex_8_1"/><p class="title"><b>[예 13.1] Standby의 $<span>TB_</span>SID.tip 파일의 경로 변환</b></p><div class="example-contents">
+          
+
+          
+
+          <pre class="programlisting">STANDBY_FILE_NAME_CONVERT="Primary의 절대 경로, Standby의 절대 경로"</pre>
+        </div></div><br class="example-break"/>
+
+        <p>Primary와 Standby의 절대 경로는 각각 Primary와 Standby의 instance 디렉터리의 절대
+        경로이다.</p>
+      </li><li>
+        <p>Standby를 MOUNT 모드로 기동한 후 다음의 DDL 문장을 수행하면 해당 DB를 Standby로 설정하고,
+        변환된 경로가 컨트롤 파일에 적용된다.</p>
+
+        <div class="example"><a id="ex_8_2"/><p class="title"><b>[예 13.2] Standby 컨트롤 파일 설정</b></p><div class="example-contents">
+          
+
+          
+
+          <pre class="programlisting">SQL&gt; ALTER DATABASE Standby controlfile;</pre>
+        </div></div><br class="example-break"/>
+
+        <p>경로가 다른데도 위의 과정을 수행하지 않고 Standby를 기동하는 경우 컨트롤 파일에 적힌 경로에 데이터 파일을
+        열 수 없다는 에러가 발생한다.</p>
+      </li><li>
+        <p>Standby를 운영하기 위한 설정을 완료하면 다음의 명령을 통해 DB가 Standby로 동작하도록
+        기동시킨다.</p>
+
+        <div class="example"><a id="ex_8_3"/><p class="title"><b>[예 13.3] Standby의 기동</b></p><div class="example-contents">
+          
+
+          
+
+          <pre class="programlisting">$ <span>tbboot</span> -t RECOVERY</pre>
+        </div></div><br class="example-break"/>
+
+        <p>NORMAL 모드로 Standby를 한 번이라도 기동하게 되면 더 이상 Standby로서의 기능은 할 수 없고,
+        앞서 설명한 과정을 다시 반복하여 Standby를 설정해야 한다는 점에 주의한다.</p>
+
+        <p>Standby가 기동하기 전에 DB 파일이 이전의 버전이라 하더라도 일관성만 유지한다면 동작에는 문제가 없다.
+        내부적으로 Primary가 접속하여 Primary와 Standby 사이의 로그 갭(log gap)을 자동으로 맞춰 동작한다.
+        하지만 이 과정이 모두 Redo 로그에 의존하므로 두 DB 사이의 차이가 크고, Primary가 ARCHIVELOG 모드가
+        아니라면 필요한 Redo 로그가 존재하지 않아 동작이 불가능할 수 있다. 따라서 Primary는 ARCHIVELOG 모드로
+        동작시키거나 최근에 백업한 Primary를 Standby로 복사하여 두 DB의 DB 파일을 맞춘 후에 Primary를
+        동작시키는 것이 바람직하다.</p>
+      </li></ol></div>
+
+    <p/>
+
+    <p/>
+
+    <p/>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10494"/>13.5.1. Standby의 read only 모드</h3></div></div></div>
+      
+
+      <p>Standby는 내부적으로 Primary로부터 받은 Redo 로그를 디스크에 기록하고, 이를 복구하여 데이터 파일에도
+      반영하는 일을 수행하는 RECOVERY 모드로 동작하기 때문에 DB에 사용자의 접근이 제한된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>Standby를 read only 클러스터용으로 사용하는 경우와 같이 Standby에서 Redo 로그를 반영하는 과정을
+      중단하지 않고 읽기 작업을 원하는 경우가 있다. 그 때에는 다음의 DDL 문장을 실행하면 Standby는 복구 과정을 멈추지 않고
+      read only 세션을 허용한다.</p>
+
+      <div class="example"><a id="ex_8_4"/><p class="title"><b>[예 13.4] Standby의 read only continue recovery</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; alter database open read only continue recovery;</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="literallayout"><p/></div>
+
+      <p>Standby가 LGWR SYNC 모드로 설정되어 Primary와 동기화되어 있는 경우라면 Primary에 접속한
+      경우와 같이 최근에 커밋된 내용을 Standby에서도 볼 수 있다. 이 상태에서는 비록 DB 서버가 read only 모드임에도
+      불구하고 데이터의 내용이 변경될 수 있다는 사실에 주의해야 한다.</p>
+
+      <p>Standby를 다시 RECOVERY 모드로 전환시킬 때는 다음의 DDL 문장을 수행한다. 단, 연결 된 세션이 있다면
+      세션 작업이 끝날 때까지 기다린 후 RECOVERY 모드로 전환된다.</p>
+
+      <div class="example"><a id="ex_8_5"/><p class="title"><b>[예 13.5] RECOVERY 모드 전환</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; ALTER DATABASE Standby;</pre>
+      </div></div><br class="example-break"/>
+
+      <div class="literallayout"><p/></div>
+
+      <p>세션 작업이 끝날 때까지 기다리지 않고 바로 RECOVERY 모드로 전환해야 될 경우 다음의 DDL 문장을 수행한다.
+      다음의 DDL은 연결 된 모든 세션을 강제로 중지시킨 후 RECOVERY 모드로 전환한다.</p>
+
+      <div class="example"><a id="ex_8_6"/><p class="title"><b>[예 13.6] RECOVERY 모드 강제 전환</b></p><div class="example-contents">
+        
+
+        
+
+        <pre class="programlisting">SQL&gt; ALTER DATABASE Standby immediate;</pre>
+      </div></div><br class="example-break"/>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_tac_tsc"/>13.6. <span>TAC-TSC</span> 구성</h2></div></div></div>
+    
+
+    <p>Primary가 Single이 아니라 <span>TAC</span>일 때도 Standby를 운용할 수 있다.</p>
+
+    <p>다음은 <span>TAC-TSC</span>를 구성하는 절차이다.</p>
+
+    <div class="orderedlist"><ol type="1" compact="compact"><li>
+        <p><span>TAC-TSC</span>를 구성하기 위해선 Standby도 <span>TAC</span>
+        구성이어야 한다. 단, Standby에서 복구는 한 노드에서 진행되므로 Standby 쪽은 1-node TAC로 구성한다.
+        TAC 구성 방법은 <a href="chapter_cluster_manager.html#sect_tac_create" title="14.6. TAC 구성">“14.6. <span>T</span>AC 구성”</a>을 참고한다.</p>
+      </li><li>
+        <p>Primary 모든 노드의 $<span>TB_</span>SID.tip 파일에 LOG_REPLICATION_MODE와
+        LOG_REPLICATION_DEST_N 파라미터를 설정한다. 가급적이면 모든 노드에 대해 동일하게 설정해 주는 것을
+        권장한다.</p>
+      </li><li>
+        <p><a href="chapter_standby_cluster.html#sect_standby_config" title="13.5. Standby 설정 및 운용">“13.5. Standby 설정 및 운용”</a>과 마찬가지로 Primary에서 백업한 DB
+        파일로 Standby를 구성하고, DB_NAME 수정, 파일 경로 변환 등을 수행한 후 기동한다.</p>
+      </li></ol></div>
+
+    <p><span>TAC-TSC</span> 구성에서 Primary 쪽에 다운되어 있는 노드가 있다면 Standby
+    노드는 해당 노드의 Redo 로그를 전송받지 못하고, 복구를 정상적으로 수행할 수 없다. Primary 쪽에서 아래의 파라미터를
+    활성화시켜주면 Primary의 다른 노드가 다운되어있는 노드의 Redo 로그를 대신 전송해주어 Standby 쪽에서 복구가 정상적으로
+    수행될 수 있다. Primary 노드가 일부 다운된 상황에서도 동기화를 이어가고 싶다면 필수적으로 설정해주어야 한다.</p>
+
+    <p>&lt;&lt;$<span>TB_</span>SID.tip&gt;&gt;</p>
+
+    <pre class="programlisting">STANDBY_ENABLE_LOG_RECOVERY=Y</pre>
+
+    <p/>
+
+    <p>이렇게 다운된 노드의 로그를 대신 전송해주는 방식을 LGWR PROXY라고 하며, 위의 파라미터를 적용한 채
+    Primary를 기동하면 기본적으로 생성되어 있는 LGWR PROXY LNW들 중 자기 자신을 제외한 노드 개수 만큼의 LNW가
+    할당된다. 한 노드에서 최대 9개의 LNW가 가능하기 때문에 2-node <span>TAC-TSC</span>  구성에서는 8개의 LGWR PROXY LNW가 생성되고, 그 중 하나가
+    할당된다. Primary 중 한 노드가 다운되면 다른 노드에서는 다운된 노드에 대한 LGWR PROXY LNW의 상태가
+    CONNECTED로 바뀌고, 다운된 노드의 로그를 대신 전송해준다.</p>
+
+    <pre class="programlisting">SQL&gt; select * from v$standby_dest;
+STANDBY_ADDR
+--------------------------------------------------------------------------------
+TYPE                THREAD# FLAGS                              SENT_SEQ
+---------------- ---------- -------------------------------- ----------
+SENT_BLKNO  ACKED_SEQ ACKED_BLKNO      DELAY
+---------- ---------- ----------- ----------
+127.0.0.1:11004
+LGWR ASYNC                0 CONNECTED                                11
+       894         11         894          0
+
+127.0.0.1:11004
+LGWR PROXY                1 CONNECTED                                 7
+       880          7         880          0
+
+Not Assigned:0
+LGWR PROXY            65535 NOT CONNECTED                            -1
+        -1         -1          -1          0
+
+(중략)
+
+Not Assigned:0
+LGWR PROXY            65535 NOT CONNECTED                            -1
+        -1         -1          -1          0
+
+
+9 rows selected.</pre>
+
+    <p>위의 파라미터를 사용할 때 로그 전송 방식이 ASYNC 모드일 경우 다운된 노드의 아카이브 로그를 대신 읽어야 할 경우가
+    생길 수 있다. 이를 위해선 Primary 각 노드의 LOG_ARCHIVE_DEST가 동일한 위치로 설정되어 있어야 한다. 하지만
+    일반적인 공유 디스크 환경에서는 이것이 불가능하므로 <span>TAS</span>를 사용해야 한다. <span>TAS-TAC-TSC</span>를 구성하는 방법은 <span>TAS</span>CMD 의
+    cptolocal, cpfromlocal 명령어를 사용하여 Cold Backup을 이용해 구축하는 방법과 <span>tb</span>rmgr의
+    --for-standby 옵션을 사용해 Hot Backup으로 구축하는 방법이 있다.</p>
+
+    <p/>
+
+    <p/>
+
+    <h3><a id="d5e10553"/>멀티노드 <span>TSC</span></h3>
+
+    <p><span>TAC-TSC</span> 구성에서 Standby는 <span>TAC</span>이지만
+    기본적으로 복구를 담당하는 노드 하나만 부팅이 가능하다. 하지만 Standby를 read only 모드로 사용하고자 할 때 한 노드가
+    복구와 사용자의 쿼리를 동시에 처리해야 하기 때문에 성능의 저하가 생길 수 있다.</p>
+
+    <p>멀티노드 <span>TSC</span> 기능은 <span>TAC-TSC</span> 구성에서 최대 Primary의 노드 개수만큼 Standby 노드를
+    부팅시킬 수 있는 기능이다.</p>
+
+    <p>Standby 쪽에 <span>TAC</span>를 구성 후 Standby 모든 노드의 $<span>TB_</span>SID.tip 파일에 아래 파라미터를 설정해주면 멀티노드 <span>TSC</span> 기능이
+    활성화된다. 멀티노드 <span>TSC</span>를 구성하는 경우 Primary와 마찬가지로 Standby 각 노드에는 고유의
+    Redo 스레드가 할당되어야 한다.</p>
+
+    <p>&lt;&lt;$<span>TB_</span>SID.tip&gt;&gt;</p>
+
+    <pre class="programlisting">STANDBY_ENABLE_TAC_MULTINODE=Y</pre>
+
+    <p>멀티노드 <span>TSC</span> 기능을 사용하면 복구를 담당하는 노드 외에 추가적으로 read only 모드로
+    동작 가능한 Standby 노드를 부팅시킬 수 있다. Read only 노드를 부팅할 때는 READONLY 모드로 부팅하는 것이 아닌
+    RECOVERY 모드로 부팅 후 ddl을 이용하여 read only 모드로 전환해야 한다. 추가로 부팅된 read only 노드를
+    이용하면 사용자의 쿼리 부하를 분산시킬 수 있어 복구 및 쿼리의 성능이 향상되는 효과를 기대할 수 있다. 추가로 부팅시킨 read
+    only 모드인 Standby 노드는 RECOVERY 모드로 변경은 가능하지만 실제로 복구를 진행할 수 없기에 RECOVERY
+    모드로의 변경은 의미가 없다.</p>
+
+    <p>Standby에서 복구를 담당하는 노드는 Primary의 $<span>TB_</span>SID.tip 파일에서 설정된 노드이며, 복구는 한 노드가 담당하므로 모든
+    Primary의 $<span>TB_</span>SID.tip 파일에 동일하게 설정되어 있어야 한다.</p>
+
+    <p>Primary를 재기동하지 않고 복구를 담당하는 노드를 바꾸고 싶다면 Primary 모든 노드에서 아래의 sql을
+    수행해주면 된다. 단, Primary 각 노드에 설정된 LOG_REPLICATION_DEST가 다른 상황은 허용되지 않으므로 모든
+    노드의 연결 정보를 수정한 후에 동기화를 활성화해야 한다.</p>
+
+    <pre class="programlisting">sql&gt; alter sysetm set LOG_REPLICATION_1_ENABLE=N; (동기화 비활성화)
+sql&gt; alter system set LOG_REPLICATION_DEST_1 = "hostname_1:port_1
+{LGWR SYNC|LGWR ASYNC|ARCH ASYNC}"; (연결 정보 수정)
+sql&gt; alter system set LOG_REPLICATION_1_ENABLE=Y; (바꾼 설정으로 동기화 활성화)</pre>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e10579"/>13.7. 데이터베이스의 역할 전환</h2></div></div></div>
+    
+
+    <p>본 절에서는 Standby를 Primary로 전환하는 과정을 두 가지 시나리오로 나누어 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_switchover"/>13.7.1. Switchover</h3></div></div></div>
+      
+
+      <p>Primiary를 Switchover 모드로 종료하고 Standby 중 하나를 Primary로 전환하려면 다음의 절차를
+      수행한다.</p>
+
+      <div class="orderedlist"><ol type="1" compact="compact"><li>
+          <p>Primary에서 다음의 명령어를 입력한다.</p>
+
+          <div class="example"><a id="ex_8_7"/><p class="title"><b>[예 13.7] Switchover 명령어의 실행</b></p><div class="example-contents">
+            
+
+            
+
+            <pre class="programlisting">$ <span>tbdown</span> -t SWITCHOVER</pre>
+          </div></div><br class="example-break"/>
+
+          <p>Switchover 모드로 종료할 경우 NORMAL 모드와 동일하게 작동을 하며, 추가적으로 Primary에서
+          생성된 모든 Redo 로그를 Standby에 전송을 한뒤 종료하게 된다.</p>
+        </li><li>
+          <p>Standby 중 하나를 종료한 후 Failover 모드로 기동하면 그 DB가 새로운 Primary가
+          된다.</p>
+        </li></ol></div>
+
+      <p>이전의 Primary를 새로운 Standby로 사용하고 싶다면 새로 Primary가 될 DB의 $<span>TB_</span>SID.tip 파일에
+      Standby(<code class="filename">LOG_REPLICATION_MODE</code>,
+      <code class="filename">LOG_REPLICATION_DEST_n</code> 초기화 파라미터)를 설정하고, 이전 Primary를
+      RECOVERY 모드로 기동한 후에 새로 Primary가 될 DB를 Failover 모드로 기동하면 서로 역할을 전환하여 수행할
+      수 있다. 이때 두 DB는 이미 동기화된 상태이므로 Standby를 구성할 때 필요한 새로운 Primary의 DB 파일을
+      복사하고, <span><strong class="guibutton">ALTER DATABASE Standby controlfile</strong></span>을 수행하는
+      과정은 더 이상 필요하지 않는다. 또한 새로운 Standby의 $<span>TB_</span>SID.tip 파일에 기존의 Standby와 관련된 설정이 남아 있더라도
+      DB가 NORMAL 모드로 운용될 때만 적용된다.</p>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10601"/>13.7.2. Failover</h3></div></div></div>
+      
+
+      <p>현재 Primary가 갑자기 비정상적으로 종료되었거나 접근이 불가능해진 경우 Standby 중 하나를 Primary로
+      사용할 수 있다. Standby를 Primary로 사용하기 위해서는 종료 후 다시 Failover 모드로 기동해야 한다. 만약
+      USE_STANDBY_REDO_LOG 기능을 사용하던 Standby가 Failover 모드 기동을 원할 경우
+      USE_STANDBY_REDO_LOG 파라미터를 유지한 상태에서 기동해야 한다.</p>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p>기존에 사용하던 Primary는 새로운 Primary가 운영된 후에는 더 이상 어떤 용도(Primary나
+        Standby)로도 <span>Tibero</span> Standby Cluster에 포함될 수 없다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e10607"/>13.8. 클라이언트의 설정</h2></div></div></div>
+    
+
+    <p>Primary와 Standby에 모두 접속하기 위해서는 <span>tbdsn</span>.tbr 파일에 각 DB의 접속 정보를 추가해야 한다.</p>
+
+    <p>예를 들면 다음과 같다.</p>
+
+    <p>&lt;&lt;<span>tbdsn</span>.tbr&gt;&gt;</p>
+
+    <pre class="programlisting">PrimaryDB_SID=(
+               (INSTANCE=(HOST=primaryDB_hostname)
+                         (PORT=primaryDB_port)
+                         (DB_NAME=cluster_DB_NAME)
+               )
+)
+
+StandbyDB_SID=(
+               (INSTANCE=(HOST=StandbyDB_hostname)
+                         (PORT=StandbyDB_port)
+                         (DB_NAME=cluster_DB_NAME)
+               )
+)</pre>
+
+    <p>Primary와 Standby의 $<span>TB_</span>SID.tip 파일을 설정할 때 공통의 DB_NAME을 각각 SID 별로
+    설정해야 한다.</p>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>Primary에서 장애가 발생하면 Standby에 자동으로 접속하는 방법이 있다. 이 방법에 대한 자세한 내용은
+      <a href="appendix_a.html" title="Appendix A. tbdsn.tbr">“Appendix A. <span>tbdsn</span>.tbr”</a>를 참고한다.</p>
+    </div>
+
+    <p/>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e10622"/>13.9. <span>Tibero</span> Standby Cluster 정보 조회</h2></div></div></div>
+    
+
+    <p><span>Tibero</span>에서는 <span>Tibero</span> Standby Cluster의 상태 정보를 제공하기 위해 다음 표에 나열된 동적 뷰를 제공하고
+    있다.<a id="d5e10628" class="indexterm"/></p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">동적 뷰</th><th>설명</th></tr></thead><tbody><tr><td align="left">V$STANDBY_DEST<a id="d5e10641" class="indexterm"/><a id="d5e10643" class="indexterm"/></td><td>Primary에 설정된 각 Standby의 연결 정보 및 Redo 로그의 전송 상태를 조회하는 뷰이다.
+            Primary에서만 이 뷰를 사용할 수 있다.</td></tr><tr><td align="left">V$STANDBY<a id="d5e10650" class="indexterm"/><a id="d5e10652" class="indexterm"/></td><td>Standby에서 Primary의 연결 정보와 전달 받은 Redo 로그와 이미 반영된 Redo 로그의
+            상태를 조회하는 뷰이다. Standby에서만 이 뷰를 사용할 수 있다.</td></tr><tr><td align="left">V$STANDBY_LOG<a id="d5e10659" class="indexterm"/><a id="d5e10661" class="indexterm"/></td><td>Standby에서 USE_STANDBY_REDO_LOG 기능을 사용할 경우 Standby Redo 로그의
+            정보를 조회하는 뷰이다.</td></tr><tr><td align="left">V$STANDBY_LOGFILE<a id="d5e10668" class="indexterm"/><a id="d5e10670" class="indexterm"/></td><td>Standby에서 USE_STANDBY_REDO_LOG 기능을 사용할 경우 Standby Redo 로그
+            파일의 정보를 조회하는 뷰이다.</td></tr><tr><td align="left">V$STANDBY_ARCHIVED_LOG<a id="d5e10677" class="indexterm"/><a id="d5e10679" class="indexterm"/></td><td>Standby에서 생성된 아카이브 로그의 정보를 조회하는 뷰이다.</td></tr></tbody></table>
+    </div>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>동적 뷰에 대한 자세한 내용은 "<span>Tibero</span> 참조 안내서"를 참고한다.</p>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_check_point"/>13.10. 제약 사항</h2></div></div></div>
+    
+
+    <p><span>Tibero</span> Standby Cluster는 Primary에서 생성된 Redo 로그를
+    그대로 Standby에 전송하므로 서로 간의 컴퓨팅 환경(CPU bus size, endianness, OS 등)이 동일해야 하고,
+    $<span>TB_SID</span>.tip 파일의 데이터베이스 블록의 크기도 동일해야 한다.</p>
+
+    <p>Redo 로그를 적용하는 Standby Cluster의 특성으로 테이블 스페이스나 데이터베이스 파일의 상태를 변경하는
+    DDL 중 일부는 허용하지 않는다. 이와 같은 연산은 Standby 없이 수행해야 한다. 즉, 데이터베이스를 백업하여 Standby에
+    적용해야 하는 제약이 있다.</p>
+
+    <p>다음은 Standby Cluster에서 지원하지 않는 작업들이다. 기존에는 로그가 남지 않는 DPL, DPI에 대해
+    지원하지 않았지만, 현재 Standby가 연결되어 있을 때 강제로 로깅을 하고 있다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>일부 테이블 스페이스 변경 DDL</p>
+
+        <pre class="programlisting">ALTER TABLESPACE READ ONLY
+ALTER TABLESPACE READ WRITE</pre>
+      </li><li>
+        <p>일부 데이터베이스 변경 DDL</p>
+
+        <pre class="programlisting">ALTER DATABASE ADD LOGFILE
+ALTER DATABASE DROP LOGFILE
+ALTER DATABASE TEMPFILE
+ALTER DATABASE RENAME FILE</pre>
+      </li><li>
+        <p>GLOBAL TEMP TABLE 생성</p>
+
+        <pre class="programlisting">CREATE GLOBAL TEMPORARY TABLE</pre>
+      </li><li>
+        <p>JAVA EXTERNAL PROCEDURE 컴파일을 수행하는 DDL</p>
+
+        <pre class="programlisting">CREATE OR REPLACE AND RESOLVE JAVA SOURCE
+CREATE OR REPLACE AND COMPILE JAVA SOURCE</pre>
+      </li></ul></div>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p>1. Standby가 Read only 모드일 경우 DB Link 기능은 사용할 수 없다.</p>
+
+        <p>2. Standby Cluster에서 암호화 테이블 스페이스를 사용하려면 Primary와 Standby의 보안 지갑
+        마스터 키가 같아야 한다. 즉, 한 쪽에서 생성된 보안지갑을 복사해서 써야 한다. 또한 Standby에서 보안 지갑이
+        열려있어야 한다.</p>
+      </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_standby_additional_features"/>13.11. 유용한 추가 기능<a id="d5e10717" class="indexterm"/></h2></div></div></div>
+    
+
+    <p><span>TSC</span> 는 다양한 추가 기능들을 제공한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_standby_redo_log_group"/>13.11.1. Standby Redo Log Group</h3></div></div></div>
+      
+
+      <p>로그 스위치가 발생하는 경우 재사용할 로그의 checkpoint 여부를 확인하지 않고 아카이빙 여부만 확인하고 덮어쓰는
+      standby 전용의 새로운 online log group이다.</p>
+
+      <p>backup set을 restore한 후 아래와 같은 절차로 이용할 수 있다.</p>
+
+      <div class="orderedlist"><ol type="1" compact="compact"><li>
+          <p>초기화 파라미터 USE_STANDBY_REDO_LOG를 설정한다.</p>
+
+          <pre class="programlisting">USE_STANDBY_REDO_LOG=Y   </pre>
+        </li><li>
+          <p>Standby Redo Log Group을 구성한다.</p>
+
+          <pre class="programlisting">sql&gt; alter database standby controlfile;
+sql&gt; alter database add standby logfile thread 0 group 1 
+'/usr/tibero/log/stlog001.slf' size 100M;
+(size는 primary의 online log file과 일치하게 구성)
+sql&gt; alter database add standby logfile thread 0 group 2 
+'/usr/tibero/log/stlog002.slf' size 100M;
+sql&gt; alter database add standby logfile thread 0 group 3 
+'/usr/tibero/log/stlog003.slf' size 100M;
+sql&gt; alter database add standby logfile thread 0 group 4 
+'/usr/tibero/log/stlog004.slf' size 100M;
+sql&gt; alter database add standby logfile thread 0 group 5 
+'/usr/tibero/log/stlog005.slf' size 100M;
+sql&gt; alter database add standby logfile thread 0 group 6 
+'/usr/tibero/log/stlog006.slf' size 100M;
+(개수는 자유롭게 설정 가능하나 Primary의 online로그 개수의 2배 권장)
+sql&gt; alter database enable public standby redo thread 0;
+sql&gt; alter database recover automatic for standby; </pre>
+        </li><li>
+          <p>DB를 다운시킨 후 RECOVERY 모드로 부팅한다.</p>
+        </li></ol></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10736"/>13.11.2. Snapshot Standby</h3></div></div></div>
+      
+
+      <p>Snapshot Standby는 Primary와의 동기화는 계속 진행됨과 동시에 독자적으로 ddl/dml을 수행할 수
+      있는 Standby이다. 사용자는 자신이 원하는 시점에 Standby를 Snapshot Standby로 전환할 수 있으며,
+      Snapshot Standby로 전환된 후 언제든지 다시 Standby로 전환할 수 있다. Snapshot Standby에서는
+      Redo 로그는 계속 동기화되지만, 받은 로그에 대한 SMR의 리커버리는 중단된다. Standby로 전환할 때 전환 후에 다시
+      Primary와의 동기화를 이어가기 위해서 Snapshot Standby로 전환된 후에 발생된 모든 변경 사항은 버려지고, DB는
+      처음 Snapshot Standby로 전환되었던 시점으로 돌아간다.</p>
+
+      <p>Standby는 독자적인 ddl/dml이 불가능한 데에 반해, Snapshot Standby는 독자적으로
+      ddl/dml을 수행할 수 있어 Standby를 테스트 용도로 사용할 수 있고, 그러면서도 Primary와의 동기화는 계속
+      유지되므로 DR로서의 본연의 역할도 수행할 수 있다.</p>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+
+      <div class="section" lang="ko"><div class="titlepage"><div><div><h4 class="title"><a id="d5e10743"/>13.11.2.1. Standby에서 Snapshot Standby로의 전환</h4></div></div></div>
+        
+
+        <p>Standby에서 Snapshot Standby로 전환하기 위한 절차는 다음과 같다.</p>
+
+        <div class="orderedlist"><ol type="1" compact="compact"><li>
+            <p>초기화 파라미터 FLASHBACK_LOG_BUFFER와 USE_STANDBY_REDO_LOG를 설정한다.
+            (<a href="chapter_backuprecovery.html#sect_fbdb_example" title="11.6.3. 플래시백 데이터베이스 실행 예제">“11.6.3. 플래시백 데이터베이스 실행 예제”</a> 참고)</p>
+
+            <pre class="programlisting">FLASHBACK_LOG_BUFFER=100M
+  USE_STANDBY_REDO_LOG=Y</pre>
+          </li><li>
+            <p>DB를 MOUNT 모드로 기동한다.</p>
+          </li><li>
+            <p>Standby Redo Log Group이 구성되어 있지 않다면 구성한다. (<a href="chapter_standby_cluster.html#sect_standby_redo_log_group" title="13.11.1. Standby Redo Log Group">“13.11.1. Standby Redo Log Group”</a> 참고)</p>
+
+            <pre class="programlisting">sql&gt; alter database add standby logfile thread 0 group 1 
+'/usr/tibero/log/stlog001.slf' size 100M;
+sql&gt; alter database add standby logfile thread 0 group 2 
+'/usr/tibero/log/stlog002.slf' size 100M;
+sql&gt; alter database add standby logfile thread 0 group 3 
+'/usr/tibero/log/stlog003.slf' size 100M;
+sql&gt; alter database add standby logfile thread 0 group 4 
+'/usr/tibero/log/stlog004.slf' size 100M;
+sql&gt; alter database add standby logfile thread 0 group 5 
+'/usr/tibero/log/stlog005.slf' size 100M;
+sql&gt; alter database add standby logfile thread 0 group 6 
+'/usr/tibero/log/stlog006.slf' size 100M;
+sql&gt; alter database enable public standby redo thread 0;
+sql&gt; alter database recover automatic for standby;</pre>
+          </li><li>
+            <p>플래시백 로그가 구성되어 있지 않다면 구성한다. (<a href="chapter_backuprecovery.html#sect_fbdb_example" title="11.6.3. 플래시백 데이터베이스 실행 예제">“11.6.3. 플래시백 데이터베이스 실행 예제”</a> 참고)</p>
+
+            <pre class="programlisting">sql&gt; alter database add flashback logfile thread 0 group 1 
+'/usr/tibero/log/fblog001.fb' size 512M;
+sql&gt; alter database add flashback logfile thread 0 group 1 
+'/usr/tibero/log/fblog002.fb' size 512M;
+sql&gt; alter database add flashback logfile thread 0 group 1 
+'/usr/tibero/log/fblog003.fb' size 512M;
+sql&gt; alter database enable public flashback thread 0;</pre>
+          </li><li>
+            <p>Snapshot Standby로의 전환 ddl을 수행한다.</p>
+
+            <pre class="programlisting">sql&gt; alter database convert to snapshot standby;</pre>
+          </li><li>
+            <p>DB를 RESETLOGS 모드로 기동한다.</p>
+          </li></ol></div>
+
+        <p>Snapshot Standby에서 수행된 모든 ddl/dml의 변경 사항은 Redo 로그에 저장된다. 따라서
+        Primary로부터 받은 Redo 로그를 저장하기 위해선 Standby Redo Log Group 기능을 사용해야 한다.
+        Standby Redo Log Group 기능에서는 로그 스위치의 경우 재사용할 로그 파일에 대한 checkpoint를
+        기다리지 않기 때문에 Primary로부터 계속 Redo 로그를 받아 놓을 수 있다.</p>
+
+        <p>Snapshot Standby를 다시 Standby로 전환한 후에는 SMR의 리커버리가 재개되어야 하는데, 이를
+        위해서는 SMR의 리커버리가 중단되었던 즉 Snapshot Standby로 전환되었던 시점으로 돌아가야 한다. Standby를
+        과거로 돌리기 위해 Flashback Database 기능이 사용되며, 이를 위해 플래시백 로그를 구성해야 한다. 또한 전환
+        ddl 수행 시 Snapshot Standby에서 수행될 변경 사항에 대한 플래시백 로깅이 활성화된다.</p>
+
+        <p/>
+      </div>
+
+      <div class="section" lang="ko"><div class="titlepage"><div><div><h4 class="title"><a id="d5e10773"/>13.11.2.2. Snapshot Standby에서 Standby로의 전환</h4></div></div></div>
+        
+
+        <p>Snapshot Standby에서 Standby로 전환하기 위한 절차는 다음과 같다.</p>
+
+        <div class="orderedlist"><ol type="1" compact="compact"><li>
+            <p>DB를 MOUNT 모드로 기동한다.</p>
+          </li><li>
+            <p>Standby로의 전환 ddl을 수행한다.</p>
+
+            <pre class="programlisting">sql&gt; alter database convert to standby;</pre>
+          </li><li>
+            <p>초기화 파라미터 FLASHBACK_LOG_BUFFER를 제거한 후 DB를 RECOVERY 모드로
+            기동한다.</p>
+          </li></ol></div>
+
+        <p>Standby로 돌아가기 위해 전환 ddl을 입력하면 플래시백 로깅이 비활성화되고 Snapshot Standby로
+        전환된 시점으로 플래시백이 이루어진다. 그 후 RECOVERY 모드로 부팅하면 SMR은 리커버리가 중단됐던 시점부터 그동안
+        Primary로부터 받아 놓았던 리두 로그를 리커버리한다. Snapshot Standby 상태였던 기간이 길었다면,
+        Primary로부터 받아 놓았던 Redo 로그의 양이 많기 때문에 Primary의 상태를 따라 잡는 데 오래 걸릴 수
+        있다.</p>
+
+        <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+            <p>Snapshot Standby 상태에서는 Failover가 불가능하다.</p>
+          </div>
+
+        <p/>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e10790"/>13.11.3. Cascade <span>TSC</span></h3></div></div></div>
+      
+
+      <p>Primary에 여러 Standby 노드를 연결하면 Primary에게 부담이 될 수 있다. Cascade
+      Standby를 이용하면 Primary가 모든 Standby 노드에게 redo 로그를 전송하지 않고, Primary 노드는
+      Cascade Standby 노드에만 Redo 로그를 전송, Cascade Standby 노드가 다른 Standby 노드에게
+      Redo 로그를 전송하도록 해 Primary의 부담을 줄여준다.</p>
+
+      <p>Primary의 $TB_SID.tip 파일 설정과 동일하게 Cascade Standby 노드의 $TB_SID.tip
+      파일을 설정한다. Cascade Standby는 LOG_REPLICATION_MODE 중 AVAILABILTY와
+      PERFORMANCE만 지원하며 LOG_REPLICATION_DEST_N 중 LGWR ASYNC와 ARCH ASYNC만
+      지원한다.</p>
+
+      <p>&lt;&lt;$<span>TB_</span>SID.tip&gt;&gt;</p>
+
+      <pre class="programlisting">LOG_REPLICATION_MODE   = {AVAILABILITY|PERFORMANCE}
+LOG_REPLICATION_DEST_1 = "hostname_1:port_1 {LGWR ASYNC|ARCH ASYNC}"
+LOG_REPLICATION_DEST_2 = "hostname_2:port_2 {LGWR ASYNC|ARCH ASYNC}"
+...
+LOG_REPLICATION_DEST_N = "hostname_N:port_N {LGWR ASYNC|ARCH ASYNC}"</pre>
+
+      <div class="caution" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">주의</h3>
+          <p>Cascade Standby 노드와 연결될 Standby 노드를 구축할 때는 반드시 Cascade Standby
+          노드 구축 백업과 동일한 백업 혹은 이전의 백업을 이용해야 정합성에 문제가 없다.</p>
+        </div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_07.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_cluster_manager.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제12장 분산 트랜잭션 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제14장 <span>Tibero</span> Cluster Manager</td></tr></table></div><div xmlns="" align="center"/></body></html>
