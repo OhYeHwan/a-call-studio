@@ -2,28 +2,39 @@ import React from "react";
 import { ReactComponent as Arrow } from "src/static/icon/arrow_right.svg";
 import styled from "styled-components";
 
-const RecommendMake = ({ contents, keywords, setQuestions }) => {
+import useStores from "src/hooks/useStores";
+
+const RecommendMake = ({ contents, keywords }) => {
+  const { contentStore } = useStores();
+
   //API호출 받아서 만드는 함수
   const makeRecommend = () => {
     let questionArray = [];
     keywords.forEach((keyword) => {
       questionArray.push({
-        keyword: keyword.content,
-        list: [
+        keywordId: keyword.keywordId,
+        keyword: keyword.keyword,
+        questions: [
           {
-            id: 1,
-            value:
+            questionId: 1,
+            questionText:
               "티베로는 어떤 시스템인가? 티베로는 어떤 시스템인가? 티베로는",
+            check: "",
           },
           {
-            id: 2,
-            value: "티베로는 어떤 시스템인가? 티베로는 어떤 시스템인가?",
+            questionId: 2,
+            questionText: "티베로는 어떤 시스템인가? 티베로는 어떤 시스템인가?",
+            check: "",
           },
-          { id: 3, value: "티베로는 어떤 시스템인가? 티베로는" },
+          {
+            questionId: 3,
+            questionText: "티베로는 어떤 시스템인가? 티베로는",
+            check: "",
+          },
         ],
       });
     });
-    setQuestions(questionArray);
+    contentStore.makeQuestions(questionArray);
   };
 
   return (

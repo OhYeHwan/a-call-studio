@@ -1,12 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
+import useStores from "src/hooks/useStores";
+
 import KeywordAddButton from "../AddButton";
 
-const KeywordInputField = ({ keywords, setKeywords }) => {
+const KeywordInputField = () => {
   const inputRef = useRef(null);
-  const [id, setId] = useState(1);
   const [content, _setContent] = useState("");
+
+  const { contentStore } = useStores();
 
   useEffect(() => {
     setContent(content);
@@ -24,24 +27,8 @@ const KeywordInputField = ({ keywords, setKeywords }) => {
   };
 
   const handleClickAddButton = () => {
-    if (content) {
-      const exist = keywords.findIndex(
-        (keyword) => keyword.content === content
-      );
-      if (exist === -1) {
-        const keyword = {
-          id,
-          content,
-        };
-        setKeywords([...keywords, keyword]);
-        setContent("");
-        setId(id + 1);
-      } else {
-        alert("존재하는 키워드는 추가할 수 없습니다.");
-      }
-    } else {
-      alert("빈 키워드는 추가할 수 없습니다.");
-    }
+    contentStore.handleAddKeyword(content);
+    setContent("");
   };
 
   const onKeyPress = (e) => {

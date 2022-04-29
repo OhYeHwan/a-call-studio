@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제25장 DBMS_PIPE</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_output.html" title="제24장 DBMS_OUTPUT"/><link rel="next" href="chap_dbms_random.html" title="제26장 DBMS_RANDOM"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제25장 DBMS_PIPE</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_output.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_random.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_pipe"/>제25장 DBMS_PIPE</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_pipe.html#d5e9648">25.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_pipe.html#d5e9656">25.2. 프러시저와 함수</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_pipe.html#DBMS_PIPE_DBMS_PIPE_CREATE_PIPE">25.2.1. CREATE_PIPE</a></span></dt><dt><span class="section"><a href="chap_dbms_pipe.html#DBMS_PIPE_NEXT_ITEM_TYPE">25.2.2. NEXT_ITEM_TYPE</a></span></dt><dt><span class="section"><a href="chap_dbms_pipe.html#DBMS_PIPE_PACK_MESSAGE">25.2.3. PACK_MESSAGE</a></span></dt><dt><span class="section"><a href="chap_dbms_pipe.html#DBMS_PIPE_PURGE">25.2.4. PURGE</a></span></dt><dt><span class="section"><a href="chap_dbms_pipe.html#DBMS_PIPE_RECEIVE_MESSAGE">25.2.5. RECEIVE_MESSAGE</a></span></dt><dt><span class="section"><a href="chap_dbms_pipe.html#DBMS_PIPE_RESET_BUFFER">25.2.6. RESET_BUFFER</a></span></dt><dt><span class="section"><a href="chap_dbms_pipe.html#DBMS_PIPE_REMOVE_PIPE">25.2.7. REMOVE_PIPE</a></span></dt><dt><span class="section"><a href="chap_dbms_pipe.html#DBMS_PIPE_SEND_MESSAGE">25.2.8. SEND_MESSAGE</a></span></dt><dt><span class="section"><a href="chap_dbms_pipe.html#DBMS_PIPE_UNIQUE_SESSION_NAME">25.2.9. UNIQUE_SESSION_NAME</a></span></dt><dt><span class="section"><a href="chap_dbms_pipe.html#DBMS_PIPE_UNPACK_MESSAGE">25.2.10. UNPACK_MESSAGE</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_PIPE 패키지의 기본 개념과 패키지 내의 프러시저와 함수를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e9648"/>25.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_PIPE</strong></span><a id="d5e9652" class="indexterm"/>은 동일한 인스턴스 내에 속해 있는 세션들 간에 통신할 수 있는 기능을 지원하는 패키지이다. UNIX
+    계열에서 사용되는 파이프와 유사한 개념이지만 <span>tbPSM</span> RDBMS 내의 자료 구조를 기반으로 운영체제와는 다른 메카니즘으로
+    구현되어 있다. 동일 인스턴스 내에서의 통신만 가능하므로, TAC 환경에서는 사용할 수 없다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e9656"/>25.2. 프러시저와 함수</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_PIPE 패키지에서 제공하는 프러시저와 함수를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_PIPE_DBMS_PIPE_CREATE_PIPE"/>25.2.1. CREATE_PIPE<a id="d5e9661" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>명시적으로 공개 또는 사용자 소유의 통신용 파이프를 생성하는 함수이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CREATE_PIPE 함수<a id="d5e9667" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_PIPE.CREATE_PIPE 
+(
+    pipename        IN  VARCHAR2,
+    maxpipesize     IN  PLS_INTEGER DEFAULT 8192,
+    private         IN  BOOLEAN     DEFAULT TRUE
+) 
+RETURN PLS_INTEGER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">pipename</td><td><p>생성하는 파이프의 이름으로 인스턴스 내에서 고유한
+                  값이다.</p><p>SEND_MESSAGE, RECEIVE_MESSAGE를 호출할 때 이 이름을
+                  사용하여 송수신할 수 있다.</p></td></tr><tr><td align="left">maxpipesize</td><td>메시지들을 파이프에 저장할 수 있는 최대 크기이다. (기본값: 8192Bytes)</td></tr><tr><td align="left">private</td><td><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                        <p>TRUE : 사용자 소유의 파이프가 생성된다. (기본값)</p>
+                      </li><li style="list-style-type: circle">
+                        <p>FALSE : 모든 사용자가 공유하는 파이프가 생성된다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">반환값</th><th>설명</th></tr></thead><tbody><tr><td align="left">0</td><td>파이프 생성이 성공한 경우에 반환한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    status pls_integer;
+BEGIN
+    status := DBMS_PIPE.CREATE_PIPE('tbpipe', 1000, false);                        
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_PIPE_NEXT_ITEM_TYPE"/>25.2.2. NEXT_ITEM_TYPE<a id="d5e9718" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>로컬 메시지 버퍼에 저장되어 있는 다음 아이템의 데이터 타입을 알려주는 함수이다. RECEIVE_MESSAGE를
+      호출하여 로컬 버퍼에 가져온 다음 NEXT_ITEM_TYPE을 호출하고 반환된 타입에 맞는 UNPACK_MESSAGE 프러시저를
+      호출하여 데이터를 읽어올 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>NEXT_ITEM_TYPE 함수<a id="d5e9724" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_PIPE.NEXT_ITEM_TYPE
+RETURN PLS_INTEGER;</pre>
+        </li><li>
+          <p>반환값</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">반환값</th><th>설명</th></tr></thead><tbody><tr><td align="left">0</td><td>더 이상 아이템이 없는 경우 반환한다.</td></tr><tr><td align="left">9</td><td>아이템의 데이터 타입이 VARCHAR2일 경우 반환한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    status  pls_integer;
+    type    pls_integer;
+BEGIN
+    status := DBMS_PIPE.RECEIVE_MESSAGE('tbpipe');
+    type := DBMS_PIPE.NEXT_ITEM_TYPE;
+    <em class="lineannotation"><span class="lineannotation">-- 타입에 맞는 UNPACK_MESSAGE 프러시저 호출</span></em>
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_PIPE_PACK_MESSAGE"/>25.2.3. PACK_MESSAGE<a id="d5e9753" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>로컬 메시지 버퍼 안에서 메시지를 만드는 프러시저이다. 이 프러시저를 호출하여 로컬 버퍼에 단위 데이터(아이템)를
+      저장하고, 1개 이상의 아이템이 저장되면 SEND_MESSAGE 함수를 호출하여 하나의 메시지로 합쳐서 파이프에 보낼 수
+      있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>PACK_MESSAGE 프러시저<a id="d5e9759" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_PIPE.PACK_MESSAGE 
+(
+    item  IN  VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">item</td><td>로컬 버퍼에 저장할 아이템이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    msg VARCHAR2(2000);
+BEGIN
+    msg := '<span>tibero</span>';
+    DBMS_PIPE.PACK_MESSAGE(msg);
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_PIPE_PURGE"/>25.2.4. PURGE<a id="d5e9785" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>파이프에 저장되어 있는 모든 내용을 비우는 프러시저이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>PURGE 프러시저<a id="d5e9791" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_PIPE.PURGE 
+(
+    pipename     IN  VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">pipename</td><td>저장된 모든 메시지를 비울 파이프의 이름이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    DBMS_PIPE.PURGE('tbpipe');
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_PIPE_RECEIVE_MESSAGE"/>25.2.5. RECEIVE_MESSAGE<a id="d5e9816" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>파이프에 저장되어 있는 메시지 한 개를 로컬 버퍼에 읽어오는 함수이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>RECEIVE_MESSAGE 함수<a id="d5e9822" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_PIPE.RECEIVE_MESSAGE 
+(
+    pipename        IN      VARCHAR2,
+    timeout         IN      INTEGER DEFAULT MAXWAIT
+) 
+RETURN PLS_INTEGER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">pipename</td><td>저장된 메시지를 읽어올 파이프의 이름이다.</td></tr><tr><td align="left">timeout</td><td><p>메시지를 기다릴 시간을 초 단위로 설정한다.</p><p>(기본값:
+                  MAXWAIT, 86400000(1000일))</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">반환값</th><th>설명</th></tr></thead><tbody><tr><td align="left">0</td><td>파이프에 저장되어 있는 메시지 한 개를 로컬 버퍼에 읽어온 경우에 반환한다.</td></tr><tr><td align="left">1</td><td>지정된 타임아웃 시간을 초과한 경우 반환한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    status  pls_integer;
+BEGIN
+    status := DBMS_PIPE.RECEIVE_MESSAGE('tbpipe');
+END:</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_PIPE_RESET_BUFFER"/>25.2.6. RESET_BUFFER<a id="d5e9868" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>로컬에 있는 읽기 버퍼 및 쓰기 버퍼의 모든 내용을 비우는 프러시저이다. 새로운 파이프에 대한 읽기 및 쓰기를 위해
+      현재 로컬에 남아 있는 메시지를 비울 때 사용할 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>RESET_BUFFER 프러시저<a id="d5e9874" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_PIPE.RESET_BUFFER;</pre>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">BEGIN
+    DBMS_PIPE.RESET_BUFFER;
+END:</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_PIPE_REMOVE_PIPE"/>25.2.7. REMOVE_PIPE<a id="d5e9886" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>명시적으로 생성된 파이프 및 파이프에 저장되어 있던 모든 내용을 제거하는 함수이다. 단, 이 함수를 호출하지 않고
+      인스턴스가 종료되어도 파이프는 제거된다.</p>
+
+      <p>파이프가 제거되는 경우 0을 반환한다. 이미 제거된 파이프에 대해서 해당 함수를 호출한 경우에도 0을
+      반환한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REMOVE_PIPE 함수<a id="d5e9893" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_PIPE.REMOVE_PIPE 
+(
+    pipename    IN      VARCHAR2
+) 
+RETURN PLS_INTEGER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">pipename</td><td>제거하려는 파이프의 이름이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">반환값</th><th>설명</th></tr></thead><tbody><tr><td align="left">0</td><td>생성된 파이프 및 파이프에 저장되어 있던 모든 내용이 제거된 경우 반환한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    status pls_integer;
+BEGIN
+    status := DBMS_PIPE.REMOVE_PIPE('tbpipe');                        
+END;
+</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_PIPE_SEND_MESSAGE"/>25.2.8. SEND_MESSAGE<a id="d5e9931" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>로컬 버퍼에 저장되어 있던 메시지를 파이프에 저장하는 함수이다. PACK_MESSAGE를 한 번 이상 호출하여 누적된
+      아이템들이 하나의 메시지로 구성되어 전송된다. 존재하지 않는 파이프의 이름이 인자로 들어오는 경우, 묵시적으로 private
+      파이프를 생성한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SEND_MESSAGE 함수<a id="d5e9937" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_PIPE.SEND_MESSAGE 
+(
+    pipename        IN      VARCHAR2,
+    timeout         IN      INTEGER DEFAULT MAXWAIT,
+    maxpipesize  IN INTEGER DEFAULT 8192
+) 
+RETURN PLS_INTEGER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">pipename</td><td>메시지를 송신할 파이프의 이름이다.</td></tr><tr><td align="left">timeout</td><td><p>메시지를 기다릴 시간을 초 단위로 설정한다.</p><p>(기본값:
+                  MAXWAIT, 86400000(1000일))</p></td></tr><tr><td align="left">maxpipesize</td><td><p>Byte 단위이며, 파이프에 해당 메시지를 보낼 때 사용가능한 최대 크기이다. 최대
+                  사이즈를 초과하는 경우, 메시지를 파이프에 쓰지 못한다. </p><p>(기본값:
+                  8192Bytes)</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">반환값</th><th>설명</th></tr></thead><tbody><tr><td align="left">0</td><td>로컬 버퍼에 저장되어 있던 메시지가 파이프에 저장된 경우 반환한다.</td></tr><tr><td align="left">1</td><td>지정된 타임아웃 시간을 초과한 경우 반환한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    msg VARCHAR2(2000);
+    status  pls_integer;
+BEGIN
+    msg := '<span>tibero1</span>';
+    DBMS_PIPE.PACK_MESSAGE(msg);
+    msg := '<span>tibero2</span>';
+    DBMS_PIPE.PACK_MESSAGE(msg);
+    status := DBMS_PIPE.SEND_MESSAGE('tbpipe');
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_PIPE_UNIQUE_SESSION_NAME"/>25.2.9. UNIQUE_SESSION_NAME<a id="d5e9990" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>데이터베이스에 연결되어 있는 모든 세션들 중에 식별할 수 있는 유일한 이름을 반환하는 함수이다. 동일한 세션에서 이
+      함수를 호출할 때마다 항상 같은 값을 반환하며, 이 함수를 이용해 자신 세션 안에서만 사용할 수 있는 파이프의 이름을 지정할 수
+      있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>UNIQUE_SESSION_NAME 함수<a id="d5e9996" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_PIPE.UNIQUE_SESSION_NAME
+RETURN VARCHAR2;</pre>
+        </li><li>
+          <p>반환값</p>
+
+          <p>세션 단위로 유일한 이름이다.</p>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    status pls_integer;
+begin
+    status := DBMS_PIPE.CREATE_PIPE(DBMS_PIPE.UNIQUE_SESSION_NAME, 1000, false);
+    status := DBMS_PIPE.SEND_MESSAGE(DBMS_PIPE.UNIQUE_SESSION_NAME);
+    status := DBMS_PIPE.RECEIVE_MESSAGE(DBMS_PIPE.UNIQUE_SESSION_NAME);
+    status := DBMS_PIPE.REMOVE_PIPE(DBMS_PIPE.UNIQUE_SESSION_NAME);
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_PIPE_UNPACK_MESSAGE"/>25.2.10. UNPACK_MESSAGE<a id="d5e10011" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>로컬 메시지 버퍼 안에 저장되어 있는 아이템 하나를 읽어오는 프러시저이다. RECEIVE_MESSAGE 함수를 호출하여
+      파이프로부터 읽어온 메시지를 로컬 읽기 버퍼에 저장하고, UNPACK_MESSAGE 프러시저를 호출하여 메시지 안의 아이템들을
+      하나씩 가져올 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>UNPACK_MESSAGE 프러시저<a id="d5e10017" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_PIPE.UNPACK_MESSAGE 
+(
+    item    OUT VARCHAR2
+);</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">item</td><td>로컬 버퍼에서 읽어올 아이템이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    msg VARCHAR2(2000);
+BEGIN
+    DBMS_PIPE.UNPACK_MESSAGE(msg);
+END;</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_output.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_random.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제24장 DBMS_OUTPUT </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제26장 DBMS_RANDOM</td></tr></table></div><div xmlns="" align="center"/></body></html>

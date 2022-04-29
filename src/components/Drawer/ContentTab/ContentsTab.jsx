@@ -5,14 +5,9 @@ import styled from "styled-components";
 import KeywordInputBox from "./KeywordInputBox";
 import KeywordInputField from "./KeywordInputField";
 
-const ContentsTab = ({
-  contents,
-  setContents,
-  keywords,
-  setKeywords,
-  handleClickDelButton,
-  updateKeywords,
-}) => {
+const ContentsTab = ({ target, handleChange }) => {
+  const { pageId } = target;
+
   return (
     <ContentTabDiv>
       <ContentBox>
@@ -20,12 +15,21 @@ const ContentsTab = ({
           <SummarySVG className="center" />
           컨텐츠 요약 내용
         </Title>
-        <ContentSummary
-          className="scrollbar"
-          placeholder="컨텐츠 요약내용을 입력해주세요."
-          value={contents}
-          onChange={(e) => setContents(e.target.value)}
-        />
+        {pageId === null ? (
+          <EmptyLayout className="center column">
+            <Empty />
+            <EmptyText className="mt-8">
+              요약할 페이지를 선택해 주세요.
+            </EmptyText>
+          </EmptyLayout>
+        ) : (
+          <ContentSummary
+            className="scrollbar"
+            placeholder="컨텐츠 요약 내용을 입력해주세요."
+            value={target.summary === null ? "" : target.summary}
+            onChange={handleChange}
+          />
+        )}
       </ContentBox>
       <ContentBox>
         <Title>
@@ -33,24 +37,18 @@ const ContentsTab = ({
           컨텐츠 키워드
         </Title>
         <ContentKeyword className="scrollbar">
-          {contents ? (
+          {target.summary ? (
             <>
               <KeywordContainer className="scrollbar">
-                {keywords.map((keyword) => {
+                {target.keywords.map((keyword) => {
                   return (
                     <KeywordInputBox
-                      key={keyword.id}
+                      key={keyword.keywordId}
                       keyword={keyword}
-                      keywords={keywords}
-                      handleClickDelButton={handleClickDelButton}
-                      updateKeywords={updateKeywords}
                     />
                   );
                 })}
-                <KeywordInputField
-                  keywords={keywords}
-                  setKeywords={setKeywords}
-                />
+                <KeywordInputField />
               </KeywordContainer>
             </>
           ) : (
@@ -66,7 +64,6 @@ const ContentsTab = ({
     </ContentTabDiv>
   );
 };
-
 export default ContentsTab;
 
 const ContentTabDiv = styled.div`

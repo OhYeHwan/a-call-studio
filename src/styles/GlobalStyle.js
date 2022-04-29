@@ -37,7 +37,7 @@ const globalStyles = createGlobalStyle`
 	.scrollbar{
 		overflow: overlay;
 		&::-webkit-scrollbar {
-  		width: 14px;
+  		width: 12px;
  		}
   		&::-webkit-scrollbar-thumb {
 			background-color: hsla(0, 0%, 42%, 0.49);

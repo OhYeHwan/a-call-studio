@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제4장 C External Procedure 사용</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero External Procedure 안내서"/><link rel="up" href="index.html" title="Tibero External Procedure 안내서"/><link rel="prev" href="chapter_extproc_create.html" title="제3장 C External Procedure 생성"/><link rel="next" href="chapter_extproc_util.html" title="제5장 C External Procedure 유틸리티"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제4장 C External Procedure 사용</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_extproc_create.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_extproc_util.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="sect_extproc_using"/>제4장 C External Procedure 사용</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="sect_extproc_using.html#sect_parameter_mapping">4.1. 파라미터 매핑</a></span></dt><dd><dl><dt><span class="section"><a href="sect_extproc_using.html#d5e783">4.1.1. PARAMETERS 문법</a></span></dt><dt><span class="section"><a href="sect_extproc_using.html#d5e949">4.1.2. 사용 예제</a></span></dt></dl></dd><dt><span class="section"><a href="sect_extproc_using.html#sect_callback_service">4.2. Callback Service</a></span></dt><dd><dl><dt><span class="section"><a href="sect_extproc_using.html#sect_using_tbcli">4.2.1. <span>tbCLI</span>를 이용한 애플리케이션 프로그램의 작성 방법</a></span></dt><dt><span class="section"><a href="sect_extproc_using.html#d5e1004">4.2.2. 사용 방법</a></span></dt><dt><span class="section"><a href="sect_extproc_using.html#sect_callback_service_ex">4.2.3. 사용 예제</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 C External Procedure에서 PSM 파라미터와 C 파라미터를 매핑하는 방법과 Callback
+  Service를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_parameter_mapping"/>4.1. 파라미터 매핑</h2></div></div></div>
+    
+
+    <p>Library Object 내의 특정 함수를 PSM에 대응시키면 사용자 함수의 파라미터로 PSM 파라미터가 그대로
+    전달된다. 하지만 때로는 PSM으로 전달된 파라미터 중에서 일부만을 사용자 함수로 전달하고 싶거나 그 순서를 변경하고 싶을 때가
+    있다. 또한 C 프로그래밍 언어의 int, double과 같은 타입의 파라미터로 DBMS에서 사용하는 NULL의 개념을 표현할 수
+    없을 때도 마찬가지이다.</p>
+
+    <p>C External Procedure에서는 이러한 요구를 지원하기 위해
+    <span><strong class="guibutton">PARAMETERS</strong></span> 문법을 제공한다. 즉, 사용자 함수의 파라미터와 PSM 파라미터 간의
+    파라미터 매핑(Parameter Mapping)<a id="d5e777" class="indexterm"/>을 통해 해결할 수 있다.<a id="d5e779" class="indexterm"/></p>
+
+    <p>본 절에서는 PARAMETERS 문법과 이를 사용하는 방법을 설명한다.</p>
+
+    <p/>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e783"/>4.1.1. PARAMETERS 문법</h3></div></div></div>
+      
+
+      <p>PARAMETERS 문법은 생략할 수 있으며, 이 문법을 통해 사용자 함수로 전달할 파라미터와 그 속성을 정의할 수
+      있다.</p>
+
+      <p>PARAMETERS 문법은 다음과 같다.</p>
+
+      <pre class="programlisting">CREATE OR REPLACE {FUCTION | PROCEDURE | PACKAGE}
+…                                                   
+{IS | AS}
+LANGUAGE C
+LIBRARY <span class="emphasis"><em>library_name</em></span>
+[NAME <span class="emphasis"><em>c_string_literal_name</em></span>]
+[WITH CONTEXT]
+[<span><strong class="guibutton">PARAMETERS</strong></span> <span><strong class="guibutton">(external_parameter[, external_parameter]...)</strong></span>];</pre>
+
+      <p>PARAMETERS 문법은 함수의 파라미터 각각을 의미하는
+      <span><strong class="guibutton">external_parameter</strong></span>를 나열하여 구성한다.<a id="d5e794" class="indexterm"/></p>
+
+      <p/>
+
+      <p>또한 external_parameter는 다음과 같이 어떤 방법으로 명시하느냐에 따라 세부 구성요소가
+      달라진다.</p>
+
+      <pre class="programlisting">{ <span><strong class="guibutton">CONTEXT</strong></span> 
+  | {<span><strong class="guibutton">parameter_name</strong></span> | RETURN} [<span><strong class="guibutton">property</strong></span>] [<span><strong class="guibutton">BY REFERENCE</strong></span>] [<span><strong class="guibutton">external_datatype</strong></span>]
+}</pre>
+
+      <p/>
+
+      
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+            <p><span><strong class="guibutton">CONTEXT</strong></span></p>
+
+            <p>자세한 내용은 <a href="chapter_extproc_util.html" title="제5장 C External Procedure 유틸리티">“제5장 C External Procedure 유틸리티”</a>를
+            참고한다.</p>
+          </li><li>
+            <p><span><strong class="guibutton">PSM 파라미터</strong></span></p>
+
+            <p>PSM 파라미터는 사용자 함수에 전달할 유형과 형식에 따라 BY REFERENCE,
+            external_datatype 심볼 중에서 설정할 수 있다. PSM 파라미터는 PSM의 데이터 타입이
+            external_datatype에 대응되는 C 프로그래밍 언어의 데이터 타입으로 순차적으로 변환되어
+            전달된다.</p>
+
+            <p>다음은 PSM 파라미터를 명시하는 방법을 구성요소별로 설명한다.</p>
+
+            <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                <p><span><strong class="guibutton">parameter_name</strong></span></p>
+
+                <p>parameter_name은 사용자 함수로 전달할 PSM 파라미터의 이름을 설정하는
+                심볼이다.</p>
+
+                <p>다음은 사용자 함수(get_sqrt)로 전달할 PSM 파라미터의 이름(num2)을 설정하는
+                예이다.</p>
+
+                <pre class="programlisting">CREATE OR REPLACE FUNCTION ext_get_sqrt (num1 BINARY_INTEGER,<span><strong class="guibutton"> 
+                                   num2 BINARY_INTEGER</strong></span>)
+       RETURN BINARY_DOUBLE
+       AS LANGUAGE C
+       LIBRARY extproc
+       <span><strong class="guibutton">NAME "get_sqrt"</strong></span>
+       <span><strong class="guibutton">PARAMETERS(num2 int)</strong></span>;</pre>
+              </li><li>
+                <p><span><strong class="guibutton">property</strong></span></p>
+
+                <p>property는 사용자 함수로 전달할 PSM 파라미터의 특성을 설정하는 심볼이다.</p>
+
+                <p>C의 데이터 타입의 경우 PSM의 데이터 타입과 달리 문자열의 최대 길이나 데이터의 NULL 허용
+                여부 등을 표시할 수 없다. 따라서 이러한 문제점을 보안하기 위해 C External Procedure에서는
+                다음과 같은 파라미터의 속성을 지원한다.<a id="d5e832" class="indexterm"/></p>
+
+                <div class="informaltable">
+                  <table border="1"><colgroup><col width="120" align="left"/><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">속성</th><th align="left">C의 데이터 타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">INDICATOR</td><td align="left">short</td><td><p>데이터의 NULL 허용 여부를 갖는
+                        지시자(Indicator)이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                              <p>NULL : -1</p>
+                            </li><li style="list-style-type: circle">
+                              <p>NULL이 아닌 경우 : 0</p>
+                            </li></ul></div></td></tr><tr><td align="left">LENGTH</td><td align="left">int</td><td>문자열 데이터의 현재 길이로 IN, INOUT에서 사용한다.</td></tr><tr><td align="left">MAXLEN</td><td align="left">int</td><td>문자열 데이터의 최대 길이로 OUT, INOUT, RETURN에서
+                        사용한다.</td></tr></tbody></table>
+                </div>
+
+                <p>C의 데이터 타입은 이러한 속성을 파라미터로 전달 받아 사용자 함수를 작성할 때 해당 파라미터의
+                데이터 타입을 의미한다.</p>
+              </li><li>
+                <p><span><strong class="guibutton">BY REFERENCE</strong></span></p>
+
+                <p>BY REFERENCE 문은 사용자 함수로 파라미터를 전달할 때 값으로 전달할 것인지 아니면 그 값의
+                포인터로 전달할 것인지의 여부를 나타내는 심볼이다.<a id="d5e867" class="indexterm"/></p>
+
+                <p>예를 들어 문자열의 경우 C의 데이터 타입으로는 문자열의 값 자체를 담을 수 없기 때문에 char *
+                형태로 전달할 수 밖에 없다. 또한 출력 파라미터의 경우 그 값이 함수가 수행된 후에 변경되어야 하므로, 그
+                값에 대한 포인터 타입으로 사용자 공유 라이브러리 함수에 전달되어야 한다.</p>
+
+                <p>다음은 간단하게 작성된 C 함수이다.</p>
+
+                <p>&lt;&lt;module.c&gt;&gt;</p>
+
+                <pre class="programlisting">void <span><strong class="guibutton">swap(short *x, short *y)</strong></span>
+{
+    short *z;
+    z = x;
+    x = y;
+    y = z;
+}</pre>
+
+                <p>C 함수는 다음의 PSM 함수에서 사용할 수 있다. PSM 함수를 생성하는 문장에서
+                PARAMETERS 문법의 BY REFERENCE를 명시하면 <span>tbEPA</span> 프로세스는 포인터 형식으로 사용자 함수에 파라미터를
+                전달한다.</p>
+
+                <p>예를 들면 다음과 같다.</p>
+
+                <pre class="programlisting">SQL&gt; CREATE OR REPLACE PROCEDURE ext_swap (x PLS_INTEGER, y PLS_INTEGER)
+     IS
+     LANGUAGE C
+     LIBRARY libextproc
+     <span><strong class="guibutton">NAME "swap"</strong></span>
+     PARAMETERS(x BY REFERENCE, y BY REFERENCE);</pre>
+              </li><li>
+                <p><span><strong class="guibutton">external_datatype<a id="d5e882" class="indexterm"/></strong></span></p>
+
+                <p>external_datatype은 PSM의 데이터 타입을 원하는 형태의 C의 데이터 타입으로 변환하기
+                위해 사용하는 심볼이다. external_datatype을 생략하면 디폴트로 정의된 C의 데이터 타입으로
+                변환되어 사용자 함수의 파라미터로 전달된다.</p>
+
+                <p>예를 들어 변환이 가능한 C의 데이터 타입으로 전달하는 경우 <span>tbEPA</span> 프로세스 내부에서 사용할 수 있는 타입으로 변환한 후
+                사용자 함수의 파라미터로 전달한다.</p>
+
+                <div class="literallayout"><p/></div>
+
+                <p>다음은 PSM과 C 함수 간의 변환이 가능한 데이터 타입이다.<a id="d5e889" class="indexterm"/></p>
+
+                <div class="informaltable">
+                  <table border="1"><colgroup><col width="140" align="left"/><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">PSM의 데이터 타입</th><th align="left">C의 데이터 타입(기본)</th><th>변환이 가능한 C의 데이터 타입</th></tr></thead><tbody><tr><td align="left"><p>BINARY_INTEGER</p><p>PLS_INTEGER</p></td><td align="left"><p>INT</p></td><td><p>[UNSIGNED] CHAR, SHORT, INT,
+                        LONG</p></td></tr><tr><td align="left"><p>FLOAT</p><p>REAL</p></td><td align="left"><p>FLOAT</p></td><td><p>FLOAT</p></td></tr><tr><td align="left">BINARY_DOUBLE</td><td align="left">DOUBLE</td><td>DOUBLE</td></tr><tr><td align="left"><p>CHAR</p><p>VARCHAR</p></td><td align="left"><p>STRING</p></td><td><p>STRING, TBSTRING</p></td></tr><tr><td align="left">DOUBLE</td><td align="left">TBNUMBER</td><td>TBNUMBER</td></tr><tr><td align="left">DATE</td><td align="left">TBDATE</td><td>TBDATE</td></tr><tr><td align="left">TIMESTAMP</td><td align="left">TBDateTime</td><td>TBDateTime</td></tr><tr><td align="left"><p>BLOB</p><p>CLOB</p></td><td align="left"><p>TBLOBLOCATOR</p></td><td><p>TBLOBLOCATOR</p></td></tr></tbody></table>
+                </div>
+              </li></ul></div>
+          </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e949"/>4.1.2. 사용 예제</h3></div></div></div>
+      
+
+      <p>다음은 PARAMETERS 문법을 사용하여 PSM 함수에 파라미터를 매핑하는 예이다.</p>
+
+      <div class="orderedlist"><ol type="1"><li>
+          <p>C 함수를 작성한다.</p>
+
+          <p>&lt;&lt;find_max.c&gt;&gt;</p>
+
+          <pre class="programlisting">short find_max_short(short x, short y)
+{
+    if (x &gt;= y)
+        return x;
+    else
+        return y;
+}</pre>
+        </li><li>
+          <p>C 함수의 파라미터를 PARAMETERS 문법을 사용하여 PSM 함수에 파라미터를 매핑한다.</p>
+
+          <pre class="programlisting">SQL&gt; CREATE OR REPLACE FUNCTION <span><strong class="guibutton">ext_find_max_short
+      (x PLS_INTEGER, y PLS_INTEGER)</strong></span>     <em class="lineannotation"><span class="lineannotation">... ① ...</span></em>
+     RETURN PLS_INTEGER IS
+     LANGUAGE C
+     LIBRARY libextproc
+     NAME <span><strong class="guibutton">"find_max_short"</strong></span>        <em class="lineannotation"><span class="lineannotation">       ... ② ...</span></em>
+     <span><strong class="guibutton">PARAMETERS(x short, y short);</strong></span></pre>
+
+          <p>① PSM 함수인 ext_find_max_short를 호출한다.</p>
+
+          <p>② <span>tbEPA</span> 프로세스는 서버로부터 전달 받은 pls_integer 타입을
+          short 타입으로 변환하여 사용자 공유 라이브러리 함수인 find_max_short의 파라미터로 보낸다. 그리고
+          short 타입의 반환 값은 다시 PLS_INTEGER 타입으로 변환하여 서버로 전달한다.</p>
+        </li></ol></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_callback_service"/>4.2. Callback Service<a id="d5e970" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>사용자는 <span>tbCLI</span> 등의 인터페이스를 이용하여 애플리케이션 프로그램을 개발할 수 있다. 또한
+    DBMS 서버에 접속하여 쿼리, DML 등을 수행할 수 있는 사용자 공유 라이브러리를 만들어 C External Procedure로
+    사용할 수 있다.</p>
+
+    <p>C External Procedure는 서버와 새로운 연결을 맺어 통신하는 일반적인 형태의 <span>tbCLI</span>
+    프로그램이 아닌 기존의 트랜잭션을 이용하는 Callback Service를 제공한다.</p>
+
+    <p>본 절에서는 <span>tbCLI</span>를 이용하여 애플리케이션 프로그램의 개략적인 작성 방법을 살펴본 후 C
+    External Procedure에서 제공하는 Callback Service를 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_using_tbcli"/>4.2.1. <span>tbCLI</span>를 이용한 애플리케이션 프로그램의 작성 방법</h3></div></div></div>
+      
+
+      <p>일반적으로 <span>tbCLI</span>를 이용하여 애플리케이션 프로그램을 작성하기 위해서는 다음과 같은 순서로
+      수행해야 한다.</p>
+
+      <div class="orderedlist"><ol type="1" compact="compact"><li>
+          <p><code class="function">SQLAllocEnv</code> 함수를 이용하여 환경 핸들(environment
+          handle)을 생성한다.</p>
+        </li><li>
+          <p><code class="function">SQLAllocConnect</code> 함수를 이용하여 연결 핸들(connection
+          handle)을 생성한다.</p>
+        </li><li>
+          <p><code class="function">SQLConnect</code> 함수를 이용하여 DBMS 서버에 접속한다.</p>
+        </li><li>
+          <p><code class="function">SQLAllocStmt</code> 함수를 이용하여 문장 핸들(statement
+          handle)을 생성한다.</p>
+        </li><li>
+          <p>4번에서 할당 받은 문장 핸들에 수행할 작업을 설정한 후
+          <code class="function">SQLExecute</code> 함수를 수행한다.</p>
+        </li></ol></div>
+
+      <p>위 순서에서 1, 2, 3번 과정은 사용자가 작성한 애플리케이션 프로그램을 서버와 연결된 상태로 만들며 4, 5번
+      과정을 반복하면서 사용자가 원하는 쿼리 또는 DML 등을 수행한다.</p>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p>자세한 내용은 "<span>Tibero</span> <span>tbCLI</span> 안내서"를 참고한다.</p>
+      </div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1004"/>4.2.2. 사용 방법</h3></div></div></div>
+      
+
+      <p><a href="sect_extproc_using.html#sect_using_tbcli" title="4.2.1. tbCLI를 이용한 애플리케이션 프로그램의 작성 방법">“4.2.1. <span>tbCLI</span>를 이용한 애플리케이션 프로그램의 작성 방법”</a>과 같은 방식으로 사용자 공유 라이브러리를 작성하면, C
+      External Procedure를 호출할 때 서버와의 새로운 세션을 맺고 사용자 공유 라이브러리를 실행하게 된다. 이때 사용자
+      공유 라이브러리는 기존에 C External Procedure를 호출한 트랜잭션과는 다른 별도의 트랜잭션으로 동작하게 되며, 또한
+      기존 트랜잭션의 정보도 볼 수 없게 된다.</p>
+
+      <p>C External Procedure에서는 <code class="function">SQLGetExtProcConnect
+      </code>함수를 이용하여 사용자가 C External Procedure를 호출한 트랜잭션과 같은 트랜잭션 내에서
+      <span>tbCLI</span>를 이용한 작업을 동시에 수행할 수 있게 해준다.</p>
+
+      <p>다음은 <code class="function">SQLGetExtProcConnect</code> 함수를 사용한 예이다.</p>
+
+      <pre class="programlisting">SQLRETURN SQL_API
+SQLGetExtProcConnect(ExtProcContext *epCtx, SQLHENV *henv, SQLHDBC *hdbc,
+                     SQLSMALLINT *errHdlType, SQLHANDLE *errHdl);</pre>
+
+      <p>*epCtx는 ExtProcContext 구조체에 대한 포인터이며, henv, hdbc는 반환받을 환경 핸들, 연결
+      핸들을 나타낸다. 그리고 에러 핸들 타입(errHdlType)과 에러 핸들(errHdl)은 에러 발생에 대비하여 정의한
+      것이다.</p>
+
+      <p><code class="function">SQLGetExtProcConnect</code> 함수를 이용하면 <a href="sect_extproc_using.html#sect_using_tbcli" title="4.2.1. tbCLI를 이용한 애플리케이션 프로그램의 작성 방법">“4.2.1. <span>tbCLI</span>를 이용한 애플리케이션 프로그램의 작성 방법”</a>에서 설명한 순서 중 1번부터 3번까지의 과정을 한 번에 할 수 있고, 그
+      뒤의 과정은 기존의 <span>tbCLI</span>를 이용한 작업과 동일하게 진행하면 된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>사용자 공유 라이브러리 함수 내의 DML, 쿼리 등은 현재 사용자 공유 라이브러리 함수를 호출한 트랜잭션 내에서
+      수행된다.</p>
+
+      <p>다음은 그 예이다.</p>
+
+      <pre class="programlisting">SQLRETURN    rc;
+SQLHENV      henv;
+SQLHDBC      hdbc;
+SQLHSTMT     hstmt;
+SQLSMALLINT  errHdlType;
+SQLHANDLE    errHdl;
+
+char *sql = "insert into tbl values('<span>Tibero</span>')";
+SQLINTEGER cnt;
+
+rc = SQLGetExtProcConnect(epc, &amp;henv, &amp;hdbc, &amp;errHdlType, &amp;errHdl);
+if (rc != 0) return rc;
+
+rc = SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &amp;hstmt);
+if (rc != 0) return rc;
+
+rc = SQLExecDirect(hstmt, sql, SQL_NTS);
+if (rc != 0) {
+    SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
+    return rc;
+}
+
+rc = SQLRowCount(hstmt, &amp;cnt);
+if (rc != 0)  {
+    SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
+    return rc;
+}
+
+SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
+
+return rc;</pre>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+          <p>위의 예제에서 보듯이 statement handle의 경우 사용자가 직접 SQLAllocHandle()을 통해
+          만들어야 하고 적절한 곳에서 SQLFreeHandle()을 해야 한다. 하지만 SQLGetExtProcConnect()을
+          통해 자동으로 생성되는 environment handle과 connection handle은 SQLDisconnect()나
+          SQLFreeHandle()을 하면 안된다.</p>
+        </div>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_callback_service_ex"/>4.2.3. 사용 예제</h3></div></div></div>
+      
+
+      <p>다음은 Callback Service를 이용하여 애플리케이션 프로그램을 작성한 예이다.</p>
+
+      <pre class="programlisting">int connect(ExtProcContext *epc)
+{
+    SQLRETURN    rc;
+    SQLHENV      henv;
+    SQLHDBC      hdbc;
+    SQLHSTMT     hstmt;
+    SQLSMALLINT  errHdlType;
+    SQLHANDLE    errHdl;
+
+    char *sql = "insert into psm_test_tab_002 values('TEST')";
+    SQLINTEGER cnt;
+
+    rc = SQLGetExtProcConnect(epc, &amp;henv, &amp;hdbc, &amp;errHdlType, &amp;errHdl);
+    if (rc != 0) return rc;
+
+    rc = SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &amp;hstmt);
+    if (rc != 0) return rc;
+
+    rc = SQLExecDirect(hstmt, sql, SQL_NTS);
+    if (rc != 0) {
+        SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
+        return rc;
+    }
+
+    rc = SQLRowCount(hstmt, &amp;cnt);
+    if (rc != 0) {
+        SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
+        return rc;
+    }
+
+    SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
+
+    if (cnt != 1) return 1;
+
+    return 0;
+}</pre>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_extproc_create.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_extproc_util.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제3장 C External Procedure 생성 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제5장 C External Procedure 유틸리티</td></tr></table></div><div xmlns="" align="center"/></body></html>

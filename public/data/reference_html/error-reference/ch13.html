@@ -1,0 +1,1897 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제13장 14000 ~ 14999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch12.html" title="제12장 12000 ~ 12999"/><link rel="next" href="ch14.html" title="제14장 15000 ~ 15999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제13장 14000 ~ 14999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch14.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e22120"/>제13장 14000 ~ 14999</h2></div></div></div>
+  
+
+  <h2><a id="d5e22122"/>14001: Not yet implemented.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>This function has yet to be implemented.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>This function will be supported in the next version.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22135"/>14002: Invalid argument type or value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The argument type or value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the argument type or value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22148"/>14004: Package instance '%1$s' is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The package instance is invalid and has been removed from the session.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use the package member to recreate the instance.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22161"/>14009: Error number is out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The error message number is out of range - error number must be an integer between -20000 and -20999.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid error number.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22174"/>14010: Radian value out of range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Radian values must be between -1 and 1 (-1 &lt; x &lt; 1).</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid radian value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22187"/>14011: Invalid argument specified for EXTRACT.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The argument of the extract() function is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Choose a proper value within the ranges of DATETIME or INTERVAL.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22200"/>14013: LOB exceeded maximum size (4GB - 1 byte).</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The length of LOB is too long. It cannot be longer than 4GB - 1 byte.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22213"/>14017: Invalid seed value: seed does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The seed value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if the seed value is NULL.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22226"/>14018: Invalid seed value: seed is too short.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The length of the seed value is too short.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The seed value must contain more than 80 characters.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22239"/>14019: Invalid key value: key is too short.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The key value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The key must contain more than eight characters.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22252"/>14020: Invalid input size: size must be a multiple of 8 bytes.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The size of the input parameter is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Set the length of input parameter to a multiple of eight bytes.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22265"/>14021: Invalid triple DES mode: only TWO KEY MODE and THREE KEY MODE are allowed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The DES mode is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Choose either TWO KEY MODE or TRIPLE KEY MODE only.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22278"/>14022: Buffer overflow.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The buffer size exceeded the maximum limit.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Increase the buffer size, or delete some contents of the buffer.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22291"/>14023: Invalid input value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid value was specified.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify an identical value was not already set.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22304"/>14025: Invalid savepoint.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The savepoint value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the parameter is NULL.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22317"/>14028: Invalid number format for RAW.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The actual length does not match the length value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the number format is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22330"/>14029: Invalid endian value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The endian value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify big endian (1) or little endian (2) only.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22343"/>14031: Invalid length value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The length value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the length value is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22356"/>14033: Maximum number of open files has been reached.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of open files has reached the maximum.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Close some open files.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22369"/>14034: Invalid line size: maximum size exceeded.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The line size exceeded the maximum limit (32768).</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Reduce the value of the MAX_LINESIZE parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22382"/>14035: Invalid path: path is NULL or does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The directory name or path is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the path name is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22395"/>14036: Invalid filename.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid file name.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the file name is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22408"/>14037: Invalid file ID: file must be open.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The ID of a closed or invalid file was used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the current condition of the file.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22421"/>14038: Invalid OPENMODE.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid OPENMODE specified.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid FILE_OPENMODE_x [x = A, R, W, AB, RB, WB].</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22434"/>14039: Invalid offset.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid offset value specified.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid offset value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22447"/>14040: Invalid length: length cannot be negative.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The length value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify an integer that is greater than or equal to 0.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22460"/>14041: Invalid file operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to perform an invalid operation on the file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the authority for the path is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22473"/>14042: Invalid write: a single line cannot exceed 32767 bytes.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The amount of data to be written to a single line exceeds the maximum allowed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The length of a line cannot exceed the maximum. The maximum size is specified in the max_linesize parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22486"/>14043: Invalid read: allowed for read-mode files only.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to perform an invalid read on the file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the file's OPENMODE.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22499"/>14044: Unable to rename file: duplicate file name exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified file name already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Either overwrite or delete the existing file.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22512"/>14045: Unable to remove file: file was not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The file to be deleted does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the file exists.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22525"/>14046: Internal error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Internal system error.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the system administrator.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22538"/>14047: Character set mismatch.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The character sets do not match.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the character sets are correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22551"/>14048: Access denied.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Access to the file or directory was denied.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify permissions or use the user directory.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22564"/>14049: Unable to execute on an open file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The task cannot be executed on an open file.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Close the file and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22577"/>14050: Specified job was not found in the job queue.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A job matching the job number has not been added to the job queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the job number and try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22590"/>14051: Execution of job [%1$d] failed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred while executing job [%1$d].</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that a DD object related to the job exists.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22603"/>14052: Invalid argument %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The argument value is invalid, NULL, or out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Correct the argument value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22616"/>14053: Specified directory was not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified directory could not be found.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the directory exists.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22629"/>14054: Access denied.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Access to the directory or file was denied.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the user has permission to access the directory or file.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22642"/>14055: Invalid directory.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The directory is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the directory or contact the DBA.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22655"/>14056: Invalid file operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid file access method.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the file access method is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22668"/>14057: File must be opened first.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The file is not open.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Open the file first.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22681"/>14058: Maximum number of open files has been reached.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of open files has reached the maximum.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Close some open files.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22694"/>14059: Locked by another user.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A lock has already been obtained by another user.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try later.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22707"/>14060: Fetch out of sequence.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Statements were executed in the wrong order.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Execute PSM statements following the fetch sequence.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22720"/>14061: Some variables are not yet bound.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The bind parameters are not all bound yet.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Perform the bind_variable function for all parameters.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22733"/>14062: The type of bound value is mismatched.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The column_value function was executed in a column type other than the defined one.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Execute column_value in a column type that matches the defined type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22746"/>14063: Too many cursors opened with DBMS_SQL package.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Too many cursors were opened in a single session with the DBMS_SQL package.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Decrease the number of cursors to open.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22759"/>14064: Statement not yet parsed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to call a function in a statement that had not yet been parsed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Parse the statement first and then call the bind_variable, execute and fetch_rows functions.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22772"/>14065: Variable was not found in SELECT list.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to define a column that does not exist in the SELECT list, or bring an undefined column.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the definition matches the SELECT list, and the column_value was called by the defined column.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22785"/>14066: URL contains malformed escape code sequence.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The URL contains a malformed code sequence.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the URL.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22798"/>14067: HTTP request failed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The HTTP server request failed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the HTTP server is properly running. A request may fail due to timeout.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22811"/>14068: Invalid URL was requested.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The URL is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the URL.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22824"/>14069: URL scheme is unknown or unrecognized.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unknown scheme (scheme://) was included in the URL.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify it is a supported scheme.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22837"/>14070: Header was not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Either there is no header in the response from the server, or a header cannot be parsed since the response is not correct.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the response from the server is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22850"/>14071: Read timeout occurred and no data was read.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There is no response from the server.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the server is properly running and that the network delay time is under 20 seconds.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22863"/>14072: Invalid dump option.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The dump option is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the dump option is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22876"/>14073: Invalid tablespace name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The tablespace name is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the tablespace name is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22889"/>14074: Invalid datafile number.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The datafile number is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the datafile number is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22902"/>14075: Invalid block number.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The block number is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the block number is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22915"/>14076: Invalid segment owner.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The segment owner is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the segment owner is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22928"/>14077: Invalid segment name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The segment name is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the segment name is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22941"/>14078: Invalid segment type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The segment type is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the segment type is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22954"/>14079: Invalid partition name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The partition name is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the partition name is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22967"/>14080: CLUSTER type is not supported.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>CLUSTER type is not supported.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if the schema object is CLUSTER type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22980"/>14081: Specified owner cannot be found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There is no user with the specified name in the argument.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the specified owner name is correct</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e22993"/>14082: Specified object name or partition name cannot be found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There is no object with the specified names in the argument.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the object and partition names are correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23006"/>14083: No data passed to the obfuscation toolkit.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Input or input_string is NULL.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Input or input_string must have a value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23019"/>14084: Invalid argument %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The argument value is invalid, NULL, or out of range.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Correct the argument value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23032"/>14085: Invalid SQL statement.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>This procedure cannot be called when the SQL statement is not a %1$s.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use this procedure when the SQL statement is a %1$s.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23045"/>14086: DBMS_SQL.DESCRIBE_COLUMNS overflow: col_name field in desc_rec.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>col_name_len=%1$s (&gt; 32).</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use DESCRIBE_COLUMNS2 procedure.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23058"/>14087: Invalid key value: The length of the key is too short.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The key value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The key must contain %1$d or more characters.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23071"/>14088: Invalid initialization vector value: The length of initialization vector is too short.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The initialization vector value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The initialization vector must contain %1$d or more characters.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23084"/>14089: Invalid input size: The input size must be multiples of %1$d bytes.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The size of the input parameter is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Set the length of input parameter to multiples of %1$d bytes.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23097"/>14090: Internal DBMS_CRYPTO encryption or decryption error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred during encryption or decryption using the DBMS_CRYPTO package.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the system administrator.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23110"/>14091: Internal DBMS_CRYPTO encryption or decryption error. Reason: %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred during encryption or decryption using the DBMS_CRYPTO package.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the data is valid and contact the system administrator.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23123"/>14092: Internal DBMS_OBFUSCATION_TOOLKIT error. Reason: %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred during encryption or decryption using the DBMS_OBFUSCATION_TOOLKIT package.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the data is valid and contact the system administrator.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23136"/>14093: The standard function '%1$s' was not called from the SQL statement.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The standard function '%1$s' is called only from the SQL statement.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Call the function in the SQL statement.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23149"/>14094: A general network error occurred at the UTL_TCP package.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A general network error occurred at the UTL_TCP package.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the connection is valid.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23162"/>14095: The length of a line read by a server is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The length of a line read by the server is too long.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use another API for reading.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23175"/>14096: No more data to be read is available from the connection.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>No more input data is available from the connection.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Stop reading.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23188"/>14097: Timeout for TCP connection, transmit, or reception.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>No reply arrived within timeout (seconds).</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the status of the TCP connection.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23201"/>14098: An internal buffer allocated to read the HTTP header has overflowed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An HTTP header larger than the internal buffer was received from the HTTP server.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the HTTP server is valid.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23214"/>14099: Pipe name duplicated.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A pipe of the same name already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Create a new pipe name or reuse the existing pipe. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23227"/>14100: Failed to create a pipe.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Pipe creation failed due to system limit and redundant pipe creation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the system administrator.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23240"/>14101: DBMS_PIPE package buffer size exceeded.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>DBMS_PIPE package buffer size exceeded; no more data can be entered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Empty the data in the buffer by calling the DBMS_PIPE.SEND_MESSAGE function. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23253"/>14102: Read buffer in the DBMS_PIPE package is empty.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>All data in the buffer read from the DBMS_PIPE.RECEIVE_MESSAG function has been read.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23266"/>14103: The requested data type is different from the actual data type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The requested data type is different from the actual data type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Call the DBMS_PIPE.UNPACK_MESSAGE procedure by using a valid message type. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23279"/>14104: DBMS_PIPE internal error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>DBMS_PIPE internal error.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the system administrator. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23292"/>14105: Cannot create a policy for the object of the SYS user.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There was an attempt to create a policy for the object of the SYS user.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>This command cannot be executed. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23305"/>14106: Policy \'%2$s\' already exists in table \'%1$s\'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The policy name already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the policy name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23318"/>14107: Policy \'%2$s\' does not exist in table \'%1$s\'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The policy does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the name of the policy.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23331"/>14108: Cannot execute policy function.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Cannot execute policy function.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check fine-grained audit policy.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23344"/>14109: Authority to access the pipe is required.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The pipe was privately created by a different user.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the user who created the pipe.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23357"/>14110: The collection bound with DBMS_SQL.BIND_ARRAY is empty.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>If the collection bound with DBMS_SQL.BIND_ARRAY is empty, batch update cannot be performed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Fill the bound collection with data.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23370"/>14111: The type of a column to be obtained with DBMS_SQL.COLUMN_VALUE_LONG is not LONG.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>DBMS_SQL.COLUMN_VALUE_LONG can be used only for LONG type columns.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the column type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23383"/>14112: An invalid SQL name was specified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The argument is an invalid SQL name.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Refer to a description of DBMS_ASSERT in the manual and specify a valid argument.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23396"/>14113: An invalid qualified SQL name was specified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The argument is invalid for a qualified SQL name.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Refer to a description of DBMS_ASSERT in the manual and specify a valid argument.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23409"/>14114: Internal error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Internal system error.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Contact the system administrator.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23422"/>14115: An invalid column name was specified in SORT_LIST.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid column name was specified in SORT_LIST.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>SORT_LIST may only contain ENQ_TIME and PRIORITY.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23435"/>14116: Failed to drop the queue table because queues exist in the queue table.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>All queues in a queue table must be dropped before the queue table can be dropped.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Drop all of the queues using the drop_queue() command or with the force option.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23448"/>14117: The queue table does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The queue table does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if the queue table exists using the USER_QUEUE_TABLES view.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23461"/>14118: The schema defined in queue_name does not match the schema in queue_table.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The schema defined in queue_name does not match the schema in queue_table.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify two arguments that have the same schema name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23474"/>14119: The queue already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The queue already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Change the queue name. Search the USER_QUEUES view to see the current queues.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23487"/>14120: The argument pairs have no effect on queues.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The enqueue/dequeue pair is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>One of the arguments must be TRUE.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23500"/>14121: The agent is already specified as a subscriber of the queue.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The agent is already specified as a subscriber of the queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a different agent name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23513"/>14122: The enqueue function of the queue is disabled.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The enqueue function of the queue is disabled.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enable the queue using the start_queue() command.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23526"/>14123: There is no recipient for the message.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Attempted to enqueue to queues that can serve multiple consumers, but a subscriber or a recipient was not defined for the queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a recipient or register a subscriber in the queue before attempting to enqueue.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23539"/>14124: Both the message ID and the dequeue condition/correlation ID are defined in the dequeue option.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The dequeue option can be specified with either a message ID or a dequeue condition/correlation ID, but not both.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify at most one option.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23552"/>14125: A timeout occurred while dequeuing a message.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A timeout occurred while dequeuing a message.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try dequeuing again. Correct the wait time specified in the dequeue option if insufficient.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23565"/>14126: The dequeue function of the queue is disabled.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The dequeue function of the queue is disabled.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enable the queue using the start_queue() command.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23578"/>14127: A consumer cannot be specified for a single-consumer queue or an exception queue.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A consumer was specified while registering a notification for a single-consumer queue or an exception queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Do not specify a consumer when registering a subscription name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23591"/>14128: Failed to find the registration.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Failed to find the specified registration.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify the specified subscription name and callback string are valid.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23604"/>14129: consumer_name was not defined.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Attempted to dequeue to queues that can serve multiple consumers, but consumer_name was not defined in the dequeue option.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify consumer_name in the dequeue option.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23617"/>14130: Invalid path: \"%1$s\" is NULL or does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The directory name or path is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the path name is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23630"/>14131: The specified visibility value is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Visibility must be set to ON_COMMIT or IMMEDIATE.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify ON_COMMIT or IMMEDIATE for visibility.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23643"/>14132: The specified privilege is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified privilege to be granted or revoked is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid privilege.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23656"/>14133: Queues must be stopped before they can be dropped.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The queue is not stopped. (enqueue or dequeue has been enabled.)</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Disable both enqueue and dequeue using the stop_queue() command.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23669"/>14134: msgid cannot be specified in dequeue_options.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>msgid cannot be specified in dequeue_options when calling dequeue_array.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove the specified msgid from dequeue_options.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23682"/>14135: Invalid svr env name: env name is NULL or does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The server env name is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the svr env name is correct.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23695"/>14136: The package cannot be used.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The package has not been initialized.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify that the database server has started normally.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23708"/>14137: Cannot send the message to the pipe because it is too large.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The size of the message is greater than the maximum size of the pipe.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Reduce the size of the message, or increase the maximum size of the pipe. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23721"/>14138: A consumer name is defined for a single-consumer queue.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A consumer name can only be defined for multi-consumer queues.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove the consumer_name from the dequeue options.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23734"/>14139: The queue does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The queue does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check whether the queue exists through the USER_QUEUES view.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23747"/>14140: Unable to stop the queue because there is a transaction in progress.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>STOP_QUEUE will fail if there is a transaction in progress when WAIT is set to false.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Set WAIT to true, and then retry to execute the STOP_QUEUE command. The command will wait until all transactions are committed before stopping the queue.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23760"/>14141: The policy does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The policy does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Re-check the name of the schema, schema object, and policy name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23773"/>14142: The policy already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The policy already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Re-check the name of the schema, schema object, and policy.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23786"/>14143: Locked by another user.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A lock has already been obtained by another user.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try later.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23799"/>14144: Invalid builtin function number - '%1$d'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A patch for previous versions may exist or a patch was applied incorrectly.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>'ALTER SYSTEM RECOMPILE ALL;' is required. Contact the technical support team.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23812"/>14145: This queue was not created as multiple consumer queue.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A queue with this name exists, but it is not a multiple consumer queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23825"/>14146: The HTTP request is incorrect.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An incorrect HTTP package subprogram has been used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The program must be recreated.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23838"/>14147: The end of the HTTP response has been reached.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The end of the HTTP response has been reached.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23851"/>14148: The HTTP request has failed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The HTTP request cannot be executed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23864"/>14149: An attempt to convert an unsupported character set.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The character set is not supported.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23877"/>14150: Invalid write: a single line cannot exceed %1$d bytes.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The amount of data to be written to a single line exceeds the maximum allowed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The length of a line cannot exceed the maximum. The maximum size is specified in the max_linesize parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23890"/>14151: Policy is disabled.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Policy is disabled.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the status of the policy.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23903"/>14152: Timeout occurred while using a pipe.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Timeout occurred while using a pipe.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try again.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23916"/>14153: ABORT_EXECUTION was called in the debugger session.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>ABORT_EXECUTION was called in the debugger session.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23929"/>14154: SQL translation profile \'%1$s\' already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Specified profile already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the profile name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23942"/>14155: SQL translation profile \'%1$s\' does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Specified profile does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the profile name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23955"/>14156: SQL statement or error code cannot be translated.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Custom translation of this SQL statement or error code is not registered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check custom translation.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23968"/>14157: Synonyms cannot be used in column-level VPD.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Synonyms cannot be used in column-level VPD.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the argument of the procedure.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23981"/>14158: Column does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Specified column does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the argument of the procedure.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e23994"/>14159: Invalid parameter was used for the AnyData type operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid parameter was used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a valid parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24007"/>14160: Invalid method was used for the AnyData type operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid method was used for the type operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Refer to a valid example to apply a valid method to the operation.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24020"/>14161: Type does not match in the AnyData type operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid type was used to access AnyData.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Attempt operation using a valid type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24033"/>14162: An error occurred due to an invalid context during XML processing.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid context was passed as an argument of XMLGEN.GETXML.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check if the context is configured correctly. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24046"/>14163: A negative value was assigned to a variable, which does not allow a negative value, during XML porcessing.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A negative value was assigned to a variable that does not allow a negative value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Assign a non-negative value to the variable.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24059"/>14164: A node was inserted into an invalid location.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An insert that violates the DOM Tree structure was executed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the node relationships.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24072"/>14165: A node created in another document was used in the current document.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A node that does not belong to the document was used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Include the node in the current document or create a new node.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24085"/>14166: Cannot use the specified character string.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A character string that is not allowed in XML was used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a character string allowed in XML.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24098"/>14167: Cannot execute the operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid DOM handle was used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a valid DOM handle.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24111"/>14168: An error has occurred while processing XML. %1$s</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A DOM processing error has occurred.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the DOM processing rules.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24124"/>14169: Package function is currently unavailable.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Package function is currently unavailable.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the package related parameters.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24137"/>14170: An invalid operation occurred.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The order of the API calls or the application implementation is incorrect.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check whether it needs to be preceded by another operation, or how touse the operation.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24150"/>14171: A transient error occurred due to a problem such as a network connection error. %1$d : %2$s</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error response code in the 400-499 range occurred.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the response code and text for error details.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24163"/>14172: A permanent error occurred due to a defect such as a mail server error. %1$d : %2$s</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error response code in the 500-599 range occurred.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the response code and text for error details.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24176"/>14173: The string input for the XML tag is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The size of the user-entered string is more than 130 bytes.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a string that is less than 130 bytes.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24189"/>14174: The column name input does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The user-entered an invalid column name.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a valid column name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24202"/>14175: There is no enclosing tag for the XML document.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Rowsettag and Rowtag are both set to NULL.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a non-NULL value for Rowsettag or Rowtag.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24215"/>14176: Cannot create a valid XML document.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>If Rowsettag or Rowtag is NULL, then the query result must be a single column or a single row.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Either enter a non-NULL value for both Rowsettag and Rowtag, or use a query whose result is a single row or a single column.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24228"/>14177: The column that corresponds to the rowid attribute value does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A column that does not exist in the query result has been set to the rowid attribute value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Rowid attribute value must be selected among the columns that exist in the query result.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24241"/>14178: The column that corresponds to the rowid attribute value is a non-scalar column.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Rowid attribute value can only be set in a scalar column.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Set one of the scalar columns to the rowid attribute value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24254"/>14179: The query result is empty.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The query result is empty, and the "Raise No Rows Exception flag" is set to "true".</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Change the "Raise No Rows Exception" flag to "false" by using DBMS_XMLQUERY.SETRAISENOROWSEXCEPTION.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24267"/>14180: There are escape characters in the string input for the XML tag.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>If the "SQL to XML Name Escaping" flag is set to "false", then the "escape" character cannot be used in the tag.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Either enter a string without an escape character, or change the "SQL to XML Name Escaping" flag to "true" by using DBMS_XMLQUERY.SETSQLTOXMLNAMEESCAPING.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24280"/>14181: The name of the bind value does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The bind value does not exist in the query used to create the context.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter the name of the bind variable that exists in the query used to create the context.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24293"/>14182: Invalid create or replace statement, the following are the allowed types: PROCEDURE, FUNCTION, PACKAGE or PACKAGE BODY</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The input DDL must be the create or replace statement.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use one of the following types: PROCEDURE, FUNCTION, PACKAGE or PACKAGE BODY</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24306"/>14183: Wrapping failed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Wrapping the create or replace statement is failed.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the system log.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24319"/>14184: Creating procedure or package failed. rc=%1$d</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Creating procedure or package is failed. rc=%1$d</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the system log.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24332"/>14185: Trigger not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Trigger which you specified is not found.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Please check the trigger name and its owner name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24345"/>14186: Hierarchical workspace not supported.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Hierarchical workspace is not supported yet.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Please use workspace in single level</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24358"/>14187: The node type is invalid.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The node type is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a valid node type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24371"/>14188: An error occurred while calling a DOM API.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred while calling an external API.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the program that calls the DOM API.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24384"/>14189: DBMS_CMGT package not supported.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Following feature not supported.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check requirements for DBMS_CMGT</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24397"/>14190: An error occurred during streaming.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred during streaming.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24410"/>14191: Invalid data.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid data.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24423"/>14192: The compression results exceed the maximum RAW size.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The compression results exceed the maximum RAW size.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24436"/>14193: An error occurred during compression.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred during compression.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24449"/>14194: An error occurred during decompression.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred during decompression.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24462"/>14195: Insufficient memory.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Insufficient memory.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>None</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24475"/>14196: Network exist error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Network with same name already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try different network name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24488"/>14197: Node table exist error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Node table with same name already exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try different node table name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24501"/>14198: Link table exist error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Link table with same name already exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try different link table name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24514"/>14199: Path table exist error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Path table with same name already exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try different path table name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24527"/>14200: Pathlink table exist error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Pathlink table with same name already exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Try different pathlink table name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24540"/>14201: Network not exist error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Network does not exist error.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check network name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24553"/>14202: The size of the data to read is too large.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred while attempting to read the data whose size is greater than that of bfile.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a valid size of data. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24566"/>14203: User session ID does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The user session ID no longer exists, probably because the session was logged out.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a valid session ID.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24579"/>14204: This function is deprecated.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>This function is no longer supported.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>This function cannot be used in the current version.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24592"/>14205: The specified audit event/action already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The audit event/action had been created before.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the audit event/action specifications.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24605"/>14206: The specified audit event ID does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The audit event ID is not correct or has not been made.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Create audit event before adding event action.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24618"/>14207: The specified alert name does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The alert name is not correct or has not been registered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Regist alert first.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24631"/>14208: Invalid parameter was used for the alert package.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid parameter was used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a valid parameter.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24644"/>14209: No alert is registered.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>No alert is registered.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Register an alert first.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24657"/>14210: The specified alert does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified alert does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Register an alert first.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24670"/>14211: attempting to wait on uncommitted signal from same session</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>attempting to wait on uncommitted signal from same session</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Commit first.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24683"/>14212: Invalid character set name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid character set name.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a valid character set name. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24696"/>14213: URLs with a fixed-width multibyte character set is not allowed.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A fixed-width multi-byte character set cannot be used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a URL character set that is not a fixed-width multibyte character set. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24709"/>14214: Invalid input value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The length of the input string cannot exceed the value of TB_VARCHAR2_SIZE_PSM_MAX divided by the length of a single Unicode character.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use an input string with a valid length.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24722"/>14215: HTTP client error %1$s</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>HTTP status code cannot be between 400 and 499.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a valid value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24735"/>14216: HTTP server error %1$s</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>HTTP status code cannot be between 500 and 599.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a valid value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24748"/>14217: Invalid index or size.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The index or its size is a negative value or greater than the set value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the index or its size.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24761"/>14218: Invalid text range.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified range of text does not fit into a DOMString.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the text range.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24774"/>14219: Data cannot be specified in the node.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attemp was made to specify data for a node that does not support the data.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the source code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24787"/>14220: Object cannot be modified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attemp was made to modify an object that cannot be modified.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the source code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24800"/>14221: Unable to find the node.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attemp was made to reference a node in the current context where it does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Reference a node that exists in the context.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24813"/>14222: Unsupported operation.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The requested operation is not supported.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The operation will be implemented in the next version.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24826"/>14223: An attempt was made to add an invalid attribute.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to add an attribute that is already in use.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Add a valid attribute.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24839"/>14224: Incorrect syntax.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid syntax was used.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the source code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24852"/>14225: Invalid modification.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to modify an object type.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a correct modification method.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24865"/>14226: Object cannot be created or modified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to create or modify an object that cannot be used in the current namespace.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Create or modify an object that can be used in the current namespace.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24878"/>14227: Invalid object access.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A parameter or operation is not supported by the current object.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a parameter or operation that is supported by the current object.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24891"/>14228: Invalid node.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The insertBefore or removeChild method invalidated the node.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a valid node.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24904"/>14229: Invalid select item in the hierarchical query.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There is an invalid select item in the hierarchical query.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the hierarchical query.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24917"/>14230: Invalid table name \'%1$s\'.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The table name does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the table name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24930"/>14231: Invalid context name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The context does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the context name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24943"/>14232: Invalid key column specified for the deletexml function.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The deletexml function requires a key column.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a non-null value for the key column.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24956"/>14233: Invalid context.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The context value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the context name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24969"/>14234: The tag name is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified tag name exceeds the allowed maximum length</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a tag name within the length limit.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24982"/>14235: Invalid column specified for the updatexml function.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The updatexml function requires a key column.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a non-null value for the key column.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e24995"/>14236: The DML that will be created with the XML is too long.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The DML exceeds the aloweed maximum length.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Either shorten the XML tag names or the XML document itself.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25008"/>14237: Invalid XML format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified XML header or XML format is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a valid XML string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25021"/>14238: Invalid XML document.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The XML document to insert into the table failed to validate against the XML schema.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use an XML document that conforms to the XML schema.                                                   </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25034"/>14239: Non-existing column name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified column name does exist in the table.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a column name that exists in the table.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25047"/>14240: Another schema is already registered under the specified URL.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>To register a new schema, you must specify a unique URL.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a unique URL.                                             </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25060"/>14241: There is an object that is dependent on the specified schema.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A schema with a dependent object cannot be deleted.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete the dependent object or modify the delete option.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25073"/>14242: Unable to find the specified schema.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Only a registered schema can be deleted.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the query.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25086"/>14243: Null or invalid schema URL.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>You must specify a valid schema URL.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the query.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25099"/>14244: Invalid schema format.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The schema content must be constructed with valid syntax.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a schema with valid format.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25112"/>14245: Non-existent user.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The user does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid username.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25125"/>14246: Unable to apply redaction policy.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Redaction policy cannot be applied on this object.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a table or view object.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25138"/>14247: Non-existent object.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The object does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid object.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25151"/>14248: Invalid policy name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The policy name is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid policy name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25164"/>14249: The redaction policy is already enabled.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The redaction policy is already enabled.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The redaction policy is already enabled.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25177"/>14250: The redaction policy is already disabled.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The redaction policy is already disabled.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The redaction policy is already disabled.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25190"/>14251: The object does not have a redaction policy.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The object does not have a redaction policy.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>The operation can only be performed on an object with a redaction policy.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25203"/>14252: Invalid column.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Unable to find the column.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid column name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25216"/>14253: Redaction policy already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The column already has a redaction policy.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use the MODIFY_COLUMN procedure to modify the column.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25229"/>14254: Redaction policy does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The column does not have a redaction policy.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use the ADD_COLUMN procedure to add a redaction policy on the column.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25242"/>14255: Invalid policy description.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The policy description is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid policy description.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25255"/>14256: Invalid column description.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The column description is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid column description.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25268"/>14257: Redaction policy already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The object already has a redaction policy.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>To add a new redaction policy on the object, drop the existing policy.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25281"/>14258: Invalid redaction function type.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An invalid function type argument was specified for the ADD_POLICY procedure.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid function type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25294"/>14259: Invalid redaction parameters(\"%1$s\").</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>One or more redaction parameters are invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify the parameters correctly.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25307"/>14260: Mismatched input and output lengths.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The input and output lengths of the redaction arguments do not match.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use regular expression redaction instead of partial redaction.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25320"/>14261: Inconsistent block TYPE or SGMT_ID, or inconsistent Last(l3 or extent map) block's information.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Check the ILOG for the DBA of the block.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td> </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25333"/>14262: Invalid SEQUENCE DEVIATION value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The SEQUENCE DEVIATION must be set to BEFORE or TOP.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td> </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25346"/>14263: Invalid PRIORITY specified when using SEQUENCE DEVIATION.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The priority of the message, which referenced in SEQUENCE DEVIATION, must be less than or equal to that of the relative message.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td> </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25359"/>14264: Relative msg id required.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>If SEQUENCE DEVIATION is BEFORE, the relative msg id must be specified.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td> </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25372"/>14265: The scheduler object already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The scheduler object already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Change the object name. Search the DBMS_SCHEDULER view to see the current object.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25385"/>14266: The name of scheduler object cannot be NULL.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The name of scheduler object cannot be NULL.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Insert the name of object.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25398"/>14267: PROGRAM_TYPE cannot be NULL.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>PROGRAM_TYPE cannot be NULL.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Insert PROGRAM_TYPE when CREATE_PROGRAM.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25411"/>14268: PROGRAM_ACTION cannot be NULL.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>PROGRAM_ACTION cannot be NULL.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Insert PROGRAM_ACTION when CREATE_PROGRAM.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25424"/>14269: REPEAT_INTERVAL cannot be NULL.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>REPEAT_INTERVAL cannot be NULL.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Insert REPEAT_INTERVAL when CREATE_SCHEDULE.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25437"/>14270: The scheduler object does not exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The scheduler object does not exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Search the DBMS_SCHEDULER view to see the current object.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25450"/>14271: Enqueue is not supported for an exception queue.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Enqueue operation is not supported for an exception queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify another queue.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25463"/>14272: Enqueue cannot be enabled for an exception queue.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Only dequeue operation can be enabled for an exception queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Only enable dequeue in the start_queue() command.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25476"/>14273: Subscriber is not supported for an exception queue.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Subscriber cannot be associated with an exception queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify another queue.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25489"/>14274: Register procedure does not support exception queue.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Exception queue cannot be specified in the register procedure.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify another queue.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25502"/>14275: Exception queue does not support max_retries and retry_delay.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The max_retries and retry_delay parameters cannot be set on an exception queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the queue type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25515"/>14276: Exception queue does not support retention_time.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The retention_time parameter cannot be set on an exception queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the queue type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25528"/>14277: Enqueue is not supported for an exception queue.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Enqueue operation is not supported for an exception queue.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify another queue.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25541"/>14278: Invalid parameter values.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Max_retries and/or retry_delay are set to a negative value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Max_retries and retry_delay must be greater than or equal to 0.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25554"/>14279: Invalid parameter value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Retention_time is set to a negative value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Retention_time must be greater than or equal to 0.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25567"/>14280: Invalid queue name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The queue name starts with an invalid character.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid queue name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25580"/>14281: PROGRAM_TYPE can be only PSM_BLOCK.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>PROGRAM_TYPE can be only PSM_BLOCK.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Insert correct PROGRAM_TYPE when CREATE_PROGRAM.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25593"/>14282: Invalid REPEAT_INTERVAL value.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid REPEAT_INTERVAL value.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid REPEAT_INTERVAL when CREATE_SCHEDULE.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25606"/>14283: Invalid parameter value: %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified string parameter value is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid string parameter value.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25619"/>14284: No policy option specified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The policy option is NULL, but no default schema or policy option exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify a valid option, or alter the schema or policy to set a valid default option.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25632"/>14285: Undefined level %1$s for the policy.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified level is not defined for the policy.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Change the level.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25645"/>14286: Unable to find policy: %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified policy does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter an existing policy name or create a new policy.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25658"/>14287: Invalid label string: %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The label string cannot be converted to a valid internal label for the policy.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Change the label string. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25671"/>14288: Invalid policy option: %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified policy option is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Change the policy option.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25684"/>14289: Duplicate policy option: %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified policy option already exists in the option string.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Remove the duplicate policy option.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25697"/>14290: Invalid combination of policy options.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified policy options are contradictory to each other.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter compatible policy options.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25710"/>14291: Unable to change a column name of a policy in use.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to change a column name of a policy that has been applied to schemas or tables.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Before changing the column name, disable the policy from the schemas or tables first.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25723"/>14292: Undefined compartment %1$s for policy.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified compartment is not defined for the policy.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the compartment string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25736"/>14293: Undefined group %1$s for policy.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified group is not defined for the policy.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the group string.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25749"/>14294: LBAC error: %1$s</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An error occurred due to LBAC enforcement.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Correct the problem identified in the error message.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25762"/>14295: Label %1$s does not exist for policy.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified label tag or value did not identify a label for the policy.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter a label tag or value that is in use by the policy.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25775"/>14296: Label %1$s already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified label value already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the label to change the tag or type.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25788"/>14297: Unable to find user level for user %1$s and policy.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There is no level specified for the user.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Enter the maximum and minimum labels for the user.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25801"/>14298: Policy column %1$s already used by an existing policy.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to create a policy with the same column name as an existing policy.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a different name for the policy column or delete the existing policy.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25814"/>14299: Existing policy role for policy %1$s.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A role named policy_DBA already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use a different policy name or delete the existing policy.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25827"/>14300: The specified schema does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified schema does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the value of 'object_schema'.                                          </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25840"/>14301: Cannot create/modify/drop a policy for the object of the SYS user.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>There was an attempt to create a policy for the object of the SYS user.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>This command cannot be executed.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25853"/>14302: The specified table or view does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified table or view does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the value of 'object_name'.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25866"/>14303: The specified policy name already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified policy name already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the value of 'policy_name'.                                                    </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25879"/>14304: The specified policy name does not exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified policy name does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the value of 'policy_name'.                                     </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25892"/>14305: Invalid column specified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified list of columns must be columns of the specified object.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the value of 'audit_column'.                                         </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25905"/>14306: Invalid handler module specified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified value of handler module is syntactically incorrect.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the value of 'handler_module'.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25918"/>14307: Invalid statement type(s) specified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified values of statement types are syntactically incorrect.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the value of 'statement_types'.                                </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25931"/>14308: Invalid audit trail specified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified value of audit trail is not valid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the value of 'audit_trail'.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25944"/>14309: Invalid audit column option specified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified value of audit column option is not valid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check the value of 'audit_column_opts'.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25957"/>14310: Reached a maximum number of fine-grained audit policies on the same object.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The number of fga policies reached 256 on the specified object.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Delete one of the registered fga policies in order to add a new policy. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25970"/>14311: SQL Profile already exists.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Specified SQL Profile already exists.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check DBA_SQL_PROFILES and use different name or category.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25983"/>14312: SQL Profile doesn't exist.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Specified SQL Profile doesn't exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Check name or category in DBA_SQL_PROFILES.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e25996"/>14313: invalid attribute name specified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid attribute name was specified for altering SQL profile.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify attribute name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26009"/>14314: invalid attribute value specified.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid attribute value was specified for altering SQL profile.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Verify attribute value according to the attribute.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26022"/>14315: Invalid argument.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified argument is invalid.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the argument.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26035"/>14316: Invalid operation call.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>This operation cannot be called in the current context.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the DBMS_METADATA code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26048"/>14317: Invalid argument for METADATA handle.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified argument is not valid for METADATA handle.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the argument.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26061"/>14318: Invalid operation call for METADATA transform handle.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>To call this operation, you must add a METADATA transform handle appropriate for the operation.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the DBMS_METADATA code.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26074"/>14319: Object not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The object does not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the argument.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26087"/>14320: Cannot return implicit result through the specified statement.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>An attempt was made to return an implicit result through a statement other than PSM or DML.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>An implicit result can only be returned through a PSM or DML statement.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26100"/>14321: Invalid table for chunking.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Table was not a physical table or the table was an IOT.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use an existing table which is not an IOT. </td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26113"/>14322: Invalid state for create chunks.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Task was not in the CREATED state.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Make sure that the task is in the CREATED state.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26126"/>14323: Invalid status.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Invalid value was set to the chunk status.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Make sure that the status value is valid.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26139"/>14324: Invalid state for run task.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Task was not in the CHUNKED state.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Make sure that the task is in the CHUNKED state.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26152"/>14325: Invalid state for resume task.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>Task was not in the FINISHED_WITH_ERROR or CRASHED state.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Make sure that the task is in the FINISHED_WITH_ERROR or CRASHED state.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26165"/>14326: Parameter value error.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The input argument was null or it exceeded the maximum length limit.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Make sure that the argument is not null and its length is within the limit.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26178"/>14327: Duplicate task name.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A task with the same name was already in existence.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use another name.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26191"/>14328: Task not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The task did not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Use an existing task.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e26204"/>14329: Chunk not found.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The specified chunk did not exist.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify an existing chunk.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch14.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제12장 12000 ~ 12999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제14장 15000 ~ 15999</td></tr></table></div><div xmlns="" align="center"/></body></html>

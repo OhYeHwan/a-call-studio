@@ -3,43 +3,43 @@ import { ReactComponent as Empty } from "src/static/icon/empty_state.svg";
 import { ReactComponent as QuestionListSVG } from "src/static/icon/ai_QL.svg";
 import styled from "styled-components";
 
-const QuestionTab = ({ questions, setQuestions }) => {
-  const handleQuestionListDelete = (keyword, id) => {
-    let Qindex = questions.findIndex((i) => i.keyword === keyword);
+const QuestionTab = ({ afterKeywords }) => {
+  // const handleQuestionListDelete = (keyword, id) => {
+  //   let Qindex = questions.findIndex((i) => i.keyword === keyword);
 
-    let question = {
-      keyword: questions[Qindex].keyword,
-      list: questions[Qindex].list.filter((q) => q.id !== id),
-    };
+  //   let question = {
+  //     keyword: questions[Qindex].keyword,
+  //     list: questions[Qindex].list.filter((q) => q.id !== id),
+  //   };
 
-    if (questions[Qindex].list.length === 1) {
-      alert("삭제 불가");
-    } else {
-      let newQuestions = [...questions];
-      newQuestions[Qindex] = question;
-      setQuestions(newQuestions);
-    }
-  };
+  //   if (questions[Qindex].list.length === 1) {
+  //     alert("삭제 불가");
+  //   } else {
+  //     let newQuestions = [...questions];
+  //     newQuestions[Qindex] = question;
+  //     setQuestions(newQuestions);
+  //   }
+  // };
 
-  const handleQuestionListAdd = (keyword, id) => {
-    let Qindex = questions.findIndex((i) => i.keyword === keyword);
-    let ListIndex = questions[Qindex].list.findIndex((i) => i.id === id);
-    let newList = [...questions[Qindex].list];
+  // const handleQuestionListAdd = (keyword, id) => {
+  //   let Qindex = questions.findIndex((i) => i.keyword === keyword);
+  //   let ListIndex = questions[Qindex].list.findIndex((i) => i.id === id);
+  //   let newList = [...questions[Qindex].list];
 
-    newList.splice(ListIndex + 1, 0, {
-      id: new Date(),
-      value: "",
-    });
+  //   newList.splice(ListIndex + 1, 0, {
+  //     id: new Date(),
+  //     value: "",
+  //   });
 
-    let question = {
-      keyword: questions[Qindex].keyword,
-      list: newList,
-    };
+  //   let question = {
+  //     keyword: questions[Qindex].keyword,
+  //     list: newList,
+  //   };
 
-    let newQuestions = [...questions];
-    newQuestions[Qindex] = question;
-    setQuestions(newQuestions);
-  };
+  //   let newQuestions = [...questions];
+  //   newQuestions[Qindex] = question;
+  //   setQuestions(newQuestions);
+  // };
 
   return (
     <QuestionListLayout>
@@ -51,16 +51,16 @@ const QuestionTab = ({ questions, setQuestions }) => {
           </QuestionListTitle>
           <QuestionListButton>저장</QuestionListButton>
         </QuestionListHeader>
-        {questions.length > 0 ? (
+        {afterKeywords.length > 0 ? (
           <QuestionListContainer>
-            {questions.map((question, idx) => {
+            {afterKeywords.map((keyword, idx) => {
               return (
                 <List
-                  key={question.keyword}
-                  keyword={question.keyword}
-                  list={question.list}
-                  onQuestionListDelete={handleQuestionListDelete}
-                  handleQuestionListAdd={handleQuestionListAdd}
+                  key={keyword.keywordId}
+                  keyword={keyword.keyword}
+                  list={keyword.questions}
+                  // onQuestionListDelete={handleQuestionListDelete}
+                  // handleQuestionListAdd={handleQuestionListAdd}
                 />
               );
             })}

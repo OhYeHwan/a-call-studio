@@ -57,20 +57,17 @@ const PageListBar = observer(() => {
             <>
               <TreeViewer
                 mode={mode}
-                tree={target.pageGroups}
-                projectName={target.projectName}
+                target={target}
                 selectedPage={selectedPage}
                 handleClickPageItem={handleClickPageItem}
               />
-              {target.pageGroups.map((i) => {
+              {target.pageGroups.map((pageGroup) => {
                 return (
                   <ListViewer
-                    key={i.pageGroupId}
-                    id={i.pageGroupId}
+                    key={pageGroup.pageGroupId}
                     mode={mode}
-                    list={i.pages}
                     projectName={target.projectName}
-                    groupName={i.pageGroupName}
+                    pageGroup={pageGroup}
                     selectedPage={selectedPage}
                     handleClickPageItem={handleClickPageItem}
                   />

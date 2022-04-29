@@ -1,17 +1,119 @@
-import {
-  observable,
-  makeObservable,
-  action,
-  runInAction,
-  toJS,
-  computed,
-} from "mobx";
-import contentRepository from "src/repository/ContentRepository";
+import { observable, makeObservable, action, toJS, computed } from "mobx";
 import { contentListData } from "src/data";
+import { uuidv4 } from "src/utils/uuid";
 
 class ContentStore {
   constructor() {
     makeObservable(this);
+  }
+
+  @observable
+  afterKeywords = [];
+
+  @action
+  makeQuestions(value) {
+    this.afterKeywords = value;
+  }
+
+  /*
+      keywords: [
+        {
+          keywordId: "1",
+          keyword: "sss",
+          questions: [
+            {
+              questionId: "123",
+              questionText: "seaser",
+              check: "true"
+            }, 
+            { 
+              ...
+            }
+          ]
+        },
+        {
+          ...
+        },
+        ...
+      ],
+    */
+
+  @action
+  handleDeleteQuestion(keyword, id) {
+    const index = this.afterKeywords.findIndex((i) => i.keyword === keyword);
+
+    const question = {};
+  }
+
+  @action
+  handleChangeSummary(value) {
+    this.target = {
+      ...this.target,
+      summary: value,
+    };
+  }
+
+  @action
+  handleAddKeyword(value) {
+    if (value) {
+      const exist = this.target.keywords.findIndex(
+        (keyword) => keyword.keyword === value
+      );
+
+      if (exist === -1) {
+        const keyword = {
+          keywordId: uuidv4(),
+          keyword: value,
+          questions: [],
+        };
+
+        this.target = {
+          ...this.target,
+          keywords: [...this.target.keywords, keyword],
+        };
+      } else {
+        alert("존재하는 키워드는 추가할 수 없습니다.");
+      }
+    } else {
+      alert("빈 키워드는 추가할 수 없습니다.");
+    }
+  }
+
+  @action
+  findExistKeyword(value, id) {
+    return this.target.keywords.findIndex(
+      (keyword) => keyword.keyword === value && keyword.keywordId !== id
+    );
+  }
+
+  @action
+  updateKeywords(value, id) {
+    const newKeywords = this.target.keywords.map((keyword) => {
+      if (keyword.keywordId === id) {
+        return {
+          keywordId: id,
+          keyword: value,
+        };
+      } else {
+        return keyword;
+      }
+    });
+    this.target = {
+      ...this.target,
+      keywords: newKeywords,
+    };
+  }
+
+  @action
+  deleteKeyword(id) {
+    const newKeywords = this.target.keywords.filter(
+      (keyword) => keyword.keywordId !== id
+    );
+
+    this.target = {
+      ...this.target,
+      keywords: newKeywords,
+    };
   }
 
   @observable
@@ -20,41 +122,31 @@ class ContentStore {
   @observable
   _target = {
     projectName: null,
-    pageGroupNmae: null,
+    pageGroupName: null,
     pageId: null,
     pageName: null,
-    html: null,
+    summary: null,
+    keywords: [],
+
+    voiceScript: null,
   };
-
-  @computed
-  get target() {
-    return toJS(this._target);
-  }
-
-  set target(value) {
-    this._target = value;
-  }
 
   @computed
   get contentList() {
     return this._contentList;
   }
 
+  @computed
+  get target() {
+    return toJS(this._target);
+  }
+
   set contentList(value) {
     this._contentList = value;
   }
 
-  @action
-  async getContentList() {
-    try {
-      const response = await contentRepository.findAll();
-      const data = response.data;
-      runInAction(() => {
-        this._contentList = this.changeFormat(data);
-      });
-    } catch (e) {
-      console.log(e);
-    }
+  set target(value) {
+    this._target = value;
   }
 
   changeFormat(data) {

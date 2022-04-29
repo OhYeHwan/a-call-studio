@@ -5,21 +5,22 @@ import PageItem from "../PageItem/PageItem";
 
 const ListViewer = ({
   mode,
-  list,
   projectName,
-  groupName,
+  pageGroup,
   selectedPage,
   handleClickPageItem,
 }) => {
+  const { pages, pageGroupName } = pageGroup;
+
   return (
     <ListViewerLayout mode={mode}>
-      {list.map((item) => (
-        <li key={item.pageId}>
+      {pages.map((page) => (
+        <li key={page.pageId}>
           <PageItem
-            id={item.pageId}
+            mode={mode}
             projectName={projectName}
-            pageName={item.pageName}
-            groupName={groupName}
+            page={page}
+            pageGroupName={pageGroupName}
             selectedPage={selectedPage}
             handleClickPageItem={handleClickPageItem}
           />

@@ -10,6 +10,7 @@ import { observer } from "mobx-react-lite";
 import useStores from "src/hooks/useStores";
 
 const ContentViewer = observer(() => {
+  const publicUrl = process.env.PUBLIC_URL;
   const [mode, setMode] = useState("mobile");
   const { drawerHeightStore } = useStore();
 
@@ -49,7 +50,7 @@ const ContentViewer = observer(() => {
           <ContentViewerMain>
             {target.pageId === null ? null : (
               <Iframe
-                src={`/datas/${target.projectName}_html/${target.pageGroupName}/${target.pageName}`}
+                src={`${publicUrl}/data/${target.projectName}_html/${target.pageGroupName}/${target.pageName}`}
               ></Iframe>
             )}
           </ContentViewerMain>

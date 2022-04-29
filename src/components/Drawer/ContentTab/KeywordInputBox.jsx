@@ -2,15 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import DeleteIcon from "src/static/icon/ai_delete.svg";
 
-const KeywordInputBox = ({
-  keyword,
-  keywords,
-  handleClickDelButton,
-  updateKeywords,
-}) => {
+import useStores from "src/hooks/useStores";
+
+const KeywordInputBox = ({ keyword }) => {
   const inputRef = useRef(null);
-  const [id, setId] = useState(keyword.id);
-  const [content, _setContent] = useState(keyword.content);
+  const [content, _setContent] = useState(keyword.keyword);
+
+  const { contentStore } = useStores();
 
   useEffect(() => {
     setContent(content);
@@ -28,16 +26,15 @@ const KeywordInputBox = ({
   };
 
   const onClickDelButton = () => {
-    handleClickDelButton(keyword.id);
+    contentStore.deleteKeyword(keyword.keywordId);
   };
 
   const handleUpdateKeywords = () => {
+    if (content === keyword.keyword) return;
     if (content) {
-      const exist = keywords.findIndex(
-        (keyword) => keyword.content === content && keyword.id !== id
-      );
+      const exist = contentStore.findExistKeyword(content, keyword.keywordId);
       if (exist === -1) {
-        updateKeywords(keyword.id, content);
+        contentStore.updateKeywords(content, keyword.keywordId);
         inputRef.current.blur();
         alert("키워드가 변경 되었습니다.");
       } else {

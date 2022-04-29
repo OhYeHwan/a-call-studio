@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제6장 결과 집합 확장기능</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero JDBC 개발자 안내서"/><link rel="up" href="index.html" title="Tibero JDBC 개발자 안내서"/><link rel="prev" href="ch05.html" title="제5장 분산 트랜잭션"/><link rel="next" href="ch07.html" title="제7장 Row Set"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제6장 결과 집합 확장기능</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch07.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e2400"/>제6장 결과 집합 확장기능</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="ch06.html#d5e2403">6.1. JDBC 2.0 표준</a></span></dt><dd><dl><dt><span class="section"><a href="ch06.html#d5e2411">6.1.1. Scrollability, Positioning, Sensitivity</a></span></dt><dt><span class="section"><a href="ch06.html#d5e2445">6.1.2. Updatability</a></span></dt></dl></dd><dt><span class="section"><a href="ch06.html#d5e2464">6.2. Scrollable, Updatable 결과 집합 생성</a></span></dt><dd><dl><dt><span class="section"><a href="ch06.html#d5e2470">6.2.1. Statement 객체 생성</a></span></dt><dt><span class="section"><a href="ch06.html#d5e2483">6.2.2. 결과 집합 특성 확인</a></span></dt><dt><span class="section"><a href="ch06.html#d5e2491">6.2.3. 제약 사항</a></span></dt></dl></dd><dt><span class="section"><a href="ch06.html#d5e2508">6.3. Scrollable 결과 집합 탐색</a></span></dt><dt><span class="section"><a href="ch06.html#d5e2575">6.4. Updatable 결과 집합 탐색</a></span></dt><dd><dl><dt><span class="section"><a href="ch06.html#d5e2581">6.4.1. INSERT</a></span></dt><dt><span class="section"><a href="ch06.html#d5e2602">6.4.2. UPDATE</a></span></dt><dt><span class="section"><a href="ch06.html#d5e2616">6.4.3. DELETE</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 JDBC 2.0 표준에서 제공하는 기능인 Scrollable, Updatable 결과 집합의 확장기능을
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2403"/>6.1. JDBC 2.0 표준</h2></div></div></div>
+    
+
+    <p>JDBC 2.0 표준에서는 scrollability, positioning, sensitivity,
+    updatability에 대한 확장기능을 제공한다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>결과 집합 타입에 의해 scrollability, positioning, sensitivity가
+        결정된다.</p>
+      </li><li>
+        <p>동시성 타입에 의해 updatability가 결정된다.</p>
+      </li></ul></div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2411"/>6.1.1. Scrollability, Positioning, Sensitivity<a id="d5e2413" class="indexterm"/><a id="d5e2416" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Scrollability, Positioning은 결과 집합에 대해 정방향뿐만 아니라 역방향으로도 움직일 수 있고,
+      상대 위치나 절대 위치 등의 임의의 위치로 움직일 수 있는 기능이다. 여기서 상대 위치는 현재 열의 위치로부터 정방향 또는
+      역방향으로의 이동을 말하고, 절대 위치는 결과 집합의 시작이나 끝에서부터의 이동을 말한다.<a id="d5e2420" class="indexterm"/><a id="d5e2422" class="indexterm"/><a id="d5e2424" class="indexterm"/></p>
+
+      <div class="caution" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">주의</h3>
+        <p>Scrollablility 기능을 사용할 경우 결과 집합의 모든 열은 사용자의 메모리에 로드되기 때문에 이를
+        주의해야 한다. 그리고 될 수 있으면 용량이 큰 데이터를 갖는 결과 집합은 사용하지 말 것을 권장한다.</p>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>Scrollability, Positioning 결과 집합을 생성할 때는 반드시 Sensitivity를 설정해야
+      하는데, 이는 현재의 결과 집합에 관계없이 데이터베이스에 적용된 변경 사항을 반영할 것인지의 여부를 결정한다.
+      Sensitivity는 데이터베이스에 적용된 변경 사항이 바로 적용되어 새로운 데이터를 볼 수 있다. 반면에
+      Insensitivity는 최초 결과 집합이 생성된 시점의 데이터만 볼 수 있다.<a id="d5e2430" class="indexterm"/><a id="d5e2432" class="indexterm"/></p>
+
+      <p>결과 집합을 생성할 때 결정할 수 있는 결과 집합의 타입은 다음과 같다.<a id="d5e2436" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>ResultSet.TYPE_FORWARD_ONLY</p>
+        </li><li>
+          <p>ResultSet.TYPE_SCROLL_SENSITIVE</p>
+        </li><li>
+          <p>ResultSet.TYPE_SCROLL_INSENSITIVE</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2445"/>6.1.2. Updatability<a id="d5e2447" class="indexterm"/><a id="d5e2450" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>Updatability는 결과 집합에 직접 수정한 후에 데이터베이스에 반영할 수 있는 기능이다. 예를 들어 새로운 열을
+      추가하거나 기존의 열을 지우거나 수정하는 것이 이에 해당된다.</p>
+
+      <div class="caution" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">주의</h3>
+        <p>이 기능은 데이터베이스에 접근해야 하므로, 잠금(Lock) 설정이 필요할 수도 있다는 점을 주의해야
+        한다.</p>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>결과 집합을 생성할 때 결정할 수 있는 동시성 타입<a id="d5e2457" class="indexterm"/>은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>ResultSet.CONCUR_UPDATABLE</p>
+        </li><li>
+          <p>ResultSet.CONCUR_READ_ONLY</p>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2464"/>6.2. Scrollable, Updatable 결과 집합 생성<a id="d5e2466" class="indexterm"/><a id="d5e2468" class="indexterm"/></h2></div></div></div>
+    
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2470"/>6.2.1. Statement 객체 생성</h3></div></div></div>
+      
+
+      <p><span>tbJDBC</span>에서는 Connection 클래스에 다음과 같은 메소드를
+      제공한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>Statement createStatement(int resultSetType, int
+          resultSetConcurrency)</p>
+        </li><li>
+          <p>PreparedStatement prepareStatement(String sql, int
+          resultSetType, int resultSetConcurrency)</p>
+        </li><li>
+          <p>CallableStatement prepareCall(String sql, int resultSetType,
+          int resultSetConcurrency)</p>
+        </li></ul></div>
+
+      <p>다음은 Statement 객체를 생성하는 예이다.</p>
+
+      <pre class="programlisting">Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, 
+                                      ResultSet.CONCUR_UPDATABLE);
+ResultSet rs = stmt.executeQuery("SELECT empno FROM emp");</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2483"/>6.2.2. 결과 집합 특성 확인</h3></div></div></div>
+      
+
+      <p>Statement, PreparedStatement, CallableStatement 객체를 생성한 후에는 다음의
+      메소드를 사용하여 결과 집합 타입과 동시성 타입을 확인할 수 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>int getResultSetType() throws SQLException</p>
+        </li><li>
+          <p>int getResultSetConcurrent() throws SQLException</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2491"/>6.2.3. 제약 사항</h3></div></div></div>
+      
+
+      <p>Updatable 결과 집합을 생성할 때는 다음과 같은 제약 사항이 존재한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>오직 하나의 테이블에 대한 질의문만 사용할 수 있고, 조인(join)은 사용할 수 없다.</p>
+        </li><li>
+          <p>'SELECT *'와 같은 형태는 사용할 수 없고, 'SELECT T.*'와 같은 형태만 사용할 수
+          있다.</p>
+        </li><li>
+          <p>오직 테이블의 컬럼에 대해서만 질의문을 사용할 수 있다.</p>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>Scroll-sensitive 결과 집합을 생성할 때는 다음과 같은 제약 사항이 존재한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>오직 하나의 테이블에 대한 질의문만 사용할 수 있다.</p>
+        </li><li>
+          <p>'SELECT *'와 같은 형태는 사용할 수 없고, 'SELECT t.*'와 같은 형태만 사용할 수
+          있다.</p>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2508"/>6.3. Scrollable 결과 집합 탐색<a id="d5e2510" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>다음은 Scrollable 결과 집합을 위해 제공되는 메소드로, 새로운 위치로 이동할 수 있다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="160" align="left"/><col/></colgroup><thead><tr><th align="left">메소드</th><th>설명</th></tr></thead><tbody><tr><td align="left">boolean next() throws SQLException</td><td>현재 위치에서 다음 열로 이동한다. 만약 더는 다음 열이 존재하지 않는 경우 false를
+            반환한다.</td></tr><tr><td align="left">boolean previous() throws SQLException</td><td>현재 위치에서 이전 열로 이동한다. 만약 더는 이전 열이 존재하지 않는 경우 false를
+            반환한다.</td></tr><tr><td align="left">boolean first() throws SQLException</td><td>결과 집합의 첫 번째 열로 이동한다. 만약 열 데이터가 하나도 없을 경우 false를
+            반환한다.</td></tr><tr><td align="left">boolean last() throws SQLException</td><td>결과 집합의 마지막 열로 이동한다. 만약 열 데이터가 하나도 없을 경우 false를
+            반환한다.</td></tr><tr><td align="left">boolean absolute(int row) throws SQLException</td><td><p>결과 집합의 처음이나 마지막 열의 위치에서부터 정해진 값만큼 절대 위치로 이동한다. 만약 입력
+            값이 양수인 경우에는 처음 열부터 정방향으로 이동하고, 음수인 경우에는 마지막 열부터 역방향으로
+            이동한다.</p><p>만약 결과 집합의 개수보다 더 큰 양수 값을 사용할 경우에는 마지막 열 다음으로
+            이동하며, 이는 afterLast()와 같은 효과를 가진다. 마찬가지로 결과 집합의 개수보다 더 큰 음수 값을 사용할
+            경우에는 beforeFirst()와 같은 효과를 가진다.</p></td></tr><tr><td align="left">boolean relative(int row) throws SQLException</td><td><p>현재 열의 위치로부터 시작하여 양수 값이면 정방향으로 이동하고, 음수 값이면 역방향으로
+            이동한다. 만약 결과 집합의 개수보다 더 큰 양수 값을 사용할 경우에는 마지막 열 다음으로 이동하며, 이는
+            afterLast()와 같은 효과를 가진다. 마찬가지로 결과 집합의 개수보다 더 큰 음수 값을 사용한 경우에는
+            beforeFirst()와 같은 효과를 가진다.</p><p>주의할 점은 반드시 현재 열의 위치가 적절해야
+            한다는 것이다. 처음 열의 위치 이전이나 마지막 열의 위치 다음에서부터 상대 위치로의 이동은 할 수 없으며,
+            SQLException을 발생시킨다.</p></td></tr><tr><td align="left">void beforeFirst() throws SQLException</td><td>결과 집합의 첫 번째 열 이전으로 이동한다. 이는 정방향으로 결과 집합을 탐색할 때의 상태이며 바로 사용할
+            수 있는 열 데이터는 없다.</td></tr><tr><td align="left">void afterLast() throws SQLException</td><td>결과 집합의 마지막 열 다음으로 이동한다. 이는 역방향으로 결과 집합을 탐색할 때의 상태이며 바로 사용할
+            수 있는 열 데이터는 없다.</td></tr></tbody></table>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <p>현재의 위치 정보를 알기 위해 <span>tbJDBC</span>에서는 다음과 같은 메소드를 제공한다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="160" align="left"/><col/></colgroup><thead><tr><th align="left">메소드</th><th>설명</th></tr></thead><tbody><tr><td align="left">int getRow() throws SQLException</td><td>현재 열의 위치를 반환하며, 적합한 열의 위치가 아닌 경우에는 0을 반환한다.</td></tr><tr><td align="left">boolean isFirst() throws SQLException</td><td>현재 열의 위치가 첫 번째 열인지 확인한다.</td></tr><tr><td align="left">boolean isLast() throws SQLException</td><td>현재 열의 위치가 마지막 열인지 확인한다.</td></tr><tr><td align="left">boolean isBeforeFirst() throws SQLException</td><td>현재 열의 위치가 첫 번째 열의 이전 열인지 확인한다.</td></tr><tr><td align="left">boolean isAfterLast() throws SQLException</td><td>현재 열의 위치가 마지막 열의 다음 열인지 확인한다.</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2575"/>6.4. Updatable 결과 집합 탐색<a id="d5e2577" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>사용자는 Updatable 결과 집합을 이용하여 열의 데이터를 업데이트할 수 있고, 삭제할 수도 있으며, 새로운 열의
+    데이터를 입력할 수도 있다.</p>
+
+    <p>UPDATE나 INSERT를 수행한 후에는 반드시 별도의 단계를 거쳐 데이터베이스에 변경 사항을 반영해야 한다. 그렇지
+    않으면 변경된 모든 데이터는 소멸된다. 반면에 DELETE를 수행한 경우에는 별도의 단계 없이 즉시 데이터베이스에
+    반영된다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2581"/>6.4.1. INSERT</h3></div></div></div>
+      
+
+      <p>INSERT 작업은 다음의 과정을 거쳐 데이터베이스에 반영된다.</p>
+
+      <div class="orderedlist"><ol type="1" compact="compact"><li>
+          <p>moveToInsertRow() 메소드를 이용하여 INSERT를 수행하기 위한 임시 열 데이터 저장 공간으로
+          이동한다. 결과 집합은 기존의 열의 위치를 내부적으로 기억하고 있으므로 moveToCurrentRow() 메소드를 사용할
+          경우 원래 열의 위치로 이동할 수 있다.</p>
+        </li><li>
+          <p>적절한 updateXXX() 메소드를 수행하여 컬럼의 데이터를 작성한다. 만약 특정 컬럼의 데이터를 작성하지
+          않는다면, NULL 상태로 남아 있게 된다.</p>
+        </li><li>
+          <p>insertRow() 메소드를 수행하여 데이터베이스에 반영한다.</p>
+
+          <p>만약 INSERT를 수행한 후에 이를 취소하려면, 다른 열의 위치로 이동하여 원래의 데이터로 복원하면 된다.
+          그러나 반드시 다음의 사항을 주의해야 한다.</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+              <p>insertRow() 메소드를 수행한 경우 데이터베이스에 반영이 되므로 롤백하기 전에는 취소되지
+              않는다.</p>
+            </li><li style="list-style-type: circle">
+              <p>어떠한 결과 집합의 타입도 INSERT 작업에 의해 수행된 열의 데이터를 볼 수 없다.</p>
+            </li></ul></div>
+        </li></ol></div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 INSERT 작업을 수행하는 예이다.</p>
+
+      <pre class="programlisting">rs.moveToInsertRow();
+rs.updateString(1, "<span>tibero</span>");
+rs.insertRow();
+rs.moveToCurrentRow();</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2602"/>6.4.2. UPDATE</h3></div></div></div>
+      
+
+      <p>UPDATE 작업은 다음의 두 단계를 거쳐야 데이터베이스에 최종으로 반영된다.</p>
+
+      <div class="orderedlist"><ol type="1" compact="compact"><li>
+          <p>updateXXX() 메소드를 수행한다.</p>
+        </li><li>
+          <p>updateRow() 메소드를 수행하여 데이터베이스에 반영한다. 이때 auto-commit 모드에 따라 커밋이
+          될 수도 있다.</p>
+
+          <p>만약 UPDATE를 수행한 후에 이를 취소하려면, cancelRowUpdates() 메소드를 수행하거나 다른
+          열의 위치로 이동할 경우 원래의 데이터로 복원하면 된다. 그러나 updateRow() 메소드를 수행한 경우라면
+          데이터베이스에 반영이 되므로 롤백하기 전에는 취소되지 않음을 주의해야 한다.</p>
+        </li></ol></div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 UPDATE 작업을 수행하는 예이다.</p>
+
+      <pre class="programlisting">rs.absolute(5);
+rs.updateString(1, "<span>tibero</span>");
+rs.updateRow();</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2616"/>6.4.3. DELETE</h3></div></div></div>
+      
+
+      <p>DELETE 작업을 수행할 때는 반드시 다음의 사항을 주의해야 한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>DELETE 작업을 수행할 경우 데이터베이스에 바로 적용되므로 auto-commit 모드의 설정 값에 따라 바로
+          커밋이 될 수도 있다.</p>
+        </li><li>
+          <p>사용자에 의해 지워진 열 데이터의 경우 데이터베이스에는 반영되지만 결과 집합 자체에는 남아 있게 된다. 반대로
+          Scrollable 결과 집합인 경우에는 바로 재조정이 일어난다. 즉, 현재 열의 위치는 바로 이전의 열의 데이터를
+          가리키게 되고, 다음 열의 위치는 자동으로 당겨지게 된다.</p>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음의 메소드를 사용하여 DELETE 작업을 수행할 수 있다.</p>
+
+      <pre class="programlisting">void deleteRow() throws SQLException</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 DELETE 작업을 수행하는 예이다.</p>
+
+      <pre class="programlisting">rs.absolute(5);
+rs.deleteRow();</pre>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch07.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제5장 분산 트랜잭션 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제7장 Row Set</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -5,16 +5,16 @@ import useStores from "src/hooks/useStores";
 
 const PageItem = ({
   mode,
-  id,
-  html,
   projectName,
-  groupName,
-  pageName,
+  pageGroupName,
+  page,
   selectedPage,
   handleClickPageItem,
 }) => {
-  const [pageTitle, setPageTitle] = useState(pageName);
+  const [pageTitle, setPageTitle] = useState(page.pageName);
 
+  const { pageId, pageName, summary, image, keywords, questions, voiceScript } =
+    page;
   const { contentStore } = useStores();
 
   useEffect(() => {
@@ -28,12 +28,16 @@ const PageItem = ({
   const onClick = () => {
     const data = {
       projectName,
-      pageGroupName: groupName,
-      pageId: id,
-      pageName: pageName,
+      pageGroupName,
+      pageId,
+      pageName,
+      summary,
+      keywords,
+      voiceScript,
+      questions,
     };
 
-    handleClickPageItem(id);
+    handleClickPageItem(pageId);
     contentStore.target = data;
   };
 
@@ -41,18 +45,12 @@ const PageItem = ({
     <PageItemLayout
       className="column"
       mode={mode}
-      id={id}
+      id={pageId}
       selectedPage={selectedPage}
       onClick={onClick}
     >
       <PageItemTitle className="pageitem-title">{pageTitle}</PageItemTitle>
-      <Thumbnail
-        mode={mode}
-        html={html}
-        projectName={projectName}
-        groupName={groupName}
-        pageName={pageName}
-      />
+      <Thumbnail mode={mode} image={image} />
     </PageItemLayout>
   );
 };

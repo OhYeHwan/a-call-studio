@@ -2,15 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import CheckBox from "./CheckBox";
 
-const Thumbnail = ({
-  mode,
-  keyword = false,
-  ql = false,
-  html,
-  projectName,
-  groupName,
-  pageName,
-}) => {
+const Thumbnail = ({ mode, image, keyword = false, ql = false }) => {
   return (
     <ThumbnailLayout className="thumbnail-layout" mode={mode}>
       <ThunmbnailHeader>
@@ -20,16 +12,21 @@ const Thumbnail = ({
       </ThunmbnailHeader>
       <ThumbnailViewer>
         <Container>
-          {/* <Iframe
-            // srcDoc={html}
-            src={`./${projectName}_html/${groupName}/${pageName}`}
-            scrolling="no"
-          ></Iframe> */}
+          <ThumbnailImg
+            src={`data:image/png;base64,${image}`}
+            alt="thumbnail"
+          />
         </Container>
       </ThumbnailViewer>
     </ThumbnailLayout>
   );
 };
+
+const ThumbnailImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+`;
 
 const ThumbnailLayout = styled.section`
   position: relative;
@@ -86,33 +83,17 @@ const Badge = styled.div`
 `;
 
 const ThumbnailViewer = styled.main`
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
   width: 100%;
   height: 100%;
 `;
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  margin: 0px auto;
-`;
-
-const Iframe = styled.iframe`
-  /* -ms-zoom: 1;
-  -moz-transform: scale(0.1);
-  -moz-transform-origin: 0 0;
-  -o-transform: scale(0.1);
-  -o-transform-origin: 0 0; */
-
-  -webkit-transform: scale(0.4);
-  -webkit-transform-origin: 0 0;
-  /* 
-  width: calc(182px * 10);
-  height: calc(112px * 10); */
-
   width: 50%;
   height: 100%;
-
-  pointer-events: none;
+  background: #fff;
 `;
 
 export default Thumbnail;

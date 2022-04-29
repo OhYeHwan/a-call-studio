@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제8장 에러 처리</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 안내서"/><link rel="prev" href="chapter_sql_execution.html" title="제7장 SQL 문장의 실행"/><link rel="next" href="ch09.html" title="제9장 파이프라인드 테이블 함수"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제8장 에러 처리</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_sql_execution.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch09.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_error"/>제8장 에러 처리</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_error.html#d5e4170">8.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_error.html#sect_exception_def">8.2. 예외 상황 선언</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_error.html#d5e4210">8.2.1. 시스템 정의 예외</a></span></dt><dt><span class="section"><a href="chapter_error.html#d5e4318">8.2.2. 사용자 정의 예외</a></span></dt></dl></dd><dt><span class="section"><a href="chapter_error.html#sect_exception_routine">8.3. 예외 처리 루틴</a></span></dt><dd><dl><dt><span class="section"><a href="chapter_error.html#d5e4393">8.3.1. 예외 처리 루틴 형식</a></span></dt><dt><span class="section"><a href="chapter_error.html#d5e4420">8.3.2. 예외 상황 전파</a></span></dt><dt><span class="section"><a href="chapter_error.html#d5e4459">8.3.3. 에러 정보</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 <span>tbPSM</span> 프로그램에서 발생하는 에러를 처리하는 방법을 설명한다.<a id="d5e4168" class="indexterm"/></p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4170"/>8.1. 개요</h2></div></div></div>
+    
+
+    <p>에러는 <span>tbPSM</span> 프로그램에서 다음과 같은 경우에 발생할 수 있다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p><span><strong class="guibutton">컴파일 중일 때</strong></span></p>
+
+          <p>컴파일 중에 발생하는 에러는 <span>tbPSM</span>이 발견하여 사용자에게 보고한다. 이 경우 프로그램은 아직
+          실행되지 않은 상태이며, 사용자에 의해 수정되어야 한다.</p>
+        </li><li>
+          <p><span><strong class="guibutton">프로그램이 실행 중일 때</strong></span></p>
+
+          <p>에러를 처리하기 위해서는 <span><strong class="guibutton">예외 상황</strong></span>과 <span><strong class="guibutton">예외 처리
+          루틴</strong></span>을 사용한다.<a id="d5e4187" class="indexterm"/><a id="d5e4189" class="indexterm"/></p>
+
+          <p>에러가 발생하면 프로그램은 비정상적으로 종료되며, 사용자는 원하는 결과를 얻을 수 없다. 따라서 에러 발생이
+          예상되는 부분을 <a href="chapter_error.html#sect_exception_def" title="8.2. 예외 상황 선언">예외 상황으로 정의</a>하고
+          <a href="chapter_error.html#sect_exception_routine" title="8.3. 예외 처리 루틴">예외 처리 루틴</a>을 만든다. 그러면
+          프로그램을 작성하거나 디버깅할 때 편리하게 작업할 수 있다.</p>
+
+          <p>다음은 프로그램이 실행 중일 때 발생한 에러를 처리하는 예이다.</p>
+
+          <pre class="programlisting">DECLARE<span><strong class="guibutton">
+    a NUMBER := 5;
+    b NUMBER := 0;</strong></span>
+BEGIN<span><strong class="guibutton">
+    a := a / b;</strong></span>
+END;</pre>
+
+          <p>위의 프로그램을 실행하면 다음과 같은 에러가 발생하고 프로그램은 비정상적으로 종료된다.</p>
+
+          <pre class="programlisting">TBR-5070: Divide by zero error.   
+TBR-15163: Unhandled exception at line 5.</pre>
+
+          <p>에러가 발생하면 다음과 같이 예외 처리 루틴을 만든다.</p>
+
+          <pre class="programlisting">DECLARE
+    a NUMBER := 5;
+    b NUMBER := 0;
+BEGIN
+    a := a / b;<span><strong class="guibutton">
+EXCEPTION
+WHEN OTHERS THEN
+    handle_numeric_error(b);</strong></span>
+END;</pre>
+
+          <p>위 예에서 보듯이 에러가 발생하면 예외 처리 루틴으로 제어가 이동되고 handle_numeric_error
+          함수가 호출된다. 이 프로그램은 예외 처리 루틴에 의해 자동으로 에러가 처리되며, 정상적으로 종료된다.</p>
+        </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_exception_def"/>8.2. 예외 상황 선언</h2></div></div></div>
+    
+
+    <p>발생된 에러를 예외 상황으로 정의하기 위해서는 우선 먼저 예외 상황을 선언해야 한다. 선언하는 방법은 <span>tbPSM</span>의 변수의 선언과 같다.<a id="d5e4208" class="indexterm"/></p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4210"/>8.2.1. 시스템 정의 예외</h3></div></div></div>
+      
+
+      <p><span>tbPSM</span> 프로그램에서 발생하기 쉬운 에러를 시스템에 미리 정의하는 것을
+      <span><strong class="guibutton">시스템 정의 예외</strong></span>라고 한다.<a id="d5e4215" class="indexterm"/></p>
+
+      <p>시스템 정의 예외는 사용자가 프로그램의 선언부에 예외 상황을 명시적으로 선언하지 않아도 사용할 수 있다. 또한 에러와
+      예외 상황이 자동으로 연결되어 있어 사용자가 명시적으로 연결하지 않아도 에러가 발생하면 자동적으로 예외 상황이 된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>시스템 정의 예외를 선언하는 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">DECLARE
+    exception_identifier EXCEPTION;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>시스템 정의 예외는 다음과 같은 예외 상황이 존재한다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="200" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">CASE_NOT_FOUND<a id="d5e4233" class="indexterm"/></td><td>CASE 문의 WHEN 절 중에서 조건을 만족하는 것이 없고 ELSE 절도 없는
+              경우이다.</td></tr><tr><td align="left">CURSOR_ALREADY_OPEN<a id="d5e4239" class="indexterm"/></td><td>이미 열려 있는 커서를 또 다시 여는 경우이다.</td></tr><tr><td align="left">DUP_VAL_ON_INDEX<a id="d5e4245" class="indexterm"/></td><td>유일 키(UNIQUE) 제약조건이 선언되어 있는 컬럼에 중복된 값을 삽입하려는 경우이다.</td></tr><tr><td align="left">INVALID_CURSOR<a id="d5e4251" class="indexterm"/></td><td>열려 있지 않은 커서를 닫는 경우이다.</td></tr><tr><td align="left">NO_DATA_FOUND<a id="d5e4257" class="indexterm"/></td><td>SELECT INTO에 의한 질의에서 결과 로우가 하나도 없는 경우이다.</td></tr><tr><td align="left">TOO_MANY_ROWS<a id="d5e4263" class="indexterm"/></td><td>SELECT INTO에 의한 질의에서 결과 로우가 둘 이상인 경우이다.</td></tr><tr><td align="left">VALUE_ERROR<a id="d5e4269" class="indexterm"/></td><td>데이터 값의 변환(conversion), 절단(truncation), 제약조건 등과 관련된 에러가
+              발생한 경우이다.</td></tr><tr><td align="left">ZERO_DIVIDE<a id="d5e4275" class="indexterm"/></td><td>0으로 나눗셈 연산을 수행하는 경우이다.</td></tr><tr><td align="left">COLLECTION_IS_NULL<a id="d5e4281" class="indexterm"/></td><td><p>초기화되지 않은 컬렉션 변수의 요소에 값을 대입하려는
+              경우이다.</p><p>초기화되지 않은 컬렉션 변수에 EXISTS를 제외한 서브 프로그램을 사용하는
+              경우이다.</p></td></tr><tr><td align="left">SUBSCRIPT_BEYOND_COUNT<a id="d5e4289" class="indexterm"/></td><td>컬렉션 변수에 있는 요소의 개수보다 큰 인덱스를 사용하는 경우이다.</td></tr><tr><td align="left">SUBSCRIPT_OUTSIDE_LIMIT<a id="d5e4295" class="indexterm"/></td><td>컬렉션 변수를 접근하는 인덱스가 유효하지 않은 경우이다. (예: -1)</td></tr><tr><td align="left">ROWTYPE_MISMATCH<a id="d5e4301" class="indexterm"/></td><td>커서 변수의 타입과 PSM 내부에서 사용한 커서 변수의 타입이 맞지 않은 경우이다.</td></tr><tr><td align="left">INVALID_NUMBER<a id="d5e4307" class="indexterm"/></td><td>주어진 문자열이 number로 적절한 문자열 형태가 아닌 경우이다.</td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 시스템 정의 예외의 예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    employee_num NUMBER := 980180;
+    employee_grade VARCHAR2(10) := 'S';
+BEGIN
+    CASE employee_grade
+    WHEN 'A' THEN pay_bonus_a(employee_num);
+    WHEN 'B' THEN pay_bonus_b(employee_num);
+    WHEN 'C' THEN pay_bonus_c(employee_num);
+    WHEN 'D' THEN pay_bonus_d(employee_num);
+    END CASE;
+EXCEPTION
+WHEN case_not_found THEN
+    pay_bonus_special(employee_num);
+END;</pre>
+
+      <p>본 예에서는 employee_grade 변수에 <span><strong class="guibutton">'S'</strong></span>라는 값을 할당하였으며,
+      CASE 문에서 'S'를 찾지 못하면 이 프로그램은 에러를 발생하게 된다. <span>tbPSM</span>은 이러한 에러를 처리하기 위해
+      <span><strong class="guibutton">case_not_found</strong></span>라는 시스템 정의 예외를 정의하였으며, 사용자는 예외 상황을
+      선언하는 과정 없이 바로 사용할 수 있다. 또한 에러 처리 루틴도 정의할 수 있다. 만약 이 예에서 에러가 발생한다면 사용자가
+      정의한 예외 처리 루틴으로 이동하게 되고, 프로그램은 정상적으로 종료된다.</p>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4318"/>8.2.2. 사용자 정의 예외</h3></div></div></div>
+      
+
+      <p>시스템 정의 예외 이외에 프로그램을 실행하는 중에 발생할 가능성이 있는 예외 상황을 <span><strong class="guibutton">사용자 정의
+      예외</strong></span>로 선언할 수 있다.<a id="d5e4322" class="indexterm"/> 이러한 예외 상황은 일반적인 변수와 같이 프로그램의 선언부에 선언할 수 있다.</p>
+
+      <p>사용자 정의 예외를 선언하는 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">DECLARE
+    <span><strong class="guibutton">exception name</strong></span> EXCEPTION;</pre>
+
+      <p>exception name은 사용자가 원하는 이름으로 선언할 수 있다. 선언된 예외 상황은 일반적인 변수처럼 영역을
+      갖게 된다. 예외 상황의 영역은 선언된 블록의 끝까지이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>사용자 정의 예외를 사용하는 방법에는 다음과 같이 두 가지가 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p><span><strong class="guibutton">RAISE 문 사용</strong></span><a id="d5e4334" class="indexterm"/><a id="d5e4336" class="indexterm"/></p>
+
+          <p>시스템 정의 예외와는 다르게 사용자 정의 예외는 에러와 예외 상황을 연결하기 위해서는 RAISE 문을 사용해야
+          한다. RAISE 문에서 사용자 정의 예외를 사용하는 문법은 다음과 같다.</p>
+
+          <pre class="programlisting">RAISE exception name;</pre>
+
+          <p>사용자는 원하는 위치에 RAISE 문을 사용하여 예외 상황을 발생시킬 수 있다. 만약 예외 상황이 발생되면
+          제어는 예외 처리 루틴으로 이동하게 된다. 다음은 RAISE 문의 예이다.</p>
+
+          <pre class="programlisting">DECLARE
+    too_many_guest EXCEPTION;
+    cur_guest BINARY_INTEGER;
+    max_guest BINARY_INTEGER;
+
+BEGIN
+    /* guest_info 테이블에서 local이 New York인 현재 고객 수와 최대 고객 수를 찾는다. */
+    SELECT current_guest, max_guest INTO cur_guest, max_guest 
+        FROM guest_info WHERE local = 'New York';
+
+    IF cur_guest &gt; max_guest THEN
+        /* 만약 현재 고객 수가 최대 고객 수를 초과하면 예외 상황을 발생시킨다. */
+        RAISE too_many_guest;
+    END IF;
+END;</pre>
+        </li><li>
+          <p><span><strong class="guibutton">RAISE_APPLICATION_ERROR 프러시저
+          사용</strong></span><a id="d5e4346" class="indexterm"/><a id="d5e4348" class="indexterm"/></p>
+
+          <p>RAISE_APPLICATION_ERROR 프러시저에서 사용자 정의 예외를 사용하는 문법은 다음과
+          같다.</p>
+
+          <pre class="programlisting">RAISE_APPLICATION_ERROR
+(
+  error_number, error_message[, {true|false}]
+);</pre>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">error_number</td><td>-20000 ~ -20999 사이의 값만 사용할 수 있다.</td></tr><tr><td align="left">error_message</td><td>에러 메시지의 길이는 712bytes까지 가능하다. 712bytes를 초과하는 메시지는
+                  712bytes까지만 사용된다.</td></tr><tr><td align="left">{true|false}</td><td><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                        <p>true: 기존에 존재하는 에러에 추가한다.</p>
+                      </li><li style="list-style-type: circle">
+                        <p>false: 기존에 존재하는 에러를 모두 삭제한다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+
+          <p>다음은 RAISE_APPLICATION_ERROR 프러시저의 예이다.</p>
+
+          <pre class="programlisting">DECLARE
+    man_cnt   NUMBER;
+    woman_cnt NUMBER;
+BEGIN
+    SELECT count(*) INTO man_cnt   FROM class WHERE gender = 'M';
+    SELECT count(*) INTO woman_cnt FROM class WHERE gender = 'F';
+    IF man_cnt != woman_cnt THEN
+        RAISE_APPLICATION_ERROR(-20101, '남자와 여자의 비율이 맞지 않는다.');
+    END IF;
+END;</pre>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_exception_routine"/>8.3. 예외 처리 루틴<a id="d5e4379" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>예외 처리 루틴은 다음과 같은 절차로 실행된다.</p>
+
+    <div class="orderedlist"><ol type="1" compact="compact"><li>
+        <p>예외 상황이 발생하면 예외 처리 루틴으로 이동한다.</p>
+      </li><li>
+        <p>예외 처리 루틴이 실행된다.</p>
+      </li><li>
+        <p>실행이 끝나면, 외부 블록으로 이동한다.</p>
+      </li><li>
+        <p>외부 블록을 실행한다. 만약 외부 블록이 없으면 해당 프로그램은 종료된다.</p>
+      </li><li>
+        <p>프로그램을 종료한다.</p>
+      </li></ol></div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4393"/>8.3.1. 예외 처리 루틴 형식</h3></div></div></div>
+      
+
+      <p>시스템 정의 예외나 사용자 정의 예외와 관계없이 예외 처리 루틴은 동일한 형식으로 사용된다.</p>
+
+      <p>예외 처리 루틴은 선언부, 실행부와 같이 <span>tbPSM</span> 프로그램 내부의 블록의 한 종류로 표현된다.</p>
+
+      <pre class="programlisting">BEGIN
+    ...<span><strong class="guibutton">
+EXCEPTION</strong></span>
+WHEN A THEN
+    실행문
+WHEN B THEN
+    실행문
+WHEN C THEN
+    실행문
+...<span><strong class="guibutton">
+END</strong></span>;</pre>
+
+      <p>예외 처리 루틴의 형식은 다음과 같은 특징을 가진다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>EXCEPTION으로 시작하고 해당 블록이 끝나는 END 사이에 정의 된다.</p>
+        </li><li>
+          <p>EXCEPTION의 바로 앞에서 프로그램의 실행부는 끝난다.</p>
+        </li><li>
+          <p>예외 처리 루틴 내부에 WHEN 문을 사용한다.</p>
+
+          <p>해당 블록에서 발생할 가능성이 있는 예외 상황을 구분하여 처리할 각 실행문(또는 실행문의 집합)을 설정한다.
+          또한 WHEN 문에서 서로 다른 예외 상황들은 <span><strong class="guibutton">OR</strong></span>로 묶어서 처리할 수
+          있다.</p>
+        </li><li>
+          <p>WHEN 문에 정의된 실행문은 앞에서부터 순차적으로 실행된다.</p>
+
+          <p>만약 발생된 예외 상황에 실행문이 예외 처리 루틴 안에 정의되어 있지 않으면 새로운 예외 상황이 발생하게
+          된다.</p>
+        </li><li>
+          <p>정의되지 않은 예외 상황을 처리하려면 OTHERS 문을 사용한다.</p>
+
+          <p>OTHERS 문은 이전에 명시된 예외 상황을 제외한 모든 예외 상황을 처리하기 때문에 예외 처리 루틴의 맨
+          마지막에 사용한다. OTHERS 문 이후에 또 다른 예외 처리 핸들러가 오는 경우 새로운 예외 상황이
+          발생한다.</p>
+
+          <p>OTHERS 문을 사용하는 문법은 다음과 같다.</p>
+
+          <pre class="programlisting">BEGIN
+    ...
+EXCEPTION
+WHEN A THEN
+    실행문;
+WHEN B THEN
+    실행문;
+...<span><strong class="guibutton">
+WHEN OTHERS THEN</strong></span>
+    실행문;
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4420"/>8.3.2. 예외 상황 전파<a id="d5e4422" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>예외 상황은 <span>tbPSM</span> 프로그램의 모든 부분 즉 <span>tbPSM</span> 블록의 선언부, 실행부, 예외 처리 루틴에서 발생할 수 있다. 대체로
+      <span>tbPSM</span>의 블록의 선언부나 예외 처리 루틴에서 예외 상황이 발생하는 경우 또는
+      발생한 예외 상황에 대해 예외 처리 루틴이 없는 경우 등이 빈번하게 발생한다. 이와 같은 경우를 통제하기 위한 과정을 예외 상황의
+      전파(Exception Propagation)라 한다.</p>
+
+      <p>본 절에서는 이러한 예외 상황의 전파에 대해 케이스 별로 예를 들어 다음과 같이 설명한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e4430"/>선언부에서 예외 상황이 발생한 경우</h4>
+
+      <p>다음은 선언부에서 예외 상황이 발생한 예이다.</p>
+
+      <pre class="programlisting"><span><strong class="guibutton">DECLARE
+    tmp_number NUMBER(10) := 'STRING';</strong></span>
+BEGIN
+    ...
+EXCEPTION
+    /* VALUE_ERROR나 OTHERS를 포함하고 있으나 에러가 선언부에서 발생했으므로 
+       예외 처리 루틴은 실행되지 않는다. */
+WHEN VALUE_ERROR THEN
+    ...
+WHEN OTHERS THEN
+    ...
+    /* 외부 블록이 없으므로 블록은 예외 상황을 처리하지 못한다.
+       프로그램이 비정상적으로 종료된다. */
+END;</pre>
+
+      <p>선언부에서 예외 상황이 발생한 경우 발생 즉시 외부 블록으로 전파된다. 예외 상황이 발생한 블록에 예외 처리 루틴이
+      있어도 이 처리 루틴은 무시된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e4436"/>OTHERS 문을 이용한 예외 상황 처리</h4>
+
+      <p>다음은 외부 블록의 예외 처리 루틴 중에서 OTHERS 문에 의해 내부 블록의 VALUE_ERROR가 처리되는 경우의
+      예이다. 이때 프로그램은 정상적으로 종료된다.</p>
+
+      <pre class="programlisting">BEGIN
+    DECLARE
+        tmp_number VARCHAR2(10) := 'STRING';
+    BEGIN
+        ...
+    EXCEPTION
+    <span><strong class="guibutton">WHEN VALUE_ERROR THEN</strong></span>
+        ...
+    WHEN OTHERS THEN
+        ...
+    END;
+
+EXCEPTION
+/* 내부 블록에서 전파된 예외 상황이 OTHERS 문에 의해 처리된다. */<span><strong class="guibutton">
+WHEN OTHERS THEN</strong></span>
+    ...
+    /* 프로그램은 정상적으로 종료된다. */
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      
+
+      <h4><a id="d5e4442"/>RAISE 문을 이용한 예외 상황 처리</h4>
+
+      <p>예외 처리 루틴 내에서도 사용자의 필요에 의해 RAISE 문을 사용하여 명시적으로 예외를 발생시키거나, 사용자가
+      의도하지 않은 런타임 에러가 발생할 수 있다. 이렇게 발생된 예외 상황은 선언부에서와 같이 외부 블록으로 바로
+      전파된다.</p>
+
+      <p>다음은 RAISE 문을 이용하여 예외 상황을 처리하는 예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    a EXCEPTION;
+    b EXCEPTION;
+BEGIN
+    RAISE a;
+EXCEPTION
+WHEN a THEN
+    /* 예외 상황 A를 처리하는 중에 예외 상황 B가 발생되었으므로 
+       예외 상황 B가 다시 외부 블록으로 전파된다. */
+    RAISE b;
+WHEN b THEN
+    ...
+/* 외부 블록이 없으므로, 예외 상황을 처리하지 못한 채로
+   프로그램이 비정상적으로 종료된다. */
+END;</pre>
+
+      <p>예외 상황은 위 예에서처럼 한 번에 하나씩 발생된다. 물론 이렇게 발생된 하나의 예외 상황이 처리되자 마자 또 다른
+      예외 상황이 발생될 수 있지만, 동시에 두 개 이상의 예외 상황이 발생될 수는 없다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 RAISE 문에 예외 상황을 명시하지 않아, 예외 상황을 처리할 때 불필요한 실행이 발생하지 않도록 작성한
+      프로그램의 예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    a EXCEPTION;
+BEGIN
+    RAISE a;
+EXCEPTION
+WHEN a THEN
+    send_log('exception error');
+    RAISE;
+    /* RAISE 문에 의해 예외 상황이 발생되었으므로 send_log_date 함수는 
+       실행되지 않고 예외 처리 루틴이 강제로 종료된다.
+       이때 a가 그대로 외부 블록으로 전파된다. */
+    send_log_date('2009-04-30');
+WHEN OTHERS THEN
+    ...
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      
+
+      <h4><a id="d5e4451"/>예외 처리 루틴의 존재 여부</h4>
+
+      <p>실행부에서 예외가 발생하였으나 예외 처리 루틴이 없는 경우 또는 예외 처리 루틴은 있지만 발생된 예외 상황을 처리할 수
+      없는 경우에 예외 상황은 외부 블록으로 전파된다.</p>
+
+      <pre class="programlisting">DECLARE
+    a EXCEPTION;
+BEGIN
+    BEGIN        
+        RAISE a;    /* 예외 상황 a 발생 */ 
+    EXCEPTION       /* 발생한 예외 상황 a에 대한 예외 처리 루틴이 있다. */
+    WHEN a THEN
+        ...
+                    /* 예외 상황 a를 처리한 후 외부 블록으로 제어가 이동된다. */
+    WHEN OTHERS THEN
+        ...
+    END;
+                    /* 내부 블록이 정상적으로 종료되고 나서
+                       외부 블록의 나머지 부분을 계속 수행한다 */
+END;</pre>
+
+      <p>위의 예에서는 내부 블록에서 발생한 예외 상황 a를 처리할 수 있는 예외 처리 루틴이 존재한다. 따라서 정상적으로 내부
+      블록을 실행하고 제어를 다시 외부 블록으로 넘김으로써 나머지 부분을 계속 수행하게 된다.</p>
+
+      <p>반면에 다음의 예는 다르다.</p>
+
+      <pre class="programlisting">DECLARE
+    a EXCEPTION;
+    b EXCEPTION;
+BEGIN
+    BEGIN
+        RAISE b;    /* 예외 상황 b 발생 */
+    EXCEPTION       /* 발생한 예외 상황 b에 대한 예외 처리 루틴이 없다. */
+    WHEN a THEN
+        ...
+    WHEN OTHERS THEN
+        ...
+    END;
+                    /* 외부 블록으로 예외 상황이 전파된다. */
+EXCEPTION
+WHEN b THEN         /* 예외 상황 b를 처리한 후 외부 블록은 정상적으로 종료된다. */ 
+    ...
+END;</pre>
+
+      <p>이 예에서는 내부 블록에 예외 상황 b를 처리하기 위한 예외 처리 루틴이 없으므로 예외 상황은 외부 블록으로 전파된다.
+      이렇게 전파된 예외 상황은 외부 블록에서 정상적으로 종료된다.</p>
+
+      <p>추가로 외부 블록에서도 발생한 예외 상황을 처리하기 위한 에러 처리 루틴이 없을 수 있다. 이러한 경우 예외 상황은
+      다시 상위 블록으로 계속 전파된다. 이때 상위 블록의 작업이 끝나면 예외 상황은 처리되지 못하고 프로그램은 비정상적으로
+      종료된다.</p>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4459"/>8.3.3. 에러 정보<a id="d5e4461" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>에러에 대한 정보를 얻기 위해서는 <span>Tibero</span>가 제공하는 함수
+      중에 SQLCODE와 SQLERRM를 사용해야 한다.<a id="d5e4465" class="indexterm"/><a id="d5e4467" class="indexterm"/> SQLCODE 함수는 에러 코드를 반환하고, SQLERRM 함수는 에러 메시지를 반환한다. 이 두
+      함수는 SQL 문장 내에서 직접 사용할 수 없으며, 변수에 할당하여 사용한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 SQLCODE와 SQLERRM 함수를 통해 얻을 수 있는 결과이다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="200" align="left"/><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th align="left">SQLCODE</th><th>SQLERRM(SQLCODE)</th></tr></thead><tbody><tr><td align="left">에러가 발생하지 않은 경우</td><td align="left">0</td><td>normal, successful completion</td></tr><tr><td align="left">사용자 정의 에러</td><td align="left">1</td><td>user-defined exception</td></tr><tr><td align="left">NO_DATA_FOUND</td><td align="left">100</td><td>no data found</td></tr><tr><td align="left">기타 예외 상황</td><td align="left">해당 에러 코드</td><td>해당 에러 메시지</td></tr></tbody></table>
+      </div>
+
+      <p/>
+
+      <p>SQLERRM을 parameter없이 사용하면 에러 스택의 탑에 있는 에러의 메시지를 반환하고,
+      SQLERRM(SQLCODE)의 경우 에러 스택과는 관계없이 SQL 코드에 해당하는 에러의 메시지를 반환한다.</p>
+
+      <p>다음은 SQLCODE와 SQLERRM 함수의 예이다.</p>
+
+      <pre class="programlisting">BEGIN
+    copy_dept_info(20090430, '<span>Tibero</span>');
+EXCEPTION
+WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE(SQLCODE);
+    /* 에러 코드를 반환한다. */
+
+    DBMS_OUTPUT.PUT_LINE(SQLERRM);
+    /* 에러 스택의 탑에 있는 에러의 메시지를 반환한다. */
+
+    DBMS_OUTPUT.PUT_LINE(SQLERRM(SQLCODE));
+    /* 에러 코드에 대한 메시지를 반환한다. */
+END;</pre>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_sql_execution.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch09.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제7장 SQL 문장의 실행 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제9장 파이프라인드 테이블 함수</td></tr></table></div><div xmlns="" align="center"/></body></html>

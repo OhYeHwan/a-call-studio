@@ -25,10 +25,11 @@ const List = ({
         {list.map((question) => {
           return (
             <ListItem
-              id={question.id}
-              key={question.id}
               keyword={keyword}
-              question={question.value}
+              id={question.questionId}
+              key={question.questionId}
+              question={question.questionText}
+              check={question.check}
               onQuestionListDelete={onQuestionListDelete}
               handleQuestionListAdd={handleQuestionListAdd}
             />

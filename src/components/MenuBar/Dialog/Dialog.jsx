@@ -3,8 +3,9 @@ import { observer } from "mobx-react";
 import styled, { css } from "styled-components";
 
 import Tabs from "./Tabs";
-import useStore from "src/stores/useStore";
+// import useStore from "src/stores/useStore";
 import closeIcon from "src/static/icon/Close_White.svg";
+import UploadSnackBar from "src/components/SnackBar/UploadSnackBar";
 
 const Dialog = observer(({ type, list, close, handleLoadButtonClick }) => {
   const [selectedTab, setSelectedTab] = useState(Object.keys(list)[0]);
@@ -13,9 +14,12 @@ const Dialog = observer(({ type, list, close, handleLoadButtonClick }) => {
   //Background Ovelay 요소
   const overlayArea = useRef(null);
 
-  const { snackBarStore, messageDialogStore } = useStore();
+  const [uploadState, setUploadState] = useState(null);
+
+  // const { snackBarStore, messageDialogStore } = useStore();
 
   useEffect(() => {
+    console.log(selectedItem);
     if (selectedItem === null) {
       setLoadProjectButtonState(false);
     } else {
@@ -24,30 +28,24 @@ const Dialog = observer(({ type, list, close, handleLoadButtonClick }) => {
   }, [selectedItem]);
 
   const onClickLoadButton = () => {
-    handleLoadButtonClick();
-    close();
+    setUploadState("loading");
+    setTimeout(() => {
+      handleLoadButtonClick();
+      setUploadState("success");
+    }, 1000);
   };
 
-  //프로젝트 불러오기 버튼 클릭시 이벤트
-  //현재 임시소스로 컨텐츠 업로드 스낵바가 동작하게 되어있음.
-  //컨텐츠를 선택하지 않았을 경우 메시지 다이얼로그가 뜨게 되어있음.
   // const handleLoadProject = () => {
-  //   console.log(selectedItem);
-
-  //   if (selectedItem) {
-  //     snackBarStore.setUploadSnackBar(selectedItem);
-  //   } else {
-  //     messageDialogStore.showMessageDialog({
-  //       type: "info",
-  //       confirm: () => {
-  //         snackBarStore.setMessageSnackBar(
-  //           "info",
-  //           "테스트용 메시지 스낵바입니다."
-  //         );
-  //       },
-  //       text: "컨텐츠를 선택 해주세요.",
-  //     });
-  //   }
+  //   messageDialogStore.showMessageDialog({
+  //     type: "info",
+  //     confirm: () => {
+  //       snackBarStore.setMessageSnackBar(
+  //         "info",
+  //         "테스트용 메시지 스낵바입니다."
+  //       );
+  //     },
+  //     text: "컨텐츠를 선택 해주세요.",
+  //   });
   // };
 
   return (
@@ -58,7 +56,7 @@ const Dialog = observer(({ type, list, close, handleLoadButtonClick }) => {
           close();
           setSelectedItem(undefined);
           setSelectedTab(undefined);
-          snackBarStore.setUploadSnackBar();
+          setUploadState(null);
         }
       }}
     >
@@ -85,7 +83,6 @@ const Dialog = observer(({ type, list, close, handleLoadButtonClick }) => {
           {loadProjectButtonState ? (
             <DialogLoadButton
               state={loadProjectButtonState}
-              // onClick={handleLoadProject}
               onClick={onClickLoadButton}
             >
               {type === "content" ? "컨텐츠 불러오기" : "프로젝트 불러오기"}
@@ -95,7 +92,13 @@ const Dialog = observer(({ type, list, close, handleLoadButtonClick }) => {
               {type === "content" ? "컨텐츠 불러오기" : "프로젝트 불러오기"}
             </DialogLoadButton>
           )}
-          {snackBarStore._uploadSnackBar}
+          {uploadState === null ? null : (
+            <UploadSnackBar
+              content={selectedItem}
+              uploadState={uploadState}
+              setUploadState={setUploadState}
+            />
+          )}
         </DialogSection>
       </DialogWrapper>
     </DialogOveray>

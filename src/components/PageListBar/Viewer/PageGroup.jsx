@@ -5,14 +5,15 @@ import FolderIcon from "src/static/icon/Folder.svg";
 import PageItem from "./PageItem/PageItem";
 
 const PageGroup = ({
-  projectName,
   mode,
-  groupName,
-  pages,
+  projectName,
+  pageGroup,
   selectedPage,
   handleClickPageItem,
 }) => {
   const [open, setOpen] = useState(false);
+
+  const { pageGroupName, pages } = pageGroup;
 
   const handleClickToggleBtn = () => {
     setOpen(!open);
@@ -23,20 +24,16 @@ const PageGroup = ({
       <PageGroupToggleBtn onClick={handleClickToggleBtn}>
         <Triangle open={open} src={TriangleIcon} alt="triangle-icon" />
         <Folder src={FolderIcon} alt="folder-icon" />
-        <PageGroupName>{groupName}</PageGroupName>
+        <PageGroupName>{pageGroupName}</PageGroupName>
       </PageGroupToggleBtn>
       <PageGroupList open={open}>
         {pages.map((page) => (
           <li key={page.pageId}>
             <PageItem
-              projectName={projectName}
               mode={mode}
-              id={page.pageId}
-              pageName={page.pageName}
-              summary={page.summary}
-              keywords={page.keywords}
-              groupName={groupName}
-              html={page.html}
+              projectName={projectName}
+              pageGroupName={pageGroupName}
+              page={page}
               selectedPage={selectedPage}
               handleClickPageItem={handleClickPageItem}
             />

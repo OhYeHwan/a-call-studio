@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import styled, { css } from "styled-components";
-import useStore from "src/stores/useStore";
 
 import expendOpenIcon from "src/static/icon/dialog_popup_arrow_open.svg";
 import expendCloseIcon from "src/static/icon/dialog_popup_arrow_close.svg";
@@ -11,11 +10,7 @@ import checkIcon from "src/static/icon/Popup_Check.svg";
 import alertIcon from "src/static/icon/Toast_White.svg";
 
 // 컨텐츠 불러오기 - 업로드 SnackBar
-const UploadSnackBar = ({ content }) => {
-  const { snackBarStore } = useStore();
-
-  //업로드 상태
-  const [uploadState, setUploadState] = useState("loading");
+const UploadSnackBar = ({ content, uploadState, setUploadState }) => {
   //확장 상태 (default : true)
   const [expendOpen, setExpendOpen] = useState(true);
 
@@ -26,23 +21,18 @@ const UploadSnackBar = ({ content }) => {
 
   //스낵바 닫기
   const handleCloseSnackBar = () => {
-    snackBarStore.setUploadSnackBar();
+    setUploadState(null);
   };
-
-  //임시 소스 (추후 api로 변경 예정)
-  setTimeout(() => {
-    setUploadState("success");
-  }, 3000);
 
   return (
     <UploadSnackBarWrapper>
       <UploadSnackBarHeader open={expendOpen}>
         <UploadSnackBarHeaderText>
           {uploadState === "fail"
-            ? "컨텐츠 업로드 실패"
+            ? "컨텐츠 파일 불러오기 실패"
             : uploadState === "loading"
-            ? "컨텐츠 업로드 중..."
-            : "컨텐츠 업로드 완료"}
+            ? "컨텐츠 파일 불러오기 중..."
+            : "컨텐츠 파일 불러오기 완료"}
         </UploadSnackBarHeaderText>
         <div className="flex">
           <UploadSnackBarHeaderExpand
@@ -59,7 +49,7 @@ const UploadSnackBar = ({ content }) => {
           </UploadSnackBarBodyIconWrapper>
           <UploadSnackBarBodyTitle>{content.title}</UploadSnackBarBodyTitle>
           <UploadSnackBarBodyFileSize>
-            {content.fileSize}
+            {content.fileSize}KB
           </UploadSnackBarBodyFileSize>
           {uploadState === "loading" ? (
             <UploadSnackBarBodyStateIcon uploadState={uploadState} />

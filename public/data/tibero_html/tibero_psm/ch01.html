@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제1장 tbPSM 소개</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 안내서"/><link rel="prev" href="about.html" title="안내서에 대하여"/><link rel="next" href="chapter_03.html" title="제2장 tbPSM 문법"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제1장 <span xmlns="http://www.w3.org/1999/xhtml">tbPSM</span> 소개</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="about.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_03.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e413"/>제1장 <span>tbPSM</span> 소개</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="ch01.html#d5e419">1.1. 개요</a></span></dt><dt><span class="section"><a href="ch01.html#d5e451">1.2. 구성요소</a></span></dt><dd><dl><dt><span class="section"><a href="ch01.html#d5e455">1.2.1. 변수와 상수</a></span></dt><dt><span class="section"><a href="ch01.html#d5e553">1.2.2. 제어 구조</a></span></dt><dt><span class="section"><a href="ch01.html#d5e575">1.2.3. 서브 프로그램과 패키지</a></span></dt><dt><span class="section"><a href="ch01.html#d5e615">1.2.4. 커서</a></span></dt><dt><span class="section"><a href="ch01.html#d5e627">1.2.5. 에러 처리</a></span></dt></dl></dd><dt><span class="section"><a href="ch01.html#d5e646">1.3. 프로그램 구조</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 <span>tbPSM</span>의 기본 개념과 구성요소 그리고 <span>tbPSM</span> 프로그램의 구조를 소개한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e419"/>1.1. 개요</h2></div></div></div>
+    
+
+    <p>SQL<a id="d5e422" class="indexterm"/>은 비절차적(Non-procedural) 언어로 데이터베이스의 모든 작업을 통제한다. SQL은 대체로
+    간단하고 적은 수의 명령어로 구성되어 있다. 따라서 일반적으로 사용자는 SQL의 기초가 되는 데이터 구조와 알고리즘을 몰라도 자유롭게
+    SQL 명령을 실행할 수 있다. SQL의 장점에도 불구하고 사용자가 원하는 프로그램을 작성하려고 할 때 여전히 불편함이
+    따른다.</p>
+
+    <p><span><strong class="guibutton"><span>tbPSM</span></strong></span>은 <span>Tibero</span>에서 제공하는 PSM
+    프로그램 언어 및 실행 시스템이다. 순차적으로 원하는 결과를 얻어야 하는 프로그램을 SQL 문장만으로 작성할 수 없다는 제약 때문에
+    <span>tbPSM</span>이 필요하다.<a id="d5e429" class="indexterm"/></p>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>PSM(Persistent Stored Modules)<a id="d5e434" class="indexterm"/>은 절차적 기능을 갖춘 확장된 SQL를 생성하는 강력한 프로그래밍 언어이다. 그 기능이 매우 단순하고
+      강력하여 사용자에 의해 널리 사용되고 있다. 또한 PSM은 데이터베이스 프로그래밍을 위한 ISO 표준에 기반을 두고 있으며,
+      SQL 명령을 사용하여 데이터베이스와 상호 연동을 할 수 있다.</p>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <p><span>tbPSM</span>은 SQL 문장을 제어 구조(예: if...then...else...,
+    loop) 등에 추가하여 프로그램을 절차적으로 구성할 수 있다. SQL의 비절차적인 구조의 문제점을 해결하여 사용자가 원하는
+    프로그램을 작성할 수 있다.</p>
+
+    <p>빈번하게 수행되는 작업을 데이터베이스 시스템에 컴파일 된 상태로 저장함으로써, 매번 해당 질의를 다시 컴파일해야 하는
+    부담을 덜어준다. 뿐만 아니라 <span>tbPSM</span> 내부에 IF, WHILE 등과 같은 제어 문장과 변수 등을 활용할 수 있기
+    때문에 복잡한 작업의 수행을 위해 애플리케이션 프로그램과 데이터베이스 서버 간의 빈번한 통신이 발생하는 것을 줄여 준다. 이 기능은
+    널리 사용되고 있는 PL/SQL 기능과 대등하다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p><span>tbPSM</span>은 다음과 같은 절차형 언어(제3세대 언어)의 성격을 SQL에 추가함으로써
+    사용자에게 편의를 제공한다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>변수와 타입</p>
+      </li><li>
+        <p>제어 구조</p>
+      </li><li>
+        <p>프러시저와 함수</p>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e451"/>1.2. 구성요소</h2></div></div></div>
+    
+
+    <p>본 절에서는 <span>tbPSM</span> 프로그램을 작성하거나 실행하기에 앞서 기본적으로 알아야 할 구성요소를
+    설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e455"/>1.2.1. 변수와 상수</h3></div></div></div>
+      
+
+      <p>본 절에서는 변수와 상수를 간략히 설명한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e459"/>변수<a id="d5e460" class="indexterm"/></h4>
+
+      <p>변수는 프로그램을 작성할 때 값을 나타내는 문자나 문자들의 집합이다.</p>
+
+      <p>변수를 선언하는 방법은 다음과 같다.<a id="d5e464" class="indexterm"/></p>
+
+      <pre class="programlisting">변수이름 변수의 타입[제약조건] [기본값 정의]</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">변수이름</td><td><p>값을 나타내는 문자나 문자 세트의 이름이다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                    <p>변수이름을 먼저 입력한다.</p>
+                  </li><li style="list-style-type: circle">
+                    <p>변수이름 뒤에 변수의 타입과 제약조건이 따른다.</p>
+                  </li></ul></div></td></tr><tr><td align="left">변수의 타입</td><td>데이터베이스 고유의 타입뿐만 아니라 <span>tbPSM</span> 프로그램에서 전용으로 사용하는 타입도
+              포함된다.</td></tr><tr><td align="left">제약조건</td><td>데이터 타입에 따라 사용 여부가 달라진다.</td></tr><tr><td align="left">기본값 정의</td><td>정의된 변수에 값이 할당되지 않은 경우에는 정의된 기본값을 사용한다.</td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 변수를 선언하는 예이다.</p>
+
+      <pre class="programlisting">id NUMBER;
+
+productname VARCHAR2(20) := '<span>Tibero</span>';</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <p>변수를 할당하는 방법은 콜론(:)과 등호(=)를 조합하여 이루어진다.<a id="d5e500" class="indexterm"/></p>
+
+      <pre class="programlisting">[할당 받는 대상] := [할당하는 대상]</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">할당 받는 대상</td><td>반드시 변수가 와야 한다.</td></tr><tr><td align="left">:=</td><td>이 기호를 기준으로 왼쪽에 위치한 것은 할당 받는 대상이고 오른쪽은 할당하는 대상이다.</td></tr><tr><td align="left">할당하는 대상</td><td>변수, 표현 식, 함수의 결과 등이 올 수 있으며 대상의 제약이 없다.</td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 변수를 할당하는 예이다.</p>
+
+      <pre class="programlisting">gravity := 9.8;
+
+force := mass * acceleration;
+
+grade := calculate_the_grade('Darwin');</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e524"/>상수<a id="d5e525" class="indexterm"/></h4>
+
+      <p>상수는 프로그램이 수행되는 동안은 변하지 않는 값을 나타내는 데이터로 숫자, 문자, 문자열 등이 있다.</p>
+
+      <p>상수를 선언하는 방법은 다음과 같다.</p>
+
+      <pre class="programlisting">변수이름 CONSTANT 변수의 타입 := [기본값 정의]</pre>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">항목</th><th>설명</th></tr></thead><tbody><tr><td align="left">변수이름</td><td>변수이름이 제일 먼저 위치한다.</td></tr><tr><td align="left">CONSTANT</td><td>상수의 선언은 CONSTANT라는 예약어를 사용하면 된다.</td></tr><tr><td align="left">변수의 타입</td><td>변수의 데이터 타입을 설정한다.</td></tr><tr><td align="left">기본값 정의</td><td>정의된 상수에 값을 할당한다. 상수로 선언된 변수에는 어떠한 값도 다시 할당할 수 없다.</td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 상수를 선언하고 특정 값을 할당하는 예이다.</p>
+
+      <pre class="programlisting">PI CONSTANT NUMBER := 3.141592;</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e553"/>1.2.2. 제어 구조</h3></div></div></div>
+      
+
+      <p><span>tbPSM</span>은 프로그램 실행 중에 발생되는 조건에 따라 특정 작업을 수행하거나
+      반복적인 작업을 수행하는 제어 구조(control structure)를 제공한다. 특정 작업을 수행하는 조건
+      구조(conditional structure)와 반복 작업을 수행하는 반복 구조(iterative structure)를 위한
+      다양한 명령어를 제공한다. 자세한 내용은 <a href="chapter_control.html" title="제3장 제어 구조">“제3장 제어 구조”</a>를 참고한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p><span>tbPSM</span>의 제어 구조는 다음과 같이 구분할 수 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>선택적(selective) 제어 구조<a id="d5e564" class="indexterm"/></p>
+
+          <p>IF 문과 CASE 문이 포함된다.</p>
+        </li><li>
+          <p>반복 제어 구조(iterative structure)<a id="d5e569" class="indexterm"/></p>
+
+          <p>LOOP 문, WHILE 문, FOR 문이 포함된다.</p>
+        </li></ul></div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 IF 문의 예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    evaluation_score NUMBER;
+BEGIN
+    SELECT bonus into evaluation_score FROM employee WHERE emp_no = 19963077;
+    IF evaluation_score &gt; 80 THEN
+        DBMS_OUTPUT.PUT_LINE('This person gets a salary bonus.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('This person does not get a salary bonus.');
+    END IF;
+END;</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e575"/>1.2.3. 서브 프로그램과 패키지</h3></div></div></div>
+      
+
+      <p>본 절에서는 서브 프로그램과 패키지를 간략히 설명한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e579"/>서브 프로그램<a id="d5e580" class="indexterm"/></h4>
+
+      <p>서브 프로그램(subprogram)은 일반적인 프로그래밍에서의 함수와 동일한 기능을 수행한다.</p>
+
+      <p>기본적으로 프러시저(procedure)와 함수(function)를 제공하는데, 이 둘의 차이점은 프러시저는 반환값이
+      없고, 함수는 반환값이 있다는 것이다.<a id="d5e584" class="indexterm"/><a id="d5e586" class="indexterm"/> 자세한 내용은 <a href="chapter_subprogram.html" title="제5장 서브 프로그램">“제5장 서브 프로그램”</a>을
+      참고한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>서브 프로그램은 <span>tbPSM</span>의 프로그램 구조와 마찬가지로 선언부, 실행부, 예외 처리부로
+      구성된다.</p>
+
+      <p>다음은 서브 프로그램을 작성한 예이다.</p>
+
+      <pre class="programlisting">CREATE [OR REPLACE] PROCEDURE check_sal(name VARCHAR2) IS
+    sal NUMBER;
+    invalid_id exception;
+BEGIN
+    SELECT registered_num INTO sal FROM emp WHERE emp_name = name;
+    IF sal &lt; 7000 THEN
+        raise invalid_sal;
+    END IF;
+    DBMS_OUTPUT.PUT_LINE('Correct');
+EXCEPTION
+    WHEN invalid_id THEN
+        DBMS_OUTPUT.PUT_LINE('Invalid registration number');
+END;</pre>
+
+      <div class="literallayout"><p/></div>
+
+      <h4><a id="d5e595"/>패키지<a id="d5e596" class="indexterm"/></h4>
+
+      <p>패키지(package)는 서브 프로그램과 변수, 상수의 집합이라 할 수 있다. 즉, 관련된 기능을 그룹으로 묶어 사용할
+      수 있어 프로그램을 관리하기가 쉽다. 또한 패키지는 사용하는 시점에 패키지의 구성요소가 일시에 메모리에 로드되므로 특정 작업을
+      수행할 때 데이터베이스 서버의 성능을 향상하는 데 도움이 되기도 한다. 모듈 간의 의존성 축소화(dependency
+      minimizing)를 위해서도 사용된다.<a id="d5e599" class="indexterm"/> 자세한 내용은 <a href="chapter_package.html" title="제6장 패키지">“제6장 패키지”</a>를 참고한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>패키지는 선언부(specification)와 구현부(body)로 구성된다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>선언부</p>
+
+          <p>패키지에서 사용할 함수와 프러시저의 이름 그리고 변수, 상수, 타입, 예외 상황, 커서의 선언 정보가
+          포함된다.</p>
+
+          <p>다음은 선언부의 작성 예이다.</p>
+
+          <pre class="programlisting">CREATE [OR REPLACE] PACKAGE book_manager IS
+    book_cnt NUMBER;
+    PROCEDURE add_new_book(author VARCHAR2, name VARCHAR2, publish_year DATE);
+    PROCEDURE remove_lost_book(author VARCHAR2, name VARCHAR2);
+    FUNCTION search_book_position(author VARCHAR2, name VARCHAR2) 
+             RETURN NUMBER;
+    FUNCTION get_total_book_cnt RETURN NUMBER;
+END;</pre>
+        </li><li>
+          <p>구현부</p>
+
+          <p>선언된 프러시저나 함수가 실제로 구현되는 부분이다.</p>
+
+          <p>다음은 구현부의 작성 예이다.</p>
+
+          <pre class="programlisting">CREATE [OR REPLACE] PACKAGE BODY book_manager IS
+    PROCEDURE add_new_book(v_author VARCHAR2, v_name VARCHAR2, 
+                           publish_year DATE) IS
+    BEGIN
+        IF substr(v_name, 1, 1) &gt;= 'a' AND 
+           substr(v_name, 1, 1) &lt; 'k' THEN
+            INSERT INTO books 
+                VALUES (1, v_author, v_name, publish_year);
+        ELSE
+            INSERT INTO books 
+                VALUES (2, v_author, v_name, publish_year);
+        END IF;
+        COMMIT;
+        book_cnt := book_cnt + 1;
+    END;
+
+    PROCEDURE remove_lost_book(v_author VARCHAR2, v_name VARCHAR2) IS
+    BEGIN
+        DELETE FROM books WHERE author = v_author AND name = v_name;
+        COMMIT;
+    END;
+
+    FUNCTION search_book_position(v_author VARCHAR2, v_name VARCHAR2) 
+    RETURN NUMBER IS
+        book_position NUMBER;
+    BEGIN
+        SELECT kind INTO book_position FROM books 
+            WHERE author = v_author AND name = v_name;
+        RETURN book_position;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('NOT EXIST...SORRY');
+            RAISE;
+    END;
+
+    FUNCTION get_total_book_cnt RETURN NUMBER IS
+    BEGIN
+        RETURN book_cnt;
+    END;
+BEGIN
+    book_cnt := 0;
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e615"/>1.2.4. 커서<a id="d5e617" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>커서(cursor)는 SQL 문장을 처리한 후 얻은 결과 집합에 대한 포인터이다.</p>
+
+      <p>데이터베이스에서 탐색된 여러 로우를 처리 하기 위해 사용되며, 프로그램은 커서를 사용하여 질의(query)의 결과로
+      생성된 집합을 한 번에 한 로우씩 검사하고 처리할 수 있다. 커서는 질의의 결과와 반환되는 결과 집합이 매우 크거나 크기를 예상할
+      수 없는 경우에 유용하게 사용된다.</p>
+
+      <p><span>tbPSM</span>은 커서와 커서의 변수를 제공한다. 자세한 내용은 <a href="chapter_sql_execution.html#sect_cursor" title="7.3. 커서">“7.3. 커서”</a>를 참고한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 커서를 사용한 예이다.</p>
+
+      <pre class="programlisting">DECLARE
+    EMP_NO VARCHAR(8);
+    CURSOR c1 IS SELECT EMP_NO FROM employee;
+BEGIN
+    OPEN c1;
+    LOOP
+        FETCH c1 INTO  EMP_NO;
+        EXIT WHEN c1%NOTFOUND;
+    END LOOP;
+END;</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e627"/>1.2.5. 에러 처리</h3></div></div></div>
+      
+
+      <p><span>tbPSM</span> 프로그램은 실행 중에 에러가 발생할 수 있다. 예를 들어 SELECT
+      INTO 문을 실행했을 때 반환되는 로우가 없는 경우를 들 수 있다. 이러한 에러를 <span><strong class="guibutton">예외
+      상황</strong></span>이라 한다.<a id="d5e632" class="indexterm"/></p>
+
+      <p><span>tbPSM</span> 프로그램 내에서는 실행 중에 발생할 수 있는 예외
+      상황(exception)을 처리하기 위한 루틴을 포함시킬 수 있다. 이러한 루틴을 에러 처리 루틴(error handling
+      routine)이라고 한다. 에러가 발생했을 때 그 에러에 대한 처리 루틴이 정의된 경우 해당 루틴을 실행하게
+      된다.<a id="d5e636" class="indexterm"/></p>
+
+      <p>이러한 루틴을 통해 <span>tbPSM</span> 프로그램은 구조가 명확해지고 관리가 쉬워진다는 장점이 있다. 자세한
+      내용은 <a href="chapter_error.html" title="제8장 에러 처리">“제8장 에러 처리”</a>를 참고한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 에러를 처리하는 예이다.<a id="d5e643" class="indexterm"/></p>
+
+      <pre class="programlisting">DECLARE
+    no_bonus exception;
+    the_sales NUMBER := 12000;
+BEGIN
+    IF the_sales &lt; 20000 THEN
+        raise no_bonus;
+    END IF;
+    DBMS_OUTPUT.PUT_LINE('Your bonus is $' || the_sales * 0.1);
+EXCEPTION
+    WHEN no_bonus THEN
+        DBMS_OUTPUT.PUT_LINE('Sorry, increase the sales');
+END;</pre>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e646"/>1.3. 프로그램 구조</h2></div></div></div>
+    
+
+    <p><span>tbPSM</span> 프로그램은 기본적으로 블록(block) 구조로 이루어져 있다. 하나의
+    블록은 크거나 작은 하나의 작업을 수행하는 모듈이며, 다른 블록을 포함할 수 있다.<a id="d5e650" class="indexterm"/></p>
+
+    <p>전형적인 <span>tbPSM</span>의 블록은 다음과 같이 세 부분으로 구성된다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>선언부</p>
+
+        <p>DECLARE와 함께 시작되며, 블록 내에서 사용할 데이터 변수를 선언하는 부분이다.</p>
+
+        <p>선언부는 다음과 같은 특징이 있다.</p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>생략할 수 있다.</p>
+            </li><li>
+              <p>선언부는 실행 코드부와 에러 처리부와는 달리 서브 블록을 포함할 수 없다.</p>
+            </li><li>
+              <p>실행 코드부에서 사용하는 변수가 없으면 선언부는 블록에 포함하지 않아도 된다.</p>
+            </li></ul></div>
+      </li><li>
+        <p>실행 코드부</p>
+
+        <p>BEGIN 예약어와 END 예약어 중간에 포함된다.</p>
+
+        <p>실행 코드부는 다음과 같은 특징이 있다.</p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>데이터베이스를 액세스하기 위한 일반적인 SQL 문장과 제어 구조 문장이 포함된다.</p>
+            </li><li>
+              <p>실행 코드부 내의 모든 SQL 문장과 코드는 항상 세미콜론(;)으로 끝난다.</p>
+            </li></ul></div>
+      </li><li>
+        <p>에러 처리부</p>
+
+        <p>BEGIN 예약어와 END 예약어 중간에 포함되며, 실행 코드부에서 발생한 에러를 처리하는 부분이다. 이러한 에러를
+        예외 상황이라 한다. 예외 상황에는 시스템이 미리 정의해 둔 것과 사용자가 프로그램에서 정의한 것이 있다.</p>
+      </li></ul></div>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 <span>tbPSM</span> 프로그램의 구조를 나타내는 예이다.</p>
+
+    <pre class="programlisting">DECLARE
+    -- 선언부
+    name varchar(32);
+
+BEGIN
+    -- 실행 코드부
+    SELECT emp_name INTO name FROM employee WHERE emp_no = 100;
+
+EXCEPTION
+    -- 에러 처리부
+WHEN NO_DATA_FOUND THEN
+     dbms_output.put_line('employee not exist');
+
+END;</pre>
+
+    <p>위 예를 기준으로 <span>tbPSM</span> 프로그램이 수행되는 순서는 다음과 같다.</p>
+
+    <div class="orderedlist"><ol type="1" compact="compact"><li>
+        <p>선언부</p>
+
+        <p>DECLARE와 함께 name이라는 변수를 선언한다. 데이터 타입은 varchar이며, 길이는
+        32이다.</p>
+      </li><li>
+        <p>실행 코드부</p>
+
+        <p>EMPLOYEE 테이블에서 emp_no 컬럼이 100인 emp_name의 데이터를 검색한다. 검색한 결과는
+        선언부에서 정의한 name에 할당한다. 만약, 검색된 결과가 없으면 3번 순서로 이동한다.</p>
+      </li><li>
+        <p>에러 처리부</p>
+
+        <p>검색된 결과가 없을 때 처리되는 부분으로 메시지 버퍼에 <span><strong class="guibutton">employee not
+        exist</strong></span>라는 메시지를 EOF 문자와 함께 저장한다.</p>
+      </li></ol></div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="about.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_03.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">안내서에 대하여 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제2장 <span>tbPSM</span> 문법</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -8,14 +8,16 @@ import QuestionTab from "./QuestionTab/QuestionTab";
 import RecommendMake from "./MakeRecommendButton";
 import AIDubbing from "./AIDubbing";
 
+import useStores from "src/hooks/useStores";
+
 const MIN_HEIGHT = 418; // drawer 높이의 최소값. 이 값보다 작은 경우 dragger의 굵기로 전환
 const DRAGGER_THICKNESS = 12; // dragger 굵기.
 const HEIGHT_LIMIT = 5000; // drawer 높이 제한
 
 const Drawer = observer(() => {
-  const [contents, setContents] = useState("");
-  const [keywords, setKeywords] = useState([]);
-  const [questions, setQuestions] = useState([]);
+  const { contentStore } = useStores();
+  const { target, afterKeywords } = contentStore;
+
   const [savedHeight, setSavedHeight] = useState(DRAGGER_THICKNESS); // 더블 클릭 시 기존 높이 저장
   const [isDragging, setIsDragging] = useState(false);
 
@@ -78,22 +80,8 @@ const Drawer = observer(() => {
     drawerHeightStore.setHeight(calculatedHeight);
   };
 
-  const handleClickDelButton = (id) => {
-    setKeywords(keywords.filter((keyword) => keyword.id !== id));
-  };
-
-  const updateKeywords = (id, value) => {
-    const newKeywords = keywords.map((keyword) => {
-      if (keyword.id === id) {
-        return {
-          id,
-          content: value,
-        };
-      } else {
-        return keyword;
-      }
-    });
-    setKeywords(newKeywords);
+  const handleChange = (e) => {
+    contentStore.handleChangeSummary(e.target.value);
   };
 
   return (
@@ -110,20 +98,12 @@ const Drawer = observer(() => {
         <Dot />
       </DrawerDragger>
       <DrawerContents>
-        <ContentsTab
-          contents={contents}
-          keywords={keywords}
-          setContents={setContents}
-          setKeywords={setKeywords}
-          handleClickDelButton={handleClickDelButton}
-          updateKeywords={updateKeywords}
-        />
+        <ContentsTab target={target} handleChange={handleChange} />
         <RecommendMake
-          contents={contents}
-          keywords={keywords}
-          setQuestions={setQuestions}
+          contents={target.summary === null ? "" : target.summary}
+          keywords={target.keywords}
         />
-        <QuestionTab questions={questions} setQuestions={setQuestions} />
+        <QuestionTab afterKeywords={afterKeywords} />
       </DrawerContents>
       <DrawerBlankImage />
       <AIDubbing />

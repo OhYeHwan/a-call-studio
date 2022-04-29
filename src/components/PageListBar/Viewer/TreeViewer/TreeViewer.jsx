@@ -2,24 +2,19 @@ import React from "react";
 import styled, { css } from "styled-components";
 import PageGroup from "../PageGroup";
 
-const TreeViewer = ({
-  projectName,
-  mode,
-  tree,
-  selectedPage,
-  handleClickPageItem,
-}) => {
+const TreeViewer = ({ mode, target, selectedPage, handleClickPageItem }) => {
+  const { pageGroups, projectName } = target;
+
   return (
     <TreeViewerLayout mode={mode}>
-      {tree.map((t) => (
+      {pageGroups.map((pageGroup) => (
         <PageGroup
-          projectName={projectName}
+          key={pageGroup.pageGroupId}
           mode={mode}
-          key={t.pageGroupId}
+          projectName={projectName}
+          pageGroup={pageGroup}
           selectedPage={selectedPage}
           handleClickPageItem={handleClickPageItem}
-          groupName={t.pageGroupName}
-          pages={t.pages}
         />
       ))}
     </TreeViewerLayout>

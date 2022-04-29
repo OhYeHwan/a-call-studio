@@ -28,12 +28,16 @@ const MessageSnackBar = ({ text, type }) => {
 
 //메시지 스낵바 Wrapper (애니메이션 포함)
 const MessageSnackBarWrapper = styled.div`
-  display: flex;
   position: fixed;
+  left: 50%;
+  bottom: -45px;
+
+  z-index: 999;
+  display: flex;
   justify-content: flex-end;
   align-items: center;
   color: #ffffff;
-  bottom: -40px;
+
   text-align: center;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
   border-radius: 6px;

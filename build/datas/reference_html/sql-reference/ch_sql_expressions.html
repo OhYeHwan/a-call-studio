@@ -1,0 +1,901 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제3장 SQL 연산</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero SQL 참조 안내서"/><link rel="up" href="index.html" title="Tibero SQL 참조 안내서"/><link rel="prev" href="ch_sql_elements.html" title="제2장 SQL 문장의 구성요소"/><link rel="next" href="ch_sql_functions.html" title="제4장 함수"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제3장 SQL 연산</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch_sql_elements.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch_sql_functions.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="ch_sql_expressions"/>제3장 SQL 연산</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="ch_sql_expressions.html#d5e6511">3.1. 개요</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_operator">3.2. 연산자</a></span></dt><dd><dl><dt><span class="section"><a href="ch_sql_expressions.html#d5e6598">3.2.1. 일반 연산자</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_condition_operator">3.2.2. 조건식에 포함되는 연산자</a></span></dt></dl></dd><dt><span class="section"><a href="ch_sql_expressions.html#sect_expressions">3.3. 연산식</a></span></dt><dd><dl><dt><span class="section"><a href="ch_sql_expressions.html#data_type_conversion">3.3.1. 연산식의 변환</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_simple_expr">3.3.2. 단순 연산식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_compound_expr">3.3.3. 복합 연산식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_case_expr">3.3.4. CASE 연산식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_function">3.3.5. 함수</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_subquery_expression">3.3.6. 부질의 연산식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_variable_expr">3.3.7. 변수</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_list">3.3.8. 리스트</a></span></dt></dl></dd><dt><span class="section"><a href="ch_sql_expressions.html#sect_conditions">3.4. 조건식</a></span></dt><dd><dl><dt><span class="section"><a href="ch_sql_expressions.html#sect_simple_comparison_condition">3.4.1. 단순 조건식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_group_comparison_condition">3.4.2. 그룹 조건식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_compound_condition">3.4.3. 복합 조건식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_between_condition">3.4.4. BETWEEN 조건식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_exists_condition">3.4.5. EXISTS 조건식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_in_condition">3.4.6. IN 조건식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_is_null_condition">3.4.7. IS NULL 조건식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_like_condition">3.4.8. LIKE 조건식</a></span></dt><dt><span class="section"><a href="ch_sql_expressions.html#sect_regexp_like_condition">3.4.9. REGEXP_LIKE 조건식</a></span></dt></dl></dd></dl></div>
+  
+
+  
+
+  <p>본 장에서는 SQL 연산에 대해 설명한다. 먼저 연산자에 대해 설명하고 다음으로 일반 연산식과 조건식에 대해 설명한다. 각
+  연산식을 설명할 때는 도식적 문법을 사용하여 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e6511"/>3.1. 개요</h2></div></div></div>
+    
+
+    <p>SQL 문장 내에는 여러 가지 연산식이 포함된다. 연산식은 연산자(Operator), 피연산자(Operand),
+    함수(Function) 등으로 구성된다. 연산식은 연산식 내의 모든 피연산자에 어떤 값을 대입하면 해당 연산 결과를
+    반환한다.</p>
+
+    <p>연산식은 크게 두 가지로 구분할 수 있는데, 일반 연산식과 조건식이 이에 해당한다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>일반 연산식</p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>논리(Logical) 연산자와 비교(Comparison) 연산자를 제외한 모든 연산자가
+            포함된다.</p>
+          </li><li>
+            <p>결과 값으로 임의의 산술 값, 문자열, 리스트 등이 반환된다.</p>
+          </li></ul></div>
+      </li><li>
+        <p>조건식</p>
+
+        <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+            <p>논리 연산자 또는 비교 연산자가 포함된다.</p>
+          </li><li>
+            <p>결과 값으로 TRUE, FALSE, UNKNOWN이 반환된다.</p>
+          </li></ul></div>
+      </li></ul></div>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 연산식<a id="d5e6532" class="indexterm"/>의 문법을 나타내는 그림이다.</p>
+
+    <div class="figure"><a id="fig_grammar_diagram_example"/><p class="title"><b>[그림 3.1] 연산식 문법</b></p><div class="figure-contents">
+      
+
+      <div xmlns="" class="mediaobject"><img src="resources/example.png" alt="연산식 문법"/></div>
+    </div></div><br class="figure-break"/>
+
+    <p>위의 그림을 통해 도식을 해석하는 방법을 설명하면 다음과 같다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="90" align="left"/><col/></colgroup><thead><tr><th align="left">도형</th><th>설명</th></tr></thead><tbody><tr><td align="left"><span xmlns="" class="inlinemediaobject"><img src="resources/example_ex.png"/></span></td><td><p>전체 문법을 대표하는 이름은 왼쪽 위에 나타낸다.</p><p><a href="ch_sql_expressions.html#fig_grammar_diagram_example" title="[그림 3.1] 연산식 문법">[그림 3.1]</a>의 문법을 대표하는 이름은
+            example이다.</p></td></tr><tr><td align="left"><span xmlns="" class="inlinemediaobject"><img src="resources/square.png"/></span></td><td><p>사각형 내의 문자는 문장에 포함된 문법 요소를 나타내며, 적절한 다른 문자열로 대치되어야
+            한다.</p><p><a href="ch_sql_expressions.html#fig_grammar_diagram_example" title="[그림 3.1] 연산식 문법">[그림 3.1]</a>에서는
+            option, value, choice1, choice2 등이 여기에 해당한다.</p></td></tr><tr><td align="left"><span xmlns="" class="inlinemediaobject"><img src="resources/square_r.png" align="center"/></span></td><td><p>동그라미 안의 문자는 키워드(Keyword) 또는 연산식 기호로, 반드시 문장 내에 그대로
+            포함되어야 한다.</p><p><a href="ch_sql_expressions.html#fig_grammar_diagram_example" title="[그림 3.1] 연산식 문법">[그림 3.1]</a>에서는 소괄호(( ))와 콤마(,)가 여기에
+            해당한다.</p></td></tr><tr><td align="left"><span xmlns="" class="inlinemediaobject"><img src="resources/arrow.png"/></span></td><td><p>문장을 완성하는 순서는 화살표를 따라가면 된다.</p><p>뒤쪽으로 향하는 화살표는
+            0번 이상 포함됨을 의미한다. 여러 갈래로 갈라지는 화살표는 여러 가지 중에 하나를 선택해야 함을
+            의미한다.</p><p><a href="ch_sql_expressions.html#fig_grammar_diagram_example" title="[그림 3.1] 연산식 문법">[그림 3.1]</a>에서는 option은 반드시 포함되어야 하며,
+            콤마(,)는 포함되지 않거나 한 번 이상 포함될 수 있다. 소괄호(( ))는 반드시 포함된다. value는 반드시 한
+            번 이상 포함되어야 하며, 콤마가 포함되면 value는 한 번 더 포함된다. choice1과 choice2 중의 하나만
+            문장에 포함된다.</p></td></tr></tbody></table>
+    </div>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음에 나열된 문장은 위의 <a href="ch_sql_expressions.html#fig_grammar_diagram_example" title="[그림 3.1] 연산식 문법">[그림 3.1]</a>의 도식을
+    바탕으로 완성된 유효한 연산식의 예이다.</p>
+
+    <pre class="programlisting">option1 (value1) choice1
+option1 (value1, value2) choice1
+option1 (value1, value2) choice2
+option1 (value1) choice2</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_operator"/>3.2. 연산자</h2></div></div></div>
+    
+
+    <p>본 절에서는 SQL 문장 내에서 사용되는 연산자에 대해 설명한다.</p>
+
+    <p>각 연산자를 포함한 연산식에 대해서는 <a href="ch_sql_expressions.html#sect_expressions" title="3.3. 연산식">“3.3. 연산식”</a>과 <a href="ch_sql_expressions.html#sect_conditions" title="3.4. 조건식">“3.4. 조건식”</a>에서 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e6598"/>3.2.1. 일반 연산자</h3></div></div></div>
+      
+
+      <p>SQL 문장 내에서 사용되는 일반 연산자는 산술(Arithmetic) 연산자, 문자열(String) 연산자,
+      집합(Set) 연산자 등이 있다. <a id="d5e6601" class="indexterm"/><a id="d5e6604" class="indexterm"/></p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>산술 연산자</p>
+
+          <p>산술 연산자는 사칙연산을 수행하기 위한 연산자이다. 산술 연산자에는 덧셈, 뺄셈, 곱셈, 나눗셈을 위한 네 가지
+          <a id="d5e6610" class="indexterm"/>이항(Binary) 연산자와 양수, 음수를 나타내기 위한 <a id="d5e6613" class="indexterm"/>단항(Unary) 연산자가 있다.</p>
+        </li><li>
+          <p>문자열 연산자</p>
+
+          <p>문자열 연산자는 접합(Concatenate) 연산자<a id="d5e6619" class="indexterm"/><a id="d5e6622" class="indexterm"/> 하나뿐이다. 접합 연산자(||)는 두 개의 문자열을 하나로 연결하기 위한
+          연산자이다.</p>
+
+          <p>다음은 두 개의 문자열 'ABC'와 'DEF'를 접합 연산자를 사용해 하나로 접합시키는 예이다.</p>
+
+          <pre class="programlisting">'ABC' || 'DEF' = 'ABCDEF'</pre>
+        </li><li>
+          <p>집합 연산자</p>
+
+          <p><a id="d5e6629" class="indexterm"/><a id="d5e6632" class="indexterm"/>집합 연산자는 두 개의 질의 결과에 대한 연산자이며, 피연산자로 항상 SELECT 문의 결과를
+          받는다. 집합 연산자는 테이블을 대상으로 직접 수행되지 않는다. 집합 연산자는 연산 결과 0개 이상의 로우로 구성된 하나의
+          테이블을 반환한다.</p>
+
+          <p>다음의 표는 <span>Tibero</span>에서 제공하는 집합 연산자와 각 연산자의
+          연산 결과를 설명<a id="d5e6636" class="indexterm"/>한다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">연산자</th><th>연산 결과</th></tr></thead><tbody><tr><td align="left">UNION<a id="d5e6649" class="indexterm"/><a id="d5e6651" class="indexterm"/></td><td><p>두 질의의 결과를 하나로 합친다. </p><p>질의의 결과에 중복되어
+                  포함된 로우에 대해서는 연산 결과에 한 번만 포함한다. 교환법칙(Commutative Rule)이
+                  성립한다.</p></td></tr><tr><td align="left">UNION ALL<a id="d5e6658" class="indexterm"/><a id="d5e6661" class="indexterm"/></td><td><p>두 질의의 결과를 하나로 합친다. </p><p>하나의 로우가 두 질의의
+                  결과에 각각 m번과 n번이 포함되어 있다면, 연산 결과에는 (m+n)번 포함된다.
+                  교환법칙(Commutative Rule)이 성립한다.</p></td></tr><tr><td align="left">INTERSECTION<a id="d5e6668" class="indexterm"/><a id="d5e6671" class="indexterm"/></td><td><p>두 질의의 결과에 공통적으로 포함된 로우를 추출한다. </p><p>질의의
+                  결과에 중복되어 포함된 로우에 대해서는 연산 결과에 한 번만 포함한다. 교환법칙(Commutative
+                  Rule)이 성립한다.</p></td></tr><tr><td align="left">MINUS<a id="d5e6678" class="indexterm"/><a id="d5e6681" class="indexterm"/></td><td><p>앞 질의의 결과로부터 뒤 질의의 결과에 포함된 모든 로우를 제거한다.
+                  </p><p>질의의 결과에 중복되어 포함된 로우에 대해서는 연산 결과에 한 번만 포함한다.
+                  교환법칙(Commutative Rule)이 성립하지 않는다.</p></td></tr></tbody></table>
+          </div>
+
+          <p>산술 연산자와 문자열 연산자를 사용할 때는 연산 결과가 미리 예측한 범위 내의 값이 되는지 확인해야 한다. 예를
+          들어 NUMBER(3,0) 타입으로 선언된 컬럼에 산술 연산 결과 1234.0을 저장하려 하거나, VARCHAR(5)
+          타입의 컬럼에 접합 연산 결과 'ABCDEF'를 저장하려 하면 에러가 발생한다.</p>
+
+          <p>산술 데이터와 문자열 데이터에 대한 복잡한 연산은 별도의 내장 함수(Built-in Function)로 수행할
+          수 있다. <span>Tibero</span>에서 제공하는 내장 함수는 <a href="ch_sql_functions.html" title="제4장 함수">“제4장 함수”</a>에서 자세하게 설명한다.</p>
+        </li></ul></div>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_condition_operator"/>3.2.2. 조건식에 포함되는 연산자</h3></div></div></div>
+      
+
+      <p>조건식에 포함되는 연산자는 논리 연산자와 비교 연산자가 있다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>논리 연산자<a id="d5e6697" class="indexterm"/><a id="d5e6700" class="indexterm"/></p>
+
+          <p>논리 연산자는 피연산자로 항상 조건식이 온다. <span>Tibero</span>에서 제공하는 논리 연산자는
+          <a id="d5e6704" class="indexterm"/><a id="d5e6707" class="indexterm"/>NOT, <a id="d5e6709" class="indexterm"/><a id="d5e6712" class="indexterm"/>AND, <a id="d5e6714" class="indexterm"/><a id="d5e6717" class="indexterm"/>OR이다. NOT 연산자는 단항 연산자이며, AND와 OR 연산자는 이항 연산자이다.</p>
+
+          <p><span>Tibero</span>에서의 논리 연산자는 일반적인 논리 연산자와
+          다른 점이 있다. 논리 연산의 결과로 TRUE, FALSE 외에 UNKNOWN이 반환될 수 있다는 점이다.</p>
+
+          <p>아래의 표는 각각 NOT, AND, OR 연산자에 대하여 피연산자가 TRUE, FALSE, UNKNOWN 값을
+          가질 때의 진리표(Truth Table)을 보인 것이다. AND와 OR 연산자는 교환법칙이 성립한다.</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                <p>NOT 연산자의 진리표<a id="d5e6726" class="indexterm"/></p>
+
+                <div class="informaltable">
+                    <table border="1"><colgroup><col width="150" align="left"/><col width="150" align="left"/><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left"> </th><th align="left">TRUE</th><th align="left">FALSE</th><th>UNKNOWN</th></tr></thead><tbody><tr><td align="left"><span><strong class="guibutton">NOT</strong></span></td><td align="left">FALSE</td><td align="left">TRUE</td><td>UNKNOWN</td></tr></tbody></table>
+                  </div>
+              </li></ul></div><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                <p>AND 연산자의 진리표<a id="d5e6751" class="indexterm"/></p>
+
+                <div class="informaltable">
+                    <table border="1"><colgroup><col width="150" align="left"/><col width="150" align="left"/><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">AND</th><th align="left">TRUE</th><th align="left">FALSE</th><th>UNKNOWN</th></tr></thead><tbody><tr><td align="left"><span><strong class="guibutton">TRUE</strong></span></td><td align="left">TRUE</td><td align="left">FALSE</td><td>UNKNOWN</td></tr><tr><td align="left"><span><strong class="guibutton">FALSE</strong></span></td><td align="left">FALSE</td><td align="left">FALSE</td><td>FALSE</td></tr><tr><td align="left"><span><strong class="guibutton">UNKNOWN</strong></span></td><td align="left">UNKNOWN</td><td align="left">FALSE</td><td>UNKNOWN</td></tr></tbody></table>
+                  </div>
+              </li></ul></div><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                <p>OR 연산자의 진리표<a id="d5e6788" class="indexterm"/></p>
+
+                <div class="informaltable">
+                    <table border="1"><colgroup><col width="150" align="left"/><col width="150" align="left"/><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">OR</th><th align="left">TRUE</th><th align="left">FALSE</th><th>UNKNOWN</th></tr></thead><tbody><tr><td align="left"><span><strong class="guibutton">TRUE</strong></span></td><td align="left">TRUE</td><td align="left">TRUE</td><td>TRUE</td></tr><tr><td align="left"><span><strong class="guibutton">FALSE</strong></span></td><td align="left">TRUE</td><td align="left">FALSE</td><td>UNKNOWN</td></tr><tr><td align="left"><span><strong class="guibutton">UNKNOWN</strong></span></td><td align="left">TRUE</td><td align="left">UNKNOWN</td><td>UNKNOWN</td></tr></tbody></table>
+                  </div>
+              </li></ul></div>
+        </li><li>
+          <p>비교 연산자<a id="d5e6824" class="indexterm"/><a id="d5e6827" class="indexterm"/></p>
+
+          <p>비교 연산자는 피연산자로 임의의 산술 값이나 문자열, 리스트 등이 올 수 있다. 비교 연산자는 단일 값 간의
+          비교와 단일 값과 리스트와의 비교를 위한 연산자로 나눌 수 있다.</p>
+
+          <p>다음의 표는 <span>Tibero</span>에서 제공하는 단일 값 간의 산술 비교
+          연산자를 나타낸다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">연산자</th><th>설명</th></tr></thead><tbody><tr><td align="left">=</td><td>두 값이 서로 같은지를 나타내는 이항 연산자</td></tr><tr><td align="left">!=, ^=, ~=, &lt;&gt;</td><td>두 값이 서로 다른지를 나타내는 이항 연산자</td></tr><tr><td align="left">&gt;, &lt;</td><td>두 값의 대소비교를 통해 크거나 작은지를 나타내는 이항 연산자</td></tr><tr><td align="left">&gt;=, &lt;=</td><td>두 값의 대소비교를 통해 크거나 같은지 또는 작거나 같은지를 나타내는 이항 연산자</td></tr></tbody></table>
+          </div>
+
+          <p>단일 값과 리스트와의 비교를 위한 연산자로는 산술 비교 연산자와 ANY, SOME, ALL이 결합된
+          연산자(&gt; ALL, = SOME 등)과 IN 연산자 등이 있다. 이러한 비교 연산자를 포함하는 조건식의 의미와 문법에
+          대해서는 <a href="ch_sql_expressions.html#sect_conditions" title="3.4. 조건식">“3.4. 조건식”</a>에서 구체적으로 설명한다.</p>
+        </li><li>
+          <p>연산자 우선순위</p>
+
+          <p>하나의 연산식 내에 여러 연산자가 혼용될 수 있다. 이러한 경우 어떤 연산자를 먼저 계산할 것인지에 대한 순서가
+          정해져 있다. 이러한 순서를 연산자 <a id="d5e6857" class="indexterm"/>우선순위(Operator Precedence)라고 한다.</p>
+
+          <p>다음의 표는 <span>Tibero</span>에서 제공하는 연산자 간의
+          우선순위<a id="d5e6862" class="indexterm"/>를 나타낸다. 위쪽의 연산자일수록 우선순위가 높다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col width="250" align="left"/><col/></colgroup><thead><tr><th align="left">우선순위</th><th align="left">연산자</th><th>설명</th></tr></thead><tbody><tr><td align="left">1</td><td align="left">+, -</td><td>숫자의 부호를 나타내는 단항 연산자</td></tr><tr><td align="left">2</td><td align="left">*, /</td><td>산술 연산자</td></tr><tr><td align="left">3</td><td align="left">+, -</td><td>산술 연산자</td></tr><tr><td align="left">4</td><td align="left">=, !=, ^=, ~=, &lt;&gt;, &lt;, &gt;, &lt;=,
+                  &gt;=</td><td>비교 연산자</td></tr><tr><td align="left">5</td><td align="left">LIKE, BETWEEN, IN, EXISTS, IS NULL</td><td>비교 연산자</td></tr><tr><td align="left">6</td><td align="left">NOT</td><td>논리 연산자(단항 연산자)</td></tr><tr><td align="left">7</td><td align="left">AND</td><td>논리 연산자</td></tr><tr><td align="left">8</td><td align="left">OR</td><td>논리 연산자</td></tr></tbody></table>
+          </div>
+
+          <p>산술 연산자(+, -, *, /)와 논리 연산자(AND, OR)의 경우 여러 개가 나열될 수 있다. 이런 경우
+          우선순위가 같다면 왼쪽에 있는 연산자부터 먼저 계산한다. 비교 연산자와 단항 연산자는 여러 개가 나열될 수 없다. 연산자
+          간의 우선순위에 관계 없이 괄호로 둘러싸인 식이 먼저 계산된다. 중첩된 괄호의 경우 안쪽 괄호의 식을 먼저 계산한다. 계산
+          순서를 확실히 나타내기 위한 경우에 괄호를 사용하는 것이 좋다.</p>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_expressions"/>3.3. 연산식</h2></div></div></div>
+    
+
+    <p>연산식은 여러 가지 SQL 문장 내에서 사용된다. 본 장의 개요 부분에서 설명했듯이 연산식은 연산자와 피연산자, 함수
+    등으로 구성된다.</p>
+
+    <p>다음은 연산식을 포함하는 SQL 문장이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>SELECT 문 내의 SELECT 절(리스트)</p>
+      </li><li>
+        <p>SELECT, UPDATE, DELETE 문 내의 WHERE 절(조건식)</p>
+      </li><li>
+        <p>SELECT 문 내의 HAVING 절(조건식)</p>
+      </li><li>
+        <p>SELECT 문 내의 ORDER BY 절(리스트)</p>
+      </li><li>
+        <p>INSERT 문 내의 VALUES 절(리스트)</p>
+      </li><li>
+        <p>UPDATE 문 내의 SET 절(할당 연산식)</p>
+      </li></ul></div>
+
+    <div class="literallayout"><p/></div>
+
+    <p>리스트 형태의 연산식인 경우에 SELECT 문의 SELECT 절과 ORDER BY 절에서는 괄호로 묶여지지 않으나,
+    INSERT 문의 VALUES 절에서는 반드시 괄호로 묶어야 한다. UPDATE 문의 SET 절에 포함되는 할당 연산식은 등호(=)를
+    이용한 비교 연산식과 동일한 문법을 가지나, 등호의 왼쪽에는 반드시 컬럼의 이름이 와야 한다.</p>
+
+    <p><span>Tibero</span>에서 사용할 수
+    있는 연산식은 단순 연산식(Simple Expression), 복합 연산식(Compound Expression),
+    함수(Function), 부질의 연산식(Subquery Expression), 리스트(List) 등이 있다.
+    </p><div class="literallayout"><p/></div><p>연산식의 세부 내용은 다음과 같다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>문법</p>
+
+        <div class="informalfigure">
+          <div xmlns="" class="mediaobject"><img src="resources/expr.png"/></div>
+        </div>
+      </li><li>
+        <p>구성요소</p>
+
+        <div class="informaltable">
+          <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">simple_expr</td><td>단순 연산식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_simple_expr" title="3.3.2. 단순 연산식">“3.3.2. 단순 연산식”</a>을 참고한다.</td></tr><tr><td align="left">compound_expr</td><td>복합 연산식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_compound_expr" title="3.3.3. 복합 연산식">“3.3.3. 복합 연산식”</a>을 참고한다.</td></tr><tr><td align="left">case_expr</td><td>CASE 연산식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_case_expr" title="3.3.4. CASE 연산식">“3.3.4. CASE 연산식”</a>을 참고한다.</td></tr><tr><td align="left">function</td><td>함수를 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_function" title="3.3.5. 함수">“3.3.5. 함수”</a>를
+                참고한다.</td></tr><tr><td align="left">subquery</td><td><p>부질의 연산식을 의미한다. 부질의 연산식은 항상 소괄호(( ))로 묶인다.
+                </p><p>자세한 내용은 <a href="ch_sql_expressions.html#sect_subquery_expression" title="3.3.6. 부질의 연산식">“3.3.6. 부질의 연산식”</a>을 참고한다.</p></td></tr><tr><td align="left">variable_expr</td><td>변수를 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_variable_expr" title="3.3.7. 변수">“3.3.7. 변수”</a>를 참고한다.</td></tr></tbody></table>
+        </div>
+      </li></ul></div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="data_type_conversion"/>3.3.1. 연산식의 변환</h3></div></div></div>
+      
+
+      <p>연산식 내의 피연산자의 데이터 타입이 연산자가 요구하는 타입이 아닌 경우 <span>Tibero</span>에서는 가능하면 <a id="d5e6979" class="indexterm"/>데이터 타입의 변환을 수행한다.</p>
+
+      <p>다음의 두 라인은 데이터 타입의 변환의 예이다.</p>
+
+      <pre class="programlisting">'30' + 50 = 80
+
+'YEAR' || 2004 = 'YEAR2004'</pre>
+
+      <p>첫 번째 라인에서 덧셈(+) 연산자의 피연산자는 NUMBER 타입이어야 하나 문자열 '30'이 온 경우 이를 먼저
+      NUMBER 타입으로 변환한 후에 계산하게 된다. 두 번째 라인에서 접합(||) 연산자의 피연산자는 문자열 타입이어야 하나
+      NUMBER 타입의 2004가 온 경우 이를 먼저 문자열로 변환한 후에 연산을 수행한다.</p>
+
+      <p>모든 데이터 타입 간의 변환이 가능한 것은 아니며, 연산식의 계산 과정에서 데이터 타입의 변환이 불가능한 경우에는
+      에러를 반환한다. 데이터 타입의 변환이 가능하더라도 실제 값에 따라 에러가 발생할 수 있다. 예를 들어 문자열 '1234'는
+      NUMBER 타입으로 변환 가능하나, 'ABC'는 변환 불가능하다. 대용량 객체는 데이터 타입의 변환이 불가능하다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음의 표는 데이터 타입의 변환<a id="d5e6988" class="indexterm"/>이 가능한 조합을 보여주고 있다. 세로로 나열된 타입이 변환 전의 타입이며, 가로로 나열된 타입이 변환
+      후의 타입이다.</p>
+
+      
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="4*" align="left"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/><col width="2*" align="center"/></colgroup><thead><tr><th align="left"><p>데이터</p><p>타입</p></th><th align="center">NUMBER</th><th align="center">CHAR</th><th align="center">VARCHAR</th><th align="center">RAW</th><th align="center">DATE</th><th align="center">TIME</th><th align="center">TIMESTAMP</th><th align="center">INTERVAL</th><th align="center">LONG</th><th align="center">LONG RAW</th><th align="center">BLOB</th><th align="center">CLOB</th><th align="center">ROWID</th><th align="center">BINARY_ FLO AT</th><th align="center">BINARY_ DOU BLE</th></tr></thead><tbody><tr><td align="left"><span><strong class="guibutton">NUMBER</strong></span></td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">O</td><td align="center">O</td></tr><tr><td align="left"><span><strong class="guibutton">CHAR</strong></span></td><td align="center">O</td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td></tr><tr><td align="left"><span><strong class="guibutton">VARCHAR</strong></span></td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td></tr><tr><td align="left"><span><strong class="guibutton">RAW</strong></span></td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td align="left"><span><strong class="guibutton">DATE</strong></span></td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td align="left"><span><strong class="guibutton">TIME</strong></span></td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td align="left"><span><strong class="guibutton">TIMESTAMP</strong></span></td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td align="left"><span><strong class="guibutton">INTERVAL</strong></span></td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td align="left"><span><strong class="guibutton">LONG</strong></span></td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td align="left"><span><strong class="guibutton">LONG RAW</strong></span></td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td align="left"><span><strong class="guibutton">BLOB</strong></span></td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td align="left"><span><strong class="guibutton">CLOB</strong></span></td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td align="left"><span><strong class="guibutton">ROWID</strong></span></td><td align="center">-</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td align="left"><span><strong class="guibutton">BINARY_ FLOAT</strong></span></td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td></tr><tr><td align="left"><span><strong class="guibutton">BINARY_ DOUBLE</strong></span></td><td align="center">O</td><td align="center">O</td><td align="center">O</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">O</td><td align="center">-</td></tr></tbody></table>
+      </div>
+
+      
+
+      
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_simple_expr"/>3.3.2. 단순 연산식</h3></div></div></div>
+      
+
+      <p><a id="d5e7303" class="indexterm"/><a id="d5e7306" class="indexterm"/>단순 연산식은 연산자 또는 함수를 포함하지 않고 하나의 피연산자만으로 이루어진 연산식이다. 도식에 나타난
+      것처럼 피연산자는 특정 테이블 컬럼, ROWID 타입, 문자열 또는 수치 값, NULL 값 등이다.</p>
+
+      <p>단순 연산식에서 스키마 이름, 테이블과 뷰의 이름, 컬럼 이름, NULL은 영문 대문자와 소문자를 구분하지 않는다.
+      반면에, 작은따옴표(' ')로 둘러싸인 문자열은 대소문자를 구분한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>단순 연산식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/simple_expr.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">schema</td><td>스키마의 이름을 의미한다.</td></tr><tr><td align="left">table</td><td>테이블의 이름을 의미한다.</td></tr><tr><td align="left">view</td><td>뷰의 이름을 의미한다.</td></tr><tr><td align="left">column</td><td>컬럼의 이름을 의미한다.</td></tr><tr><td align="left">text</td><td>문자열을 의미한다.</td></tr><tr><td align="left">number</td><td>수치 데이터 값을 의미한다.</td></tr><tr><td align="left">sequence</td><td>시퀀스의 이름을 의미한다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_compound_expr"/>3.3.3. 복합 연산식</h3></div></div></div>
+      
+
+      <p><a id="d5e7354" class="indexterm"/><a id="d5e7357" class="indexterm"/>복합 연산식은 하나 이상의 연산식을 결합한 복잡한 형태의 연산식이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>복합 연산식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p><div class="informalfigure">
+              <div xmlns="" class="mediaobject"><img src="resources/compound_expr.png"/></div>
+            </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">expr</td><td>expr은 일반적인 연산식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_expressions" title="3.3. 연산식">“3.3. 연산식”</a>을 참고한다.</td></tr><tr><td align="left">+, -</td><td>숫자의 부호를 나타내는 단항 연산자(+, -)를 의미한다.</td></tr><tr><td align="left">PRIOR</td><td>로우 간의 상하 관계를 나타내기 위한 연산자이다. 자세한 내용은 <a href="ch_sql_queries.html#sect_hierarchical_query" title="5.5. 계층 질의">“5.5. 계층 질의”</a>를 참고한다.</td></tr><tr><td align="left">*, /, +, -, ||</td><td>산술 연산자(*, /, +, -)와 문자열 접합 연산자(||)를 의미한다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_case_expr"/>3.3.4. CASE 연산식</h3></div></div></div>
+      
+
+      <p>CASE 연산식은 SQL 문장에서 IF... THEN ... ELSE 로직을 표현한다.
+      simple_when_clause를 사용하면 expr, comparison_expr, return_expr 그리고
+      else_clause를 합해서 최대 65535까지 표현식을 사용할 수 있다. searched_when_clause를 사용하면
+      condition, return_expr, else_clause를 합해서 최대 65535까지 표현식을 사용할 수
+      있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>CASE 연산식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/case_expr.png"/></div>
+          </div>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/simple_when_clause.png"/></div>
+          </div>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/searched_when_clause.png"/></div>
+          </div>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/else_clause.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">simple_when_clause</td><td><p>WHEN ... THEN 쌍에서 명시된 순서대로 comparison_expr과
+                  expr을 비교하고 결과가 같다면 해당 THEN 절의 return_expr을 반환한다.
+                  </p><p>모든 comparison_expr과의 비교가 실패한다면. else_clause에 있는
+                  else_expr이 반환된다. else_clause가 없다면 NULL이 반환된다.</p></td></tr><tr><td align="left">searched_when_clause</td><td><p>WHEN ... THEN 쌍에 대해서 명시된 순서대로 condition을 평가하게
+                  되고 결과가 TRUE이면 해당 THEN 절의 return_expr을 반환한다.
+                  </p><p>TRUE로 평가되는 condition이 없다면 else_clause에 명시된
+                  else_expr이 반환된다. else_clause가 없다면 NULL이 반환된다.</p></td></tr><tr><td align="left">comparison_expr</td><td>비교 연산자를 의미한다. expr과 모든 comparison_expr은 동일한 타입이어야 한다.
+                  자세한 내용은 <a href="ch_sql_expressions.html#sect_condition_operator" title="3.2.2. 조건식에 포함되는 연산자">“3.2.2. 조건식에 포함되는 연산자”</a>를
+                  참고한다.</td></tr><tr><td align="left">condition</td><td>조건식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_conditions" title="3.4. 조건식">“3.4. 조건식”</a>을 참고한다.</td></tr><tr><td align="left">return_expr</td><td>simple_when_cluase의 비교 결과와 searched_when_clause의 조건식을
+                  만족할 경우에 return_expr을 반환한다. 모든 return_expr과 else_expr도 동일한
+                  타입이어야 한다.</td></tr><tr><td align="left">else_clause</td><td>simple_when_clause의 비교 결과와 searched_when_cluase의 조건식을
+                  만족하지 못할 경우에 else_clause에 있는 else_expr이 반환된다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>다음은 CASE 연산식의 예이다.</p>
+
+          <pre class="programlisting">SELECT CASE WHEN age &gt; 19 THEN 'adult' ELSE 'minor' END FROM people;</pre>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_function"/>3.3.5. 함수</h3></div></div></div>
+      
+
+      <p><a id="d5e7470" class="indexterm"/><a id="d5e7473" class="indexterm"/>함수 연산식은 함수 이름과 괄호 안에 포함된 0개 이상의 파라미터로 구성된다. 파라미터는 콤마(,)로
+      구분하며, 파라미터가 0개인 경우에는 괄호를 생략할 수도 있다. <span>Tibero</span>에서는 다양한 단일 로우 함수(Single Row
+      Function)와 집단 함수(Aggregate Function)를 제공하고 있다.</p>
+
+      <p>다음은 함수를 사용한 예이다.</p>
+
+      <pre class="programlisting">ROUND(123.456, 2)
+LENGTH(ADDR)
+SYSDATE
+AVG(EMP.SALARY)</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_subquery_expression"/>3.3.6. 부질의 연산식</h3></div></div></div>
+      
+
+      <p><a id="d5e7481" class="indexterm"/><a id="d5e7484" class="indexterm"/>부질의 연산식은 연산식 내에 SELECT 문이 포함된 것을 말한다. 일반적으로, SELECT 문은 1개
+      이상의 컬럼 값을 갖는 0개 이상의 로우를 반환한다. 하지만, 연산식 내에 포함되는 SELECT 문은 반드시 1개의 컬럼 값을
+      갖는 1개의 로우를 반환해야 한다. 만약 이러한 조건이 충족되지 않으면 연산식이 계산되는 중에 에러를 반환한다.</p>
+
+      <p>다음은 부질의 연산식의 예이다.</p>
+
+      <pre class="programlisting">(SELECT MAX(SALARY) FROM EMP WHERE DEPTNO = 5) * 1.05</pre>
+
+      <p>부질의 연산식은 항상 괄호 안에 둘러싸여야 한다. SELECT 문의 SELECT 절에 1개의 컬럼만 포함되어 있고,
+      질의 실행 결과 최댓값 1개만 반환된다. 따라서, 에러 없이 계산할 수 있다.</p>
+
+      <p>부질의 연산식은 SQL 문장 내에서 단순 연산식이 올 수 있는 대부분의 위치에 올 수 있다. 하지만, 아래와 같은
+      <a id="d5e7490" class="indexterm"/>위치에는 부질의 연산식이 올 수 없다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>SELECT 문의 GROUP BY 절</p>
+        </li><li>
+          <p>컬럼의 디폴트 값</p>
+        </li><li>
+          <p>CHECK 제약조건의 조건식</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_variable_expr"/>3.3.7. 변수</h3></div></div></div>
+      
+
+      <p>변수는 호스트 변수와 지시자, 지시자 변수로 구성된다. <span>tbESQL</span> 문장에 사용하며 프로그램의 데이터 입출력에 사용된다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>변수의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/variable_expr.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+              <table border="1"><colgroup><col width="130" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">host_variable</td><td><p>호스트 변수를 의미한다. 콜론(:)과 함께 쓰인다.
+                    </p><p>데이터베이스에서는 데이터의 처리 결과를 저장하기 위해 사용하고, 애플리케이션
+                    프로그램에서는 변수로 사용된다.</p></td></tr><tr><td align="left">INDICATOR</td><td>지시자를 의미한다.</td></tr><tr><td align="left">indicator_variable</td><td><p>지시자 변수를 의미한다. </p><p>호스트 변수와 관계되어 사용하는
+                    변수로 출력되는 호스트 변수의 NULL 값 확인 및 에러 검사를 하기 위해 사용한다.
+                    </p><p>호스트 변수와 마찬가지로 콜론(:)과 함께 쓰인다.</p></td></tr></tbody></table>
+            </div>
+        </li></ul></div>
+
+      <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p>변수에 관한 자세한 내용은 사용하는 프로그래밍 언어에 따라 "<span>Tibero</span> <span>tbESQL</span>/C 안내서"와 "<span>Tibero</span> <span>tbESQL</span>/COBOL 안내서"를 참고한다.</p>
+      </div>
+
+      
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_list"/>3.3.8. 리스트</h3></div></div></div>
+      
+
+      <p><a id="d5e7549" class="indexterm"/>리스트는 하나 이상의 연산식을 콤마(,)로 구분하여 나열한 것이다. 리스트는 SQL 문장 내의 위치에
+      따라 괄호에 둘러싸일 수도 있다. SELECT, UPDATE, DELETE 문장의 WHERE 절에 포함되는 리스트와 INSERT
+      문장의 VALUES 절에 포함되는 리스트는 괄호에 둘러싸인다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>리스트의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div xmlns="" class="mediaobject"><img src="resources/expr_list.png"/></div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="110" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">expr</td><td>expr은 일반적인 연산식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_expressions" title="3.3. 연산식">“3.3. 연산식”</a>을 참고한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>다음은 조건식의 예이다.</p>
+
+          <pre class="programlisting">EMPNO, ENAME, ADDR
+(35, 'John', 'Houston')
+(20, 30, 50)</pre>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_conditions"/>3.4. 조건식</h2></div></div></div>
+    
+
+    <p>조건식은 SELECT, UPDATE, DELETE 문장의 WHERE 절과 SELECT 문의 HAVING 절에 포함된다.
+    <span>Tibero</span>에서 사용할 수 있는 조건식은 단순 조건식(Simple
+    Condition), 그룹 조건식(Group Condition), 복합 조건식(Compound Condition), 비교
+    조건식(Comparison Condition) 등이 있다. 비교 조건식은 비교 연산자에 따라 BETWEEN, EXISTS, IN,
+    IS NULL, LIKE 조건식 등이 있다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>조건식의 세부 내용은 다음과 같다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>문법</p>
+
+        <div class="informalfigure">
+          <div xmlns="" class="mediaobject"><img src="resources/condition.png"/></div>
+        </div>
+      </li><li>
+        <p>구성요소</p>
+
+        <div class="informaltable">
+          <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">simple_comparison_condition</td><td>단순 조건식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_simple_comparison_condition" title="3.4.1. 단순 조건식">“3.4.1. 단순 조건식”</a>을 참고한다.</td></tr><tr><td align="left">group_comparison_condition</td><td>그룹 조건식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_group_comparison_condition" title="3.4.2. 그룹 조건식">“3.4.2. 그룹 조건식”</a>을 참고한다.</td></tr><tr><td align="left">compound_condition</td><td>복합 조건식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_compound_condition" title="3.4.3. 복합 조건식">“3.4.3. 복합 조건식”</a>을 참고한다.</td></tr><tr><td align="left">between_condition</td><td>BETWEEN 조건식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_between_condition" title="3.4.4. BETWEEN 조건식">“3.4.4. BETWEEN 조건식”</a>을 참고한다.</td></tr><tr><td align="left">exists_condition</td><td>EXISTS 조건식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_exists_condition" title="3.4.5. EXISTS 조건식">“3.4.5. EXISTS 조건식”</a>을 참고한다.</td></tr><tr><td align="left">in_condition</td><td>IN 조건식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_in_condition" title="3.4.6. IN 조건식">“3.4.6. IN 조건식”</a>을 참고한다.</td></tr><tr><td align="left">is_null_condition</td><td>IS NULL 조건식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_is_null_condition" title="3.4.7. IS NULL 조건식">“3.4.7. IS NULL 조건식”</a>을 참고한다.</td></tr><tr><td align="left">like_condition</td><td>LIKE 조건식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_like_condition" title="3.4.8. LIKE 조건식">“3.4.8. LIKE 조건식”</a>을 참고한다.</td></tr><tr><td align="left">regexp_like_condition</td><td>REGEXP_LIKE 조건식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_regexp_like_condition" title="3.4.9. REGEXP_LIKE 조건식">“3.4.9. REGEXP_LIKE 조건식”</a>을 참고한다.</td></tr></tbody></table>
+        </div>
+      </li></ul></div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_simple_comparison_condition"/>3.4.1. 단순 조건식<a id="d5e7643" class="indexterm"/><a id="d5e7646" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>단순 조건식은 두 개의 데이터 값을 비교하는 조건식이다. 단순 조건식의 피연산자는 다음의 도식에서처럼 임의의 일반
+      연산식이 올 수 있다. 피연산자 중의 하나라도 NULL이 포함된 단순 조건식은 항상 UNKNOWN을 반환한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>단순 조건식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+            <p>문법</p>
+
+            <div class="informalfigure">
+              <div xmlns="" class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="536"><tr><td><img src="resources/simple_comparison_condition.png" width="536"/></td></tr></table></div>
+            </div>
+          </li><li>
+            <p>구성요소</p>
+
+            <div class="informaltable">
+              <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">expr</td><td>expr은 일반적인 연산식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_expressions" title="3.3. 연산식">“3.3. 연산식”</a>을 참고한다.</td></tr><tr><td align="left">subquery</td><td>부질의를 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_subquery_expression" title="3.3.6. 부질의 연산식">“3.3.6. 부질의 연산식”</a>을 참고한다.</td></tr><tr><td align="left">=, !=, ^=, ~=, &lt;&gt;, &lt;, &gt;, &gt;=,
+                    &lt;=</td><td>비교연산자이다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_operator" title="3.2. 연산자">“3.2. 연산자”</a>를
+                    참고한다.</td></tr></tbody></table>
+            </div>
+          </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_group_comparison_condition"/>3.4.2. 그룹 조건식</h3></div></div></div>
+      
+
+      <p><a id="d5e7686" class="indexterm"/><a id="d5e7689" class="indexterm"/>그룹 조건식은 하나의 데이터 값과 리스트에 포함된 값을 비교하는 연산을 수행한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>그룹 조건식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/group_comparison_condition.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">expr</td><td>expr은 일반적인 연산식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_expressions" title="3.3. 연산식">“3.3. 연산식”</a>을 참고한다.</td></tr><tr><td align="left">expr_list</td><td>expr_list는 리스트를 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_list" title="3.3.8. 리스트">“3.3.8. 리스트”</a>를 참고한다.</td></tr><tr><td align="left">subquery</td><td>부질의를 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_subquery_expression" title="3.3.6. 부질의 연산식">“3.3.6. 부질의 연산식”</a>을 참고한다.</td></tr><tr><td align="left">ANY<a id="d5e7726" class="indexterm"/><a id="d5e7729" class="indexterm"/></td><td>ANY가 포함된 그룹 조건식의 경우 왼쪽의 데이터 값이 오른쪽의 리스트 내의 값 중 최소한
+                  하나만 단순 비교 연산자를 만족하면 그룹 조건식은 TRUE를 반환한다.</td></tr><tr><td align="left">SOME<a id="d5e7734" class="indexterm"/><a id="d5e7737" class="indexterm"/></td><td>SOME이 포함된 그룹 조건식의 경우 ANY와 마찬가지로 왼쪽의 데이터 값이 오른쪽의 리스트
+                  내의 값 중 최소한 하나만 단순 비교 연산자를 만족하면 그룹 조건식은 TRUE를 반환한다.</td></tr><tr><td align="left">ALL<a id="d5e7742" class="indexterm"/><a id="d5e7745" class="indexterm"/></td><td>ALL이 포함된 그룹 조건식의 경우 왼쪽의 데이터 값이 오른쪽의 리스트 내의 모든 값에 대해
+                  단순 비교 연산자를 만족해야 그룹 조건식이 TRUE를 반환한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>다음은 그룹 조건식의 예이다.</p>
+
+          <pre class="programlisting">EMPNO = ANY (35, 54, 27, 69)
+SALARY * 1.05 &gt;= ALL (SELECT SALARY FROM EMP WHERE DEPTNO = 5)</pre>
+
+          <p>위의 예에서 첫 번째 줄은 컬럼 EMPNO 값이 리스트 내의 값 중 하나라도 동일하면 TRUE, 그렇지 않으면
+          FALSE를 반환한다. 두 번째 줄은 컬럼 SALARY 값에 1.05를 곱한 값이 오른쪽 부질의 결과로 반환되는 모든
+          값보다 크거나 같으면 TRUE, 그렇지 않으면 FALSE를 반환한다.</p>
+
+          <p>오른쪽 리스트 내에 NULL이 포함된 경우 ANY 연산자가 포함된 그룹 조건식은 항상 TRUE 또는
+          UNKNOWN을 반환하고, ALL 연산자가 포함된 그룹 조건식은 항상 FALSE 또는 UNKNOWN을
+          반환한다.</p>
+
+          <p>예를 들어 다음의 두 줄은 같은 결과를 반환한다.</p>
+
+          <pre class="programlisting">DEPTNO != ALL (4, 5, NULL)
+(DEPTNO != 4) AND (DEPTNO != 5) AND (DEPTNO != NULL)</pre>
+
+          <p>만약 컬럼 DEPTNO 값이 4 또는 5인 경우 두 번째 줄에서 NULL과 비교하는 마지막 단순 조건식의 결과가
+          UNKNOWN이 되고, 전체 조건식의 결과도 AND 연산자로 연결되어 있으므로 UNKNOWN이 된다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_compound_condition"/>3.4.3. 복합 조건식</h3></div></div></div>
+      
+
+      <p><a id="d5e7760" class="indexterm"/><a id="d5e7763" class="indexterm"/>복합 조건식은 복합 연산식과 마찬가지로 하나 이상의 조건식을 결합한 복잡한 형태의 조건식이다. 복합
+      조건식은 괄호로 묶은 조건식, NOT 연산자를 붙인 연산식, 논리 연산자(AND, OR)로 결합한 조건식 등이 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>복합 조건식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/compound_condition.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">condition</td><td>condition은 조건식을 의미하며, 자세한 내용은 <a href="ch_sql_expressions.html#sect_conditions" title="3.4. 조건식">“3.4. 조건식”</a>의 도입부에 기술되어 있다.</td></tr><tr><td align="left">NOT, AND, OR</td><td>논리 연산자 NOT, AND, OR이다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_condition_operator" title="3.2.2. 조건식에 포함되는 연산자">“3.2.2. 조건식에 포함되는 연산자”</a>를 참고한다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_between_condition"/>3.4.4. BETWEEN 조건식<a id="d5e7796" class="indexterm"/><a id="d5e7799" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>BETWEEN 연산자는 왼쪽의 수치 값이 오른쪽의 두 수치 값 사이에 존재하는지 비교하는 연산자이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>BETWEEN 조건식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/between_condition.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">expr1, expr2, expr3</td><td><p>expr1, expr2, expr3은 모두 수치 값을 반환하는 임의의 연산식이다.
+                  </p><p>expr1, expr2, exrp3 중에서 하나라도 NULL이 오면, BETWEEN
+                  조건식의 결과는 항상 FALSE 또는 UNKNOWN을 반환한다.</p></td></tr><tr><td align="left">BETWEEN ... AND</td><td>BETWEEN 연산자는 항상 AND를 동반하며, 왼쪽의 수치 값이 오른쪽의 두 수치 값 사이에
+                  존재하는지 비교하는 연산자이다.</td></tr><tr><td align="left">NOT</td><td>BETWEEN 예약어 앞에 NOT이 오면 BETWEEN 연산자 결과에 NOT 연산을 수행한
+                  결과를 반환한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>BETWEEN 조건식은 두 개의 산술 조건식을 AND 연산자로 연결한 것과 같은 결과를 반환한다.</p>
+
+          <p>예를 들어 다음의 두 줄은 같은 결과를 반환한다.</p>
+
+          <pre class="programlisting">SALARY BETWEEN 30000 AND 50000
+(SALARY &gt;= 30000) AND (SALARY &lt;= 50000)</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_exists_condition"/>3.4.5. EXISTS 조건식<a id="d5e7841" class="indexterm"/><a id="d5e7844" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>EXISTS 연산자는 오른쪽의 부질의를 실행한 결과가 하나 이상의 로우를 반환하면 TRUE, 그렇지 않으면 FALSE를
+      반환한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>EXISTS 조건식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/exists_condition.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">EXISTS</td><td>EXISTS 연산자의 오른쪽 subquery를 실행한 결과가 하나 이상의 로우를 반환하면
+                  TRUE, 그렇지 않으면 FALSE를 반환한다.</td></tr><tr><td align="left">subquery</td><td>subquery는 부질의를 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_subquery_expression" title="3.3.6. 부질의 연산식">“3.3.6. 부질의 연산식”</a>을 참고한다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_in_condition"/>3.4.6. IN 조건식<a id="d5e7877" class="indexterm"/><a id="d5e7880" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>IN 연산자는 왼쪽의 데이터 값이 오른쪽의 리스트 내에 포함되어 있는지 비교하는 연산자이다. IN 조건식의 문법은
+      다음의 도식과 같다. expr, expr_list, subquery는 <a href="ch_sql_expressions.html#sect_expressions" title="3.3. 연산식">“3.3. 연산식”</a>에서 정의하였다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>IN 조건식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/in_condition.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>내용</th></tr></thead><tbody><tr><td align="left">expr</td><td>expr은 일반적인 연산식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_expressions" title="3.3. 연산식">“3.3. 연산식”</a>을 참고한다.</td></tr><tr><td align="left">NOT</td><td><p>논리 연산자 NOT을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_condition_operator" title="3.2.2. 조건식에 포함되는 연산자">“3.2.2. 조건식에 포함되는 연산자”</a>를 참고한다. </p><p>IN
+                  앞에 NOT이 오면 IN 연산 결과에 NOT 연산을 수행한 결과를 반환한다.</p></td></tr><tr><td align="left">IN</td><td>IN 연산자는 왼쪽의 데이터 값이 오른쪽의 리스트 내에 포함되어 있는지 비교하는
+                  연산자이다.</td></tr><tr><td align="left">expr_list</td><td><p>expr 리스트를 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_list" title="3.3.8. 리스트">“3.3.8. 리스트”</a>를 참고한다. </p><p>expr_list 자체는 괄호에
+                  둘러싸여 있어서는 안 된다.</p></td></tr><tr><td align="left">subquery</td><td>subquery는 부질의를 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_subquery_expression" title="3.3.6. 부질의 연산식">“3.3.6. 부질의 연산식”</a>을 참고한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>IN 조건식은 ' = ANY' 또는 '= SOME' 연산자를 이용한 그룹 조건식으로 변환할 수
+          있다.</p>
+
+          <p>예를 들어 다음의 두 줄은 같은 결과를 반환한다.</p>
+
+          <pre class="programlisting">EMPNO IN (35, 54, 27, 69)
+EMPNO = ANY (35, 54, 27, 69)</pre>
+
+          <p>IN 조건식이 = ANY 연산자가 포함된 그룹 조건식으로 변환될 수 있으므로, IN 연산자의 오른쪽 리스트 내에
+          NULL이 포함되어 있다면 IN 조건식은 항상 TRUE 또는 UNKNOWN을 반환한다. 반면에, NOT IN 조건식은 항상
+          FALSE 또는 UNKNOWN을 반환한다.</p>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+
+      
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_is_null_condition"/>3.4.7. IS NULL 조건식<a id="d5e7938" class="indexterm"/><a id="d5e7941" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>IS NULL 조건식은 왼쪽의 연산식의 결과가 NULL이면 TRUE, 그렇지 않으면 FALSE를 반환한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>IS NULL 조건식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/is_null_condition.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">expr</td><td>expr은 일반적인 연산식을 의미한다. 자세한 내용은 <a href="ch_sql_expressions.html#sect_expressions" title="3.3. 연산식">“3.3. 연산식”</a>을 참고한다.</td></tr><tr><td align="left">IS NULL</td><td>IS NULL 연산자는 왼쪽의 연산식의 결과가 NULL이면 TRUE, 그렇지 않으면 FALSE를
+                  반환한다.</td></tr><tr><td align="left">IS NOT NULL</td><td>IS NOT NULL 연산자는 IS NULL 연산자 결과에 NOT 연산을 수행한 결과를
+                  반환한다.</td></tr></tbody></table>
+          </div>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_like_condition"/>3.4.8. LIKE 조건식<a id="d5e7980" class="indexterm"/><a id="d5e7983" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>LIKE 조건식은 문자열 데이터 간의 패턴을 비교한다. LIKE 연산자는 등호 연산자와 마찬가지로 영문 대문자와
+      소문자를 구분한다. 예를 들어 문자열 'ABCDE'와 'abcde'는 서로 다른 문자열이며, 문자열 패턴 'A%'에 대하여 문자열
+      'ABCDE'는 대응되지만, 'abcde'는 대응되지 않는다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>LIKE 조건식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/like_condition.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">str_expr1, str_expr2</td><td>str_exp1, str_exp2는 문자열을 반환하는 임의의 연산식이며, 0 이상의 길이를
+                  갖는다.</td></tr><tr><td align="left">esc_char</td><td>esc_char는 이스케이프 문자를 반환하는 길이가 1인 임의의 문자이다.</td></tr><tr><td align="left">LIKE</td><td>LIKE 연산자는 문자열 데이터 간의 패턴을 비교하는 연산자이다. LIKE 연산자는 왼쪽에 오는
+                  문자열이 오른쪽에 오는 문자열 패턴에 일치하면 TRUE를 반환한다. 만약 str_expr1,
+                  str_expr2 중의 어떤 하나라도 NULL이면, LIKE 연산자는 UNKNOWN을
+                  반환한다.</td></tr><tr><td align="left">ESCAPE</td><td>와일드 카드(Wild Card)로 사용된 문자를 비교할 때는 이스케이프 문자를
+                  사용한다.</td></tr></tbody></table>
+          </div>
+
+          <p>두 문자열이 완전히 일치하는지 비교하는 데에는 등호(=) 연산자를 사용하는 반면, LIKE 연산자는 임의의 문자
+          또는 문자열에 대응되는 와일드 카드 문자열을 포함할 수 있다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">와일드 카드</th><th>설명</th></tr></thead><tbody><tr><td align="left">% (Percent)<a id="d5e8030" class="indexterm"/></td><td><p>길이가 0 이상인 임의의 문자열에 대응된다. </p><p>예를 들어 문자열
+                  패턴 'A%'에 대응되는 문자열은 'A', 'Allen', 'Alice' 등이
+                  있다.</p></td></tr><tr><td align="left">_(Underscore)<a id="d5e8037" class="indexterm"/></td><td><p>'_'는 1개의 문자에 대응된다. </p><p>예를 들어 문자열 패턴
+                  'A_'에 대응되는 문자열은 'AB', 'A1' 등이 있다. 문자열 'A', 'ABC', 'Allen' 등은
+                  문자열 패턴 'A_'에 대응되지 않는다.</p></td></tr></tbody></table>
+          </div>
+
+          <p>와일드 카드의 특징은 다음과 같다.</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>하나의 문자열 패턴에 하나 이상의 와일드 카드 문자를 포함할 수 있다.</p>
+            </li><li>
+              <p>와일드 카드로 사용된 문자를 비교할 때는 이스케이프 문자(escape character)를
+              사용한다.</p>
+
+              <p>예를 들어 'A_'로 시작되는 모든 문자열을 찾을 때는 문자열 패턴으로 'A\_%'를 사용한다. 이때,
+              백슬래시(\)가 이스케이프 문자로 사용된다. 이스케이프 문자로 사용된 백슬래시(\)를 비교하려면 이스케이프 문자를
+              두 번 반복해서 사용한다. 예를 들어 'C:\'로 시작되는 모든 문자열을 찾고자 한다면, 문자열 패턴으로
+              'C:\\%'를 사용한다.</p>
+
+              <p>이스케이프 문자는 정해져 있지 않으며 LIKE 연산자를 사용할 때마다 이스케이프 문자를 다르게 지정할 수
+              있다. 이스케이프 문자는 항상 길이가 1이어야 한다.</p>
+            </li></ul></div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_regexp_like_condition"/>3.4.9. REGEXP_LIKE 조건식<a id="d5e8052" class="indexterm"/><a id="d5e8055" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>REGEXP_LIKE 조건식은 정규표현식으로 된 문자열 패턴을 비교한다는 점을 제외하고는 LIKE와 동일하다. 이
+      기능은 ICU 정규 표현식 표준을 따른다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REGEXP_LIKE 조건식의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>문법</p>
+
+          <div class="informalfigure">
+            <div xmlns="" class="mediaobject"><img src="resources/regexp_like_condition.png"/></div>
+          </div>
+        </li><li>
+          <p>구성요소</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="140" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">source_str</td><td><p>문자열을 반환하는 임의의 연산식이다. </p><p>CHAR,
+                  VARCHAR2, NCHAR, NVARCHAR2 타입을 사용할 수 있다.</p></td></tr><tr><td align="left">pattern</td><td><p>정규표현식으로 작성된 문자열을 반환하는 임의의 연산식이다.
+                  </p><p>CHAR, VARCHAR2, NCHAR, NVARCHAR2 타입을 사용할 수 있고,
+                  만약 source_str과 타입이 다를 경우 source_str 타입으로
+                  변환된다.</p></td></tr><tr><td align="left">match_param</td><td><p>문자열을 반환하는 임의의 연산식으로 패턴을 검사할 방법을 설정한다.
+                  </p><p>다음과 같은 값을 사용할 수 있고, 여러 개를 동시에 지정할 수
+                  있다.</p><div class="itemizedlist"><ul type="circle" compact="compact"><li style="list-style-type: circle">
+                        <p>'i' : 대소문자를 구분하지 않는다.</p>
+                      </li><li style="list-style-type: circle">
+                        <p>'c' : 대소문자를 구분한다.</p>
+                      </li><li style="list-style-type: circle">
+                        <p>'n' : 점(.)이 줄바꿈 문자도 포함한다.</p>
+                      </li><li style="list-style-type: circle">
+                        <p>'m' : 입력문자열이 한줄 이상이다.</p>
+                      </li><li style="list-style-type: circle">
+                        <p>'x' : 공백문자를 무시한다.</p>
+                      </li></ul></div><p>예를 들어 'ic'와 같이 상호충돌하는 값을 지정하였을 경우엔 마지막값만
+                  사용한다. 즉, 'ic'는 대소문자를 구분한다.</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <p>다음은 REGEXP_LIKE 조건식을 사용하는 예이다.</p>
+
+          <pre class="programlisting">SQL&gt; SELECT 1 FROM DUAL WHERE REGEXP_LIKE('12345', '3.?4');
+
+         1
+----------
+         1
+
+1 row selected.</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch_sql_elements.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch_sql_functions.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제2장 SQL 문장의 구성요소 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제4장 함수</td></tr></table></div><div xmlns="" align="center"/></body></html>

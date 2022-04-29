@@ -1,5 +1,5 @@
 import { observable } from "mobx";
-import MessageDialog from "../components/MessageDialog";
+import MessageDialog from "../components/MessageDialog/MessageDialog";
 
 // Message Dialog를 공통으로 사용하기 위한 Store
 const messageDialogStore = observable({

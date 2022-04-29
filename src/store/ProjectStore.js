@@ -10,6 +10,13 @@ class ProjectStore {
   }
 
   @observable
+  _snackBar = {
+    state: false,
+    text: "",
+    type: "",
+  };
+
+  @observable
   _saveState = false;
 
   @observable
@@ -37,6 +44,49 @@ class ProjectStore {
     this.target = referenceData;
   }
 
+  saveProject() {
+    this.saveState = true;
+    setTimeout(() => {
+      this.saveState = false;
+      this.snackBar = {
+        state: true,
+        text: "프로젝트 저장 완료",
+        type: "success",
+      };
+    }, 2000);
+    setTimeout(() => {
+      this.snackBar = {
+        state: false,
+        text: "",
+        type: "",
+      };
+    }, 5000);
+  }
+
+  exportProject() {
+    this.exportState = true;
+    setTimeout(() => {
+      this.exportState = false;
+      this.snackBar = {
+        state: true,
+        text: "프로젝트 내보내기 완료",
+        type: "success",
+      };
+    }, 2000);
+    setTimeout(() => {
+      this.snackBar = {
+        state: false,
+        text: "",
+        type: "",
+      };
+    }, 5000);
+  }
+
+  @computed
+  get snackBar() {
+    return toJS(this._snackBar);
+  }
+
   @computed
   get saveState() {
     return toJS(this._saveState);
@@ -55,6 +105,10 @@ class ProjectStore {
   @computed
   get target() {
     return toJS(this._target);
+  }
+
+  set snackBar(value) {
+    this._snackBar = value;
   }
 
   set saveState(value) {

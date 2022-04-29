@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제4장 DataSource 객체와 데이터베이스 URL</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero JDBC 개발자 안내서"/><link rel="up" href="index.html" title="Tibero JDBC 개발자 안내서"/><link rel="prev" href="chapter_usage.html" title="제3장 tbJDBC의 사용"/><link rel="next" href="ch05.html" title="제5장 분산 트랜잭션"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제4장 DataSource 객체와 데이터베이스 URL</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_usage.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch05.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1484"/>제4장 DataSource 객체와 데이터베이스 URL</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="ch04.html#d5e1489">4.1. DataSource 객체</a></span></dt><dd><dl><dt><span class="section"><a href="ch04.html#d5e1499">4.1.1. DataSource 객체의 속성</a></span></dt><dt><span class="section"><a href="ch04.html#d5e1605">4.1.2. DataSource 객체의 추가 속성</a></span></dt></dl></dd><dt><span class="section"><a href="ch04.html#d5e1755">4.2. DataSource 객체를 이용한 연결</a></span></dt><dd><dl><dt><span class="section"><a href="ch04.html#d5e1760">4.2.1. JNDI를 사용하지 않는 방법</a></span></dt><dt><span class="section"><a href="ch04.html#d5e1772">4.2.2. JNDI를 사용한 방법</a></span></dt></dl></dd><dt><span class="section"><a href="ch04.html#d5e1798">4.3. 데이터베이스 URL과 데이터베이스 지시자</a></span></dt></dl></div>
+  
+
+  <p>DataSource 객체는 데이터베이스의 모든 리소스를 지칭하는 포괄적인 개념으로 JDBC 2.0 표준의 확장 API로 처음
+  소개되었다. 여기서 설명하는 DataSource는 하나의 데이터베이스에 대응된다.</p>
+
+  <p>본 장에서는 <span>tbJDBC</span>에서 제공하는 DataSource 객체를 이용하여 데이터베이스에 연결하는
+  방법과 데이터베이스 URL에 대해 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1489"/>4.1. DataSource 객체<a id="d5e1491" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>javax.sql.DataSource에 정의된 기본 인터페이스는 다음과 같다.</p>
+
+    <pre class="programlisting">public interface DataSource
+{
+    Connection getConnection() throws SQLException;
+    Connection getConnection(String username, String password) throws SQLException;
+    ...
+}</pre>
+
+    <p><span>Tibero</span>에서는 com.<span>tmax.tibero</span>.jdbc.ext 패키지를 제공하고 있다. 즉, 각종 DataSource
+    객체의 속성을 설정할 수 있는 메소드를 제공하여 애플리케이션 프로그램 개발자의 편의를 제공하고 있다.</p>
+
+    <p/>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1499"/>4.1.1. DataSource 객체의 속성<a id="d5e1501" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>다음은 DataSource 객체에 설정할 수 있는 속성이다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="130" align="left"/><col width="80" align="left"/><col/></colgroup><thead><tr><th align="left">속성</th><th align="left">타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">databaseName<a id="d5e1516" class="indexterm"/></td><td align="left">String</td><td>서버에 존재하는 특정 데이터베이스의 이름이다.</td></tr><tr><td align="left">dataSourceName<a id="d5e1523" class="indexterm"/></td><td align="left">String</td><td>DataSource의 이름이다.</td></tr><tr><td align="left">description<a id="d5e1530" class="indexterm"/></td><td align="left">String</td><td>DataSource에 대한 설명이다.</td></tr><tr><td align="left">networkProtocol<a id="d5e1537" class="indexterm"/></td><td align="left">String</td><td>서버와 통신하는 네트워크 프로토콜의 이름이다. (기본값: TCP)</td></tr><tr><td align="left">password<a id="d5e1544" class="indexterm"/></td><td align="left">String</td><td>서버 접속을 위한 패스워드이다.</td></tr><tr><td align="left">portNumber<a id="d5e1551" class="indexterm"/></td><td align="left">int</td><td>서버 리스너의 포트 번호이다.</td></tr><tr><td align="left">serverName<a id="d5e1558" class="indexterm"/></td><td align="left">String</td><td>데이터베이스의 이름이다.</td></tr><tr><td align="left">user<a id="d5e1565" class="indexterm"/></td><td align="left">String</td><td>서버 접속을 위한 사용자 이름이다.</td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 위 표에서 설명한 DataSource 객체의 속성을 설정할 수 있는 메소드이다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>public String getDatabaseName()</p>
+        </li><li>
+          <p>public void setDatabaseName(String databaseName)</p>
+        </li><li>
+          <p>public String getDataSourceName()</p>
+        </li><li>
+          <p>public void setDataSourceName(String dataSourceName)</p>
+        </li><li>
+          <p>public String getDescription()</p>
+        </li><li>
+          <p>public void setDescription(String description)</p>
+        </li><li>
+          <p>public String getNetworkProtocol()</p>
+        </li><li>
+          <p>public void setNetworkProtocol(String networkProtocol)</p>
+        </li><li>
+          <p>public String getPassword()</p>
+        </li><li>
+          <p>public void setPassword(String password)</p>
+        </li><li>
+          <p>public int getPortNumber()</p>
+        </li><li>
+          <p>public void setPortNumber(int portNumber)</p>
+        </li><li>
+          <p>public String getServerName()</p>
+        </li><li>
+          <p>public void setServerName(String serverName)</p>
+        </li><li>
+          <p>public String getUser()</p>
+        </li><li>
+          <p>public void setUser(String user)</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1605"/>4.1.2. DataSource 객체의 추가 속성<a id="d5e1607" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>다음은 추가로 설정할 수 있는 DataSource 객체의 속성이다.</p>
+
+      <div class="informaltable">
+        <table border="1"><colgroup><col width="120" align="left"/><col width="120" align="left"/><col/></colgroup><thead><tr><th align="left">속성</th><th align="left">타입</th><th>설명</th></tr></thead><tbody><tr><td align="left">driverType<a id="d5e1622" class="indexterm"/></td><td align="left">String</td><td>JDBC Driver의 타입이다.</td></tr><tr><td align="left">login_timeout<a id="d5e1629" class="indexterm"/></td><td align="left">int</td><td><p>소켓의 read timeout을 지정한다. </p><p>최소 소켓을 생성할 때부터
+              DB 연결 생성이 완료될 때까지 적용된다. DB 연결 생성이 완료된 뒤에는 read_timeout 속성이 적용된다.
+              만약 응답이 없이 지정된 시간이 지나면 timeout을 발생시키지만 설정값이 0일 경우에는 timeout을
+              발생시키지 않는다. (단위: millisecond, 기본값: 0)</p></td></tr><tr><td align="left">logWriter<a id="d5e1638" class="indexterm"/></td><td align="left">java.io.PrintWriter</td><td>DataSource 객체를 위한 Log Writer이다.</td></tr><tr><td align="left">maxStatements<a id="d5e1645" class="indexterm"/></td><td align="left">int</td><td>애플리케이션 프로그램 캐시에서 저장할 문장의 최댓값이다.</td></tr><tr><td align="left">read_timeout<a id="d5e1652" class="indexterm"/></td><td align="left">int</td><td>DB 연결 생성이 완료된 이후의 소켓의 read timeout을 지정한다. 만약 응답이 없이 지정된
+              시간이 지나면 timeout을 발생시키지만 설정값이 0일 경우에는 timeout을 발생시키지 않는다. (단위:
+              millisecond, 기본값: 0)</td></tr><tr><td align="left">program_name<a id="d5e1659" class="indexterm"/></td><td align="left">String</td><td>프로그램 이름이다. (기본값: JDBC Thin Client)</td></tr><tr><td align="left">self_keepalive<a id="d5e1666" class="indexterm"/></td><td align="left">String</td><td><p>SELF KEEP ALIVE 기능을 활성화할지 여부를 지정한다.
+              </p><p>활성화한 경우에는 self_keepidle, self_keepintvl,
+              self_keepcnt 속성 설정에 따라 연결 대상에 대한 네트워크 접근에 문제가 없는지 확인한다. 전체 확인
+              과정에 실패하면, 해당 네트워크 연결을 강제로 종료시킨다. (기본값: false)</p></td></tr><tr><td align="left">self_keepidle<a id="d5e1675" class="indexterm"/></td><td align="left">int</td><td><p>접속 완료, DB 요청/응답 처리 등의 정상적인 네트워크 사용 이후, 다음 번의 정상 처리된
+              시간이 갱신되지 않을 때, 정상 상황으로 간주할 최대 시간을 지정한다. 지정된 시간이 지나면 네트워크 접근에 대한
+              확인 절차가 시작된다. <span><strong class="guibutton">self_keepalive 설정이 true인 경우에만 유효하다.
+              </strong></span></p><p>(단위: 초, 기본값: 60)</p></td></tr><tr><td align="left">self_keepintvl<a id="d5e1685" class="indexterm"/></td><td align="left">int</td><td><p>매 확인할 때의 간격 및 한 번 확인할 때 최대 대기 시간을 지정한다.
+              <span><strong class="guibutton">self_keepalive 설정이 true인 경우에만 유효하다.
+              </strong></span></p><p>(단위: 초, 기본값: 10)</p></td></tr><tr><td align="left">self_keepcnt<a id="d5e1695" class="indexterm"/></td><td align="left">int</td><td>확인 절차를 총 몇 회까지 수행할 것인지를 지정한다. 지정된 횟수만큼 연속으로 실패하여야만 전체
+              확인과정이 실패한 것으로 처리된다. <span><strong class="guibutton">self_keepalive 설정이 true인 경우에만
+              유효하다.</strong></span> (기본값: 3)</td></tr><tr><td align="left">URL<a id="d5e1703" class="indexterm"/></td><td align="left">String</td><td>데이터베이스 연결을 위한 데이터베이스 URL이다.</td></tr></tbody></table>
+      </div>
+
+      <div class="literallayout"><p/></div>
+
+      <p>다음은 위 표에서 설명한 DataSource 객체의 추가 속성을 설정할 수 있는 메소드이다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>public String getDriverType()</p>
+        </li><li>
+          <p>public void setDriverType(String driverType)</p>
+        </li><li>
+          <p>public int getLoginTimeout()</p>
+        </li><li>
+          <p>public void setLoginTimeout(int time)</p>
+        </li><li>
+          <p>public PrintWriter getLogWriter()</p>
+        </li><li>
+          <p>public void setLogWriter(PrintWriter writer)</p>
+        </li><li>
+          <p>public int getMaxStatements()</p>
+        </li><li>
+          <p>public void setMaxStatements(int maxStatements)</p>
+        </li><li>
+          <p>public int getReadTimeout()</p>
+        </li><li>
+          <p>public void setReadTimeout(int readTimeout)</p>
+        </li><li>
+          <p>public String getProgramName()</p>
+        </li><li>
+          <p>public void setProgramName(String name)</p>
+        </li><li>
+          <p>public boolean getSelfKeepalive()</p>
+        </li><li>
+          <p>public void setSelfKeepalive(boolean keepalive)</p>
+        </li><li>
+          <p>public int getSelfKeepidle()</p>
+        </li><li>
+          <p>public void setSelfKeepidle(int keepidle)</p>
+        </li><li>
+          <p>public int getSelfKeepintvl()</p>
+        </li><li>
+          <p>public void setSelfKeepintvl(int keepintvl)</p>
+        </li><li>
+          <p>public int getSelfKeepcnt()</p>
+        </li><li>
+          <p>public void setSelfKeepcnt(int keepcnt)</p>
+        </li><li>
+          <p>public String getURL()</p>
+        </li><li>
+          <p>public void setURL(String url)</p>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1755"/>4.2. DataSource 객체를 이용한 연결</h2></div></div></div>
+    
+
+    <p>DataSource 객체를 이용하여 데이터베이스에 연결하는 방법은 JNDI를 사용하지 않는 방법과 사용하는 방법이 있다.
+    JNDI(Java Naming and Directory Interface)<a id="d5e1758" class="indexterm"/>는 Java로 작성된 애플리케이션 프로그램이 DNS, NDS 등과 같은 네이밍, 디렉터리 서비스에 접근하기
+    위한 API이다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1760"/>4.2.1. JNDI를 사용하지 않는 방법</h3></div></div></div>
+      
+
+      <p>다음은 JNDI를 사용하지 않고 DataSource 객체를 사용하여 데이터베이스에 연결하는 가장 일반적인 방법이다.
+      방법은 <span>Tb</span>DataSource 객체를 생성한 후 기본 속성을 설정하면 된다.</p>
+
+      <p>예를 들면 다음과 같다.</p>
+
+      <pre class="programlisting"><span>Tb</span>DataSource ds = new <span>Tb</span>DataSource();
+
+ds.setDriverType("thin");
+ds.setServerName("<span>tmax</span>h4");
+ds.setNetworkProtocol("tcp");
+ds.setDatabaseName("<span>tibero</span>");
+ds.setPortNumber(8888);
+ds.setUser("<span>tibero</span>");
+ds.setPassword("<span>tmax</span>");
+
+Connection conn = ds.getConnection();</pre>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1772"/>4.2.2. JNDI를 사용한 방법</h3></div></div></div>
+      
+
+      <p>다음은 JNDI를 사용하여 데이터베이스에 연결하는 예이다.</p>
+
+      <div class="orderedlist"><ol type="1"><li>
+          <p><span>Tb</span>DataSource 객체를 생성한 후 기본 속성을
+          설정한다.</p>
+
+          <pre class="programlisting"><span>Tb</span>DataSource ds = new <span>Tb</span>DataSource();
+
+ds.setDriverType("thin");
+ds.setServerName("<span>tmax</span>h4");
+ds.setNetworkProtocol("tcp");
+ds.setDatabaseName("<span>tibero</span>");
+ds.setPortNumber(8888);
+ds.setUser("<span>tibero</span>");
+ds.setPassword("<span>tmax</span>");</pre>
+        </li><li>
+          <p>초기화된 DataSource 객체를 JNDI에 등록한다.</p>
+
+          <pre class="programlisting">Context ctx = new InitialContext();
+ctx.bind("<span>tibero</span>/webdb", ds);</pre>
+
+          <p>InitialContext()를 호출하면 JNDI를 참조하는 context 객체가 생성되고,
+          ctx.bind()를 호출하면 DataSource 객체와 JNDI 이름이 연결된다. 즉, 이것은 위에서 연결시킨
+          '<span>tibero</span>/webdb'만을 이용하여 다음의 예처럼 언제든지
+          데이터베이스에 연결할 수 있다는 말이다.</p>
+
+          <pre class="programlisting"><span>Tb</span>DataSource ds = (<span>Tb</span>DataSource)ctx.lookup("<span>tibero</span>/webdb");
+Connection conn = ds.getConnection();</pre>
+        </li></ol></div>
+
+      <p/>
+
+      <p/>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e1798"/>4.3. 데이터베이스 URL과 데이터베이스 지시자</h2></div></div></div>
+    
+
+    <p>데이터베이스 URL(Uniform Resource Locator)은 다음과 같이 문자열 값으로 사용한다.</p>
+
+    <pre class="programlisting">jdbc:<span>tibero</span>:thin:@database_sepcifier</pre>
+
+    <p>URL에 user name, password를 포함하는 형태도 제공한다.</p>
+
+    <pre class="programlisting">jdbc:<span>tibero</span>:thin:user/password@database_sepcifier</pre>
+
+    <div class="literallayout"><p/></div>
+
+    <p><span>Tibero</span>에서 제공하는 데이터베이스
+    지시자(database_specifier)는 다음과 같이 사용할 수 있다.</p>
+
+    <pre class="programlisting">hostname:port:[service_name]</pre>
+
+    <p>또한 여러 개의 데이터베이스 연결을 지정하기 위한 DESCRIPTION 형태도 제공한다.</p>
+
+    <pre class="programlisting">(DESCRIPTION=
+(LOAD_BALANCE=ON)
+(FAILOVER=ON)
+(PROTOCOL=TCP)
+(ADDRESS_LIST=
+ (ADDRESS=(HOST=dbsvr1)(PORT=8629))
+ (ADDRESS=(HOST=dbsvr2)(PORT=7629))
+ ...
+))</pre>
+
+    <p>위의 예에서 LOAD_BALANCE와 FAILOVER 기능은 선택적으로 적용할 수 있다. 단, ADDRESS_LIST는
+    하나 이상의 ADDRESS를 반드시 명시해야 한다.</p>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_usage.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch05.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제3장 <span>tbJDBC</span>의 사용 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제5장 분산 트랜잭션</td></tr></table></div><div xmlns="" align="center"/></body></html>

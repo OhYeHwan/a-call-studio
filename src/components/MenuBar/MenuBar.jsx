@@ -13,38 +13,26 @@ import Select from "src/static/icon/Select.svg";
 import { observer } from "mobx-react";
 
 import useStores from "src/hooks/useStores";
+import MessageSnackBar from "../SnackBar/MessageSnackBar";
 
 const MenuBar = observer(() => {
   const [contentOpen, setContentOpen] = useState(false);
   const [projectOpen, setProjectOpen] = useState(false);
 
   const { projectStore, contentStore } = useStores();
-  const { target, projectList, saveState, exportState } = projectStore;
+  const { target, projectList, snackBar, saveState, exportState } =
+    projectStore;
   const { contentList } = contentStore;
 
   const handleClickSaveButton = () => {
-    if (target.projectId === null) {
-      console.log("빈 프로젝트");
-      return;
-    }
-    projectStore.saveProject(target).then(() => {
-      projectStore.getProjectList();
-    });
+    projectStore.saveProject();
   };
 
   const handleClickExportButton = () => {
-    if (target.projectId === null) {
-      console.log("빈 프로젝트");
-      return;
-    }
-    projectStore.exportProject(target).then((res) => {
-      console.log(res);
-    });
+    projectStore.exportProject();
   };
 
-  const handleProjectLoad = () => {
-    // return projectStore.loadProject(id);
-  };
+  const handleProjectLoad = () => {};
 
   const handleContentLoad = () => {
     projectStore.loadContent();
@@ -75,7 +63,7 @@ const MenuBar = observer(() => {
       <MenuBarLayout>
         <ProjectButtonGroup>
           <IconButton icon={FilePlus} onClick={handleNewProjectButtonClick}>
-            새프로젝트
+            새 프로젝트
           </IconButton>
           <IconButton icon={FileImport} onClick={handleOpenContentsDialog}>
             컨텐츠 불러오기
@@ -87,10 +75,10 @@ const MenuBar = observer(() => {
         <FuncButtonGroup>
           <QuestionButtonGroup>
             <IconButton icon={Select} variant="secondary">
-              선택된 페이지 추천질문 만들기
+              선택된 페이지 추천 질문 만들기
             </IconButton>
             <IconButton icon={Question} variant="secondary">
-              모든페이지 추천질문 만들기
+              모든페이지 추천 질문 만들기
             </IconButton>
           </QuestionButtonGroup>
           <VerticalLine />
@@ -99,8 +87,8 @@ const MenuBar = observer(() => {
               onClick={handleClickSaveButton}
               disabled={
                 saveState === true ||
-                target.projectName !== null ||
-                target.superAppName !== null
+                target.projectName === null ||
+                target.superAppName === null
               }
               loading={saveState}
             >
@@ -110,8 +98,8 @@ const MenuBar = observer(() => {
               onClick={handleClickExportButton}
               disabled={
                 exportState === true ||
-                target.projectName !== null ||
-                target.superAppName !== null
+                target.projectName === null ||
+                target.superAppName === null
               }
               loading={exportState}
             >
@@ -135,6 +123,9 @@ const MenuBar = observer(() => {
           close={handleCloseProjectsDialog}
           handleLoadButtonClick={handleProjectLoad}
         />
+      )}
+      {snackBar.state && (
+        <MessageSnackBar text={snackBar.text} type={snackBar.type} />
       )}
     </>
   );
