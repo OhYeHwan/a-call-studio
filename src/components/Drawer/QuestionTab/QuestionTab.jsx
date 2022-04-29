@@ -3,43 +3,45 @@ import { ReactComponent as Empty } from "src/static/icon/empty_state.svg";
 import { ReactComponent as QuestionListSVG } from "src/static/icon/ai_QL.svg";
 import styled from "styled-components";
 
+import useStores from "src/hooks/useStores";
+
 const QuestionTab = ({ afterKeywords }) => {
-  // const handleQuestionListDelete = (keyword, id) => {
-  //   let Qindex = questions.findIndex((i) => i.keyword === keyword);
+  // contentTarget
+  // pageGroupName, pageId
 
-  //   let question = {
-  //     keyword: questions[Qindex].keyword,
-  //     list: questions[Qindex].list.filter((q) => q.id !== id),
-  //   };
+  const { projectStore, contentStore } = useStores();
 
-  //   if (questions[Qindex].list.length === 1) {
-  //     alert("삭제 불가");
-  //   } else {
-  //     let newQuestions = [...questions];
-  //     newQuestions[Qindex] = question;
-  //     setQuestions(newQuestions);
-  //   }
-  // };
+  const handleClickSaveButton = () => {
+    const pageGroupsIndex = projectStore.target.pageGroups.findIndex(
+      (i) => i.pageGroupName === contentStore.target.pageGroupName
+    );
 
-  // const handleQuestionListAdd = (keyword, id) => {
-  //   let Qindex = questions.findIndex((i) => i.keyword === keyword);
-  //   let ListIndex = questions[Qindex].list.findIndex((i) => i.id === id);
-  //   let newList = [...questions[Qindex].list];
+    const pagesIndex = projectStore.target.pageGroups[
+      pageGroupsIndex
+    ].pages.findIndex((i) => i.pageId === contentStore.target.pageId);
 
-  //   newList.splice(ListIndex + 1, 0, {
-  //     id: new Date(),
-  //     value: "",
-  //   });
+    const newPage = {
+      ...projectStore.target.pageGroups[pageGroupsIndex].pages[pagesIndex],
+      keywords: afterKeywords,
+      summary: contentStore.target.summary,
+    };
 
-  //   let question = {
-  //     keyword: questions[Qindex].keyword,
-  //     list: newList,
-  //   };
+    const newPages = [...projectStore.target.pageGroups[pageGroupsIndex].pages];
+    newPages[pagesIndex] = newPage;
 
-  //   let newQuestions = [...questions];
-  //   newQuestions[Qindex] = question;
-  //   setQuestions(newQuestions);
-  // };
+    const newPageGroup = {
+      ...projectStore.target.pageGroups[pageGroupsIndex],
+      pages: newPages,
+    };
+
+    const newPageGroups = [...projectStore.target.pageGroups];
+    newPageGroups[pageGroupsIndex] = newPageGroup;
+
+    projectStore.target = {
+      ...projectStore.target,
+      pageGroups: newPageGroups,
+    };
+  };
 
   return (
     <QuestionListLayout>
@@ -49,20 +51,14 @@ const QuestionTab = ({ afterKeywords }) => {
             <QuestionListSVG />
             질문 리스트
           </QuestionListTitle>
-          <QuestionListButton>저장</QuestionListButton>
+          <QuestionListButton onClick={handleClickSaveButton}>
+            저장
+          </QuestionListButton>
         </QuestionListHeader>
         {afterKeywords.length > 0 ? (
           <QuestionListContainer>
-            {afterKeywords.map((keyword, idx) => {
-              return (
-                <List
-                  key={keyword.keywordId}
-                  keyword={keyword.keyword}
-                  list={keyword.questions}
-                  // onQuestionListDelete={handleQuestionListDelete}
-                  // handleQuestionListAdd={handleQuestionListAdd}
-                />
-              );
+            {afterKeywords.map((keyword) => {
+              return <List key={keyword.keywordId} keyword={keyword} />;
             })}
           </QuestionListContainer>
         ) : (

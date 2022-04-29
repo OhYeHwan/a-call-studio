@@ -3,12 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as Toggle } from "src/static/icon/toggle.svg";
 import ListItem from "./ListItem";
 
-const List = ({
-  keyword,
-  list,
-  onQuestionListDelete,
-  handleQuestionListAdd,
-}) => {
+const List = ({ keyword, onQuestionListDelete, handleQuestionListAdd }) => {
   const [toggle, setToggle] = useState(true);
 
   const toggleList = () => {
@@ -19,17 +14,15 @@ const List = ({
     <ListLayout>
       <ListTitle toggle={toggle} onClick={() => toggleList()}>
         <Toggle width={10} />
-        {keyword}
+        {keyword.keyword}
       </ListTitle>
-      <ListBox toggle={toggle} count={list.length}>
-        {list.map((question) => {
+      <ListBox toggle={toggle}>
+        {keyword.questions.map((question) => {
           return (
             <ListItem
-              keyword={keyword}
-              id={question.questionId}
               key={question.questionId}
-              question={question.questionText}
-              check={question.check}
+              keywordId={keyword.keywordId}
+              question={question}
               onQuestionListDelete={onQuestionListDelete}
               handleQuestionListAdd={handleQuestionListAdd}
             />

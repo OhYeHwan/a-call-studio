@@ -39,6 +39,11 @@ const PageItem = ({
 
     handleClickPageItem(pageId);
     contentStore.target = data;
+    if (contentStore.target.keywords.length === 0) {
+      contentStore.resetAfterKeywords();
+    } else {
+      contentStore.afterKeywords = contentStore.target.keywords;
+    }
   };
 
   return (

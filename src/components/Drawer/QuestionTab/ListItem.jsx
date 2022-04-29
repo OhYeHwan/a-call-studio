@@ -2,16 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import QuestionAddButton from "../AddButton";
 import QuestionDeleteButton from "../DeleteButton";
+import useStores from "src/hooks/useStores";
 
-const ListItem = ({
-  id,
-  keyword,
-  question,
-  onQuestionListDelete,
-  handleQuestionListAdd,
-}) => {
+const ListItem = ({ keywordId, question }) => {
   const inputRef = useRef(null);
-  const [value, _setValue] = useState(question);
+  const [value, _setValue] = useState(question.questionText);
+
+  const { contentStore } = useStores();
 
   useEffect(() => {
     setValue(value);
@@ -36,16 +33,17 @@ const ListItem = ({
 
   const onKeyPress = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault();
+      contentStore.handleSaveQuestion(keywordId, question.questionId, value);
+      inputRef.current.blur();
     }
   };
 
   const onClickQuestionListDelete = () => {
-    onQuestionListDelete(keyword, id);
+    contentStore.handleDeleteQuestion(keywordId, question.questionId);
   };
 
   const handleClickAddButton = () => {
-    handleQuestionListAdd(keyword, id);
+    contentStore.handleAddQuestion(keywordId, question.questionId);
   };
 
   return (

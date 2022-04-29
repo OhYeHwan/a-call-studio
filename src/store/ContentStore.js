@@ -8,12 +8,28 @@ class ContentStore {
   }
 
   @observable
-  afterKeywords = [];
+  _afterKeywords = [];
+
+  @computed
+  get afterKeywords() {
+    return toJS(this._afterKeywords);
+  }
+
+  set afterKeywords(value) {
+    this._afterKeywords = value;
+  }
+
+  @action
+  resetAfterKeywords() {
+    this.afterKeywords = [];
+  }
 
   @action
   makeQuestions(value) {
     this.afterKeywords = value;
   }
+
+  // target.keywords
 
   /*
       keywords: [
@@ -39,10 +55,72 @@ class ContentStore {
     */
 
   @action
-  handleDeleteQuestion(keyword, id) {
-    const index = this.afterKeywords.findIndex((i) => i.keyword === keyword);
+  handleSaveQuestion(keywordId, questionId, value) {
+    const keywordIndex = this.afterKeywords.findIndex(
+      (keyword) => keyword.keywordId === keywordId
+    );
 
-    const question = {};
+    const questionIndex = this.afterKeywords[keywordIndex].questions.findIndex(
+      (question) => question.questionId === questionId
+    );
+
+    const newQuestion = {
+      questionId,
+      questionText: value,
+      check: "",
+    };
+
+    this.afterKeywords[keywordIndex].questions[questionIndex] = newQuestion;
+  }
+
+  @action
+  handleAddQuestion(keywordId, questionId) {
+    const keywordIndex = this.afterKeywords.findIndex(
+      (keyword) => keyword.keywordId === keywordId
+    );
+
+    const questionIndex = this.afterKeywords[keywordIndex].questions.findIndex(
+      (question) => question.questionId === questionId
+    );
+
+    const newQuestions = [...this.afterKeywords[keywordIndex].questions];
+
+    newQuestions.splice(questionIndex + 1, 0, {
+      questionId: uuidv4(),
+      questionText: "",
+      check: "",
+    });
+
+    const newKeyword = {
+      ...this.afterKeywords[keywordIndex],
+      questions: newQuestions,
+    };
+
+    const newKeywords = [...this.afterKeywords];
+    newKeywords[keywordIndex] = newKeyword;
+    this.afterKeywords = newKeywords;
+  }
+
+  @action
+  handleDeleteQuestion(keywordId, questionId) {
+    const keywordIndex = this.afterKeywords.findIndex(
+      (keyword) => keyword.keywordId === keywordId
+    );
+
+    const newKeyword = {
+      ...this.afterKeywords[keywordIndex],
+      questions: this.afterKeywords[keywordIndex].questions.filter(
+        (q) => q.questionId !== questionId
+      ),
+    };
+
+    if (this.afterKeywords[keywordIndex].questions.length === 1) {
+      alert("삭제 불가");
+    } else {
+      const newKeywords = [...this.afterKeywords];
+      newKeywords[keywordIndex] = newKeyword;
+      this.afterKeywords = newKeywords;
+    }
   }
 
   @action
