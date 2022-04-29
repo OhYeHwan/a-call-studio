@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제5장 tbdv</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 유틸리티 안내서"/><link rel="up" href="index.html" title="Tibero 유틸리티 안내서"/><link rel="prev" href="chapter_tbloader.html" title="제4장 tbLoader"/><link rel="next" href="chapter_tbcli_function.html" title="제6장 유틸리티 API"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제5장 <span xmlns="http://www.w3.org/1999/xhtml">tbdv</span></td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_tbloader.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_tbcli_function.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_tbdv"/>제5장 <span>tbdv</span></h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_tbdv.html#d5e8090">5.1. 개요</a></span></dt><dt><span class="section"><a href="chapter_tbdv.html#d5e8106">5.2. 빠른 시작</a></span></dt><dt><span class="section"><a href="chapter_tbdv.html#d5e8125">5.3. 수행 예제</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 <span>tbdv</span> 유틸리티를 소개하고 사용 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e8090"/>5.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton"><span>tbdv</span></strong></span><a id="d5e8095" class="indexterm"/>는 <span>Tibero</span>  데이터베이스의 데이터 파일에 대한 정합성을 검사하는 간단한
+    유틸리티이다. 이 유틸리티를 통해 데이터베이스가 오프라인일 때도 데이터파일에 대한 기본적인 정합성 검사를 수행할 수
+    있다.</p>
+
+    <p><span>tbdv</span> 유틸리티는 데이터 블록 각각에 대해 다음의 사항을 체크한다.
+    </p><div class="itemizedlist"><ul type="disc" compact="compact"><li>
+           블록에 DBA가 올바로 적혀있는지 
+        </li><li>
+           블록의 체크섬이 일치하는지 
+        </li><li>
+           블록의 가용공간과 실제 사용한 공간을 더한 것이 블록크기와 일치하는지 
+        </li><li>
+           블록에 들어가는 row-piece들이 서로의 영역을 침범하지 않고 들어가있는지 
+        </li></ul></div><p> 이러한 사항들 중 한개라도 정합성 검사에 실패한다면 미디어 장애로 판단할 수 있으며 media
+    recovery를 수행하여 데이터베이스를 복구해야 한다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e8106"/>5.2. 빠른 시작</h2></div></div></div>
+    
+
+    <p><span>tbdv</span> 유틸리티는 <span>Tibero</span>를
+    설치하는 과정에서 함께 설치되며, <span>Tibero</span>를
+    제거하면 함께 제거된다.</p>
+
+    <p><span>tbdv</span> 유틸리티는 명령 프롬프트에서 다음과 같은 형식으로 실행한다.</p>
+
+    <pre class="programlisting">$ <span>tbdv</span> [-s BLKSIZE] [-l CHECK_LENGTH] /path/to/datafile</pre>
+
+    <p>명령 프롬프트에서는 옵션으로 블록 크기를 지정할 수 있으며 기본은 8192byte이다.</p>
+
+    <p>파일의 앞쪽 일부분만 체크하고 싶은 경우 CHECK_LENGTH를 지정하는 옵션을 사용할 수 있다. 지정하지 않은 경우
+    파일 전체에 대해서 체크를 진행하게 된다. RAW Device의 경우 명시적으로 RAW Device의 크기를 입력해야 하며, 입력하지
+    않은 경우 에러를 발생시키게 된다.</p>
+
+    <p>다음은 <span>tbdv</span> 유틸리티를 실행하는 예이다.</p>
+
+    <div class="example"><a id="d5e8120"/><p class="title"><b>[예 5.1] <span>tbdv</span> 유틸리티의 실행</b></p><div class="example-contents">
+      
+
+      
+
+      <pre class="programlisting">$ <span>tbdv</span> df1.dtf
+==================================================================
+= Database Verifier (DV) starts                                  =
+=                                                                =
+= TmaxData Corporation Copyright (c) 2008-. All rights reserved. =
+==================================================================
+Verifying 'df1.dtf'...
+ 
+ 
+Verifying complete.
+ 
+Total blocks: 1152
+Processed blocks: 1063
+Empty blocks: 89
+Corrupt blocks: 0      </pre>
+    </div></div><br class="example-break"/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e8125"/>5.3. 수행 예제</h2></div></div></div>
+    
+
+    <p>본 절에서는 정상적인 데이터파일 및 정합성이 깨진 블럭이 있는 데이터파일들에 대해 각각 <span>tbdv</span>
+    유틸리티가 어떻게 정합성 오류를 발견하는지 살펴본다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>데이터 블록의 dba가 적혀있는 부분에 장애를 일으키면 dv는 다음과 같은 결과를 출력한다.</p>
+
+    <div class="example"><a id="d5e8131"/><p class="title"><b>[예 5.2] DBA가 잘못됐을 때 dv의 출력</b></p><div class="example-contents">
+      
+
+      
+
+      <pre class="programlisting">$ tbdv df1.dtf
+==================================================================
+= Database Verifier (DV) starts                                  =
+=                                                                =
+= TmaxData Corporation Copyright (c) 2008-. All rights reserved. =
+==================================================================
+Verifying 'df1.dtf'...
+
+block #2351 is misplaced.dba differs (expected=16779567, real=16779551)
+
+Verifying complete.
+
+Total blocks: 2433
+Processed blocks: 2343
+Empty blocks: 90
+Corrupt blocks: 1      </pre>
+    </div></div><br class="example-break"/>
+
+    <p>데이터 파일에서 fractured block을 발견했을때는 데이터 블록이 consistent하지 않다는 결과를
+    출력한다.</p>
+
+    <div class="example"><a id="d5e8135"/><p class="title"><b>[예 5.3] Fractured block(Inconsistent block)을 발견했을 때 dv의 출력</b></p><div class="example-contents">
+      
+
+      
+
+      <pre class="programlisting">$ tbdv df1.dtf
+==================================================================
+= Database Verifier (DV) starts                                  =
+=                                                                =
+= TmaxData Corporation Copyright (c) 2008-. All rights reserved. =
+==================================================================
+Verifying 'df1.dtf'...
+
+block #2311 isn't consistent.
+
+Verifying complete.
+
+Total blocks: 2433
+Processed blocks: 2343
+Empty blocks: 90
+Corrupt blocks: 1      </pre>
+    </div></div><br class="example-break"/>
+
+    <p>데이터 블록의 남은공간을 기재하는 부분이 블록 크기에서 실제로 사용한 공간의 차이와 불일치 할 경우 dv의 출력은 다음과
+    같다.</p>
+
+    <div class="example"><a id="d5e8139"/><p class="title"><b>[예 5.4] 블록의 빈 공간이 실제 사용한 공간과 정합성이 맞지 않는 경우 dv의 출력</b></p><div class="example-contents">
+      
+
+      
+
+      <pre class="programlisting">$ tbdv df1.dtf
+==================================================================
+= Database Verifier (DV) starts                                  =
+=                                                                =
+= TmaxData Corporation Copyright (c) 2008-. All rights reserved. =
+==================================================================
+Verifying 'df1.dtf'...
+
+block #2004 has incorrect freespace.
+
+Verifying complete.
+
+Total blocks: 2433
+Processed blocks: 2343
+Empty blocks: 90
+Corrupt blocks: 1      </pre>
+    </div></div><br class="example-break"/>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+        <p><span>tbdv</span> 유틸리티는 수행과정에서 zero-out된 블록은 포맷이 안되었다고
+        간주하기 때문에 실제로 디스크에 장애가 발생하여 데이터가 써진 블록이 zero-out되는 현상이 발생하여도 <span>tbdv</span>는 블록이 포맷되지 않았다고 판단하고(즉, 아직 데이터 파일에서
+        할당되지 않은 부분) 에러를 출력하지 않으므로 사용에 주의한다.</p>
+      </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_tbloader.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_tbcli_function.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제4장 <span>tbLoader</span> </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제6장 유틸리티 API</td></tr></table></div><div xmlns="" align="center"/></body></html>

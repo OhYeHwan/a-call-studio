@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Appendix E. HugePage 설정 방법</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 설치 안내서"/><link rel="up" href="index.html" title="Tibero 설치 안내서"/><link rel="prev" href="appendix_system_sh.html" title="Appendix D. system.sh"/><link rel="next" href="appendix_undotablespace_size.html" title="Appendix F. Undo 테이블 스페이스 크기 산정"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">Appendix E. HugePage 설정 방법</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="appendix_system_sh.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="appendix_undotablespace_size.html">다음</a></td></tr></table><hr/></div><div class="appendix" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="appendix_hugepage"/>Appendix E. HugePage 설정 방법</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="appendix_hugepage.html#d5e4342">E.1. Linux</a></span></dt><dd><dl><dt><span class="section"><a href="appendix_hugepage.html#d5e4345">E.1.1. 활성화</a></span></dt><dt><span class="section"><a href="appendix_hugepage.html#d5e4421">E.1.2. 비활성화</a></span></dt></dl></dd><dt><span class="section"><a href="appendix_hugepage.html#d5e4424">E.2. HP-UX</a></span></dt><dt><span class="section"><a href="appendix_hugepage.html#d5e4430">E.3. AIX</a></span></dt><dd><dl><dt><span class="section"><a href="appendix_hugepage.html#d5e4433">E.3.1. 활성화</a></span></dt><dt><span class="section"><a href="appendix_hugepage.html#d5e4472">E.3.2. 비활성화</a></span></dt></dl></dd><dt><span class="section"><a href="appendix_hugepage.html#d5e4475">E.4. Solaris</a></span></dt><dd><dl><dt><span class="section"><a href="appendix_hugepage.html#d5e4485">E.4.1. 활성화</a></span></dt><dt><span class="section"><a href="appendix_hugepage.html#d5e4490">E.4.2. 비활성화</a></span></dt></dl></dd><dt><span class="section"><a href="appendix_hugepage.html#d5e4494">E.5. 권장 설정</a></span></dt></dl></div>
+  
+
+  <p>본 부록에서는 각 운영체제별 HugePage 설정 방법에 대하여 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4342"/>E.1. Linux</h2></div></div></div>
+    
+
+    <p>본 절에서는 Linux 환경에서 HugePage를 설정하기 위한 방법에 대하여 설명한다. 해당 작업을 수행하기 위해서는
+    root 권한이 반드시 필요하다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4345"/>E.1.1. 활성화</h3></div></div></div>
+      
+
+      <p>HugePage를 활성화하기 위한 설정 방법은 다음과 같다.</p>
+
+      <div class="orderedlist"><ol type="1"><li>
+          <p>현재 운영체제에서 지원하는 HugePage의 크기를 다음과 같이 확인한다.</p>
+
+          <pre class="programlisting">$ grep Hugepagesize /proc/meminfo
+Hugepagesize:     2048 KB</pre>
+        </li><li>
+          <p>Tibero를 운영하는 유저 그룹의 아이디를 다음과 같이 확인한다.</p>
+
+          <pre class="programlisting">$ id -a
+uid=579(tibero) gid=579(tibero) groups=579(tibero)</pre>
+        </li><li>
+          <p>HugePage를 할당할 그룹과 개수를 "/etc/sysctl.conf"에 적용한다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="130" align="left"/><col/><col/></colgroup><thead><tr><th align="left">커널 파라미터</th><th>설명</th><th>공식</th></tr></thead><tbody><tr><td align="left">vm.nr_hugepages</td><td>HugePage 개수</td><td>TOTAL_SHM_SIZE / HugePage 크기</td></tr><tr><td align="left">vm.hugetlb_shm_group</td><td>HugePage를 할당할 그룹 아이디</td><td>Tibero를 운영하는 유저 그룹의 아이디</td></tr></tbody></table>
+          </div>
+
+          <p/>
+
+          <p>다음은 TOTAL_SHM_SIZE의 설정 값이 1024MB 이고, 현재 운영체제에서 지원하는 HugePage
+          크기가 2MB(2048 KB)인 경우에 커널파라미터를 적용한 예제이다.</p>
+
+          <pre class="programlisting">$ cat /etc/sysctl.conf
+<em class="lineannotation"><span class="lineannotation">......중간 생략......</span></em>
+vm.nr_hugepages=512
+vm.hugetlb_shm_group=579</pre>
+        </li><li>
+          <p>Max locked memory 제한값을 "/etc/security/limits.conf"에
+          적용한다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">설정 값</th><th>공식</th></tr></thead><tbody><tr><td align="left">memlock</td><td>HugePage 크기 * HugePage 개수</td></tr></tbody></table>
+          </div>
+
+          <p/>
+
+          <p>다음은 앞에서 구한 값으로 memlock 값을 설정한 예제이다.</p>
+
+          <pre class="programlisting">$ cat /etc/security/limits.conf
+<em class="lineannotation"><span class="lineannotation">......중간 생략......</span></em>
+tibero           soft    memlock         1048576   
+tibero           hard    memlock         1048576</pre>
+        </li><li>
+          <p>운영체제를 재시작한다.</p>
+
+          <p>아래와 같이 변경된 HugePage 값을 확인 할 수 있다.</p>
+
+          <pre class="programlisting">$ egrep -e HugePages_Total /proc/meminfo
+HugePages_Total:   512 KB</pre>
+        </li><li>
+          <p>환경설정 파일(.tip)에 다음과 같은 Tibero 초기화 파라미터를 설정한다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">초기화 파라미터</th><th>설정 값</th></tr></thead><tbody><tr><td align="left">TOTAL_SHM_SIZE</td><td>HugePage 크기 * HugePage 개수</td></tr><tr><td align="left">_USE_HUGE_PAGE</td><td>Y</td></tr></tbody></table>
+          </div>
+
+          <p>다음은 앞에서 구한 값으로 초기화 파라미터를 설정한 예제이다.</p>
+
+          <pre class="programlisting">$ cat tibero.tip
+<em class="lineannotation"><span class="lineannotation">......중간 생략......</span></em>
+TOTAL_SHM_SIZE=1G 
+_USE_HUGE_PAGE=Y
+</pre>
+        </li><li>
+          <p>Tibero 서버를 재기동한다.</p>
+
+          <pre class="programlisting">$ tbdown
+
+Tibero instance terminated (NORMAL mode).  
+
+$ tbboot
+Listener port = 8629
+Change core dump dir to /home/tibero/tibero7/instance/tibero.
+
+Tibero 7
+
+TmaxData Corporation Copyright (c) 2008-. All rights reserved.
+Tibero instance started up (NORMAL mode).
+</pre>
+        </li></ol></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4421"/>E.1.2. 비활성화</h3></div></div></div>
+      
+
+      <p>HugePage 활성화를 위해 수행한 과정과 동일한 순서로 수정하였던 값을 되돌리는 과정을 진행한다.</p>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4424"/>E.2. HP-UX</h2></div></div></div>
+    
+
+    <p>HP-UX에서는 HugePage 대신 Large page라는 용어를 대신 사용한다. 공유 메모리 영역에 대해서만 Large
+    page를 적용하는 기능을 운영체제에서 따로 지원하지 않는 한계점이 있다.</p>
+
+    <p>시스템 전체에 대해서 기본 페이지 설정이 가능하며 kctune 명령으로 base_pagesize 값을 원하는 크기로 변경한
+    후 컴퓨터를 재시작한다. (단위: MB) 단, HP-UX PARISC 운영체제에서는 이 기능을 지원하지 않는다.</p>
+
+    <p>다음은 kctune 명령을 이용하여 기본 페이지 값을 설정하는 예제이다.</p>
+
+    <pre class="programlisting">$ kctune base_pagesize=16
+</pre>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4430"/>E.3. AIX</h2></div></div></div>
+    
+
+    <p>AIX에서는 HugePage 대신 Large page라는 용어를 대신 사용하며 기본적인 장점은 HugePage와
+    동일하다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4433"/>E.3.1. 활성화</h3></div></div></div>
+      
+
+      <p>HugePage를 활성화하기 위한 설정 방법은 다음과 같다.</p>
+
+      <div class="orderedlist"><ol type="1"><li>
+          <p>운영체제 Large page 설정값을 변경한다.</p>
+
+          <p>AIX는 내부적으로 4KB 및 16MB 크기의 물리 Memory Pool을 유지한다. 이 Pool의 크기는
+          vmo 명령을 통해 16MB Memory Pool의 크기를 변경할 수 있다. 나머지 공간은 자연스럽게 4KB로
+          할당된다.</p>
+
+          <p>AIX 5.3 이후부터는 Large page Pool이 동적으로 유지되기 때문에 변경 후 시스템을 재부팅할
+          필요가 없다.</p>
+
+          <p>먼저 공유 메모리 할당된 공간이 디스크로 스왑되지 않도록 v_pinshm 설정이 별도로 필요하다.
+          percent_of_real_memory는 전체 메모리 중에서 TSM이 차지하는 비율을 지정한다.</p>
+
+          <pre class="programlisting">$ vmo ­r ­o v_pinshm=1
+$ vmo ­r ­o maxpin%=percent_of_real_memory</pre>
+
+          <p>Large page Pool 크기를 설정한다. num_of_lage_pages는 TSM을 16MB로 나눈 값이
+          되며, 정수 단위로 입력한다.</p>
+
+          <pre class="programlisting">$ vmo ­p ­o lgpg_regions=num_of_lage_pages ­o lgpg_size=16 MB</pre>
+        </li><li>
+          <p>사용자 권한을 설정한다.</p>
+
+          <p>보안 정책 상 root 이외의 사용자는 Large page를 사용하기 위해서 아래와 같은 권한을 Tibero
+          사용자에게 부여해 주어야 한다. chuser 명령을 통해 해당 권한을 설정할 수 있다.</p>
+
+          <pre class="programlisting">$ chuser capabilities=CAP_NUMA_ATTACH,CAP_BYPASS_RAC_VMM,CAP_PROPAGATE &lt;<span class="emphasis"><em>user id</em></span>&gt;</pre>
+        </li><li>
+          <p>환경설정 파일(.tip)에 다음과 같은 Tibero 초기화 파라미터를 설정한다.</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">초기화 파라미터</th><th>설정 값</th></tr></thead><tbody><tr><td align="left">TOTAL_SHM_SIZE</td><td>1GB(기본값)</td></tr><tr><td align="left">_USE_HUGE_PAGE</td><td>Y</td></tr></tbody></table>
+          </div>
+
+          <p>다음은 앞에서 구한 값으로 초기화 파라미터를 설정한 예제이다.</p>
+
+          <pre class="programlisting">$ cat tibero.tip
+<em class="lineannotation"><span class="lineannotation">......중간 생략......</span></em>
+TOTAL_SHM_SIZE=1G 
+_USE_HUGE_PAGE=Y
+</pre>
+        </li><li>
+          <p>Tibero 서버를 재기동한다.</p>
+
+          <pre class="programlisting">$ tbdown
+
+Tibero instance terminated (NORMAL mode).  
+
+$ tbboot
+Listener port = 8629
+Change core dump dir to /home/tibero/tibero7/instance/tibero.
+
+Tibero 7
+
+TmaxData Corporation Copyright (c) 2008-. All rights reserved.
+Tibero instance started up (NORMAL mode).
+</pre>
+        </li></ol></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4472"/>E.3.2. 비활성화</h3></div></div></div>
+      
+
+      <p>Large page를 활성화면서 변경했던 값을 다시 원래대로 복구한다.</p>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4475"/>E.4. Solaris</h2></div></div></div>
+    
+
+    <p>ISM(Intimate Shared Memory) 기능을 통해서 HugePage 기능을 적용할 수 있다.
+    Solaris에서는 HugePage 대신 Lage page라는 동일한 의미의 용어를 대신 사용한다. ISM을 사용할 때의 이점은
+    아래와 같다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>ISM 공유 메모리는 생성될 때 자동으로 운영체제에 의해서 locked 상태가 된다. 이를 통해 해당 메모리 영역이
+        디스크로 스왑되지 않도록 보장하며, 운영체제 커널 내부에서 I/O를 위해 더 빠르게 동작하는 locking 매커니즘을 사용할
+        수 있게 된다.</p>
+      </li><li>
+        <p>커널의 가상 메모리를 주소와 물리 메모리 주소 간 변환을 위한 메모리 구조를 여러 프로세스 사이에서 공유하게되므로,
+        CPU 소모 시간을 줄이고 커널 메모리 공간을 절약할 수 있다.</p>
+      </li><li>
+        <p>시스템의 MMU(Memory Management Unit)에서 지원하는 Large page가 자동으로 ISM 메모리
+        세그먼트에 할당된다. 이를 통해 page 관리를 위한 메모리 공간이 절약되고, 가상 메모리 주소 변환이 간단해지므로 시스템
+        성능을 향상시킬 수 있다.</p>
+      </li></ul></div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4485"/>E.4.1. 활성화</h3></div></div></div>
+      
+
+      <p>아래와 같은 서버 초기화 파라미터 설정을 통해 활성화 할 수 있다. 해당 파라미터는 Solaris에서만 유효하며 기본
+      값은 Y이다.</p>
+
+      <pre class="programlisting">_USE_ISM=Y
+</pre>
+
+      <p>이 기능을 켜면 shmget으로 공유 메모리를 만들고, shmat로 attach할 때 SHM_SHARED_MMU라는
+      옵션이 추가된다. 서버 프로세스와 리스너 프로세스에만 한정되어 적용되며, 서버의 TSM을 attach하는 클라이언트 모듈은 이
+      옵션을 적용하지 않는다. 만약, 해당 파라미터의 설정 값이 Y가 아닌 경우에는 Y로 수정하고 Tibero 서버를
+      재기동한다.</p>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="d5e4490"/>E.4.2. 비활성화</h3></div></div></div>
+      
+
+      <p>서버 초기화 파라미터 _USE_ISM 값을 N으로 수정하고 Tibero 서버를 재기동한다.</p>
+
+      <pre class="programlisting">_USE_ISM=N
+</pre>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4494"/>E.5. 권장 설정</h2></div></div></div>
+    
+
+    <p><span>Tibero</span>에서 Hugepage 크기에 대한 제약은 없으며, 각 OS에서
+    지원하는 범위 내에서 설정할 수 있다. 내부적으로 권장하는 크기는 다음과 같다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>메모리 사이즈가 작은 경우 (64G 미만) : 4M</p>
+      </li><li>
+        <p>메모리 사이즈가 큰 경우 (64G 이상) : 16M</p>
+      </li></ul></div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="appendix_system_sh.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="appendix_undotablespace_size.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">Appendix D. system.sh </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> Appendix F. Undo 테이블 스페이스 크기 산정</td></tr></table></div><div xmlns="" align="center"/></body></html>

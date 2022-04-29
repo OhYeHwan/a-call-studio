@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제2장 HDFS Connector의 사용</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero Hadoop Connector 안내서"/><link rel="up" href="index.html" title="Tibero Hadoop Connector 안내서"/><link rel="prev" href="chapter_01.html" title="제1장 소개"/><link rel="next" href="chapter_03.html" title="제3장 HBase Connector의 사용"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제2장 HDFS Connector의 사용</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chapter_01.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chapter_03.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chapter_02"/>제2장 HDFS Connector의 사용</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chapter_02.html#d5e412">2.1. HDFS External Table 생성</a></span></dt><dt><span class="section"><a href="chapter_02.html#d5e428">2.2. HDFS Connector를 사용한 질의 방법</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 <span>Tibero</span> HDFS Connector의 사용 방법에 대해서
+  설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e412"/>2.1. HDFS External Table 생성</h2></div></div></div>
+    
+
+    <p>HDFS Connector를 사용하는 External Table의 생성 문법은 일반 External Table 생성 문법과
+    동일하다. 단, 파일 목록에 다음과 같이 HDFS 정보를 지정한다.</p>
+
+    <pre class="programlisting">hdfs://<span class="emphasis"><em>[HDFS Namenode IP 또는 hostname][:Port]</em></span>/<span class="emphasis"><em>[File Path]</em></span></pre>
+
+    <p>위 문법에서 Port는 옵션이며, 지정하지 않는 경우 기본 포트인 8020을 사용한다.</p>
+
+    <div class="literallayout"><p/></div>
+
+    <p>다음은 HDFS Connector를 사용하는 External Table을 정의하는 예이다.</p>
+
+    <pre class="programlisting">CREATE DIRECTORY TMP_DIR AS '/home/tibero/';
+
+CREATE TABLE HDFS_EXT (
+    ID NUMBER(10),
+    TEXT VARCHAR(64)
+) ORGANIZATION EXTERNAL (
+    DEFAULT DIRECTORY TMP_DIR
+    ACCESS PARAMETERS (
+        LOAD DATA INTO TABLE HDFS_EXT
+        FIELDS TERMINATED BY '|'
+        (ID, TEXT)
+    ) LOCATION (
+        'hdfs://hadoop_name/user/tibero/f0.txt',
+        'hdfs://hadoop_name/user/tibero/f1.txt',
+        'hdfs://hadoop_name/user/tibero/f2.txt'
+    )
+);</pre>
+
+    <p>위의 예에서는 세 개의 HDFS 파일에 대한 External Table을 만들었다. HDFS Namenode의 호스트
+    네임은 hadoop_name이며, 기본 포트인 8020으로 접속한다. 그리고 HDFS 상의 /user/tibero 폴더에 있는 세
+    개의 파일 f0.txt, f1.txt, f2.txt를 읽는다.</p>
+
+    <p>Directory 오브젝트는 External Table을 만드는 DDL의 문법상 필요할 뿐 HDFS 파일의 경로에는 영향을
+    미치지 않는다. External Table을 생성할 때 HDFS 파일만 지정할 수 있는 것이 아니라 로컬 파일 시스템의 파일도 함께
+    지정할 수 있으며 External Table에서 사용 가능한 모든 기능을 동일하게 사용할 수 있다.</p>
+
+    <div class="note" style="margin-left: 0in; margin-right: 0in;"><h3 class="title">참고</h3>
+      <p>External Table 생성 문법에 대한 자세한 설명은 "<span>Tibero</span> SQL 참조 안내서"를 참고한다.</p>
+    </div>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e428"/>2.2. HDFS Connector를 사용한 질의 방법</h2></div></div></div>
+    
+
+    <p>HDFS Connector를 사용해 SQL을 실행하기 위해서는 External Table을 생성하고 생성한 테이블에 대해
+    질의를 수행하면 된다. External Table 인터페이스를 사용하므로 <span>Tibero</span>에서 제공하는 질의의 모든 기능을 사용할 수 있고, 일반 <span>Tibero</span>의 테이블과 조인 연산을 수행할 수 있으며, 다양한 집계 함수, UDF 등의 적용도 가능하다.</p>
+
+    <p>다음은 HDFS Connector를 사용해 질의를 수행하는 예이다.</p>
+
+    <pre class="programlisting">SELECT COUNT(*), AVG(PEOPLE.AGE) 
+FROM HDFS_EXT, PEOPLE
+WHERE HDFS_EXT.ID = PEOPLE.ID
+GROUP BY HDFS_EXT.TEXT;</pre>
+
+    <p>다음과 같이 <span><strong class="guibutton">/*+ parallel */</strong></span> 힌트를 사용해 일반 테이블과 마찬가지로
+    병렬 실행도 가능하다.</p>
+
+    <pre class="programlisting">SELECT /*+ parallel (8) */ COUNT(*), AVG(PEOPLE.AGE) 
+FROM HDFS_EXT, PEOPLE
+WHERE HDFS_EXT.ID = PEOPLE.ID
+GROUP BY HDFS_EXT.TEXT;</pre>
+
+    <p>병렬 실행을 사용하는 경우에는 HDFS 파일을 HDFS 블록 단위로 나눠 병렬 스캔하므로 질의 수행 성능을 향상시킬 수
+    있다. 하지만 HDFS Connector의 External Table에 대해서는 DML 문을 수행할 수는 없다.</p>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chapter_01.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chapter_03.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제1장 소개 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제3장 HBase Connector의 사용</td></tr></table></div><div xmlns="" align="center"/></body></html>

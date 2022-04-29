@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제40장 DBMS_SQLTUNE</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_sql.html" title="제39장 DBMS_SQL"/><link rel="next" href="chap_dbms_sql_translator.html" title="제41장 DBMS_SQL_TRANSLATOR"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제40장 DBMS_SQLTUNE</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_sql.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_sql_translator.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_sqltune"/>제40장 DBMS_SQLTUNE</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_sqltune.html#d5e15607">40.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_sqltune.html#d5e15614">40.2. 프러시저와 함수</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_sqltune.html#DBMS_SQLTUNE_REPORT_SQL_MONITOR">40.2.1. REPORT_SQL_MONITOR</a></span></dt><dt><span class="section"><a href="chap_dbms_sqltune.html#DBMS_SQLTUNE_SQLTEXT_TO_SIGNATURE">40.2.2. SQLTEXT_TO_SIGNATURE</a></span></dt><dt><span class="section"><a href="chap_dbms_sqltune.html#DBMS_SQLTUNE_IMPORT_SQL_PROFILE">40.2.3. IMPORT_SQL_PROFILE</a></span></dt><dt><span class="section"><a href="chap_dbms_sqltune.html#DBMS_SQLTUNE_ALTER_SQL_PROFILE">40.2.4. ALTER_SQL_PROFILE</a></span></dt><dt><span class="section"><a href="chap_dbms_sqltune.html#DBMS_SQLTUNE_DROP_SQL_PROFILE">40.2.5. DROP_SQL_PROFILE</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_SQLTUNE 패키지의 기본 개념과 패키지 내의 프러시저와 함수를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e15607"/>40.1. 개요</h2></div></div></div>
+    
+
+    <p>현재 <span><strong class="guibutton">DBMS_SQLTUNE</strong></span><a id="d5e15611" class="indexterm"/> 패키지는 실시간 SQL 모니터링 기능에 대한 보고서를 생성해 주는 REPORT_SQL_MONITOR 함수
+    하나만을 제공하고 있는 패키지이다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e15614"/>40.2. 프러시저와 함수</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_SQLTUNE 패키지에서 제공하는 프러시저와 함수를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SQLTUNE_REPORT_SQL_MONITOR"/>40.2.1. REPORT_SQL_MONITOR<a id="d5e15619" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 SQL 수행에 대해서 실시간 SQL 모니터링 기능에 의해 수집된 성능 관련 정보를 보고서 형태로 돌려준다. 보고서
+      형식은 텍스트 형식이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>REPORT_SQL_MONITOR 함수<a id="d5e15625" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SQLTUNE.REPORT_SQL_MONITOR
+(
+    sql_id         IN VARCHAR DEFAULT NULL,
+    session_id     IN NUMBER  DEFAULT NULL,
+    session_serial IN NUMBER  DEFAULT NULL,
+    sql_exec_start IN DATE    DEFAULT NULL,
+    sql_exec_id    IN NUMBER  DEFAULT NULL
+) 
+RETURN CLOB;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">sql_id</td><td><p>보고서를 생성할 SQL 수행의 SQL 식별자이다.</p><p>여기에
+                  NULL을 명시하면 현재 시스템에서 가장 최근에 모니터링된 SQL 수행에 대한 보고서를
+                  생성한다.</p></td></tr><tr><td align="left">session_id</td><td><p>이 값이 NULL이 아니면 이 값이 명시하는 세션에서 수행된 SQL 수행에 한정하여
+                  보고서를 생성할 수 있다.</p><p>만약, 이 파라미터에 NULL 이 아닌 값을 명시하고
+                  sql_id 파라미터에 NULL을 명시할 경우에 해당 세션에서 가장 최근에 모니터링된 SQL 수행에 대해
+                  보고서를 생성한다.</p></td></tr><tr><td align="left">session_serial</td><td><p>원하는 특정 세션을 확실하게 한정하고 싶을 때 추가적으로 이 파라미터를 명시할 수
+                  있다.</p><p>만약, session_id 파라미터가 NULL일 경우 이 파라미터는
+                  무시된다.</p></td></tr><tr><td align="left">sql_exec_start</td><td><p>sql_id 파라미터를 명시하였을 때만 이 파라미터를 명시할 수
+                  있다.</p><p>모니터링된 SQL 수행 중에서 해당 sql_id를 가진 것 중
+                  sql_exec_start 값이 일치하는 모니터링 정보를 찾아 보고서를 생성한다.</p></td></tr><tr><td align="left">sql_exec_id</td><td><p>sql_id 파라미터를 명시하였을 때만 이 파라미터를 명시할 수
+                  있다.</p><p>모니터링된 SQL 수행 중에서 해당 sql_id를 가진 것 중
+                  sql_exec_id 값이 일치하는 모니터링 정보를 찾아 보고서를 생성한다.</p></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">반환값</th><th>설명</th></tr></thead><tbody><tr><td align="left">CLOB 데이터</td><td>보고서 형식으로 생성된 문자열을 CLOB 형태로 반환한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">set long 1000000;
+select dbms_sqltune.report_sql_monitor from dual;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SQLTUNE_SQLTEXT_TO_SIGNATURE"/>40.2.2. SQLTEXT_TO_SIGNATURE<a id="d5e15684" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 SQL 텍스트의 SIGNATURE를 반환한다. SIGNATURE는 DBA_SQL_PROFILES에서 SQL
+      질의문을 식별하는 데 사용할 수 있다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>SQLTEXT_TO_SIGNATURE 함수<a id="d5e15690" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SQLTUNE.DBMS_SQLTUNE.SQLTEXT_TO_SIGNATURE
+(
+    sql_text       IN CLOB,
+    force_match    IN BINARY_INTEGER := 0
+) 
+RETURN NUMBER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">sql_text</td><td>SIGNATURE로 변환할 SQL 질의문이다.</td></tr><tr><td align="left">force_match</td><td><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>TRUE : WHERE 절에 literal로 적힌 constant를 bind
+                        variable 로 바꾼 뒤 normalize를 수행한다.</p>
+                      </li><li>
+                        <p>FALSE : WHERE 절에 literal로 적힌 constant를 bind
+                        variable로 바꾸지 않고 normalize를 수행한다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">반환값</th><th>설명</th></tr></thead><tbody><tr><td align="left">NUMBER 데이터</td><td>Normalize된 SQL test의 signature를 반환한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE                                                                
+    ret1 NUMBER;                                                       
+    ret2 NUMBER;                                                       
+BEGIN                                                                  
+    ret1 := DBMS_SQLTUNE.SQLTEXT_TO_SIGNATURE('SELECT 1 FROM DUAL', 0);
+    ret2 := DBMS_SQLTUNE.SQLTEXT_TO_SIGNATURE('SELECT 2 FROM DUAL', 0);
+    DBMS_OUTPUT.PUT_LINE(ret1);                                        
+    DBMS_OUTPUT.PUT_LINE(ret2);                                        
+    ret1 := DBMS_SQLTUNE.SQLTEXT_TO_SIGNATURE('SELECT 1 FROM DUAL', 1);
+    ret2 := DBMS_SQLTUNE.SQLTEXT_TO_SIGNATURE('SELECT 2 FROM DUAL', 1);
+    DBMS_OUTPUT.PUT_LINE(ret1);                                        
+    DBMS_OUTPUT.PUT_LINE(ret2);                                        
+END;                                                                   
+/                                                           </pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SQLTUNE_IMPORT_SQL_PROFILE"/>40.2.3. IMPORT_SQL_PROFILE<a id="d5e15735" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>SQL PROFILE을 생성한다. 반드시 SQL_TEXT와 SQL_PROFILE_ATTRIBUTE는 인자로 넘겨줘야
+      한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>IMPORT_SQL_PROFILE 함수<a id="d5e15741" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SQLTUNE.DBMS_SQLTUNE.IMPORT_SQL_PROFILE
+(
+    sql_text       IN CLOB,
+    profile        IN SQLPROF_ATTR,
+    category       IN VARCHAR2 := 'DEFAULT',
+    name           IN VARCHAR2 := NULL,
+    description    IN VARCHAR2 := NULL,
+    replace        IN boolean := FALSE,
+    force_match    IN BINARY_INTEGER := 0
+) </pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">sql_text</td><td>SQL 질의문이다.</td></tr><tr><td align="left">profile</td><td>sql profile attribute의 정보이다.</td></tr><tr><td align="left">category</td><td>sql profile이 속해 있는 category이다.</td></tr><tr><td align="left">name</td><td>sql profile 이름이다.</td></tr><tr><td align="left">description</td><td>sql profile의 설명이다.</td></tr><tr><td align="left">replace</td><td>이미 존재하는 sql profile이면 현재 정의하는 것으로 대체할 지 여부이다.</td></tr><tr><td align="left">force_match</td><td><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>TRUE : WHERE 절에 literal로 적힌 constant를 bind
+                        variable 로 바꾼 뒤 normalize를 수행한다.</p>
+                      </li><li>
+                        <p>FALSE : WHERE 절에 literal로 적힌 constant를 bind
+                        variable로 바꾸지 않고 normalize를 수행한다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">create table t (c1 number, c2 number);
+
+create index idx on t(c1);
+
+alter session set optimizer_log_outline=y;
+
+select * from t where c1 = 1;
+
+select * from table(dbms_xplan.display_cursor(format=&gt;'outline'));
+
+BEGIN
+DBMS_SQLTUNE.IMPORT_SQL_PROFILE(
+'select /*+full(t)*/ * from t where c1=1',
+SQLPROF_ATTR(
+q'$BEGIN_OUTLINE_DATA$'
+, q'$IGNORE_OPTIM_EMBEDDED_HINTS$'
+, q'$OPT_PARAM(_ENABLE_HASH_JOIN, 'TRUE')$'
+, q'$OPT_PARAM(_ENABLE_IDX_JOIN, 'TRUE')$'
+, q'$OPT_PARAM(OPTIMIZER_MODE, 'ALL_ROWS')$'
+, q'$OPT_PARAM(_OPT_JOIN_MEMORY_LIMIT, 7340032)$'
+, q'$OPT_PARAM(_OPT_BUILD_INDEX_FFS_SELF_JOIN, 'TRUE')$'
+, q'$OPT_PARAM(_ENABLE_HASH_GROUPBY, 'TRUE')$'
+, q'$OPT_PARAM(_ENABLE_SORT_GROUPBY, 'TRUE')$'
+, q'$OPT_PARAM(_ENABLE_ISS, 'TRUE')$'
+, q'$OPT_PARAM(_OPT_OR_EXP_FOR_JOIN_PRED, 'TRUE')$'
+, q'$OPT_PARAM(_TRANS_UNNEST_SUBQUERY_IN_SELECT_LIST, 'FALSE')$'
+, q'$OPT_PARAM(_TRANS_NO_TRIM_LPN, 'FALSE')$'
+, q'$OPT_PARAM(_OPT_PE_BROADCAST_LIMIT_ROW, 0)$'
+, q'$OPT_PARAM(_OPT_PGROUPBY_PUSH_RATIO, 100)$'
+, q'$OPT_PARAM(_OPT_BIND_PEEKING, 'TRUE')$'
+, q'$ROWID@LPN$3(T)$'
+, q'$INDEX_RS@LPN$3(IDX)$'
+, q'$END_OUTLINE_DATA$'
+));
+END;
+/                                                A</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SQLTUNE_ALTER_SQL_PROFILE"/>40.2.4. ALTER_SQL_PROFILE<a id="d5e15788" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>기존 SQL PROFILE 의 특정 속성을 변경한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>ALTER_SQL_PROFILE 함수<a id="d5e15794" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SQLTUNE.ALTER_SQL_PROFILE
+(
+    name             IN VARCHAR2,
+    attribute_name   IN VARCHAR2,
+    value            IN VARCHAR2
+)</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>sql profile의 이름이다.</td></tr><tr><td align="left">attribute_name</td><td>sql profile의 configuration attribute 이름이다.</td></tr><tr><td align="left">value</td><td><p>변경할 sql configuration attribute의 값이다.
+                  </p><div class="itemizedlist"><ul type="circle" compact="compact"><li>
+                        <p>STATUS : 사용 가능한 상태를 나타내는 값이다. ENABLED 또는
+                        DISABLED 로 조절한다.</p>
+                      </li><li>
+                        <p>NAME : attribute의 이름으로 유니크한 문자열로 만들어야 한다.</p>
+                      </li><li>
+                        <p>DESCRIPTION : attribute에 대한 설명으로 500자 이내의 문자열로
+                        적어야 한다.</p>
+                      </li><li>
+                        <p>CATEGORY : SQL 질의문과 조합되었을 때 유니크한 문자열로 만들어야
+                        한다.</p>
+                      </li></ul></div></td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>ALTER 전</p>
+
+              <pre class="programlisting">SQL&gt; select * from dba_sql_profiles;
+NAME
+--------------------------------------------------------------------------------
+CATEGORY
+--------------------------------------------------------------------------------
+ SIGNATURE
+----------
+SQL_TEXT
+--------------------------------------------------------------------------------
+CREATED                                                          
+-----------------------------------------------------------------
+LAST_MODIFIED                                                    
+-----------------------------------------------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+TYPE    STATUS   FORCE_MATCHING
+------- -------- --------------
+SYS_SQLPROF_4250f54b3b640bf9
+DEFAULT
+6.9222E+18
+select /*+full(t)*/ * from t where c1=1
+2020/12/14 05:07:17.304011
+2020/12/14 05:07:17.304011
+
+MANUAL  ENABLED  NO                </pre>
+            </li><li>
+              <p>ALTER 구문</p>
+
+              <pre class="programlisting">BEGIN                  
+    DBMS_SQLTUNE.ALTER_SQL_PROFILE(NAME =&gt; 'SYS_SQLPROF_4250f54b3b640bf9',
+    ATTRIBUTE_NAME =&gt; 'DESCRIPTION', VALUE =&gt; 'TEST');                                                                              
+END;                                                                                              
+/                                          </pre>
+            </li><li>
+              <p>ALTER 후</p>
+
+              <pre class="programlisting">SQL&gt; select * from dba_sql_profiles;
+NAME
+--------------------------------------------------------------------------------
+CATEGORY
+--------------------------------------------------------------------------------
+ SIGNATURE
+----------
+SQL_TEXT
+--------------------------------------------------------------------------------
+CREATED                                                          
+-----------------------------------------------------------------
+LAST_MODIFIED                                                    
+-----------------------------------------------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+TYPE    STATUS   FORCE_MATCHING
+------- -------- --------------
+SYS_SQLPROF_4250f54b3b640bf9
+DEFAULT
+6.9222E+18
+select /*+full(t)*/ * from t where c1=1
+2020/12/14 05:07:17.304011
+2020/12/14 05:07:17.304011
+TEST
+MANUAL  ENABLED  NO                                       </pre>
+            </li></ul></div>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_SQLTUNE_DROP_SQL_PROFILE"/>40.2.5. DROP_SQL_PROFILE<a id="d5e15843" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>특정 SQL PROFILE을 데이터베이스에서 삭제한다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>DROP_SQL_PROFILE 함수<a id="d5e15849" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_SQLTUNE.DROP_SQL_PROFILE
+(
+    name         IN VARCHAR2,
+    ignore       IN BOOLEAN := FALSE
+)</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">name</td><td>sql profile의 이름이다.</td></tr><tr><td align="left">ignore</td><td>에러 발생 시 무시 여부이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>DROP 전</p>
+
+              <pre class="programlisting">SQL&gt; select * from dba_sql_profiles;
+ 
+NAME
+--------------------------------------------------------------------------------
+CATEGORY
+--------------------------------------------------------------------------------
+ SIGNATURE
+----------
+SQL_TEXT
+--------------------------------------------------------------------------------
+CREATED                                                          
+-----------------------------------------------------------------
+LAST_MODIFIED                                                    
+-----------------------------------------------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+TYPE    STATUS   FORCE_MATCHING
+------- -------- --------------
+SYS_SQLPROF_4250f54b3b640bf9
+DEFAULT
+6.9222E+18
+select /*+full(t)*/ * from t where c1=1
+2020/12/14 05:07:17.304011
+2020/12/14 05:07:17.304011
+TEST
+MANUAL  ENABLED  NO           </pre>
+            </li><li>
+              <p>DROP 구문</p>
+
+              <pre class="programlisting">BEGIN                                                                                      
+    DBMS_SQLTUNE.DROP_SQL_PROFILE(NAME =&gt; 'SYS_SQLPROF_4250f54b3b640bf9', 
+    IGNORE =&gt; FALSE);
+END;                                                                                        
+/                                          </pre>
+            </li><li>
+              <p>DROP 후</p>
+
+              <pre class="programlisting">SQL&gt; select * from dba_sql_profiles;
+0 row selected.                   </pre>
+            </li></ul></div>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_sql.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_sql_translator.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제39장 DBMS_SQL </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제41장 DBMS_SQL_TRANSLATOR</td></tr></table></div><div xmlns="" align="center"/></body></html>

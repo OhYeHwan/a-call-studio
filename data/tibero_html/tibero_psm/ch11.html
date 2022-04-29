@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제11장 사용자 정의 AGGREGATION 함수</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 안내서"/><link rel="prev" href="ch10.html" title="제10장 오브젝트 타입"/><link rel="next" href="appendix_reserved_words.html" title="Appendix A. 예약어"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제11장 사용자 정의 AGGREGATION 함수</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch10.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="appendix_reserved_words.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e4802"/>제11장 사용자 정의 AGGREGATION 함수</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="ch11.html#d5e4805">11.1. 개요</a></span></dt><dt><span class="section"><a href="ch11.html#sect_user_defined_aggregation_function_declaration">11.2. 함수 DDL</a></span></dt><dt><span class="section"><a href="ch11.html#sect_uda_object_type">11.3. 객체 타입</a></span></dt><dd><dl><dt><span class="section"><a href="ch11.html#sect_uda_aggregateinitialize">11.3.1. AGGREGATEINITIALIZE 메소드</a></span></dt><dt><span class="section"><a href="ch11.html#sect_uda_aggregateiterate">11.3.2. AGGREGATEITERATE 메소드</a></span></dt><dt><span class="section"><a href="ch11.html#sect_uda_aggregateterminate">11.3.3. AGGREGATETERMINATE 메소드</a></span></dt><dt><span class="section"><a href="ch11.html#sect_uda_aggregatemerge">11.3.4. AGGREGATEMERGE 메소드</a></span></dt></dl></dd><dt><span class="section"><a href="ch11.html#pkg_tudiconst">11.4. TUDICONST 패키지</a></span></dt><dt><span class="section"><a href="ch11.html#sect_uda_exception">11.5. 예외</a></span></dt><dt><span class="section"><a href="ch11.html#sect_uda_example">11.6. 간단한 예제</a></span></dt></dl></div>
+  
+
+  <p>본 장에서는 사용자 정의 AGGREGATION 함수에 대하여 대해서 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e4805"/>11.1. 개요</h2></div></div></div>
+    
+
+    <p>AGGREGATION 함수는 미리 정해진 AGGREGATION 함수와 사용자 정의 AGGREGATION 함수로 나뉘어진다.
+    미리 정해진 AGGREGATION 함수는 사전에 정의하여 제공되는 함수로 자세한 내용은 "<span>Tibero</span> SQL 참조 안내서"를 참고한다.<a id="d5e4809" class="indexterm"/></p>
+
+    <p>사용자 정의 AGGREGATION 함수는 미리 정해진 AGGREGATION 동작 외에 사용자가 정의한 임의의 동작의
+    AGGREGATION을 수행한다. 임의의 동작을 수행하기 위해 쿼리 수행기는 AGGREGATION의 여러 단계를 정의하고, 각
+    단계에서 AGGREGATION 동작을 사용자가 정의한 메소드로 콜백(CALLBACK)함으로써 AGGREGATION 동작을 수행할수
+    있는 확장성을 제공한다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_user_defined_aggregation_function_declaration"/>11.2. 함수 DDL<a id="d5e4814" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>사용자 정의 AGGREGATION 함수는 바디가 없는 함수로 선언된다.</p>
+
+    <p>바디가 없는 이유는 쿼리 수행기의 동작이 다양한 단계를 가지기 때문에 하나의 함수로 정의할 수 없다. 대신 쿼리 수행기의
+    여러 단계에서 사용 될 콜백 메소드들을 포함하는 오브젝트 타입으로 정의한다.</p>
+
+    <p>사용자 정의 AGGREGATION 동작이 병렬로 수행 가능한지 여부 또한 사용자가 지정 가능하다. 사용자가 병렬 수행 가능
+    여부를 지정한 경우 병렬 수행 가능하며 그에 대한 동작이나 알고리즘은 병렬 수행에 맞게 올바로 기술되어야 한다.</p>
+
+    <p>기술하지 않는 경우 병렬로 수행될 수 없으므로, 옵티마이져의 실행 계획 생성 과정에서 효율적인 실행 계획 생성에 제약을 줄
+    수 있다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>문법</p>
+
+        <div class="informalfigure">
+          <div xmlns="" class="mediaobject"><img src="resources/user_defined_aggregation_function.png"/></div>
+        </div>
+
+        <div class="informalfigure">
+          <div xmlns="" class="mediaobject"><img src="resources/object_type_name.png"/></div>
+        </div>
+      </li><li>
+        <p>구성요소</p>
+
+        <div class="informaltable">
+            <table border="1"><colgroup><col width="170" align="left"/><col/></colgroup><thead><tr><th align="left">구성요소</th><th>설명</th></tr></thead><tbody><tr><td align="left">qualified_obj_name</td><td><p>"스키마명.함수이름"으로 쓸 수 있으며, 스키마명이 생략 가능하다.
+                  </p><p>스키마명이 기입되면 함수가 속해있는 스키마를 명시한다. 생략하면 현재 사용자의
+                  스키마로 인식된다.</p></td></tr><tr><td align="left">argument</td><td>함수의 파라미터이다. 1개 이상의 파리미터가 주어져야 한다.</td></tr><tr><td align="left">IN</td><td><p>함수의 파라미터의 전달 방향에 따른 구분이다. </p><p>IN 파라미터는
+                  외부로부터 값을 입력 받는다. 기본값은 IN 파라미터이다.</p><p>AGGREGATION
+                  함수에서는 IN 파라미터만을 지원한다. IN OUT, OUT, NOCOPY 옵션은 허용하지
+                  않는다.</p></td></tr><tr><td align="left">datatype</td><td>함수의 파라미터의 데이터 타입이다. 파리미터 타입은 스칼라 타입만 지원한다.</td></tr><tr><td align="left">PARALLEL_ENABLE</td><td><p>AGGREGATION 동작이 병렬로 동작 가능한지를 나타낸다.
+                  </p><p>기술하지 않는 경우 병렬로 수행이 불가능하다.</p></td></tr><tr><td align="left">AGGREGATE</td><td>사용자 지정 AGGREGATION 함수 여부를 나타낸다.</td></tr><tr><td align="left">object_type_name</td><td><p>객체 타입의 이름이다. </p><p>객체 타입은 쿼리 수행기의
+                  AGGREGATION 동작을 포함하는 TUDIAGGREGATEINITIALIZE,
+                  TUDIAGGREGATEITERATE, TUDIAGGREGATETERMINATE,
+                  TUDIAGGREGATEMERGE(선택가능)이 포함되어야 한다.</p><p>"객체 타입의 이름"
+                  또는 "스키마명.객체 타입"의 이름으로 쓸 수 있다.</p></td></tr></tbody></table>
+          </div>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_uda_object_type"/>11.3. 객체 타입</h2></div></div></div>
+    
+
+    <p>사용자가 정의한 AGGREGATION을 표현하기 위해서 하나의 함수로 표현할수 있으면 좋겠지만, 쿼리 수행기의 동작은 이와
+    같지 않다.</p>
+
+    <p>쿼리 수행기는 AGGREGATION 동작 중 다양한 단계를 가지며, 각각의 동작은 다른 연산이 요구된다. 또한 사용자 정의
+    AGGREGATION은 중간 연산 도중 사용자가 정의한 타입의 데이터를 유지할 수 있어야 한다. 이러한 것을 표현하기에 적합한 것은,
+    오브젝트 타입이다.</p>
+
+    <p>오브젝트 타입은 임의의 타입을 애트리뷰트로 가지며, 임의의 동작들을 메소드로 정의하여 하나로 묶을 수
+    (Encpsulation) 있기 때문이다. 이에 따라, 사용자 정의 AGGREGATION 동작은 그에 필요한 임의의 애트리뷰트,
+    단계별 AGGREGATION 동작은 메소드로 정의한다.</p>
+
+    <p>애트리뷰트는 일반 오브젝트 타입의 제약에 따른다. 그렇기 때문에 사용자가 객체 타입의 사용자 정의 타입의 표현 안에서
+    어떠한 데이터도 AGGREGATION 동작에 포함시킬 수 있다. 메소드는 PSM의 언어의 제약 범위 안에서 자유롭게 표현 가능하다.
+    단, 해당 오브젝트의 생성 및 메소드 호출은 사용자 의해 직접 컨트롤되지 않는다.</p>
+
+    <p>쿼리 수행기는 오브젝트 인스턴스를 생성하고 해당 인스턴스에 값을 누적시킴으로 인해 AGGREGATION 동작을 수행하며 각
+    메소드는 쿼리 수행도중 필요한 단계에 맞게 자동으로 콜백(CALLBACK)되는 형태로 사용된다. 값을 생성하는 AGGREGATION
+    함수 동작을 수행한다.</p>
+
+    <p/>
+
+    <p/>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_uda_aggregateinitialize"/>11.3.1. AGGREGATEINITIALIZE 메소드<a id="d5e4888" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>AGGREGATION 동작할 때 필요한 객체 인스턴스를 생성하는 함수이다. 최초에 호출되므로 객체 인스턴스가 없게
+      된다. 이에 따라 반드시 STATIC 함수로 정의해야 한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p><pre class="programlisting">STATIC FUNCTION TUDIAGGREGATEINITIALIZE
+( 
+  SCTX IN OUT object_type_name
+)
+RETURN NUMBER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">SCTX</td><td>AGGREGATION 동작에 필요한 객체를 instanciation한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>해당 메소드 동작 후 결과를 반환한다. 결과 값은 TUDICONST에 의미가 정의 되어 있으며, 해당 반환에
+          따라 쿼리 수행기의 동작이 달라진다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_uda_aggregateiterate"/>11.3.2. AGGREGATEITERATE 메소드<a id="d5e4913" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>단일 컬럼의 값을 입력받아, 객체 인스턴스 애트리뷰트에 중간 결과를 누적한다. 해당 동작은 AGGREGATION 동작이
+      진행될 컬럼에 대하여 반복 수행된다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p><pre class="programlisting">MEMBER FUNCTION TUDIAGGREGATEITERATE
+(
+  SELF IN OUT MYSUM_OBJ, 
+  VALUE IN primitive_type
+)
+RETURN NUMBER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">SELF</td><td>객체 인스턴스 자기 자신을 입력으로 받고, 연산 결과를 누적하여 자신의 인스턴스를
+                  업데이트한다.</td></tr><tr><td align="left">VALUE</td><td>누적할 컬럼값이 해당 입력으로 전달된다. 커서 타입과 복합 타입(오브젝트, 콜렉션, 레코드)은
+                  지원되지 않는다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>해당 메소드 동작 후 결과를 반환한다. 결과 값은 TUDICONST 패키지에 의미가 정의 되어 있으며, 해당
+          반환에 따라 쿼리 수행기의 동작이 달라진다.</p>
+        </li></ul></div>
+
+      <p/>
+
+      <p/>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_uda_aggregateterminate"/>11.3.3. AGGREGATETERMINATE 메소드<a id="d5e4943" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>객체 인스턴스에 누적되어 있는 중간 결과로부터 최종의 단일 AGGREGATION 결과 값을 생성한다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p><pre class="programlisting">MEMBER FUNCTION TUDIAGGREGATETERMINATE
+(
+  SELF IN object_type_name, 
+  RETURNVALUE OUT NUMBER, 
+  FLAGS IN NUMBER )
+RETURN NUMBER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">SELF</td><td>연산이 누적된 객체 인스턴스를 참조하기 위함이며, 객체 인스턴스 자기 자신을 입력으로
+                  받는다.</td></tr><tr><td align="left">RETURNVALUE</td><td>AGGREGATION 결과값이다. 커서 타입과 복합타입(오브젝트, 콜렉션, 레코드)은 지원되지
+                  않는다.</td></tr><tr><td align="left">FLAGS</td><td>사용되지 않는다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>해당 메소드 동작 후 결과를 반환한다. 결과 값은 TUDICONST에 의미가 정의 되어 있으며, 해당 반환에
+          따라 쿼리 수행기의 동작이 달라진다.</p>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="sect_uda_aggregatemerge"/>11.3.4. AGGREGATEMERGE 메소드<a id="d5e4974" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>객체 인스턴스 중간 결과 둘을 합하여 하나의 객체 인스턴스로 중간 결과를 생성한다. 해당 동작은
+      선택적(Optional)으로 정의할수 있다. 해당 동작을 정의하지 않으면 쿼리 수행 엔진에서의 동작이 정의되지 않아, 병렬 수행,
+      2PASS 알고리즘 등과 같은 동작 제약이 생긴다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p><pre class="programlisting">MEMBER FUNCTION TUDIAGGREGATEMERGE
+( 
+    SELF IN OUT MYSUM_OBJ, 
+    CTX2 IN MYSUM_OBJ 
+)
+RETURN NUMBER;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">SELF</td><td>객체 인스턴스 자기 자신을 입력으로 받는다. 다른 중간 결과를 병합한 결과이다.</td></tr><tr><td align="left">CTX2</td><td>병합 대상의 객체 인스턴스이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>해당 메소드 동작 후 결과를 반환한다. 결과 값은 TUDICONST에 의미가 정의 되어 있으며, 해당 반환에
+          따라 쿼리 수행기의 동작이 달라진다.</p>
+        </li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="pkg_tudiconst"/>11.4. TUDICONST 패키지<a id="d5e5002" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>사용자 정의 AGGREGATION 함수의 반환값의 종류를 나타낸다. 반환값에 따라, 쿼리 수행기가 동작을
+    달리한다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>상수</p>
+
+        <div class="informaltable">
+          <table border="1"><colgroup><col width="150" align="left"/><col/></colgroup><thead><tr><th align="left">상수명</th><th>설명</th></tr></thead><tbody><tr><td align="left">SUCCESS</td><td>콜백 수행 결과가 정상 상태임을 쿼리 수행기에 전달할 때 사용한다.</td></tr><tr><td align="left">ERROR</td><td>콜백 수행 결과가 비정상 상태임을 쿼리 수행기에 전달할 때 사용한다. 쿼리 수행 중 예외
+                발생한다.</td></tr></tbody></table>
+        </div>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_uda_exception"/>11.5. 예외<a id="d5e5024" class="indexterm"/></h2></div></div></div>
+    
+
+    <p>다음은 사용자 정의 AGGREGATION 수행 중 발생할수 있는 예외이다.</p>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>ERROR_DML_UDA_INVALID_ARG_CNT</p>
+
+        <p>AGGREGATION 함수의 파라미터 개수가 맞지 않는 경우 발생하는 에러이다.</p>
+      </li><li>
+        <p>ERROR_DML_UDA_NOT_FOUND_INTERFACE</p>
+
+        <p>쿼리수행기에서 사용자가 정의한 콜백(CALLBACK) 메소드를 찾지 못한 경우 발생하는 에러이다.</p>
+      </li><li>
+        <p>ERROR_DML_UDA_INVALID_ITERATE_ARG</p>
+
+        <p>쿼리 수행기에서 사용자가 정의한 콜백(CALLBACK) 메소드로 파라미터를 전달하지 못했을 때 발생하는
+        에러이다.</p>
+      </li><li>
+        <p>ERROR_DML_UDA_INVALID_RETURN_TYPE</p>
+
+        <p>사용자가 정의한 콜백(CALLBACK)메소드에서 RETURNVALUE 의 값이 사용자 정의 AGGREGATION
+        함수의 리턴값으로 변환을 하지 못할때 발생하는 에러이다.</p>
+      </li><li>
+        <p>ERROR_EXEC_UDA_ERROR</p>
+
+        <p>사용자가 정의한 콜백(CALLBACK) 메소드에서 TUDICONST.ERROR를 리턴한 경우에 발생하는
+        에러이다.</p>
+      </li></ul></div>
+
+    <p/>
+
+    
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sect_uda_example"/>11.6. 간단한 예제</h2></div></div></div>
+    
+
+    <p>다음은 AGGREGATION에 필요한 객체 타입을 정의하는 예이다.</p>
+
+    <p/>
+
+    <pre class="programlisting">CREATE OR REPLACE TYPE AGGR_STRING_OBJTYPE AS OBJECT (
+   data VARCHAR2(32767),
+   STATIC FUNCTION TUDIAGGREGATEINITIALIZE( SCTX IN OUT AGGR_STRING_OBJTYPE ) 
+   RETURN NUMBER,
+   MEMBER FUNCTION TUDIAGGREGATEITERATE( SELF IN OUT AGGR_STRING_OBJTYPE, 
+                                         VALUE IN VARCHAR2) 
+   RETURN NUMBER,
+   MEMBER FUNCTION TUDIAGGREGATETERMINATE( SELF IN AGGR_STRING_OBJTYPE, 
+                                           RETURNVALUE OUT VARCHAR2, 
+   FLAGS IN NUMBER ) 
+   RETURN NUMBER,
+   MEMBER FUNCTION TUDIAGGREGATEMERGE( SELF IN OUT AGGR_STRING_OBJTYPE, 
+                                       CTX2 IN AGGR_STRING_OBJTYPE) 
+   RETURN NUMBER
+);
+/
+      
+CREATE OR REPLACE TYPE BODY AGGR_STRING_OBJTYPE 
+IS
+   STATIC FUNCTION TUDIAGGREGATEINITIALIZE( SCTX IN OUT AGGR_STRING_OBJTYPE )
+    RETURN NUMBER
+    IS
+    BEGIN
+      SCTX := AGGR_STRING_OBJTYPE(NULL);
+      RETURN TUDICONST.SUCCESS;
+   END;
+   MEMBER FUNCTION TUDIAGGREGATEITERATE( SELF IN OUT AGGR_STRING_OBJTYPE, 
+                                         VALUE IN VARCHAR2)
+    RETURN NUMBER
+    IS
+    BEGIN
+      
+      IF VALUE IS NOT NULL THEN
+        IF SELF.data IS NULL THEN 
+          SELF.data := VALUE;
+        ELSE 
+          SELF.data := SELF.data || ',' || VALUE;
+        END IF;
+      END IF;
+
+      RETURN TUDICONST.SUCCESS;
+   
+   EXCEPTION WHEN OTHERS THEN 
+      RETURN TUDICONST.ERROR;
+   END;
+   MEMBER FUNCTION TUDIAGGREGATETERMINATE( SELF IN AGGR_STRING_OBJTYPE, 
+                                           RETURNVALUE OUT VARCHAR2, 
+                                           FLAGS IN NUMBER )
+    RETURN NUMBER
+    IS
+    BEGIN
+      RETURNVALUE := SELF.data;
+      RETURN TUDICONST.SUCCESS;
+   END;
+   MEMBER FUNCTION TUDIAGGREGATEMERGE( SELF IN OUT AGGR_STRING_OBJTYPE, 
+                                       CTX2 IN AGGR_STRING_OBJTYPE)
+    RETURN NUMBER
+    IS
+    BEGIN
+      SELF.data := SELF.data || ',' || CTX2.data;
+      RETURN TUDICONST.SUCCESS;
+
+   EXCEPTION WHEN OTHERS THEN 
+      RETURN TUDICONST.ERROR;
+   END;
+END;
+/</pre>
+
+    <p/>
+
+    <p>정의한 객체 타입으로 AGGREGATION 함수를 정의한다. </p><pre class="programlisting">CREATE OR REPLACE FUNCTION AGGR_STRING(input VARCHAR) RETURN VARCHAR 
+PARALLEL_ENABLE AGGREGATE USING AGGR_STRING_OBJTYPE;
+/</pre>
+
+    <p>다음은 AGGREGATION 함수의 실제 사용의 예이다. 미리 정의된 AGGREGATION이 아닌 사용자가 정의한
+    AGGREGATION 동작이 SQL을 통해 수행된다.</p>
+
+    <pre class="programlisting">CREATE TABLE BEST_COMPANY (
+  group_name VARCHAR(32), 
+  affiliate VARCHAR(32));
+
+Table 'BEST_COMPANY' created.
+
+INSERT INTO BEST_COMPANY VALUES('티맥스', '티맥스소프트');
+
+1 row inserted.
+
+INSERT INTO BEST_COMPANY VALUES('티맥스', '티맥스데이터');
+
+1 row inserted.
+
+INSERT INTO BEST_COMPANY VALUES('티맥스', '티맥스글로벌');
+
+1 row inserted.
+
+COMMIT;
+
+Commit completed.
+
+
+-- BEST 회사 테이블에서 티맥스의 계열사의 이름을 다 붙여서 
+-- 하나의 값으로 보고 싶다. 
+SELECT  aggr_string(affiliate)
+FROM    best_company
+WHERE   group_name = '티맥스';
+
+
+AGGR_STRING(AFFILIATE)
+--------------------------------------------------------------------------------
+티맥스소프트,티맥스데이터,티맥스글로벌
+
+1 row selected.
+
+/</pre>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch10.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="appendix_reserved_words.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제10장 오브젝트 타입 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> Appendix A. 예약어</td></tr></table></div><div xmlns="" align="center"/></body></html>

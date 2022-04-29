@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제8장 DBMS_CRYPTO</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="up" href="index.html" title="Tibero tbPSM 참조 안내서"/><link rel="prev" href="chap_dbms_backup_restore.html" title="제7장 DBMS_BACKUP_RESTORE"/><link rel="next" href="chap_dbms_db_version.html" title="제9장 DBMS_DB_VERSION"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제8장 DBMS_CRYPTO</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="chap_dbms_backup_restore.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="chap_dbms_db_version.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="chap_dbms_crypto"/>제8장 DBMS_CRYPTO</h2></div></div></div><div class="toc"><p><b>내용 목차</b></p><dl><dt><span class="section"><a href="chap_dbms_crypto.html#d5e2364">8.1. 개요</a></span></dt><dt><span class="section"><a href="chap_dbms_crypto.html#d5e2376">8.2. 암호화/복호화 알고리즘 및 체인, 패딩</a></span></dt><dt><span class="section"><a href="chap_dbms_crypto.html#d5e2512">8.3. 해시 알고리즘</a></span></dt><dt><span class="section"><a href="chap_dbms_crypto.html#d5e2573">8.4. 프러시저와 함수</a></span></dt><dd><dl><dt><span class="section"><a href="chap_dbms_crypto.html#DBMS_CRYPTO_DECRYPT">8.4.1. DECRYPT</a></span></dt><dt><span class="section"><a href="chap_dbms_crypto.html#DBMS_CRYPTO_ENCRYPT">8.4.2. ENCRYPT</a></span></dt><dt><span class="section"><a href="chap_dbms_crypto.html#DBMS_CRYPTO_HASH">8.4.3. HASH</a></span></dt><dt><span class="section"><a href="chap_dbms_crypto.html#DBMS_CRYPTO_MAC">8.4.4. MAC</a></span></dt><dt><span class="section"><a href="chap_dbms_crypto.html#DBMS_CRYPTO_RANDOMBYTES">8.4.5. RANDOMBYTES</a></span></dt></dl></dd></dl></div>
+  
+
+  <p>본 장에서는 DBMS_CRYPTO 패키지의 기본 개념과 패키지 내의 프러시저와 함수를 사용하는 방법을 설명한다.</p>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2364"/>8.1. 개요</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_CRYPTO</strong></span><a id="d5e2368" class="indexterm"/>은 데이터 암복호화 및 인증 등에 쓰이는 해시 알고리즘을 제공하는 패키지이다. 이 패키지의 암복호화
+    알고리즘들은 모두 키를 사용하는데, 이와 같이 키를 사용하는 암호화 알고리즘에서는 키를 안전하게 관리하는 것이 무엇보다 중요하다.
+    암호화 알고리즘에서 키를 관리하는 방법은 <a href="chap_dbms_obfuscation.html" title="제23장 DBMS_OBFUSCATION_TOOLKIT">DBMS_OBFUSCATION_TOOLKIT</a><a id="d5e2372" class="indexterm"/>을 참고한다.</p>
+
+    <p>해시 알고리즘은 임의의 길이의 데이터를 고정길이의 해시값으로 변환한다.</p>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2376"/>8.2. 암호화/복호화 알고리즘 및 체인, 패딩</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_CRYPTO</strong></span><a id="d5e2380" class="indexterm"/>은 데이터의 암호화 및 복호화를 위해 DES(Data Encryption Standard)<a id="d5e2383" class="indexterm"/>, 3DES(Triple DES), AES(Advanced Encryption Standard) 등의 더욱
+    다양한 알고리즘 및 블록 패딩 방식을 지원하고 있다. <span><strong class="guibutton">DBMS_OBFUSCATION_TOOLKIT보다 많은 종류의
+    알고리즘을 사용하므로, 이 패키지를 사용할 것을 권장한다. </strong></span><a id="d5e2386" class="indexterm"/></p>
+
+    <p>각 알고리즘, 체인, 패딩 방식은 아래와 같다.</p>
+
+    <p/>
+
+    <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+        <p>알고리즘</p>
+
+        <div class="informaltable">
+          <table border="1"><colgroup><col width="180" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">알고리즘</th><th align="left">키워드</th><th>설명</th></tr></thead><tbody><tr><td align="left">DES<a id="d5e2406" class="indexterm"/></td><td align="left">ENCRYPT_DES</td><td>64bits의 블록 단위로 나누어 각각을 56bits의 키를 사용하는 알고리즘이다. 그동안 널리
+                사용되어 왔으나 최근에는 보안성이 보장되지 않아 점차 사용 빈도가 줄어들고 있다. 대칭 키를 사용하는
+                알고리즘이다.</td></tr><tr><td align="left">3DES<a id="d5e2412" class="indexterm"/></td><td align="left">ENCRYPT_3DES</td><td><p>하나의 데이터에 DES 알고리즘을 두 번 내지 세 번 반복하여 적용하는 알고리즘이다.
+                각각 112(56 * 2)bits와 168(56 * 3)bits 키를 사용한다. DES 알고리즘과 마찬가지로
+                대칭 키를 사용하는 알고리즘이다. </p><p>다른 대칭 키를 사용하는 알고리즘에 비해 암호화 및
+                복호화를 하는 시간이 많이 필요하다는 단점이 있다.</p></td></tr><tr><td align="left">AES<a id="d5e2420" class="indexterm"/></td><td align="left">ENCRYPT_AES</td><td>128bits의 블록 단위로 나누어 각각을 128, 192 또는 256bits의 키를 사용하는
+                알고리즘이다. DES 방식보다 강력한 알고리즘으로 설계되었으며, 사실상 암호화 표준으로 자리 잡을 것으로
+                보인다.</td></tr><tr><td align="left">RC4<a id="d5e2426" class="indexterm"/></td><td align="left">ENCRYPT_RC4</td><td><p>RSA 보안을 위해 로널드 라이베스트가 만든 스트림 암호화 방식으로, 무작위 치환에
+                기반을 두고 있다. 바이트 단위 연산을 하기 때문에 비트 단위 연산을 하는 다른 스트림 암호화에 비해 속도가
+                빠르다.</p><p>SSL/TLS(Secure Sockets Layer / Transport
+                Layer Security) 및 무선랜 표준 IEEE 802.11 WEP(Wired Equivalent
+                Privacy) 프로토콜 등에서 사용된다.</p></td></tr><tr><td align="left">ARIA<a id="d5e2434" class="indexterm"/></td><td align="left">ENCRYPT_ARIA</td><td><p>대한민국의 국가보안기술연구소에서 개발한 블록 암호화 알고리즘으로, AES처럼
+                128bits의 블록 단위로 나누어 각각을 128, 192 또는 256bits의 키를
+                사용한다.</p><p>Involutional SPN 구조를 갖기 때문에 경량 환경 및 하드웨어 구현에
+                최적화되어 있다.</p></td></tr></tbody></table>
+        </div>
+      </li><li>
+        <p>체인(chaining) 방식</p>
+
+        <div class="informaltable">
+          <table border="1"><colgroup><col width="180" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">체인 방식</th><th align="left">키워드</th><th>설명</th></tr></thead><tbody><tr><td align="left">ECB(Electronic Codebook)<a id="d5e2454" class="indexterm"/></td><td align="left">CHAIN_ECB</td><td>각 원본 데이터 블록들이 각각 별개로 암호화된다.</td></tr><tr><td align="left">CBC(Cipher Block Chaining)<a id="d5e2460" class="indexterm"/></td><td align="left">CHAIN_CBC</td><td><p>현재 블록이 바로 앞에 암호화된 블록의 데이터와 XOR 연산을 거친 후 암호화된다.
+                </p><p>ECB 방식에서처럼 동일한 원본이 있을 경우 동일한 암호문이 생성되는 위험을 방지하기
+                위함이다.</p></td></tr><tr><td align="left">CFB(Cipher-Feedback)<a id="d5e2468" class="indexterm"/></td><td align="left">CHAIN_CFB</td><td><p>CBC와 유사하지만, 비트 단위로 암호화하면서 쉬프트시키는 방식으로, 스트림 암호화
+                방식에 가깝다. </p><p>그러므로 블록 크기보다 작은 단위의 데이터의 암호화도
+                가능해진다.</p></td></tr><tr><td align="left">OFB(Output-Feedback)<a id="d5e2476" class="indexterm"/></td><td align="left">CHAIN_OFB</td><td><p>블록 암호가 동기화된 스트림 암호처럼 동작하게 한다.</p><p>CFB와
+                유사하지만, 다음 블록을 위한 키배열 조합에 있어서 현재 블록의 암호문이 영향을 끼치지 않으므로, 현재 블록
+                암호화에서 오류가 발생해도 다음 블록에 영향을 끼치지 않는 장점이 있다.</p></td></tr></tbody></table>
+        </div>
+      </li><li>
+        <p>패딩(padding) 방식</p>
+
+        <div class="informaltable">
+          <table border="1"><colgroup><col width="180" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">패딩 방식</th><th align="left">키워드</th><th>설명</th></tr></thead><tbody><tr><td align="left">PKCS5<a id="d5e2496" class="indexterm"/></td><td align="left">PAD_PKCS5</td><td>PKCS #5(Password-Based Cryptography Standard) 표준에 따르는
+                패딩 방식이다.</td></tr><tr><td align="left">NONE<a id="d5e2502" class="indexterm"/></td><td align="left">PAD_NONE</td><td>패딩을 사용하지 않는다. 이러할 경우 데이터가 단위 블록의 크기(128bits)의 배수가 아니면
+                암호화가 불가능하여 에러를 리턴하므로, 반드시 데이터의 크기를 확인해야 한다.</td></tr><tr><td align="left">ZERO<a id="d5e2508" class="indexterm"/></td><td align="left">PAD_ZERO</td><td>마지막 블록의 남는 바이트들을 0으로 채운다. 문자열과 같이 0의 값으로 끝을 체크하는 데이터에만
+                사용해야 한다.</td></tr></tbody></table>
+        </div>
+      </li></ul></div>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2512"/>8.3. 해시 알고리즘</h2></div></div></div>
+    
+
+    <p><span><strong class="guibutton">DBMS_CRYPTO</strong></span><a id="d5e2516" class="indexterm"/>은 임의의 길이의 데이터를 고정 길이의 해시값으로 변환하는데, 해시값을 만드는 것은 쉽지만, 해시값을 원래의
+    데이터로 복원하는 일은 지극히 어렵게 함으로써, 데이터의 안전성을 보장한다.</p>
+
+    <p>데이터 변경 여부 체크 및 암호 인증 등 인증(authentication) 작업에 주로 사용된다.</p>
+
+    <p>MD4<a id="d5e2521" class="indexterm"/>, MD5<a id="d5e2523" class="indexterm"/>, SHA-1<a id="d5e2525" class="indexterm"/>, SHA-2<a id="d5e2527" class="indexterm"/>을 통해 더욱 다양한 알고리즘 및 블록 패딩 방식을 지원하고 있다. 각 알고리즘은 아래와 같다.</p>
+
+    <div class="informaltable">
+      <table border="1"><colgroup><col width="220" align="left"/><col width="100" align="left"/><col/></colgroup><thead><tr><th align="left">알고리즘</th><th align="left">키워드</th><th>설명</th></tr></thead><tbody><tr><td align="left">MD5(Message Digest 5)<a id="d5e2541" class="indexterm"/></td><td align="left">HASH_MD5</td><td><p>입력 데이터(길이에 상관없는 하나의 메시지)로부터 128bits 메시지 축약을 만듦으로써 데이터
+            무결성을 검증하는 데 사용되는 알고리즘이다. </p><p>MD4의 확장판인데, MD4에 비해 속도가 빠르지는
+            않지만, 데이터 보안성에 있어 더 많은 확신을 제공한다. </p></td></tr><tr><td align="left">MD4(Message Digest 4)<a id="d5e2549" class="indexterm"/></td><td align="left">HASH_MD4</td><td>MD4는 MD5의 초기 버전으로서, 입력 데이터(길이에 상관없는 하나의 메시지)로부터 128bits 메시지
+            축약을 만듦으로써 데이터 무결성을 검증하는데 사용되는 알고리즘이다.</td></tr><tr><td align="left">SHA-1(Secure Hash Algorithm 1)<a id="d5e2555" class="indexterm"/></td><td align="left">HASH_SH1</td><td><p>SHA는 미국 NIST에 의해 개발된 SHS(Secure Hash Standard) 내에 정의된
+            알고리즘으로, 길이 264bits 이하의 메시지를 160bits 길이의 축약된 메시지로
+            만들어낸다.</p><p>MD5보다는 다소 느리지만, 대규모 메시지 요약들이 폭력적 충돌 및 도치 공격을 받을
+            때 좀 더 안전하게 지켜준다.</p></td></tr><tr><td align="left">SHA-2(Secure Hash Algorithm 2)<a id="d5e2563" class="indexterm"/></td><td align="left"><p>HASH_SH256</p><p>HASH_SH384</p><p>HASH_SH512</p></td><td><p>SHA-2는 SHA-1을 대체하는 해시 암호이다. </p><p>해시 함수에서 사용하는
+            byte 수에 따라, SHA-224, SHA-256, SHA-384, SHA-512이 있고, Tibero에서는
+            SHA-256, SHA-384, SHA-512을 지원한다.</p></td></tr></tbody></table>
+    </div>
+
+    <p/>
+  </div>
+
+  <div class="section" lang="ko"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e2573"/>8.4. 프러시저와 함수</h2></div></div></div>
+    
+
+    <p>본 절에서는 DBMS_CRYPTO 패키지에서 제공하는 프러시저와 함수를 알파벳 순으로 설명한다.</p>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_CRYPTO_DECRYPT"/>8.4.1. DECRYPT<a id="d5e2578" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>사용자가 명시한 암호화 알고리즘 및 체인, 패딩 기법을 이용하여 암호화된 데이터를 복호화하는 함수이다. 주어진
+      알고리즘에 맞는 키의 크기와 블록의 크기를 설정해야 올바르게 동작한다. 알고리즘 각각에 따른 키의 크기와 블록의 크기는 위의 표에
+      언급되어 있으니 참고한다.</p><div class="literallayout"><p/></div>
+
+      <p>DECRYPT 프러시저와 함수<a id="d5e2584" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>함수</p>
+
+              <pre class="programlisting">DBMS_CRYPTO.DECRYPT
+(
+    src                 IN          RAW,
+    cipher_type         IN          PLS_INTEGER,
+    key                 IN          RAW,
+    init_vector         IN          RAW          DEFAULT NULL
+) 
+RETURN RAW;</pre>
+            </li><li>
+              <p>프러시저</p>
+
+              <pre class="programlisting">DBMS_CRYPTO.DECRYPT
+(
+    dst                 IN OUT NOCOPY   BLOB,
+    src                 IN              BLOB,
+    cipher_type         IN              PLS_INTEGER,
+    key                 IN              RAW,
+    init_vector         IN              RAW          DEFAULT NULL
+);</pre>
+
+              <pre class="programlisting">DBMS_CRYPTO.DECRYPT
+(
+    dst                 IN OUT NOCOPY   CLOB,  
+    src                 IN              BLOB,  
+    cipher_type         IN              PLS_INTEGER,
+    key                 IN              RAW,
+    init_vector         IN              RAW          DEFAULT NULL
+);</pre>
+            </li></ul></div>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">dst</td><td>복호화된 데이터이다.</td></tr><tr><td align="left">src</td><td>복호화할 데이터이다.</td></tr><tr><td align="left">cipher_type</td><td>사용할 암호화 알고리즘, 체인, 패딩 기법이다.</td></tr><tr><td align="left">key</td><td>복호화하기 위해 주어진 키 값이다.</td></tr><tr><td align="left">init_vector</td><td>초기화 벡터이다. NULL이면 0으로 채워진 초기화 벡터를 사용한다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>복호화된 데이터이다.</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGUMENT</td><td>파라미터 중 하나라도 NULL인 경우이다.</td></tr><tr><td align="left">INVALID_NTH_ARGUMENT</td><td>cipher_type 값이 잘못 설정된 경우이다.</td></tr><tr><td align="left">INVALID_INPUT</td><td>input_data의 길이가 8의 배수가 아닌 경우이다.</td></tr><tr><td align="left">KEY_TOO_SHORT</td><td>키 값의 길이가 필요한 크기보다 작은 경우이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    data RAW(256);
+    key RAW(16);
+    encrypted_data RAW(256);
+    decrypted_data RAW(256);
+    iv RAW(256);
+BEGIN
+    data := '0102030405AE030D0102030405AE030D';
+    key := '0A123B8E002CD3FFA021B3E800C23DFF';
+    iv := '00000000000000000000000000000000';
+
+    encrypted_data := DBMS_CRYPTO.ENCRYPT(
+            src =&gt; data, 
+    cipher_type =&gt; DBMS_CRYPTO.ENCRYPT_AES128 + DBMS_CRYPTO.CHAIN_CBC + 
+                   DBMS_CRYPTO.PAD_PKCS5, 
+            key =&gt; key,
+            init_vector =&gt; iv);
+
+    encrypted_data := DBMS_CRYPTO.DECRYPT(
+            src =&gt; encrypted_data, 
+    cipher_type =&gt; DBMS_CRYPTO.ENCRYPT_AES128 + DBMS_CRYPTO.CHAIN_CBC + 
+                   DBMS_CRYPTO.PAD_PKCS5, 
+            key =&gt; key,
+            init_vector =&gt; iv);
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_CRYPTO_ENCRYPT"/>8.4.2. ENCRYPT<a id="d5e2652" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>사용자가 명시한 암호화 알고리즘 및 체인, 패딩 기법을 이용하여 데이터를 암호화하는 함수이다.</p>
+
+      <p>주어진 알고리즘에 맞는 키의 크기와 블록의 크기를 설정해야 올바르게 동작한다. 알고리즘 각각에 따른 키의 크기와 블록의
+      크기는 위의 표에 언급되어 있으니 참고한다.</p><div class="literallayout"><p/></div>
+
+      <p>ENCRYPT 프러시저와 함수<a id="d5e2659" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>함수</p>
+
+              <pre class="programlisting">DBMS_CRYPTO.ENCRYPT
+(
+     src                 IN          RAW,
+     cipher_type         IN          PLS_INTEGER,
+     key                 IN          RAW,
+     init_vector         IN          RAW          DEFAULT NULL
+) 
+RETURN RAW;</pre>
+
+              <pre class="programlisting">DBMS_CRYPTO.HASH
+(
+    src                 IN          BLOB,
+    hash_type           IN          PLS_INTEGER
+)
+RETURN RAW;</pre>
+
+              <pre class="programlisting">DBMS_CRYPTO.HASH
+(
+    src                 IN          CLOB,
+    hash_type           IN          PLS_INTEGER
+)
+RETURN RAW;</pre>
+            </li><li>
+              <p>프러시저</p>
+
+              <pre class="programlisting">DBMS_CRYPTO.ENCRYPT
+(
+    dst                 IN OUT NOCOPY   BLOB,
+    src                 IN              BLOB,
+    cipher_type         IN              PLS_INTEGER,
+    key                 IN              RAW,
+    init_vector         IN              RAW          DEFAULT NULL
+);</pre>
+
+              <pre class="programlisting">DBMS_CRYPTO.ENCRYPT
+(
+    dst                 IN OUT NOCOPY   BLOB,
+    src                 IN              CLOB,
+    cipher_type         IN              PLS_INTEGER,
+    key                 IN              RAW,
+    init_vector         IN              RAW          DEFAULT NULL
+);</pre>
+            </li></ul></div>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="itemizedlist"><ul type="circle" compact="compact"><li>
+              <p>함수</p>
+
+              <div class="informaltable">
+                  <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">src</td><td>원본 데이터이다.</td></tr><tr><td align="left">hash_type</td><td><p>사용할 해시 알고리즘이다.</p><p>다음은 사용 가능한
+                        해시함수 알고리즘 상수이다. </p><pre class="programlisting">    hash_md4           CONSTANT PLS_INTEGER :=     1;
+    hash_md5           CONSTANT PLS_INTEGER :=     2;
+    hash_sh1           CONSTANT PLS_INTEGER :=     3;
+    hash_sh256         CONSTANT PLS_INTEGER :=     4;
+    hash_sh384         CONSTANT PLS_INTEGER :=     5;
+    hash_sh512         CONSTANT PLS_INTEGER :=     6;</pre></td></tr></tbody></table>
+                </div>
+            </li><li>
+              <p>프러시저</p>
+
+              <div class="informaltable">
+                <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">dst</td><td>암호화된 데이터이다.</td></tr><tr><td align="left">src</td><td>암호화할 데이터이다.</td></tr><tr><td align="left">cipher_type</td><td>사용할 암호화 알고리즘, 체인, 패딩 기법이다.</td></tr><tr><td align="left">key</td><td>암호화하기 위해 주어진 키 값이다.</td></tr><tr><td align="left">init_vector</td><td>초기화 벡터이다. NULL이면 0으로 채워진 초기화 벡터를 사용한다.</td></tr></tbody></table>
+              </div>
+            </li></ul></div>
+        </li><li>
+          <p>반환값</p>
+
+          <p>암호화된 데이터이다.</p>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGUMENT</td><td>파라미터 중 하나라도 NULL인 경우이다.</td></tr><tr><td align="left">INVALID_NTH_ARGUMENT</td><td>cipher_type 값이 잘못 설정된 경우이다.</td></tr><tr><td align="left">INVALID_INPUT</td><td>ZERO 패딩 방식일 때 input_data의 길이가 블록 크기의 배수가 아닌
+                  경우이다.</td></tr><tr><td align="left">KEY_TOO_SHORT</td><td>키 값의 길이가 필요한 크기보다 작은 경우이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    data RAW(256);
+    key RAW(16);
+    encrypted_data RAW(256);
+    decrypted_data RAW(256);
+    iv RAW(256);
+BEGIN
+    data := '0102030405AE030D0102030405AE030D';
+    key := '0A123B8E002CD3FFA021B3E800C23DFF';
+    iv := '00000000000000000000000000000000';
+
+    encrypted_data := DBMS_CRYPTO.ENCRYPT(
+            src =&gt; data, 
+    cipher_type =&gt; DBMS_CRYPTO.ENCRYPT_AES128 + DBMS_CRYPTO.CHAIN_CBC + 
+                   DBMS_CRYPTO.PAD_PKCS5, 
+            key =&gt; key,
+            init_vector =&gt; iv);
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_CRYPTO_HASH"/>8.4.3. HASH<a id="d5e2753" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>사용자가 명시한 알고리즘을 이용하여 임의의 길이의 데이터를 고정길이의 해시값으로 변환하는 함수이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>HASH 함수<a id="d5e2759" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_CRYPTO.HASH
+(
+    src                 IN          RAW,
+    hash_type           IN          PLS_INTEGER
+) 
+RETURN RAW;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">src</td><td>원본 데이터이다.</td></tr><tr><td align="left">hash_type</td><td>사용할 해시 알고리즘이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGUMENT</td><td>파라미터 중 하나라도 NULL인 경우이다.</td></tr><tr><td align="left">INVALID_NTH_ARGUMENT</td><td>hash_type 값이 잘못 설정된 경우이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+    input varchar2(100);
+    hash_val raw(20);
+BEGIN
+    input := 'DBMS_CRYPTO.HASH 테스트';
+
+    hash_val := DBMS_CRYPTO.HASH(
+             src =&gt; utl_raw.cast_to_raw(input), 
+             hash_type =&gt; DBMS_CRYPTO.HASH_SH1);
+END;</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_CRYPTO_MAC"/>8.4.4. MAC<a id="d5e2802" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>사용자가 명시한 알고리즘과 임의의 길이의 데이터를 가지고 입력한 KEY에 대해 메시지 인증 코드(Message
+      Authentication Code, 약칭 MAC)를 생성하는 함수이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>MAC 함수<a id="d5e2808" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_CRYPTO.MAC
+(
+    src                 IN          RAW,
+    mac_type            IN          PLS_INTEGER, 
+    key                 IN          RAW
+) 
+RETURN RAW;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">src</td><td>원본 데이터이다.</td></tr><tr><td align="left">mac_type</td><td><p>사용할 MAC 알고리즘이다.</p><p>다음은 사용 가능한 MAC 함수
+                  알고리즘 상수이다. </p><pre class="programlisting">    hmac_md5           CONSTANT PLS_INTEGER :=     1;
+    hmac_sh1           CONSTANT PLS_INTEGER :=     2;
+    hmac_sh256         CONSTANT PLS_INTEGER :=     3;
+    hmac_sh384         CONSTANT PLS_INTEGER :=     4;
+    hmac_sh512         CONSTANT PLS_INTEGER :=     5;</pre></td></tr><tr><td align="left">key</td><td>사용할 KEY 데이터이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예외 상황</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">예외 상황</th><th>설명</th></tr></thead><tbody><tr><td align="left">INVALID_ARGUMENT</td><td>파라미터 중 하나라도 NULL인 경우이다.</td></tr><tr><td align="left">INVALID_NTH_ARGUMENT</td><td>mac_type 값이 잘못 설정된 경우이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">SET SERVEROUTPUT ON
+DECLARE
+    vKey     VARCHAR2(2000);
+    vHashed  RAW(20);
+    vText    VARCHAR2(2000);
+BEGIN
+    vText := 'test 테스트 1234 !@#$ ＋－／＊';
+    vKey  := 'PASSCODE';
+    vHashed := DBMS_CRYPTO.MAC(
+      src =&gt; UTL_I18N.STRING_TO_RAW (vText, 'MSWIN949'),
+      mac_type =&gt; DBMS_CRYPTO.HMAC_SH1,
+      key =&gt; UTL_I18N.STRING_TO_RAW(vKey, 'MSWIN949'));
+    DBMS_OUTPUT.PUT_LINE(vText);
+    DBMS_OUTPUT.PUT_LINE(vKey);
+    DBMS_OUTPUT.PUT_LINE(vHashed);
+END;
+</pre>
+        </li></ul></div>
+    </div>
+
+    <div class="section" lang="ko"><div class="titlepage"><div><div><h3 class="title"><a id="DBMS_CRYPTO_RANDOMBYTES"/>8.4.5. RANDOMBYTES<a id="d5e2858" class="indexterm"/></h3></div></div></div>
+      
+
+      <p>사용자가 명시한 크기만큼 임의의 BYTE 데이터를 반환하는 함수이다.</p>
+
+      <div class="literallayout"><p/></div>
+
+      <p>RANDOMBYTES 함수<a id="d5e2864" class="indexterm"/>의 세부 내용은 다음과 같다.</p>
+
+      <div class="itemizedlist"><ul type="disc" compact="compact"><li>
+          <p>프로토타입</p>
+
+          <pre class="programlisting">DBMS_CRYPTO.RANDOMBYTES
+(
+    number_bytes         IN          PLS_INTEGER
+) 
+RETURN RAW;</pre>
+        </li><li>
+          <p>파라미터</p>
+
+          <div class="informaltable">
+            <table border="1"><colgroup><col width="180" align="left"/><col/></colgroup><thead><tr><th align="left">파라미터</th><th>설명</th></tr></thead><tbody><tr><td align="left">number_bytes</td><td>반환할 임의의 데이터 크기이다.</td></tr></tbody></table>
+          </div>
+        </li><li>
+          <p>예제</p>
+
+          <pre class="programlisting">DECLARE
+   l_key   RAW (16);
+BEGIN
+   l_key := DBMS_CRYPTO.randombytes (16);
+   DBMS_OUTPUT.PUT_LINE(l_key);
+END</pre>
+        </li></ul></div>
+    </div>
+  </div>
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="chap_dbms_backup_restore.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="chap_dbms_db_version.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제7장 DBMS_BACKUP_RESTORE </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제9장 DBMS_DB_VERSION</td></tr></table></div><div xmlns="" align="center"/></body></html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta xmlns="" http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>제40장 400000 ~ 400999</title><link rel="stylesheet" href="../stylesheet.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="up" href="index.html" title="Tibero 에러 참조 안내서"/><link rel="prev" href="ch39.html" title="제39장 190000 ~ 190999"/><link rel="next" href="ch41.html" title="제41장 410000 ~ 410999"/></head><body><div xmlns="" class="navheader"><table width="100%" summary="Navigation header"><tr><td class="navbar-title" colspan="3" align="center">제40장 400000 ~ 400999</td></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch39.html">이전</a> </td><td class="navbar-title" width="60%" align="center"> </td><td width="20%" align="right"> <a accesskey="n" href="ch41.html">다음</a></td></tr></table><hr/></div><div class="chapter" lang="ko"><div class="titlepage"><div><div><h2 class="title"><a id="d5e40714"/>제40장 400000 ~ 400999</h2></div></div></div>
+  
+
+  <h2><a id="d5e40716"/>400001: Java class loading has failed. (%1$s), for more details, refer to the stdout error file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The jar files used in HBASE must be set in the environment variable.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the CLASSPATH.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e40729"/>400002: jni error (%1$s)</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>jni error</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>jni error</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e40742"/>400003: A table connection error (%1$s) has occurred in HBASE. For more details about the table connection error, check the stdout error file.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>The table name and column family must exist in HBASE.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Modify the definition of the HBASE table, and the column family of the query.</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e40755"/>400004: The (%1$s) column is not assigned to a column family.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A column must be assigned to a column family in order to perform a query on an HBASE TABLE.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Add the column, which is used in the query, to a column family. (columnfamily$column)</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e40768"/>400005: The target column is not defined.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A target column must be specified when data is inserted into an HBASE TABLE.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Specify the target column to insert the data. (columnfamily$column)</td></tr></tbody></table>
+  </div>
+
+  <h2><a id="d5e40781"/>400006: A ROWKEY column is required.</h2>
+
+  <div class="informaltable">
+    <table border="1"><colgroup><col width="70" align="left"/><col/></colgroup><tbody><tr><td align="left"><span><strong class="guibutton">Cause</strong></span></td><td>A ROWKEY column must be specified when inserting data into an HBASE TABLE.</td></tr><tr><td align="left"><span><strong class="guibutton">Action</strong></span></td><td>Add a ROWKEY column.</td></tr></tbody></table>
+  </div>
+
+</div><div class="navfooter"><hr/><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch39.html">이전</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch41.html">다음</a></td></tr><tr><td width="40%" align="left" valign="top">제39장 190000 ~ 190999 </td><td width="20%" align="center"><a accesskey="h" href="index.html">처음으로</a></td><td width="40%" align="right" valign="top"> 제41장 410000 ~ 410999</td></tr></table></div><div xmlns="" align="center"/></body></html>
