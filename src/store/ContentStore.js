@@ -2,6 +2,8 @@ import { observable, makeObservable, action, toJS, computed } from "mobx";
 import { contentListData } from "src/data";
 import { uuidv4 } from "src/utils/uuid";
 
+import { messageDialogStore } from "src/stores/messageDialogStore";
+
 class ContentStore {
   constructor() {
     makeObservable(this);
@@ -115,7 +117,10 @@ class ContentStore {
     };
 
     if (this.afterKeywords[keywordIndex].questions.length === 1) {
-      alert("삭제 불가");
+      messageDialogStore.showMessageDialog({
+        type: "error",
+        text: "질문의 수가 한개일 경우 삭제할 수 없습니다.",
+      });
     } else {
       const newKeywords = [...this.afterKeywords];
       newKeywords[keywordIndex] = newKeyword;
@@ -150,10 +155,16 @@ class ContentStore {
           keywords: [...this.target.keywords, keyword],
         };
       } else {
-        alert("존재하는 키워드는 추가할 수 없습니다.");
+        messageDialogStore.showMessageDialog({
+          type: "error",
+          text: "존재하는 키워드는 추가할 수 없습니다.",
+        });
       }
     } else {
-      alert("빈 키워드는 추가할 수 없습니다.");
+      messageDialogStore.showMessageDialog({
+        type: "error",
+        text: "빈 키워드는 추가할 수 없습니다.",
+      });
     }
   }
 

@@ -63,7 +63,7 @@ const MessageDialog = observer(({ confirm, text, type }) => {
                   취소
                 </MessageDialogButton>
               )}
-              <MessageDialogButton onClick={confirm} type="confirm">
+              <MessageDialogButton onClick={handleCancelDialog} type="confirm">
                 확인
               </MessageDialogButton>
             </div>

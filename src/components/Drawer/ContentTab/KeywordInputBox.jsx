@@ -3,6 +3,7 @@ import styled from "styled-components";
 import DeleteIcon from "src/static/icon/ai_delete.svg";
 
 import useStores from "src/hooks/useStores";
+import { messageDialogStore } from "src/stores/messageDialogStore";
 
 const KeywordInputBox = ({ keyword }) => {
   const inputRef = useRef(null);
@@ -36,14 +37,23 @@ const KeywordInputBox = ({ keyword }) => {
       if (exist === -1) {
         contentStore.updateKeywords(content, keyword.keywordId);
         inputRef.current.blur();
-        alert("키워드가 변경 되었습니다.");
+        messageDialogStore.showMessageDialog({
+          type: "success",
+          text: "키워드가 변경 되었습니다.",
+        });
       } else {
-        alert("이미 존재하는 키워드 입니다.");
-        inputRef.current.focus();
+        messageDialogStore.showMessageDialog({
+          type: "error",
+          text: "이미 존재하는 키워드 입니다.",
+        });
+        setContent(keyword.keyword);
       }
     } else {
-      alert("키워드를 입력해주세요");
-      inputRef.current.focus();
+      messageDialogStore.showMessageDialog({
+        type: "error",
+        text: "키워드를 입력해주세요",
+      });
+      setContent(keyword.keyword);
     }
   };
 

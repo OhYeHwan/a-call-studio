@@ -3,6 +3,7 @@ import { ReactComponent as Arrow } from "src/static/icon/arrow_right.svg";
 import styled from "styled-components";
 
 import useStores from "src/hooks/useStores";
+import { messageDialogStore } from "src/stores/messageDialogStore";
 
 const RecommendMake = ({ contents, keywords }) => {
   const { contentStore } = useStores();
@@ -35,6 +36,10 @@ const RecommendMake = ({ contents, keywords }) => {
       });
     });
     contentStore.makeQuestions(questionArray);
+    messageDialogStore.showMessageDialog({
+      type: "success",
+      text: "질문리스트가 생성되었습니다.",
+    });
   };
 
   return (
