@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/a-call-studio/static/js/main.e3b0627b.js",
+    "main.js": "/a-call-studio/static/js/main.5889bd9d.js",
     "static/media/EmptyState.svg": "/a-call-studio/static/media/EmptyState.32b261690e2f94387a7efe529435be41.svg",
     "static/media/empty_state.svg": "/a-call-studio/static/media/empty_state.9d23b63031f2f3074cd37bf0af35a101.svg",
     "static/media/ai_dubbing_black.svg": "/a-call-studio/static/media/ai_dubbing_black.0e242c159e6adec5168affd4f566ea3b.svg",
@@ -50,9 +50,9 @@
     "static/media/Selected_Radio.svg": "/a-call-studio/static/media/Selected_Radio.fb5af08fb6011931249a043c4ed2ed59.svg",
     "static/media/Default_Radio.svg": "/a-call-studio/static/media/Default_Radio.1c24cab1e9a4bbf0c2a59c7b962bf555.svg",
     "static/media/toggle.svg": "/a-call-studio/static/media/toggle.d494e42dea4bbb0e458390296e594f75.svg",
-    "main.e3b0627b.js.map": "/a-call-studio/static/js/main.e3b0627b.js.map"
+    "main.5889bd9d.js.map": "/a-call-studio/static/js/main.5889bd9d.js.map"
   },
   "entrypoints": [
-    "static/js/main.e3b0627b.js"
+    "static/js/main.5889bd9d.js"
   ]
 }
