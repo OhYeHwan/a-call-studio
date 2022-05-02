@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import IconButton from "./IconButton";
 import Button from "./Button";
@@ -13,15 +13,13 @@ import Select from "src/static/icon/Select.svg";
 import { observer } from "mobx-react";
 
 import useStores from "src/hooks/useStores";
-import MessageSnackBar from "../SnackBar/MessageSnackBar";
 
 const MenuBar = observer(() => {
   const [contentOpen, setContentOpen] = useState(false);
   const [projectOpen, setProjectOpen] = useState(false);
 
   const { projectStore, contentStore } = useStores();
-  const { target, projectList, snackBar, saveState, exportState } =
-    projectStore;
+  const { target, projectList, saveState, exportState } = projectStore;
   const { contentList } = contentStore;
 
   const handleClickSaveButton = () => {
@@ -123,9 +121,6 @@ const MenuBar = observer(() => {
           close={handleCloseProjectsDialog}
           handleLoadButtonClick={handleProjectLoad}
         />
-      )}
-      {snackBar.state && (
-        <MessageSnackBar text={snackBar.text} type={snackBar.type} />
       )}
     </>
   );

@@ -4,17 +4,12 @@ import { uuidv4 } from "src/utils/uuid";
 
 import { referenceData } from "src/data";
 
+import { snackBarStore } from "src/stores/snackBarStore";
+
 class ProjectStore {
   constructor() {
     makeObservable(this);
   }
-
-  @observable
-  _snackBar = {
-    state: false,
-    text: "",
-    type: "",
-  };
 
   @observable
   _saveState = false;
@@ -46,39 +41,25 @@ class ProjectStore {
 
   saveProject() {
     this.saveState = true;
+    snackBarStore.setMessageSnackBar();
     setTimeout(() => {
       this.saveState = false;
-      this.snackBar = {
-        state: true,
-        text: "프로젝트 저장 완료",
-        type: "success",
-      };
+      snackBarStore.setMessageSnackBar("success", "프로젝트 저장 완료");
     }, 2000);
     setTimeout(() => {
-      this.snackBar = {
-        state: false,
-        text: "",
-        type: "",
-      };
+      snackBarStore.setMessageSnackBar();
     }, 5000);
   }
 
   exportProject() {
     this.exportState = true;
+    snackBarStore.setMessageSnackBar();
     setTimeout(() => {
       this.exportState = false;
-      this.snackBar = {
-        state: true,
-        text: "프로젝트 내보내기 완료",
-        type: "success",
-      };
+      snackBarStore.setMessageSnackBar("success", "프로젝트 내보내기 완료");
     }, 2000);
     setTimeout(() => {
-      this.snackBar = {
-        state: false,
-        text: "",
-        type: "",
-      };
+      snackBarStore.setMessageSnackBar();
     }, 5000);
   }
 

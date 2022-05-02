@@ -11,7 +11,7 @@ import ContentViewer from "./components/ContentViewer/ContentViewer";
 import Drawer from "./components/Drawer/Drawer";
 
 const App = observer(() => {
-  const { messageDialogStore } = useStore();
+  const { messageDialogStore, snackBarStore } = useStore();
 
   return (
     <>
@@ -26,6 +26,7 @@ const App = observer(() => {
         </AppMain>
       </AppContainer>
       {messageDialogStore._messageDialog}
+      {snackBarStore._messageSnackBar}
       <AppBrowserWidthMessage />
     </>
   );

@@ -66,7 +66,7 @@ const Badge = styled.div`
   text-align: center;
   display: inline-block;
   height: 20px;
-  line-height: 16px;
+  line-height: 18px;
   font-family: "Roboto", sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -77,7 +77,7 @@ const Badge = styled.div`
     props.checked &&
     css`
       background-color: #b9e8f8;
-      border: 2px solid #76bcd6;
+      border: 1px solid #76bcd6;
       color: #006487;
     `}
 `;

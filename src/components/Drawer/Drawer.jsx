@@ -103,7 +103,7 @@ const Drawer = observer(() => {
           contents={target.summary === null ? "" : target.summary}
           keywords={target.keywords}
         />
-        <QuestionTab afterKeywords={afterKeywords} />
+        <QuestionTab keywords={target.keywords} afterKeywords={afterKeywords} />
       </DrawerContents>
       <DrawerBlankImage />
       <AIDubbing />

@@ -42,8 +42,13 @@ const PageItem = ({
     if (contentStore.target.keywords.length === 0) {
       contentStore.resetAfterKeywords();
     } else {
-      contentStore.afterKeywords = contentStore.target.keywords;
+      if (questions) {
+        contentStore.afterKeywords = contentStore.target.keywords;
+      } else {
+        contentStore.resetAfterKeywords();
+      }
     }
+    console.log(keywords, contentStore.afterKeywords, questions);
   };
 
   return (
@@ -55,7 +60,12 @@ const PageItem = ({
       onClick={onClick}
     >
       <PageItemTitle className="pageitem-title">{pageTitle}</PageItemTitle>
-      <Thumbnail mode={mode} image={image} />
+      <Thumbnail
+        mode={mode}
+        image={image}
+        keyword={keywords.length > 0}
+        ql={questions}
+      />
     </PageItemLayout>
   );
 };

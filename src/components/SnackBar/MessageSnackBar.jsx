@@ -65,7 +65,7 @@ const MessageSnackBarWrapper = styled.div`
       background: #ffbe24;
     `}
 
-    animation: notification 0.5s ease-out forwards, dissapear 0.5s ease-in
+    animation: notification 0.3s ease-out forwards, dissapear 0.3s ease-in
     forwards;
   animation-delay: 0.5s, 2.5s;
 

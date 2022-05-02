@@ -4,8 +4,9 @@ import { ReactComponent as QuestionListSVG } from "src/static/icon/ai_QL.svg";
 import styled from "styled-components";
 
 import useStores from "src/hooks/useStores";
+import { messageDialogStore } from "src/stores/messageDialogStore";
 
-const QuestionTab = ({ afterKeywords }) => {
+const QuestionTab = ({ keywords, afterKeywords }) => {
   // contentTarget
   // pageGroupName, pageId
 
@@ -22,7 +23,8 @@ const QuestionTab = ({ afterKeywords }) => {
 
     const newPage = {
       ...projectStore.target.pageGroups[pageGroupsIndex].pages[pagesIndex],
-      keywords: afterKeywords,
+      questions: afterKeywords.length === 0 ? false : true,
+      keywords: afterKeywords.length === 0 ? keywords : afterKeywords,
       summary: contentStore.target.summary,
     };
 
@@ -41,6 +43,25 @@ const QuestionTab = ({ afterKeywords }) => {
       ...projectStore.target,
       pageGroups: newPageGroups,
     };
+
+    if (afterKeywords.length === 0) {
+      if (contentStore.target.keywords.length === 0) {
+        messageDialogStore.showMessageDialog({
+          type: "success",
+          text: "페이지에 대한 요약 내용이 저장 되었습니다.",
+        });
+      } else {
+        messageDialogStore.showMessageDialog({
+          type: "success",
+          text: "페이지에 대한 키워드가 저장 되었습니다.",
+        });
+      }
+    } else {
+      messageDialogStore.showMessageDialog({
+        type: "success",
+        text: "페이지에 대한 질문리스트가 저장 되었습니다.",
+      });
+    }
   };
 
   return (
